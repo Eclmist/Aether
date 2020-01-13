@@ -14,8 +14,8 @@ public class RevealableObject : MonoBehaviour
         "to reduce the distance set on the player.")]
     private float m_RevealRadiusMultiplier = 1;
 
-    private float m_Opacity = 1.1f;
-    private float m_TargetOpacity = -0.1f;
+    private float m_Opacity = 1;
+    private float m_TargetOpacity = 0;
 
     private Renderer m_Renderer;
 
@@ -25,6 +25,14 @@ public class RevealableObject : MonoBehaviour
         m_Renderer = GetComponent<Renderer>();
         if (m_Renderer == null)
             Destroy(this);
+
+        // Set bbox height
+        float pivotYOff = Mathf.Abs(transform.position.y - (m_Renderer.bounds.center.y - m_Renderer.bounds.extents.y));
+
+        foreach(Material m in m_Renderer.materials)
+        {
+            m.SetFloat("_PivotYOff", pivotYOff);
+        }
     }
 
     // Update is called once per frame
@@ -34,23 +42,30 @@ public class RevealableObject : MonoBehaviour
             return;
 
         if (m_Opacity < m_TargetOpacity)
+        {
             m_Opacity += m_TransitionSpeed * Time.deltaTime;
+            if (m_Opacity > m_TargetOpacity)
+                m_Opacity = m_TargetOpacity;
+        }
         else
+        {
             m_Opacity -= m_TransitionSpeed * Time.deltaTime;
+            if (m_Opacity < m_TargetOpacity)
+                m_Opacity = m_TargetOpacity;
+        }
 
-        foreach(Material m in m_Renderer.materials)
-            m.SetFloat("opacity", m_Opacity);
+        foreach (Material m in m_Renderer.materials)
+            m.SetFloat("_Opacity", m_Opacity);
     }
 
     public void Reveal()
     {
-        // TODO: Find a better solution for varying pivot points
-        m_TargetOpacity = 1.1f; 
+        m_TargetOpacity = 1; 
     }
 
     public void Hide()
     {
         // TODO: Find a better solution for varying pivot points
-        m_TargetOpacity = -0.1f;
+        m_TargetOpacity = 0;
     }
 }

@@ -1,28 +1,68 @@
 fileFormatVersion: 2
 guid: e1bdeb4b7b67c98448daa0e3ab52ec89
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: birch_3_canopy
-    100004: birch_3_trunk
-    400000: //RootNode
-    400002: birch_3_canopy
-    400004: birch_3_trunk
-    2100000: birch.003
-    2100002: birch.004
-    2100004: birch.005
-    2300000: birch_3_canopy
-    2300002: birch_3_trunk
-    2300004: //RootNode
-    3300000: birch_3_canopy
-    3300002: birch_3_trunk
-    3300004: //RootNode
-    4300000: birch_3_canopy
-    4300002: birch_3_trunk
-    4300004: birch_3
-    7400000: Default Take
-    9500000: //RootNode
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: birch_3_canopy
+  - first:
+      1: 100004
+    second: birch_3_trunk
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: birch_3_canopy
+  - first:
+      4: 400004
+    second: birch_3_trunk
+  - first:
+      21: 2100000
+    second: birch.003
+  - first:
+      21: 2100002
+    second: birch.004
+  - first:
+      21: 2100004
+    second: birch.005
+  - first:
+      23: 2300000
+    second: birch_3_canopy
+  - first:
+      23: 2300002
+    second: birch_3_trunk
+  - first:
+      23: 2300004
+    second: //RootNode
+  - first:
+      33: 3300000
+    second: birch_3_canopy
+  - first:
+      33: 3300002
+    second: birch_3_trunk
+  - first:
+      33: 3300004
+    second: //RootNode
+  - first:
+      43: 4300000
+    second: birch_3_canopy
+  - first:
+      43: 4300002
+    second: birch_3_trunk
+  - first:
+      43: 4300004
+    second: birch_3
+  - first:
+      74: 7400000
+    second: Default Take
+  - first:
+      95: 9500000
+    second: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -35,7 +75,7 @@ ModelImporter:
       name: birch.004
     second: {fileID: 2100000, guid: 21bd3758753470a4d9abcb8cf22060df, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -67,6 +107,8 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -74,27 +116,31 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 40
     secondaryUVAreaDistortion: 40
     secondaryUVHardAngle: 180
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -104,14 +150,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
