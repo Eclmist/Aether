@@ -30,6 +30,6 @@ public class PlayerAnimation : MonoBehaviour
 
         Vector3 movementDir = m_PlayerMovement.GetMovementDirection();
         if (movementDir.magnitude > 0.01f)
-            transform.rotation = Quaternion.LookRotation(movementDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementDir), Time.deltaTime * 10);
     }
 }
