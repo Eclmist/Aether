@@ -36,7 +36,7 @@ namespace Aether.Prototype
         {
             m_IsFirstPerson = !m_IsFirstPerson;
 
-            m_MainCamera.fieldOfView = m_IsFirstPerson ? 100 : m_MainCamera.fieldOfView;
+            m_MainCamera.fieldOfView = m_IsFirstPerson ? 80 : m_MainCamera.fieldOfView;
             m_MainCamera.transform.localPosition = m_IsFirstPerson ? new Vector3(0, 0.5f, 0) : m_MainCamera.transform.localPosition;
 
             foreach (GameObject target in m_ThirdPersonTogglables)

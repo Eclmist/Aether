@@ -13,7 +13,7 @@ public class RevealableObject : MonoBehaviour
         "disconnect between the two reveal systems.")]
     private float m_TerrainRevealRadius = 1.5f;
 
-    private float m_Opacity = 1;
+    private float m_Opacity = 0.01f;
     private float m_TargetOpacity = 0;
 
     private Renderer m_Renderer;
