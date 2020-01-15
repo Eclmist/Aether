@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private float m_MoveSpeed = 6;
 
     [SerializeField]
-    private Transform m_GroundCheck;
+    private Transform m_GroundCheck = null;
 
     [SerializeField]
-    private LayerMask m_LayerMask;
+    private LayerMask m_LayerMask = new LayerMask();
 
     [SerializeField]
     private float m_Gravity = -9.8f;

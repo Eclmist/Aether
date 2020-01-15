@@ -8,11 +8,10 @@ public class RevealableObject : MonoBehaviour
     private static float m_TransitionSpeed = 0.3f;
 
     [SerializeField]
-    [Range(0, 1)]
-    [Tooltip("Reveal is triggered by the player for better performance (physics accel). " +
-        "The distance set on the object revealer should be upper bounded. Use this multiplier" +
-        "to reduce the distance set on the player.")]
-    private float m_RevealRadiusMultiplier = 1;
+    [Range(0, 5)]
+    [Tooltip("Reveal the terrain area around the base of the object so that there is little" +
+        "disconnect between the two reveal systems.")]
+    private float m_TerrainRevealRadius = 1.5f;
 
     private float m_Opacity = 1;
     private float m_TargetOpacity = 0;
@@ -60,12 +59,35 @@ public class RevealableObject : MonoBehaviour
 
     public void Reveal()
     {
+        if (m_TargetOpacity == 1)
+            return;
+
         m_TargetOpacity = 1; 
+
+        // TODO: Optimize this
+        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius);
+
+        foreach (Collider c in colliders)
+        {
+            RevealableTerrain target = c.GetComponent<RevealableTerrain>();
+            
+            if (target == null)
+                continue;
+
+            target.PaintAtPosition(transform.position, m_TerrainRevealRadius);
+        }
     }
 
     public void Hide()
     {
-        // TODO: Find a better solution for varying pivot points
+        if (m_TargetOpacity == 0)
+            return;
+
         m_TargetOpacity = 0;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, m_TerrainRevealRadius);
     }
 }

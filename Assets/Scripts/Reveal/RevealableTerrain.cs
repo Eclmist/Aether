@@ -54,7 +54,7 @@ public class RevealableTerrain : MonoBehaviour
         mesh.colors32 = m_VertexColors;
     }
 
-    public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff)
+    public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
     {
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
         {
@@ -63,10 +63,15 @@ public class RevealableTerrain : MonoBehaviour
             if (distance > radius)
                 continue;
 
-            byte amount = (byte)(falloff.Evaluate(distance / radius) * 255);
+            float amount;
+            float currentAmount = m_TargetVertexColors[i].r;
+            if (falloff != null)
+                amount = falloff.Evaluate(distance / radius) * 255;
+            else
+                amount = distance / radius * 255;
 
             // Ignore falloff for now
-            m_TargetVertexColors[i].r |= amount;
+            m_TargetVertexColors[i].r = (byte)Mathf.Max(amount, currentAmount);
         }
     }
 }

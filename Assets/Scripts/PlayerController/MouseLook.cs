@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    [SerializeField]
     [Range(0, 200)]
-    private float m_MouseSensitivity = 100;
+    public float m_MouseSensitivity = 100;
 
     [SerializeField]
-    private Transform m_Player;
+    private Transform m_Player = null;
 
     private float m_xRot = 0;
 
