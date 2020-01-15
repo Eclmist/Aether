@@ -9,13 +9,13 @@ namespace Aether.Prototype
         public KeyCode m_TargetKey;
 
         [Header("Third Person Script References")]
-        public Cinemachine.CinemachineBrain m_CinemachineBrainScript;
-        public MeshRenderer m_PlayerMeshRenderer;
+        public GameObject[] m_ThirdPersonTogglables;
+        public MonoBehaviour[] m_ThirdPersonTogglableScripts;
 
         [Header("First Person Script References")]
-        public MouseLook m_MouseLookScript;
         public Camera m_MainCamera;
-        public GameObject m_CrossHair;
+        public GameObject[] m_FirstPersonTogglables;
+        public MonoBehaviour[] m_FirstPersonTogglableScripts;
 
         private bool m_IsFirstPerson = false;
 
@@ -36,12 +36,20 @@ namespace Aether.Prototype
         {
             m_IsFirstPerson = !m_IsFirstPerson;
 
-            m_CinemachineBrainScript.enabled = !m_IsFirstPerson;
-            m_PlayerMeshRenderer.enabled = !m_IsFirstPerson;
-            m_MouseLookScript.enabled = m_IsFirstPerson;
             m_MainCamera.fieldOfView = m_IsFirstPerson ? 100 : m_MainCamera.fieldOfView;
             m_MainCamera.transform.localPosition = m_IsFirstPerson ? new Vector3(0, 0.5f, 0) : m_MainCamera.transform.localPosition;
-            m_CrossHair.SetActive(m_IsFirstPerson);
+
+            foreach (GameObject target in m_ThirdPersonTogglables)
+                target.SetActive(!m_IsFirstPerson);
+
+            foreach (MonoBehaviour target in m_ThirdPersonTogglableScripts)
+                target.enabled = !m_IsFirstPerson;
+
+            foreach (GameObject target in m_FirstPersonTogglables)
+                target.SetActive(m_IsFirstPerson);
+
+            foreach (MonoBehaviour target in m_FirstPersonTogglableScripts)
+                target.enabled = m_IsFirstPerson;
         }
     }
 }

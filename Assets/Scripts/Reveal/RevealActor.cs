@@ -72,7 +72,7 @@ public class RevealActor : MonoBehaviour
 
     private void PaintVertex()
     {
-        float modulatedRadius = m_Radius * 1.5f; // Since painter has a curve falloff, increase the radius so it matches obj reveal
+        float modulatedRadius = m_Radius / 2;
         Collider[] colliders = Physics.OverlapSphere(transform.position, modulatedRadius, m_VertexPaintMask);
 
         foreach (Collider c in colliders)

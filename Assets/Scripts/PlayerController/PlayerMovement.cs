@@ -63,4 +63,19 @@ public class PlayerMovement : MonoBehaviour
         else
             m_CharacterController.height = m_PlayerHeight;
     }
+
+    public float GetAbsInput()
+    {
+        return Mathf.Clamp01(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
+    }
+
+    public Vector3 GetMovementDirection()
+    {
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = Camera.main.transform.right * x + Camera.main.transform.forward * z;
+        move.y = 0;
+        return move.normalized;
+    }
 }

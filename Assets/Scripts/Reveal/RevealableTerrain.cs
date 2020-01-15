@@ -68,7 +68,7 @@ public class RevealableTerrain : MonoBehaviour
             if (falloff != null)
                 amount = falloff.Evaluate(distance / radius) * 255;
             else
-                amount = distance / radius * 255;
+                amount = (1 - distance / radius) * 255;
 
             // Ignore falloff for now
             m_TargetVertexColors[i].r = (byte)Mathf.Max(amount, currentAmount);
