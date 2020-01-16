@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float m_LandingRecoveryTime = 0.05f;
     private float m_LandingSpeedModifier = 0.0f;
-    private float m_LandingTime;
+    private float m_LandingTime = 0;
     private bool m_IsMidAir;
     private bool m_JumpedInCurrentFrame;
 

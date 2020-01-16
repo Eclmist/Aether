@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b1ca9eb47697e8e4883ec4b3782d43bf
+guid: b5d3cd7934f813a4f966e1dab3b0de55
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
@@ -296,10 +296,10 @@ ModelImporter:
     second: J_R_Sode_E00
   - first:
       1: 100194
-    second: Text001
+    second: //RootNode
   - first:
       1: 100196
-    second: //RootNode
+    second: Text001
   - first:
       4: 400000
     second: _root
@@ -593,10 +593,10 @@ ModelImporter:
     second: J_R_Sode_E00
   - first:
       4: 400194
-    second: Text001
+    second: //RootNode
   - first:
       4: 400196
-    second: //RootNode
+    second: Text001
   - first:
       43: 4300000
     second: hair_00
@@ -617,13 +617,13 @@ ModelImporter:
     second: costume_004
   - first:
       74: 7400000
-    second: walk_front@loop
+    second: run_front@loop
   - first:
       74: 7400002
-    second: walk_left@loop
+    second: run_left@loop
   - first:
       74: 7400004
-    second: walk_right@loop
+    second: run_right@loop
   - first:
       95: 9500000
     second: //RootNode
@@ -662,8 +662,8 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'bone_eye_L' has translation animation that
-      will be discarded.\n"
+      to improve retargeting quality.\n\t'Character1_Spine' has translation animation
+      that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -677,11 +677,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: walk_front@loop
+      name: run_front@loop
       takeName: Take 001
       internalID: 0
-      firstFrame: 30
-      lastFrame: 60
+      firstFrame: 10
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -701,18 +701,11 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.065647244
+      - time: 0
         functionName: PlayFootstepSound
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0.5
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.54347306
-        functionName: PlayFootstepSound
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0.5
+        floatParameter: 1.5
         intParameter: 0
         messageOptions: 0
       transformMask:
@@ -940,11 +933,11 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: a89a27f8cd07c8e49a2fe4a66ee30f11, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: walk_left@loop
+      name: run_left@loop
       takeName: Take 001
       internalID: 0
-      firstFrame: 90
-      lastFrame: 120
+      firstFrame: 71
+      lastFrame: 97
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -1189,18 +1182,18 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: a89a27f8cd07c8e49a2fe4a66ee30f11, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: walk_right@loop
+      name: run_right@loop
       takeName: Take 001
       internalID: 0
-      firstFrame: 150
-      lastFrame: 180
+      firstFrame: 135
+      lastFrame: 158
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1

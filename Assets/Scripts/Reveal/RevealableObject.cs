@@ -76,6 +76,8 @@ public class RevealableObject : MonoBehaviour
 
             target.PaintAtPosition(transform.position, m_TerrainRevealRadius);
         }
+
+        PlayAudioFx();
     }
 
     public void Hide()
@@ -84,7 +86,23 @@ public class RevealableObject : MonoBehaviour
             return;
 
         m_TargetOpacity = 0;
+
+        PlayAudioFx();
     }
+
+    private static float m_TimeOfLastSFX = 0;
+    private void PlayAudioFx()
+    {
+        if (Time.time - m_TimeOfLastSFX < 0.2f)
+            return;
+
+        m_TimeOfLastSFX = Time.time;
+
+        // Play audio
+        PlayAudioFx();
+        AudioManager.m_Instance.PlaySoundAtPosition("MAGIC_Chime", transform.position, Random.Range(0.8f, 1.2f), Random.Range(0.8f, 1.2f));
+    }
+
 
     private void OnDrawGizmos()
     {
