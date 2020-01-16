@@ -27,6 +27,11 @@ public class PlayerMovement : MonoBehaviour
 
     private float m_PlayerHeight;
 
+    private float m_LandingRecoveryTime = 0.05f;
+    private float m_LandingSpeedModifier = 0.0f;
+    private float m_LandingTime;
+    private bool m_IsMidAir;
+    private bool m_JumpedInCurrentFrame;
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +43,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool isGrounded = Physics.CheckSphere(m_GroundCheck.position, 0.2f, m_LayerMask);
+        m_JumpedInCurrentFrame = false;
+        bool isGrounded = GetIsGrounded();
 
-        if (isGrounded && m_Velocity.y < 0)
-            m_Velocity.y = -2f;
+        if (isGrounded)
+        {
+            if (m_Velocity.y < 0)
+            {
+                m_Velocity.y = -2f;
+            }
+
+            if (m_IsMidAir)
+            {
+                m_IsMidAir = false;
+                // Landing frame
+                m_LandingTime = Time.time;
+            }
+        }
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -49,10 +67,22 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = Camera.main.transform.right * x + Camera.main.transform.forward * z;
         move *= Time.deltaTime * m_MoveSpeed;
 
+        // Slow the player down after a fall
+        bool isRecoveringFromFall = Time.time - m_LandingTime < m_LandingRecoveryTime;
+        if (isRecoveringFromFall)
+        {
+            float mod = (Time.time - m_LandingTime) / m_LandingRecoveryTime;
+            move *= Mathf.Lerp(m_LandingSpeedModifier, 1, mod);
+        }
+
         m_CharacterController.Move(move);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && !isRecoveringFromFall)
+        {
             m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
+            m_JumpedInCurrentFrame = true;
+            m_IsMidAir = true;
+        }
 
         m_Velocity.y += m_Gravity * Time.deltaTime;
         m_CharacterController.Move(m_Velocity * Time.deltaTime);
@@ -77,5 +107,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = Camera.main.transform.right * x + Camera.main.transform.forward * z;
         move.y = 0;
         return move.normalized;
+    }
+
+    public bool GetIsGrounded()
+    {
+        return Physics.CheckSphere(m_GroundCheck.position, 0.2f, m_LayerMask);
+    }
+
+    public bool GetJumpedInCurrentFrame()
+    {
+        return m_JumpedInCurrentFrame;
     }
 }

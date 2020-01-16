@@ -21,6 +21,7 @@ public class RevealableTerrain : MonoBehaviour
 
     private float m_LastPaintTime;
     private float m_MinTimeBetweenPaints = 0.0f;
+    private static Vector3 m_LastPaintPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,10 @@ public class RevealableTerrain : MonoBehaviour
         if (Time.time - m_LastPaintTime < m_MinTimeBetweenPaints)
             return;
 
+        // Too far away, no point updating
+        if (Vector3.Distance(transform.position, m_LastPaintPosition) > 10)
+            return;
+
         m_LastPaintTime = Time.time;
 
         Mesh mesh = m_MeshFilter.mesh;
@@ -56,6 +61,8 @@ public class RevealableTerrain : MonoBehaviour
 
     public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
     {
+        m_LastPaintPosition = position;
+
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
         {
             float distance = (position - m_WorldSpaceVertices[i]).magnitude;

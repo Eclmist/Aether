@@ -31,5 +31,9 @@ public class PlayerAnimation : MonoBehaviour
         Vector3 movementDir = m_PlayerMovement.GetMovementDirection();
         if (movementDir.magnitude > 0.01f)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementDir), Time.deltaTime * 10);
+
+        m_Animator.SetBool("Grounded", m_PlayerMovement.GetIsGrounded());
+        if (m_PlayerMovement.GetJumpedInCurrentFrame())
+            m_Animator.SetTrigger("Jumped");
     }
 }
