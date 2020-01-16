@@ -44,7 +44,7 @@ public class RevealableTerrain : MonoBehaviour
             return;
 
         // Too far away, no point updating
-        if (Vector3.Distance(transform.position, m_LastPaintPosition) > 10)
+        if (Vector3.Distance(transform.position, m_LastPaintPosition) > 20)
             return;
 
         m_LastPaintTime = Time.time;

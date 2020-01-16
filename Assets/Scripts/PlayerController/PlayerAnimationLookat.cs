@@ -30,27 +30,43 @@ public class PlayerAnimationLookat : MonoBehaviour
     private float m_Distance = 10;
 
     [SerializeField]
+    [Range(0, 10)]
+    private float m_WeightDampingSpeed = 0.1f;
+    
+    [SerializeField]
+    [Range(0, 1)]
+    private float m_DisabledWeight = 0.2f;
+
+    [SerializeField]
     private Transform m_EyePosition = null;
 
     private Animator m_Animator;
 
+    private float m_LookAtWeightCache = 1;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
+        m_LookAtWeightCache = m_Weight;
     }
 
     void OnAnimatorIK()
     {
-        if (m_Animator.enabled)
+        // Find a better way to do this
+        if (m_Animator.enabled == false ||
+            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Landing") ||
+            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
-            Vector3 lookat = Camera.main.transform.forward;
-            m_Animator.SetLookAtWeight(m_Weight, m_WeightBody, m_WeightHead, m_WeightEye, m_WeightClamp);
-            m_Animator.SetLookAtPosition(m_EyePosition.position + lookat * m_Distance);
+            m_LookAtWeightCache = Mathf.Lerp(m_LookAtWeightCache, m_DisabledWeight, Time.deltaTime * m_WeightDampingSpeed);
         }
         else
         {
-            m_Animator.SetLookAtWeight(0);
+            m_LookAtWeightCache = Mathf.Lerp(m_LookAtWeightCache, m_Weight, Time.deltaTime * m_WeightDampingSpeed);
         }
+
+        Vector3 lookat = Camera.main.transform.forward;
+        m_Animator.SetLookAtWeight(m_LookAtWeightCache, m_WeightBody, m_WeightHead, m_WeightEye, m_WeightClamp);
+        m_Animator.SetLookAtPosition(m_EyePosition.position + lookat * m_Distance);
     }
 
     private void OnDrawGizmos()
