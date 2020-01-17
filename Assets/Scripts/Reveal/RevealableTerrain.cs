@@ -21,7 +21,8 @@ public class RevealableTerrain : MonoBehaviour
 
     private float m_LastPaintTime;
     private float m_MinTimeBetweenPaints = 0.0f;
-    private static Vector3 m_LastPaintPosition;
+
+    private bool m_IsUpdating;
 
     // Start is called before the first frame update
     void Start()
@@ -43,26 +44,39 @@ public class RevealableTerrain : MonoBehaviour
         if (Time.time - m_LastPaintTime < m_MinTimeBetweenPaints)
             return;
 
-        // Too far away, no point updating
-        if (Vector3.Distance(transform.position, m_LastPaintPosition) > 20)
+        if (!m_IsUpdating)
             return;
-
-        m_LastPaintTime = Time.time;
 
         Mesh mesh = m_MeshFilter.mesh;
 
+        bool atLeastOneVertUpdated = false;
+
         for (int i = 0; i < m_VertexColors.Length; ++i)
         {
+            // TODO: Profile if typecasting to Color is more or less efficient
+            float diff = Mathf.Abs(m_VertexColors[i].r - m_TargetVertexColors[i].r);
+            diff += Mathf.Abs(m_VertexColors[i].g - m_TargetVertexColors[i].g);
+            diff += Mathf.Abs(m_VertexColors[i].b - m_TargetVertexColors[i].b);
+
+            if (diff <= 1)
+                continue;
+
+            atLeastOneVertUpdated = true;
             m_VertexColors[i] = Color32.Lerp(m_VertexColors[i], m_TargetVertexColors[i], Time.deltaTime * 1.5f);
         }
 
+        if (!atLeastOneVertUpdated)
+        {
+            m_IsUpdating = false;
+            return;
+        }
+
+        m_LastPaintTime = Time.time;
         mesh.colors32 = m_VertexColors;
     }
 
     public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
     {
-        m_LastPaintPosition = position;
-
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
         {
             float distance = (position - m_WorldSpaceVertices[i]).magnitude;
@@ -78,7 +92,11 @@ public class RevealableTerrain : MonoBehaviour
                 amount = (1 - distance / radius) * 255;
 
             // Ignore falloff for now
-            m_TargetVertexColors[i].r = (byte)Mathf.Max(amount, currentAmount);
+            if (amount > currentAmount)
+            {
+                m_TargetVertexColors[i].r = (byte)amount;
+                m_IsUpdating = true;
+            }
         }
     }
 }
