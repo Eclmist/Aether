@@ -57,13 +57,13 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        GameObject tempSoundPlayer = Instantiate(s.m_Source.gameObject);
-        tempSoundPlayer.transform.position = position;
-        AudioSource audioSource = tempSoundPlayer.GetComponent<AudioSource>();
-        audioSource.volume *= volume;
-        audioSource.pitch *= pitch;
+        // GameObject tempSoundPlayer = Instantiate(s.m_Source.gameObject);
+        // tempSoundPlayer.transform.position = position;
+        // AudioSource audioSource = tempSoundPlayer.GetComponent<AudioSource>();
+        // audioSource.volume *= volume;
+        // audioSource.pitch *= pitch;
 
-        audioSource.Play();
-        Destroy(tempSoundPlayer, s.m_Clip.length);
+        // audioSource.Play();
+        // Destroy(tempSoundPlayer, s.m_Clip.length);
     }
 }

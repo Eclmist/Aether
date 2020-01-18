@@ -5,6 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationLookat : MonoBehaviour
 {
+    public enum LookAtType
+    {
+        LOOKAT_CAMERADIR,
+        LOOKAT_MOUSEPOS
+    }
+
+    [SerializeField]
+    private LookAtType m_LookAtType = LookAtType.LOOKAT_CAMERADIR;
+
     [SerializeField]
     [Range(0, 1)]
     private float m_Weight = 0.6f;
@@ -40,6 +49,8 @@ public class PlayerAnimationLookat : MonoBehaviour
     [SerializeField]
     private Transform m_EyePosition = null;
 
+    public float temp = 1;
+
     private Animator m_Animator;
 
     private float m_LookAtWeightCache = 1;
@@ -64,9 +75,24 @@ public class PlayerAnimationLookat : MonoBehaviour
             m_LookAtWeightCache = Mathf.Lerp(m_LookAtWeightCache, m_Weight, Time.deltaTime * m_WeightDampingSpeed);
         }
 
-        Vector3 lookat = Camera.main.transform.forward;
+        Vector3 lookat;
+        switch (m_LookAtType)
+        {
+            case LookAtType.LOOKAT_CAMERADIR:
+                lookat = m_EyePosition.position + Camera.main.transform.forward * m_Distance;
+                break;
+            case LookAtType.LOOKAT_MOUSEPOS:
+                Vector3 mouse = Input.mousePosition;
+                mouse.z = temp;
+                Vector3 dir = Camera.main.ScreenToWorldPoint(mouse) - m_EyePosition.position;
+                lookat = m_EyePosition.position + dir.normalized * m_Distance;
+                break;
+            default:
+                return;
+        }
+
         m_Animator.SetLookAtWeight(m_LookAtWeightCache, m_WeightBody, m_WeightHead, m_WeightEye, m_WeightClamp);
-        m_Animator.SetLookAtPosition(m_EyePosition.position + lookat * m_Distance);
+        m_Animator.SetLookAtPosition(lookat);
     }
 
     private void OnDrawGizmos()

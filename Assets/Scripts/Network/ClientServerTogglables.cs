@@ -15,7 +15,7 @@ public class ClientServerTogglables : MonoBehaviour
     void Start()
     {
         // TODO: Replace this with is owner check on network manager
-        bool isOwner = false;
+        bool isOwner = true;
 
         if (isOwner)
             Destroy(m_NetworkTogglable);
