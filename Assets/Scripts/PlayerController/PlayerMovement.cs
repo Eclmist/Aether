@@ -79,19 +79,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded && !isRecoveringFromFall)
         {
-            m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
             m_JumpedInCurrentFrame = true;
             m_IsMidAir = true;
         }
 
         m_Velocity.y += m_Gravity * Time.deltaTime;
         m_CharacterController.Move(m_Velocity * Time.deltaTime);
-
-
-        if (Input.GetKey(KeyCode.LeftControl))
-            m_CharacterController.height = m_PlayerHeight / 2;
-        else
-            m_CharacterController.height = m_PlayerHeight;
     }
 
     public float GetAbsInput()
@@ -111,11 +104,27 @@ public class PlayerMovement : MonoBehaviour
 
     public bool GetIsGrounded()
     {
-        return Physics.CheckSphere(m_GroundCheck.position, 0.2f, m_LayerMask);
+        return Physics.CheckSphere(m_GroundCheck.position, 0.5f, m_LayerMask);
     }
 
     public bool GetJumpedInCurrentFrame()
     {
         return m_JumpedInCurrentFrame;
+    }
+
+    // This should be an animation callback for more visually appealing jumps
+    public void Jump()
+    {
+        m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
+    }
+
+    public LayerMask GetGroundLayerMask()
+    {
+        return m_LayerMask;
+    }
+
+    public float GetVerticalVelocity()
+    {
+        return m_Velocity.y;
     }
 }
