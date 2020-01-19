@@ -190,8 +190,8 @@ MonoBehaviour:
   m_RenderPipelineSettings:
     supportShadowMask: 1
     supportSSR: 0
-    supportSSAO: 1
-    supportSubsurfaceScattering: 1
+    supportSSAO: 0
+    supportSubsurfaceScattering: 0
     increaseSssSampleCount: 0
     supportVolumetrics: 1
     increaseResolutionOfVolumetrics: 0
@@ -279,9 +279,9 @@ MonoBehaviour:
       m_LutSize: 32
       lutFormat: 48
     dynamicResolutionSettings:
-      enabled: 0
+      enabled: 1
       maxPercentage: 100
-      minPercentage: 100
+      minPercentage: 50
       dynResType: 1
       upsampleFilter: 1
       forceResolution: 0

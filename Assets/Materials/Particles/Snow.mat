@@ -8,11 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Snow
-  m_Shader: {fileID: -6465566751694194690, guid: ddf0c0e603eae9b429928da8cc3b814f,
+  m_Shader: {fileID: -6465566751694194690, guid: c3a61f64d7d331841869d2f76d090226,
     type: 3}
   m_ShaderKeywords: _BLENDMODE_ADD _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
@@ -275,8 +275,9 @@ Material:
     - _ZTestGBuffer: 4
     - _ZTestModeDistortion: 4
     - _ZTestTransparent: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
+    - Color_5B0ACD4A: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_4F8D01F9: {r: 0, g: 1, b: 0, a: 0}
     - Vector2_D0C9AA28: {r: 1, g: 2, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

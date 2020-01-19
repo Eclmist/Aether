@@ -8,13 +8,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: D_Cloud2
-  m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _NORMALMAP_TANGENT_SPACE
-  m_LightmapFlags: 1
+  m_Shader: {fileID: -6465566751694194690, guid: c3a61f64d7d331841869d2f76d090226,
+    type: 3}
+  m_ShaderKeywords: _DOUBLESIDED_ON
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    MotionVector: User
   disabledShaderPasses:
   - DistortionVectors
   - TransparentDepthPrepass
@@ -24,6 +26,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_8FEEBB68:
+        m_Texture: {fileID: 2800000, guid: bab14ca09aece204f8c7c140771ef2f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -147,8 +153,8 @@ Material:
     - _CoatMask: 0
     - _ColorMode: 0
     - _Cull: 2
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -177,7 +183,7 @@ Material:
     - _DistortionStrengthScaled: 0
     - _DistortionVectorBias: -1
     - _DistortionVectorScale: 2
-    - _DoubleSidedEnable: 0
+    - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
     - _EmissionEnabled: 0
@@ -220,8 +226,10 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _ReceivesSSR: 1
+    - _ReceivesSSR: 0
     - _RefractionModel: 0
+    - _RenderQueueType: 1
+    - _RequireSplitLighting: 0
     - _Rotation: 0
     - _SSRefractionProjectionModel: 0
     - _Smoothness: 0.5
@@ -234,11 +242,11 @@ Material:
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
-    - _StencilRef: 2
-    - _StencilRefDepth: 0
+    - _StencilRef: 0
+    - _StencilRefDepth: 32
     - _StencilRefDistortionVec: 64
     - _StencilRefGBuffer: 2
-    - _StencilRefMV: 128
+    - _StencilRefMV: 160
     - _StencilWriteMask: 3
     - _StencilWriteMaskDepth: 48
     - _StencilWriteMaskDistortionVec: 64
@@ -268,9 +276,11 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
+    - Color_5B0ACD4A: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_4F8D01F9: {r: 0, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
+    - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
@@ -290,3 +300,16 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+--- !u!114 &7420796678054149881
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da692e001514ec24dbc4cca1949ff7e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 0

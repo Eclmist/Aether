@@ -8,10 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RevealParticle 1
-  m_Shader: {fileID: -6465566751694194690, guid: 4c6361cb5d4144944a9f857229576f4c,
+  m_Shader: {fileID: -6465566751694194690, guid: c3a61f64d7d331841869d2f76d090226,
     type: 3}
   m_ShaderKeywords: _BLENDMODE_ADD _SURFACE_TYPE_TRANSPARENT
-  m_LightmapFlags: 4
+  m_LightmapFlags: 1
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -26,11 +26,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_23DD87FD:
-        m_Texture: {fileID: 2800000, guid: 87976aba437c0954eb82778edd16bb91, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9a90e563dc4f858428acfd59e3ea5ec3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_8FEEBB68:
-        m_Texture: {fileID: 2800000, guid: 4835e515fec3a8046be2488b4725f97e, type: 3}
+        m_Texture: {fileID: 2800000, guid: f73ac6b7ed395b84e87ff09bc678c68c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -228,7 +228,7 @@ Material:
     - _PPDMinSamples: 5
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
-    - _ReceivesSSR: 1
+    - _ReceivesSSR: 0
     - _RefractionModel: 0
     - _RenderQueueType: 5
     - _RequireSplitLighting: 0
@@ -243,11 +243,11 @@ Material:
     - _SpecularAAThreshold: 0.2
     - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
-    - _StencilRef: 2
-    - _StencilRefDepth: 0
+    - _StencilRef: 0
+    - _StencilRefDepth: 32
     - _StencilRefDistortionVec: 64
     - _StencilRefGBuffer: 2
-    - _StencilRefMV: 128
+    - _StencilRefMV: 160
     - _StencilWriteMask: 3
     - _StencilWriteMaskDepth: 48
     - _StencilWriteMaskDistortionVec: 64
@@ -277,6 +277,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
+    - Color_5B0ACD4A: {r: 2.433572, g: 2.433572, b: 2.433572, a: 0}
     - Vector2_3782A8B8: {r: 0, g: 1, b: 0, a: 0}
     - Vector2_4F8D01F9: {r: 0, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
