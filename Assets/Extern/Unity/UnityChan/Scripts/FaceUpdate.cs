@@ -71,7 +71,7 @@ namespace UnityChan
 		{
 			isKeepFace = true;
 			current = 1;
-			anim.CrossFade ("Expression."+ str, 0);
+			anim.CrossFade (str, 0);
 		}
 	}
 }
