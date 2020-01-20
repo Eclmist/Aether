@@ -174,6 +174,7 @@ public class CharacterCustomizer : MonoBehaviour
         newObj.transform.parent = currentObj.transform.parent;
         newObj.transform.localPosition = currentObj.transform.localPosition;
         newObj.transform.localRotation = currentObj.transform.localRotation;
+        newObj.transform.localScale = currentObj.transform.localScale;
 
         SkinnedMeshRenderer prefabRenderer = assetLibrary[index].GetComponentInChildren<SkinnedMeshRenderer>();
         SkinnedMeshRenderer newRenderer = newObj.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
