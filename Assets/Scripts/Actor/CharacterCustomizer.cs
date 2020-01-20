@@ -42,6 +42,7 @@ public class CharacterCustomizer : MonoBehaviour
 
     private bool m_RequiresUpdate = true;
     private Dictionary<string, Transform> m_SkeletonCache = new Dictionary<string, Transform>();
+    private Transform[] m_Bones;
 
     // Start is called before the first frame update
     void Start()
@@ -53,20 +54,13 @@ public class CharacterCustomizer : MonoBehaviour
         m_HairLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Hair");
         m_EyeLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Eye");
 
-        if (m_AccessoryIndex >= m_AccessoryLibrary.Length)
-            m_AccessoryIndex = 0;
+        m_AccessoryIndex = m_AccessoryIndex >= m_AccessoryLibrary.Length ? 0 : m_AccessoryIndex;
+        m_CostumeIndex = m_CostumeIndex >= m_CostumeLibrary.Length ? 0 : m_CostumeIndex;
+        m_FaceIndex = m_FaceIndex >= m_FaceLibrary.Length ? 0 : m_FaceIndex;
+        m_HairIndex = m_HairIndex >= m_HairLibrary.Length ? 0 : m_HairIndex;
+        m_EyeIndex = m_EyeIndex >= m_EyeLibrary.Length ? 0 : m_EyeIndex;
 
-        if (m_CostumeIndex >= m_CostumeLibrary.Length)
-            m_CostumeIndex = 0;
-
-        if (m_FaceIndex >= m_FaceLibrary.Length)
-            m_FaceIndex = 0;
-
-        if (m_HairIndex >= m_HairLibrary.Length)
-            m_HairIndex = 0;
-
-        if (m_EyeIndex >= m_EyeLibrary.Length)
-            m_EyeIndex = 0;
+        SetHair(m_HairIndex);
 
         CacheSkeletalTransform();
     }
@@ -92,9 +86,9 @@ public class CharacterCustomizer : MonoBehaviour
 
     private void CacheSkeletalTransform()
     {
-        Transform[] bones = m_SkeletalRoot.transform.GetComponentsInChildren<Transform>();
+        m_Bones = m_SkeletalRoot.transform.GetComponentsInChildren<Transform>();
 
-        foreach(Transform transform in bones)
+        foreach(Transform transform in m_Bones)
         {
             m_SkeletonCache.Add(transform.name, transform);
         }
@@ -111,17 +105,44 @@ public class CharacterCustomizer : MonoBehaviour
             }
             catch
             {
+                bool found = false;
+                // Try finding a nearby bone
+                for (int j = 0; j < m_Bones.Length; ++j)
+                {
+                    if (Vector3.Distance(m_Bones[j].position, mesh.bones[i].position) < 1.2f)
+                    {
+                        target[i] = m_Bones[j];
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                    continue;
+
                 Debug.LogError("Cannot find a corresponding bone in character skeleton! Check the data " + mesh.name + " for compatibility!");
                 Debug.LogError("Unknown Bone Name: " + mesh.bones[i].name);
             }
         }
     }
 
+    /**
+     * Hair is handled differently since it is difficult to get hair skeleton to
+     * be compatible from model to model. Instead, we use spring bone to simulate 
+     * hair and instantiate the hair's unique skeleton completely. This ironically
+     * makes hair the easiest to swap.
+     */
     public void SetHair(int index)
     {
-        GameObject newHair = Set(Type.TYPE_HAIR, index, m_HairLibrary, m_CurrentHair);
+        GameObject newHair = Instantiate(m_HairLibrary[index % m_HairLibrary.Length]);
+        newHair.transform.parent = m_CurrentHair.transform.parent;
+        newHair.transform.position = m_CurrentHair.transform.position;
+        newHair.transform.localRotation = m_CurrentHair.transform.localRotation;
+        newHair.transform.localScale = m_CurrentHair.transform.localScale;
+        Destroy(m_CurrentHair);
         m_CurrentHair = newHair;
     }
+
     public void SetAccessory(int index)
     {
         GameObject newAccessory = Set(Type.TYPE_ACCESSORY, index, m_AccessoryLibrary, m_CurrentAccessory);

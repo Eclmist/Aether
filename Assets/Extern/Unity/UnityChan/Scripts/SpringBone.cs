@@ -103,6 +103,7 @@ namespace UnityChan
 
 			//衝突判定
 			for (int i = 0; i < colliders.Length; i++) {
+                if (colliders[i] == null) continue;
 				if (Vector3.Distance (currTipPos, colliders [i].transform.position) <= (radius + colliders [i].radius)) {
 					Vector3 normal = (currTipPos - colliders [i].transform.position).normalized;
 					currTipPos = colliders [i].transform.position + (normal * (radius + colliders [i].radius));

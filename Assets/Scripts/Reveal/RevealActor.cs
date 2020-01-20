@@ -22,7 +22,7 @@ public class RevealActor : MonoBehaviour
 #endif
 
     private const float m_SqrDistanceBetweenPaints = 0.25f;
-    private Vector3 m_LastPaintedPosition;
+    private Vector3 m_LastPaintedPosition = Vector3.positiveInfinity;
 
 #if USE_FAKE_CAMERA_REVEAL
     // For smoother reveal, we lerp the revealer's position. This is less expensive
