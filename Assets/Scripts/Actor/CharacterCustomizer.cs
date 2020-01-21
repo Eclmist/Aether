@@ -44,6 +44,11 @@ public class CharacterCustomizer : MonoBehaviour
     private Dictionary<string, Transform> m_SkeletonCache = new Dictionary<string, Transform>();
     private Transform[] m_Bones;
 
+    private void Awake()
+    {
+        CacheSkeletalTransform();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,8 +66,6 @@ public class CharacterCustomizer : MonoBehaviour
         m_EyeIndex = m_EyeIndex >= m_EyeLibrary.Length ? 0 : m_EyeIndex;
 
         SetHair(m_HairIndex);
-
-        CacheSkeletalTransform();
     }
 
     // Update is called once per frame
@@ -105,21 +108,6 @@ public class CharacterCustomizer : MonoBehaviour
             }
             catch
             {
-                bool found = false;
-                // Try finding a nearby bone
-                for (int j = 0; j < m_Bones.Length; ++j)
-                {
-                    if (Vector3.Distance(m_Bones[j].position, mesh.bones[i].position) < 1.2f)
-                    {
-                        target[i] = m_Bones[j];
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (found)
-                    continue;
-
                 Debug.LogError("Cannot find a corresponding bone in character skeleton! Check the data " + mesh.name + " for compatibility!");
                 Debug.LogError("Unknown Bone Name: " + mesh.bones[i].name);
             }
@@ -167,25 +155,36 @@ public class CharacterCustomizer : MonoBehaviour
 
     protected GameObject Set(Type type, int index, GameObject[] assetLibrary, GameObject currentObj)
     {
+        if (assetLibrary.Length <= 0)
+            return null;
+
         if (index >= assetLibrary.Length)
             index = index % assetLibrary.Length;
 
-        GameObject newObj = new GameObject(assetLibrary[index] != null ? assetLibrary[index].name : "None");
+        GameObject newObj = new GameObject(assetLibrary[index].name);
+
+        if (assetLibrary[index] == null)
+            return newObj;
+
         newObj.transform.parent = currentObj.transform.parent;
         newObj.transform.localPosition = currentObj.transform.localPosition;
         newObj.transform.localRotation = currentObj.transform.localRotation;
         newObj.transform.localScale = currentObj.transform.localScale;
 
         SkinnedMeshRenderer prefabRenderer = assetLibrary[index].GetComponentInChildren<SkinnedMeshRenderer>();
-        SkinnedMeshRenderer newRenderer = newObj.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
 
-        Transform[] newBones = new Transform[prefabRenderer.bones.Length];
-        AssembleBones(newBones, prefabRenderer);
+        if (prefabRenderer != null)
+        {
+            SkinnedMeshRenderer newRenderer = newObj.AddComponent(typeof(SkinnedMeshRenderer)) as SkinnedMeshRenderer;
 
-        // Update reference
-        newRenderer.bones = newBones;
-        newRenderer.sharedMesh = prefabRenderer.sharedMesh;
-        newRenderer.sharedMaterials = prefabRenderer.sharedMaterials;
+            Transform[] newBones = new Transform[prefabRenderer.bones.Length];
+            AssembleBones(newBones, prefabRenderer);
+
+            // Update reference
+            newRenderer.bones = newBones;
+            newRenderer.sharedMesh = prefabRenderer.sharedMesh;
+            newRenderer.sharedMaterials = prefabRenderer.sharedMaterials;
+        }
 
         Destroy(currentObj);
         return newObj;
