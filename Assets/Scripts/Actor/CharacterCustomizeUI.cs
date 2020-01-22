@@ -1,32 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class CharacterCustomizeUI : MonoBehaviour
 {
+    [System.Serializable]
+    public class ExpansionGroup
+    {
+        [SerializeField]
+        public GameObject m_ExpansionMenu;
+
+        [SerializeField]
+        public GameObject m_TriggerButton;
+    }
+
     [SerializeField]
-    private GameObject[] m_ExpansionMenus;
+    private ExpansionGroup[] m_ExpansionGroups;
 
     private Animator[] m_Animators;
+    private NavigationGroup[] m_NavGroups;
 
     private int m_CurrentSelectedIndex = 0;
 
     // Start is called before the first frame update
     protected void Start()
     {
-        m_Animators = new Animator[m_ExpansionMenus.Length];
+        m_Animators = new Animator[m_ExpansionGroups.Length];
+        m_NavGroups = new NavigationGroup[m_ExpansionGroups.Length];
 
-        for (int i = 0; i < m_ExpansionMenus.Length; ++i)
-            m_Animators[i] = m_ExpansionMenus[i].GetComponent<Animator>();
-    }
-
-    protected void Update()
-    {
-        // if (Input.GetButtonDown("Cancel"))
-        //     Close(m_CurrentSelectedIndex);
-
-        // if (Input.GetButtonDown("Submit"))
-        //     Open(m_CurrentSelectedIndex);
+        for (int i = 0; i < m_ExpansionGroups.Length; ++i)
+        {
+            m_Animators[i] = m_ExpansionGroups[i].m_ExpansionMenu.GetComponent<Animator>();
+            m_NavGroups[i] = m_ExpansionGroups[i].m_ExpansionMenu.GetComponent<NavigationGroup>();
+        }
     }
 
     public void Close(int index)
@@ -35,8 +43,8 @@ public class CharacterCustomizeUI : MonoBehaviour
             return;
             
         m_Animators[index].SetBool("Open", false);
+        EventSystem.current.SetSelectedGameObject(m_ExpansionGroups[index].m_TriggerButton);
     }
-
     public void Open(int index)
     {
         if (index >= m_Animators.Length || m_Animators[index] == null)
@@ -50,7 +58,22 @@ public class CharacterCustomizeUI : MonoBehaviour
                 m_Animators[i].SetBool("Open", false);
         }
 
-        m_CurrentSelectedIndex = index;
+        SetCurrentSelectedIndex(index);
+        m_NavGroups[index].SelectFirstElement();
     }
 
+    public void CloseCurrentSelected()
+    {
+        Close(m_CurrentSelectedIndex);
+    }
+
+    public void OpenCurrentSelected()
+    {
+        Open(m_CurrentSelectedIndex);
+    }
+
+    public void SetCurrentSelectedIndex(int index)
+    {
+        m_CurrentSelectedIndex = index;
+    }
 }

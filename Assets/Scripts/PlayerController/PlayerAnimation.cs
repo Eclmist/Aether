@@ -20,28 +20,33 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        float worldVelocity = m_PlayerMovement.GetAbsInput();
-        m_Animator.SetFloat("Velocity", worldVelocity);
-        m_Animator.SetFloat("VerticalVelocity", m_PlayerMovement.GetVerticalVelocity());
+        Vector2 movementInput = m_PlayerMovement.GetLastKnownInput();
+        m_Animator.SetFloat("MovementInput", movementInput.magnitude);
 
-        Vector3 movementDir = m_PlayerMovement.GetMovementDirection();
-        if (movementDir.magnitude > 0.01f)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movementDir), Time.deltaTime * 10);
+        Vector3 velocity = m_PlayerMovement.GetVelocity();
+        m_Animator.SetFloat("VerticalVelocity", velocity.y);
 
-        bool isGrounded = m_PlayerMovement.GetIsGrounded();
+        // remove y-velocity
+        velocity.y = 0;
 
-        m_Animator.SetBool("Grounded", isGrounded);
+        if (velocity.magnitude > 0.01f)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(velocity.normalized), Time.deltaTime * 10);
 
+        // Set Grounded boolean
+        m_Animator.SetBool("Grounded", m_PlayerMovement.GetIsGrounded());
+
+        // Handle Jumping callback
         if (m_PlayerMovement.GetJumpedInCurrentFrame())
             m_Animator.SetTrigger("Jumping");
 
+        // Set walking animation speed based on players actual velocity. This allows slightly better sync between
+        // animation and gameplay.
         if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
-            if (worldVelocity > 0.01f)
-                m_Animator.speed = m_AnimationSpeedCurve.Evaluate(worldVelocity); // Make running animation speed match actual movement speed
+            if (movementInput.magnitude > 0.01f)
+                m_Animator.speed = m_AnimationSpeedCurve.Evaluate(movementInput.magnitude); // Make running animation speed match actual movement speed
             else 
                 m_Animator.speed = 1;
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(GridLayoutGroup))]
@@ -157,8 +158,8 @@ public class NavigationGroup : MonoBehaviour
         return m_NavigationElements[0];
     }
 
-    void Update()
+    public void SelectFirstElement()
     {
-        
+        EventSystem.current.SetSelectedGameObject(GetFirstElement().gameObject);
     }
 }

@@ -22,8 +22,9 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * m_MouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * m_MouseSensitivity * Time.deltaTime;
+        Vector2 mouseInput = AetherInput.GetPlayerActions().Look.ReadValue<Vector2>();
+        float mouseX = mouseInput.x * m_MouseSensitivity * Time.deltaTime;
+        float mouseY = mouseInput.y * m_MouseSensitivity * Time.deltaTime;
 
         m_xRot -= mouseY;
         m_xRot = Mathf.Clamp(m_xRot, -90, 90);

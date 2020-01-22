@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField]
     [Range(0, 10)]
     private float m_MoveSpeed = 6;
@@ -24,8 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController m_CharacterController;
 
     private Vector3 m_Velocity;
-
-    private float m_PlayerHeight;
+    private Vector2 m_LastKnownInput;
 
     private float m_LandingRecoveryTime = 0.05f;
     private float m_LandingSpeedModifier = 0.0f;
@@ -33,24 +35,23 @@ public class PlayerMovement : MonoBehaviour
     private bool m_IsMidAir;
     private bool m_JumpedInCurrentFrame;
 
-    // Start is called before the first frame update
     void Start()
     {
+        AetherInput.GetPlayerActions().Jump.performed += HandleJump;
         m_CharacterController = GetComponent<CharacterController>();
-        m_PlayerHeight = m_CharacterController.height;
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_JumpedInCurrentFrame = false;
-        bool isGrounded = GetIsGrounded();
-
-        if (isGrounded)
+        if (GetIsGrounded())
         {
+            // Gravity should not accumulate when player is grounded. We set velocity to -2 instead of 0
+            // because the collision may register before we actually fully touch the ground. This value is purely
+            // empirical.
             if (m_Velocity.y < 0)
             {
-                m_Velocity.y = -2f;
+                m_Velocity.y = -2.0f;
             }
 
             if (m_IsMidAir)
@@ -61,50 +62,72 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        HandleGravity();
+        HandleMovement();
 
-        Vector3 move = Camera.main.transform.right * x + Camera.main.transform.forward * z;
+        m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * Time.deltaTime, m_Velocity.z));
+    }
+
+    private void LateUpdate()
+    {
+        m_JumpedInCurrentFrame = false;
+    }
+
+    private void HandleGravity()
+    {
+        m_Velocity.y += m_Gravity * Time.deltaTime;
+    }
+    
+    private void HandleMovement()
+    {
+        m_LastKnownInput = AetherInput.GetPlayerActions().Move.ReadValue<Vector2>();
+        Vector3 move = Camera.main.transform.right * m_LastKnownInput.x + Camera.main.transform.forward * m_LastKnownInput.y;
         move *= Time.deltaTime * m_MoveSpeed;
 
         // Slow the player down after a fall
-        bool isRecoveringFromFall = Time.time - m_LandingTime < m_LandingRecoveryTime;
-        if (isRecoveringFromFall)
+        if (IsRecoveringFromFall())
         {
             float mod = (Time.time - m_LandingTime) / m_LandingRecoveryTime;
             move *= Mathf.Lerp(m_LandingSpeedModifier, 1, mod);
         }
 
-        m_CharacterController.Move(move);
-
-        if (Input.GetButtonDown("Jump") && isGrounded && !isRecoveringFromFall)
-        {
-            m_JumpedInCurrentFrame = true;
-            m_IsMidAir = true;
-        }
-
-        m_Velocity.y += m_Gravity * Time.deltaTime;
-        m_CharacterController.Move(m_Velocity * Time.deltaTime);
+        m_Velocity = new Vector3(move.x, m_Velocity.y, move.z);
     }
 
-    public float GetAbsInput()
+    public void HandleJump(InputAction.CallbackContext ctx)
     {
-        return Mathf.Clamp01(Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")));
+        ButtonControl button = ctx.control as ButtonControl;
+        if (!button.wasPressedThisFrame)
+            return;
+
+        if (!GetIsGrounded())
+            return;
+
+        if (IsRecoveringFromFall())
+            return;
+
+        m_JumpedInCurrentFrame = true;
+        m_IsMidAir = true;
     }
 
-    public Vector3 GetMovementDirection()
+    public Vector2 GetLastKnownInput()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        return m_LastKnownInput;
+    }
 
-        Vector3 move = Camera.main.transform.right * x + Camera.main.transform.forward * z;
-        move.y = 0;
-        return move.normalized;
+    public Vector3 GetVelocity()
+    {
+        return m_Velocity;
+    }
+
+    public bool IsRecoveringFromFall()
+    {
+        return Time.time - m_LandingTime < m_LandingRecoveryTime;
     }
 
     public bool GetIsGrounded()
     {
-        return Physics.CheckSphere(m_GroundCheck.position, 0.5f, m_LayerMask);
+        return Physics.CheckSphere(m_GroundCheck.position, 0.5f, m_LayerMask) && !GetJumpedInCurrentFrame();
     }
 
     public bool GetJumpedInCurrentFrame()
@@ -116,15 +139,5 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
-    }
-
-    public LayerMask GetGroundLayerMask()
-    {
-        return m_LayerMask;
-    }
-
-    public float GetVerticalVelocity()
-    {
-        return m_Velocity.y;
     }
 }
