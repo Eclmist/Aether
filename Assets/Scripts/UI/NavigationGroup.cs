@@ -23,7 +23,15 @@ public class NavigationGroup : MonoBehaviour
 
     protected void Awake()
     {
-        m_NavigationElements = GetComponentsInChildren<Selectable>();
+        List<Selectable> childSelectables = new List<Selectable>();
+        foreach (Transform firstLayerChildren in transform)
+        {
+            Selectable s = firstLayerChildren.GetComponent<Selectable>();
+            if (s != null)
+                childSelectables.Add(s);
+        }
+
+        m_NavigationElements = childSelectables.ToArray();
         m_LayoutGroup = GetComponent<GridLayoutGroup>();
     }
 

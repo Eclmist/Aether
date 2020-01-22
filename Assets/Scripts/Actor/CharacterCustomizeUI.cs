@@ -9,6 +9,8 @@ public class CharacterCustomizeUI : MonoBehaviour
 
     private Animator[] m_Animators;
 
+    private int m_CurrentSelectedIndex = 0;
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -20,12 +22,19 @@ public class CharacterCustomizeUI : MonoBehaviour
 
     protected void Update()
     {
+        // if (Input.GetButtonDown("Cancel"))
+        //     Close(m_CurrentSelectedIndex);
 
+        // if (Input.GetButtonDown("Submit"))
+        //     Open(m_CurrentSelectedIndex);
     }
 
-    private void SetupNavigationGroup(GameObject group)
+    public void Close(int index)
     {
-
+        if (index >= m_Animators.Length || m_Animators[index] == null)
+            return;
+            
+        m_Animators[index].SetBool("Open", false);
     }
 
     public void Open(int index)
@@ -40,6 +49,8 @@ public class CharacterCustomizeUI : MonoBehaviour
             else
                 m_Animators[i].SetBool("Open", false);
         }
+
+        m_CurrentSelectedIndex = index;
     }
 
 }
