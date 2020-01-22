@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class CharacterCustomizer : MonoBehaviour
 {
     public enum Type
@@ -19,19 +18,23 @@ public class CharacterCustomizer : MonoBehaviour
 
     [SerializeField]
     private int m_AccessoryIndex = 0;
+    private int m_CurrentAccessoryIndex = -1;
     [SerializeField]
     private int m_CostumeIndex = 0;
+    private int m_CurrentCostumeIndex = -1;
     [SerializeField]
     private int m_FaceIndex = 0;
+    private int m_CurrentFaceIndex = -1;
     [SerializeField]
     private int m_HairIndex = 0;
+    private int m_CurrentHairIndex = -1;
     [SerializeField]
     private int m_EyeIndex = 0;
+    private int m_CurrentEyeIndex = -1;
 
     [SerializeField]
     private GameObject m_CurrentHair, m_CurrentAccessory, m_CurrentCostume, m_CurrentFace, m_CurrentEyes;
 
-    private Animator m_Animator;
     private Avatar m_Avatar;
 
     private GameObject[] m_AccessoryLibrary;
@@ -52,7 +55,6 @@ public class CharacterCustomizer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_Animator = GetComponent<Animator>();
         m_AccessoryLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Accessory");
         m_CostumeLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Costume");
         m_FaceLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Face");
@@ -66,25 +68,6 @@ public class CharacterCustomizer : MonoBehaviour
         m_EyeIndex = m_EyeIndex >= m_EyeLibrary.Length ? 0 : m_EyeIndex;
 
         SetHair(m_HairIndex);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            SetHair(m_HairIndex++);
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            SetAccessory(m_AccessoryIndex++);
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            SetCostume(m_CostumeIndex++);
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-            SetFace(m_FaceIndex++);
-
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            SetEyes(m_EyeIndex++);
     }
 
     private void CacheSkeletalTransform()
@@ -122,6 +105,9 @@ public class CharacterCustomizer : MonoBehaviour
      */
     public void SetHair(int index)
     {
+        if (index == m_CurrentHairIndex)
+            return;
+
         GameObject newHair = Instantiate(m_HairLibrary[index % m_HairLibrary.Length]);
         newHair.transform.parent = m_CurrentHair.transform.parent;
         newHair.transform.position = m_CurrentHair.transform.position;
@@ -129,28 +115,45 @@ public class CharacterCustomizer : MonoBehaviour
         newHair.transform.localScale = m_CurrentHair.transform.localScale;
         Destroy(m_CurrentHair);
         m_CurrentHair = newHair;
+        m_CurrentHairIndex = index;
     }
 
     public void SetAccessory(int index)
     {
+        if (index == m_CurrentAccessoryIndex)
+            return;
+
         GameObject newAccessory = Set(Type.TYPE_ACCESSORY, index, m_AccessoryLibrary, m_CurrentAccessory);
         m_CurrentAccessory = newAccessory;
+        m_CurrentAccessoryIndex = index;
     }
 
     public void SetCostume(int index)
     {
+        if (index == m_CurrentCostumeIndex)
+            return;
+
         GameObject newObj = Set(Type.TYPE_COSTUME, index, m_CostumeLibrary, m_CurrentCostume);
         m_CurrentCostume = newObj;
+        m_CurrentCostumeIndex = index;
     }
     public void SetEyes(int index)
     {
+        if (index == m_CurrentEyeIndex)
+            return;
+
         GameObject newObj = Set(Type.TYPE_EYE, index, m_EyeLibrary, m_CurrentEyes);
         m_CurrentEyes = newObj;
+        m_CurrentEyeIndex = index;
     }
     public void SetFace(int index)
     {
+        if (index == m_CurrentFaceIndex)
+            return;
+
         GameObject newObj = Set(Type.TYPE_FACE, index, m_FaceLibrary, m_CurrentFace);
         m_CurrentFace = newObj;
+        m_CurrentFaceIndex = index;
     }
 
     protected GameObject Set(Type type, int index, GameObject[] assetLibrary, GameObject currentObj)

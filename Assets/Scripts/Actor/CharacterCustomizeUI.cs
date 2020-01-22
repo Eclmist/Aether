@@ -10,14 +10,22 @@ public class CharacterCustomizeUI : MonoBehaviour
     private Animator[] m_Animators;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         m_Animators = new Animator[m_ExpansionMenus.Length];
 
         for (int i = 0; i < m_ExpansionMenus.Length; ++i)
             m_Animators[i] = m_ExpansionMenus[i].GetComponent<Animator>();
+    }
 
-        Open(0);
+    protected void Update()
+    {
+
+    }
+
+    private void SetupNavigationGroup(GameObject group)
+    {
+
     }
 
     public void Open(int index)
