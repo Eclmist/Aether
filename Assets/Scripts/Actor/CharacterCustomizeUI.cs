@@ -35,6 +35,8 @@ public class CharacterCustomizeUI : MonoBehaviour
             m_Animators[i] = m_ExpansionGroups[i].m_ExpansionMenu.GetComponent<Animator>();
             m_NavGroups[i] = m_ExpansionGroups[i].m_ExpansionMenu.GetComponent<NavigationGroup>();
         }
+
+        Open(0);
     }
 
     public void Close(int index)
