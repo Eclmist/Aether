@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationLookat : MonoBehaviour
@@ -13,6 +14,9 @@ public class PlayerAnimationLookat : MonoBehaviour
 
     [SerializeField]
     private LookAtType m_LookAtType = LookAtType.LOOKAT_CAMERADIR;
+
+    [SerializeField]
+    private bool m_LookatDamping = false;
 
     [SerializeField]
     [Range(0, 1)]
@@ -53,6 +57,8 @@ public class PlayerAnimationLookat : MonoBehaviour
 
     private float m_LookAtWeightCache = 1;
 
+    private Vector3 m_MousePosDampingCache;
+
     void Start()
     {
         m_Animator = GetComponent<Animator>();
@@ -80,8 +86,31 @@ public class PlayerAnimationLookat : MonoBehaviour
                 lookat = m_EyePosition.position + Camera.main.transform.forward * m_Distance;
                 break;
             case LookAtType.LOOKAT_MOUSEPOS:
+                // Mouse
                 Vector3 mouse = Input.mousePosition;
+
+                // Handle Gamepad if any
+                Gamepad currentGamepad = Gamepad.current;   
+                if (currentGamepad != null)
+                {
+                    Vector2 rightStick = currentGamepad.rightStick.ReadValue();
+                    if (rightStick.magnitude > 0)
+                    {
+                        mouse = rightStick;
+                        mouse.x = (mouse.x + 1) * (Screen.width / 2);
+                        mouse.y = (mouse.y + 1) * (Screen.height / 2);
+                    }
+                }
+
                 mouse.z = 3;
+
+                // Do damping if necessary
+                if (m_LookatDamping)
+                {
+                    m_MousePosDampingCache = Vector3.Lerp(m_MousePosDampingCache, mouse, Time.deltaTime * 10);
+                    mouse = m_MousePosDampingCache;
+                }
+                   
                 Vector3 dir = Camera.main.ScreenToWorldPoint(mouse) - m_EyePosition.position;
                 lookat = m_EyePosition.position + dir.normalized * m_Distance;
                 break;
