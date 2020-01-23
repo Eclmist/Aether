@@ -62,7 +62,7 @@ public class RevealableTerrain : MonoBehaviour
                 continue;
 
             atLeastOneVertUpdated = true;
-            m_VertexColors[i] = Color32.Lerp(m_VertexColors[i], m_TargetVertexColors[i], Time.deltaTime * 1.5f);
+            m_VertexColors[i] = Color32.Lerp(m_VertexColors[i], m_TargetVertexColors[i], Time.deltaTime * 2.0f);
         }
 
         if (!atLeastOneVertUpdated)
