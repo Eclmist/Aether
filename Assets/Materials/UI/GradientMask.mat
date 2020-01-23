@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snow
-  m_Shader: {fileID: -6465566751694194690, guid: c3a61f64d7d331841869d2f76d090226,
+  m_Name: GradientMask
+  m_Shader: {fileID: -6465566751694194690, guid: a1dfed88d8158514fb4062a0a4ccd743,
     type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _BLENDMODE_ADD _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
-  m_LightmapFlags: 0
-  m_EnableInstancingVariants: 1
+  m_ShaderKeywords: _BLENDMODE_ALPHA _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
@@ -25,12 +25,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_23DD87FD:
-        m_Texture: {fileID: 2800000, guid: 0e8b7c66819a71140a05f78f166d6bbf, type: 3}
+    - Texture2D_8FEEBB68:
+        m_Texture: {fileID: 2800000, guid: 6266295bf0a253b4483cb43018cc8876, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_8FEEBB68:
-        m_Texture: {fileID: 2800000, guid: 0e8b7c66819a71140a05f78f166d6bbf, type: 3}
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -86,14 +86,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6266295bf0a253b4483cb43018cc8876, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -130,24 +126,25 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _UnlitColorMap:
-        m_Texture: {fileID: 2800000, guid: 0e8b7c66819a71140a05f78f166d6bbf, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - PixelSnap: 0
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
     - _AlphaCutoff: 0.5
-    - _AlphaCutoffEnable: 1
+    - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
     - _AlphaCutoffShadow: 0.5
-    - _AlphaDstBlend: 1
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _Anisotropy: 0
-    - _BlendMode: 1
+    - _BlendMode: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -189,18 +186,18 @@ Material:
     - _DistortionVectorScale: 2
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
-    - _DstBlend: 1
+    - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
     - _EmissiveIntensityUnit: 0
     - _EnableBlendModePreserveSpecularLighting: 1
+    - _EnableExternalAlpha: 0
     - _EnableFogOnTransparent: 1
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
     - _FlipbookMode: 0
-    - _Glossiness: 0.5
     - _HdrpVersion: 2
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
@@ -216,7 +213,7 @@ Material:
     - _Ior: 1.5
     - _IridescenceMask: 1
     - _IridescenceThickness: 1
-    - _LightingEnabled: 1
+    - _LightingEnabled: 0
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
     - _Metallic: 0
@@ -272,26 +269,31 @@ Material:
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 4
-    - _ZTestGBuffer: 3
+    - _ZTestGBuffer: 4
     - _ZTestModeDistortion: 4
     - _ZTestTransparent: 4
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
-    - Color_5B0ACD4A: {r: 0, g: 0, b: 0, a: 0}
+    - Color_5B0ACD4A: {r: 1, g: 0.0047169924, b: 0.0047169924, a: 0}
     - Vector2_4F8D01F9: {r: 0, g: 1, b: 0, a: 0}
-    - Vector2_D0C9AA28: {r: 1, g: 2, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 0.6392157}
+    - _Color1In: {r: 1, g: 1, b: 1, a: 0.8078431}
+    - _Color1in: {r: 1, g: 1, b: 1, a: 0.8078431}
     - _ColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _ColorTint: {r: 1, g: 1, b: 1, a: 0.77254903}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.8, g: 0.8, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -300,7 +302,7 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
     - _UnlitColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &1362030593658509331
+--- !u!114 &569753082715601469
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
