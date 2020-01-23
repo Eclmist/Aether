@@ -208,6 +208,21 @@ public class CharacterCustomizer : MonoBehaviour
         m_AccessoryIndex = PlayerPrefs.GetInt("CharacterCustomization.AccessoryType", 0);
     }
 
+    public void Randomize()
+    {
+        m_AccessoryIndex = Random.Range(0, m_AccessoryLibrary.Length);
+        m_HairIndex = Random.Range(0, m_HairLibrary.Length);
+        m_EyeIndex = Random.Range(0, m_EyeLibrary.Length);
+        m_FaceIndex = Random.Range(0, m_FaceLibrary.Length);
+        m_CostumeIndex = Random.Range(0, m_CostumeLibrary.Length);
+
+        SetHair(m_HairIndex);
+        SetEyes(m_EyeIndex);
+        SetFace(m_FaceIndex);
+        SetCostume(m_CostumeIndex);
+        SetAccessory(m_AccessoryIndex);
+    }
+
     public void Save()
     {
         Debug.Log("Character Customization Saved");
