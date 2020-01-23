@@ -26,6 +26,9 @@ public class CharacterCustomizer : MonoBehaviour
     [SerializeField]
     private GameObject m_CurrentHair, m_CurrentAccessory, m_CurrentCostume, m_CurrentFace, m_CurrentEyes;
 
+    [SerializeField]
+    private bool m_DemoHairPhysics = false;
+
     private Avatar m_Avatar;
 
     private GameObject[] m_AccessoryLibrary;
@@ -109,6 +112,12 @@ public class CharacterCustomizer : MonoBehaviour
         newHair.transform.position = m_CurrentHair.transform.position;
         newHair.transform.localRotation = m_CurrentHair.transform.localRotation;
         newHair.transform.localScale = m_CurrentHair.transform.localScale;
+
+        // Exaggerate hair physics for demo purposes. This should only be enabled
+        // when the character's range of movement is restricted (for eg. in the lobby)
+        if (m_DemoHairPhysics)
+            newHair.GetComponent<UnityChan.SpringManager>().dynamicRatio = 1;
+
         Destroy(m_CurrentHair);
         m_CurrentHair = newHair;
         m_CurrentHairIndex = index;
