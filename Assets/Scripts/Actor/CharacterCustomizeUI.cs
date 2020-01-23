@@ -24,9 +24,12 @@ public class CharacterCustomizeUI : MonoBehaviour
 
     private int m_CurrentSelectedIndex = 0;
 
+    private RectTransform m_RectTransform;
+
     // Start is called before the first frame update
     protected void Start()
     {
+        m_RectTransform = GetComponent<RectTransform>();
         m_Animators = new Animator[m_ExpansionGroups.Length];
         m_NavGroups = new NavigationGroup[m_ExpansionGroups.Length];
 
