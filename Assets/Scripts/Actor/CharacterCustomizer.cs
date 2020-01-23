@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class CharacterCustomizer : MonoBehaviour
 {
-    public enum Type
-    {
-        TYPE_ACCESSORY,
-        TYPE_COSTUME,
-        TYPE_FACE,
-        TYPE_HAIR,
-        TYPE_EYE
-    }
-
     [SerializeField]
     private Transform m_SkeletalRoot;
 
@@ -50,6 +41,7 @@ public class CharacterCustomizer : MonoBehaviour
     private void Awake()
     {
         CacheSkeletalTransform();
+        SetupLastKnownSelections();
     }
 
     // Start is called before the first frame update
@@ -68,6 +60,10 @@ public class CharacterCustomizer : MonoBehaviour
         m_EyeIndex = m_EyeIndex >= m_EyeLibrary.Length ? 0 : m_EyeIndex;
 
         SetHair(m_HairIndex);
+        SetEyes(m_EyeIndex);
+        SetFace(m_FaceIndex);
+        SetCostume(m_CostumeIndex);
+        SetAccessory(m_AccessoryIndex);
     }
 
     private void CacheSkeletalTransform()
@@ -123,7 +119,7 @@ public class CharacterCustomizer : MonoBehaviour
         if (index == m_CurrentAccessoryIndex)
             return;
 
-        GameObject newAccessory = Set(Type.TYPE_ACCESSORY, index, m_AccessoryLibrary, m_CurrentAccessory);
+        GameObject newAccessory = Set(index, m_AccessoryLibrary, m_CurrentAccessory);
         m_CurrentAccessory = newAccessory;
         m_CurrentAccessoryIndex = index;
     }
@@ -133,7 +129,7 @@ public class CharacterCustomizer : MonoBehaviour
         if (index == m_CurrentCostumeIndex)
             return;
 
-        GameObject newObj = Set(Type.TYPE_COSTUME, index, m_CostumeLibrary, m_CurrentCostume);
+        GameObject newObj = Set(index, m_CostumeLibrary, m_CurrentCostume);
         m_CurrentCostume = newObj;
         m_CurrentCostumeIndex = index;
     }
@@ -142,7 +138,7 @@ public class CharacterCustomizer : MonoBehaviour
         if (index == m_CurrentEyeIndex)
             return;
 
-        GameObject newObj = Set(Type.TYPE_EYE, index, m_EyeLibrary, m_CurrentEyes);
+        GameObject newObj = Set(index, m_EyeLibrary, m_CurrentEyes);
         m_CurrentEyes = newObj;
         m_CurrentEyeIndex = index;
     }
@@ -151,12 +147,12 @@ public class CharacterCustomizer : MonoBehaviour
         if (index == m_CurrentFaceIndex)
             return;
 
-        GameObject newObj = Set(Type.TYPE_FACE, index, m_FaceLibrary, m_CurrentFace);
+        GameObject newObj = Set(index, m_FaceLibrary, m_CurrentFace);
         m_CurrentFace = newObj;
         m_CurrentFaceIndex = index;
     }
 
-    protected GameObject Set(Type type, int index, GameObject[] assetLibrary, GameObject currentObj)
+    protected GameObject Set(int index, GameObject[] assetLibrary, GameObject currentObj)
     {
         if (assetLibrary.Length <= 0)
             return null;
@@ -191,5 +187,25 @@ public class CharacterCustomizer : MonoBehaviour
 
         Destroy(currentObj);
         return newObj;
+    }
+
+    private void SetupLastKnownSelections()
+    {
+        Debug.Log("Character Customization Settings Loaded");
+        m_HairIndex      = PlayerPrefs.GetInt("CharacterCustomization.HairType", 0);
+        m_EyeIndex       = PlayerPrefs.GetInt("CharacterCustomization.EyeType", 0);
+        m_FaceIndex      = PlayerPrefs.GetInt("CharacterCustomization.FaceType", 0);
+        m_CostumeIndex   = PlayerPrefs.GetInt("CharacterCustomization.CostumeType", 0);
+        m_AccessoryIndex = PlayerPrefs.GetInt("CharacterCustomization.AccessoryType", 0);
+    }
+
+    public void Save()
+    {
+        Debug.Log("Character Customization Saved");
+        PlayerPrefs.SetInt("CharacterCustomization.HairType", m_CurrentHairIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.EyeType", m_CurrentEyeIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.FaceType", m_CurrentFaceIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.CostumeType", m_CurrentCostumeIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.AccessoryType", m_CurrentAccessoryIndex);
     }
 }

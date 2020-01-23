@@ -49,8 +49,6 @@ public class PlayerAnimationLookat : MonoBehaviour
     [SerializeField]
     private Transform m_EyePosition = null;
 
-    public float temp = 1;
-
     private Animator m_Animator;
 
     private float m_LookAtWeightCache = 1;
@@ -83,7 +81,7 @@ public class PlayerAnimationLookat : MonoBehaviour
                 break;
             case LookAtType.LOOKAT_MOUSEPOS:
                 Vector3 mouse = Input.mousePosition;
-                mouse.z = temp;
+                mouse.z = 3;
                 Vector3 dir = Camera.main.ScreenToWorldPoint(mouse) - m_EyePosition.position;
                 lookat = m_EyePosition.position + dir.normalized * m_Distance;
                 break;
