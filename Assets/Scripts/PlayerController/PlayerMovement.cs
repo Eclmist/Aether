@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     private float m_Gravity = -9.8f;
 
     [SerializeField]
+    private float m_FallingGravityMultiplier = 2.0f;
+
+    [SerializeField]
     private float m_JumpHeight = 1.3f;
 
     private CharacterController m_CharacterController;
@@ -65,7 +68,9 @@ public class PlayerMovement : MonoBehaviour
         HandleGravity();
         HandleMovement();
 
-        m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * Time.deltaTime, m_Velocity.z));
+        float t = Time.deltaTime;
+        float t2 = t * t;
+        m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
     }
 
     private void LateUpdate()
@@ -75,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleGravity()
     {
-        m_Velocity.y += m_Gravity * Time.deltaTime;
+        m_Velocity.y += GetGravityMagnitude() * Time.deltaTime;
     }
     
     private void HandleMovement()
@@ -118,6 +123,11 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetVelocity()
     {
         return m_Velocity;
+    }
+
+    public float GetGravityMagnitude()
+    {
+        return m_Gravity * (m_Velocity.y >= 0 ? 1 : m_FallingGravityMultiplier);
     }
 
     public bool IsRecoveringFromFall()
