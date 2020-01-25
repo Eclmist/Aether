@@ -12,16 +12,13 @@ public class ClientServerTogglables : MonoBehaviour
     public GameObject m_NetworkTogglable;
     public Component[] m_NetworkTogglableScripts;
 
-    public void Init()
-    {
-        m_NetworkTogglable.SetActive(false);
-    }
-
     public void UpdateOwner(bool isOwner)
     {
-
         if (isOwner)
+        {
             Destroy(m_NetworkTogglable);
+            m_LocalTogglable.SetActive(true);
+        }
         else
         {
             Destroy(m_LocalTogglable);

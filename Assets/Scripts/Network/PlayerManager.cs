@@ -18,6 +18,10 @@ public class PlayerManager : MonoBehaviour
             Vector3 spawnPosition = Vector3.one;
             localPlayer = NetworkManager.Instance.InstantiatePlayer(position: spawnPosition);
         }
+        else
+        {
+            localPlayer = FindObjectOfType<PlayerBehavior>();
+        }
     }
 
     public static PlayerBehavior GetLocalPlayerInstance()

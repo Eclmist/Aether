@@ -7,18 +7,21 @@ public class CinemachineTargetting : MonoBehaviour
 {
     private CinemachineVirtualCameraBase m_VirtualCam;
 
-    void Start()
+    private bool m_FirstRun = true;
+
+    void Awake()
     {
         m_VirtualCam = GetComponent<CinemachineVirtualCameraBase>();
     }
 
     void Update()
     {
-        if (m_VirtualCam.Follow == null && m_VirtualCam.LookAt == null)
+        if (m_FirstRun)
         {
             Transform playerTransform = PlayerManager.GetLocalPlayerInstance().transform;
             m_VirtualCam.Follow = playerTransform;
             m_VirtualCam.LookAt = playerTransform;
+            m_FirstRun = false;
         }
     }
 }

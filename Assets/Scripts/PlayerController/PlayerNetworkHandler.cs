@@ -14,16 +14,8 @@ public class PlayerNetworkHandler : PlayerBehavior
         m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
     }
 
-    private void Start()
+    void Awake()
     {
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
-        m_ClientServerTogglables.Init();
-    }
-
-    void Update() {
-        if (networkObject != null && !networkObject.IsOwner) {
-            // put here for convenience, rather than an additional network movement class
-            transform.position = networkObject.position;
-        }
     }
 }
