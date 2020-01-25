@@ -8,34 +8,30 @@ public class CharacterCustomizer : MonoBehaviour
     private Transform m_SkeletalRoot;
 
     [SerializeField]
-    private int m_AccessoryIndex = 0;
-    private int m_CurrentAccessoryIndex = -1;
-    [SerializeField]
-    private int m_CostumeIndex = 0;
-    private int m_CurrentCostumeIndex = -1;
-    [SerializeField]
-    private int m_FaceIndex = 0;
-    private int m_CurrentFaceIndex = -1;
-    [SerializeField]
-    private int m_HairIndex = 0;
-    private int m_CurrentHairIndex = -1;
-    [SerializeField]
-    private int m_EyeIndex = 0;
-    private int m_CurrentEyeIndex = -1;
-
-    [SerializeField]
     private GameObject m_CurrentHair, m_CurrentAccessory, m_CurrentCostume, m_CurrentFace, m_CurrentEyes;
+    private Material m_CostumeColor, m_EyeColor, m_HairColor;
 
     [SerializeField]
     private bool m_DemoHairPhysics = false;
 
-    private Avatar m_Avatar;
+    private int m_AccessoryIndex = 0;
+    private int m_CostumeIndex = 0;
+    private int m_CostumeColorIndex = 0;
+    private int m_FaceIndex = 0;
+    private int m_HairIndex = 0;
+    private int m_HairColorIndex = 0;       // Not supported yet
+    private int m_EyeIndex = 0;             // Not supported yet
+    private int m_EyeColorIndex = 0;
 
     private GameObject[] m_AccessoryLibrary;
     private GameObject[] m_CostumeLibrary;
     private GameObject[] m_FaceLibrary;
     private GameObject[] m_HairLibrary;
     private GameObject[] m_EyeLibrary;
+
+    private Material[] m_EyeColorLibrary;
+    private Material[] m_HairColorLibrary;
+    private Material[] m_CostumeColorLibrary;
 
     private bool m_RequiresUpdate = true;
     private Dictionary<string, Transform> m_SkeletonCache = new Dictionary<string, Transform>();
@@ -56,17 +52,18 @@ public class CharacterCustomizer : MonoBehaviour
         m_HairLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Hair");
         m_EyeLibrary = Resources.LoadAll<GameObject>("CharacterCustomizer/Eye");
 
-        m_AccessoryIndex = m_AccessoryIndex >= m_AccessoryLibrary.Length ? 0 : m_AccessoryIndex;
-        m_CostumeIndex = m_CostumeIndex >= m_CostumeLibrary.Length ? 0 : m_CostumeIndex;
-        m_FaceIndex = m_FaceIndex >= m_FaceLibrary.Length ? 0 : m_FaceIndex;
-        m_HairIndex = m_HairIndex >= m_HairLibrary.Length ? 0 : m_HairIndex;
-        m_EyeIndex = m_EyeIndex >= m_EyeLibrary.Length ? 0 : m_EyeIndex;
+        m_CostumeColorLibrary = Resources.LoadAll<Material>("CharacterCustomizer/Costume/Material");
+        m_HairColorLibrary = Resources.LoadAll<Material>("CharacterCustomizer/Hair/Material");
+        m_EyeColorLibrary = Resources.LoadAll<Material>("CharacterCustomizer/Eye/Material");
 
-        SetHair(m_HairIndex);
-        SetEyes(m_EyeIndex);
-        SetFace(m_FaceIndex);
-        SetCostume(m_CostumeIndex);
-        SetAccessory(m_AccessoryIndex);
+        m_AccessoryIndex = m_AccessoryIndex >= m_AccessoryLibrary.Length ? 0 : m_AccessoryIndex;
+        m_FaceIndex = m_FaceIndex >= m_FaceLibrary.Length ? 0 : m_FaceIndex;
+        m_CostumeIndex = m_CostumeIndex >= m_CostumeLibrary.Length ? 0 : m_CostumeIndex;
+        m_CostumeColorIndex = m_CostumeColorIndex >= m_CostumeColorLibrary.Length ? 0 : m_CostumeColorIndex;
+        m_HairColorIndex = m_HairColorIndex >= m_HairColorLibrary.Length ? 0 : m_HairColorIndex;
+        m_EyeColorIndex = m_EyeColorIndex >= m_EyeColorLibrary.Length ? 0 : m_EyeColorIndex;
+
+        RefreshAll();
     }
 
     private void CacheSkeletalTransform()
@@ -104,9 +101,6 @@ public class CharacterCustomizer : MonoBehaviour
      */
     public void SetHair(int index)
     {
-        if (index == m_CurrentHairIndex)
-            return;
-
         GameObject newHair = Instantiate(m_HairLibrary[index % m_HairLibrary.Length]);
         newHair.transform.parent = m_CurrentHair.transform.parent;
         newHair.transform.position = m_CurrentHair.transform.position;
@@ -120,49 +114,46 @@ public class CharacterCustomizer : MonoBehaviour
 
         Destroy(m_CurrentHair);
         m_CurrentHair = newHair;
-        m_CurrentHairIndex = index;
+        m_HairIndex = index;
+        SetHairColor(m_HairColorIndex);
     }
 
     public void SetAccessory(int index)
     {
-        if (index == m_CurrentAccessoryIndex)
-            return;
-
         GameObject newAccessory = Set(index, m_AccessoryLibrary, m_CurrentAccessory);
         m_CurrentAccessory = newAccessory;
-        m_CurrentAccessoryIndex = index;
+        m_AccessoryIndex = index;
     }
 
     public void SetCostume(int index)
     {
-        if (index == m_CurrentCostumeIndex)
-            return;
-
         GameObject newObj = Set(index, m_CostumeLibrary, m_CurrentCostume);
         m_CurrentCostume = newObj;
-        m_CurrentCostumeIndex = index;
+        m_CostumeIndex = index;
+        SetCostumeColor(m_CostumeColorIndex);
     }
     public void SetEyes(int index)
     {
-        if (index == m_CurrentEyeIndex)
-            return;
-
         GameObject newObj = Set(index, m_EyeLibrary, m_CurrentEyes);
+        // TEMP:
+        if (newObj == null)
+            return;
         m_CurrentEyes = newObj;
-        m_CurrentEyeIndex = index;
+        m_EyeIndex = index;
+        SetEyeColor(m_EyeColorIndex);
     }
     public void SetFace(int index)
     {
-        if (index == m_CurrentFaceIndex)
-            return;
-
         GameObject newObj = Set(index, m_FaceLibrary, m_CurrentFace);
         m_CurrentFace = newObj;
-        m_CurrentFaceIndex = index;
+        m_FaceIndex = index;
     }
 
     protected GameObject Set(int index, GameObject[] assetLibrary, GameObject currentObj)
     {
+        if (index < 0)
+            return null;
+
         if (assetLibrary.Length <= 0)
             return null;
 
@@ -201,11 +192,14 @@ public class CharacterCustomizer : MonoBehaviour
     private void SetupLastKnownSelections()
     {
         Debug.Log("Character Customization Settings Loaded");
-        m_HairIndex      = PlayerPrefs.GetInt("CharacterCustomization.HairType", 0);
-        m_EyeIndex       = PlayerPrefs.GetInt("CharacterCustomization.EyeType", 0);
-        m_FaceIndex      = PlayerPrefs.GetInt("CharacterCustomization.FaceType", 0);
-        m_CostumeIndex   = PlayerPrefs.GetInt("CharacterCustomization.CostumeType", 0);
-        m_AccessoryIndex = PlayerPrefs.GetInt("CharacterCustomization.AccessoryType", 0);
+        m_HairIndex             = PlayerPrefs.GetInt("CharacterCustomization.HairType", 0);
+        m_EyeIndex              = PlayerPrefs.GetInt("CharacterCustomization.EyeType", 0);
+        m_FaceIndex             = PlayerPrefs.GetInt("CharacterCustomization.FaceType", 0);
+        m_CostumeIndex          = PlayerPrefs.GetInt("CharacterCustomization.CostumeType", 0);
+        m_AccessoryIndex        = PlayerPrefs.GetInt("CharacterCustomization.AccessoryType", 0);
+        m_CostumeColorIndex     = PlayerPrefs.GetInt("CharacterCustomization.Costume.Color", 0);
+        m_HairColorIndex        = PlayerPrefs.GetInt("CharacterCustomization.Hair.Color", 0);
+        m_EyeColorIndex         = PlayerPrefs.GetInt("CharacterCustomization.Eye.Color", 0);
     }
 
     public void Randomize()
@@ -216,20 +210,66 @@ public class CharacterCustomizer : MonoBehaviour
         m_FaceIndex = Random.Range(0, m_FaceLibrary.Length);
         m_CostumeIndex = Random.Range(0, m_CostumeLibrary.Length);
 
-        SetHair(m_HairIndex);
-        SetEyes(m_EyeIndex);
-        SetFace(m_FaceIndex);
-        SetCostume(m_CostumeIndex);
-        SetAccessory(m_AccessoryIndex);
+        m_CostumeColorIndex = Random.Range(0, m_CostumeColorLibrary.Length);
+        m_HairColorIndex = Random.Range(0, m_HairColorLibrary.Length);
+        m_EyeColorIndex = Random.Range(0, m_EyeColorLibrary.Length);
+
+        RefreshAll();
     }
 
     public void Save()
     {
         Debug.Log("Character Customization Saved");
-        PlayerPrefs.SetInt("CharacterCustomization.HairType", m_CurrentHairIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.EyeType", m_CurrentEyeIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.FaceType", m_CurrentFaceIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.CostumeType", m_CurrentCostumeIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.AccessoryType", m_CurrentAccessoryIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.HairType", m_HairIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.EyeType", m_EyeIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.FaceType", m_FaceIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.CostumeType", m_CostumeIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.AccessoryType", m_AccessoryIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.Hair.Color", m_HairColorIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.Eye.Color", m_EyeColorIndex);
+        PlayerPrefs.SetInt("CharacterCustomization.Costume.Color", m_CostumeColorIndex);
     }
+
+    public void SetHairColor(int index)
+    {
+    }
+
+    public void SetEyeColor(int index)
+    {
+        SetMaterial(index, m_EyeColorLibrary, m_CurrentEyes);
+        m_EyeColorIndex = index;
+    }
+
+    public void SetCostumeColor(int index)
+    {
+        SetMaterial(index, m_CostumeColorLibrary, m_CurrentCostume);
+        m_CostumeColorIndex = index;
+    }
+
+    private void SetMaterial(int index, Material[] assetLibrary, GameObject currentObj)
+    {
+        if (index < 0)
+            return;
+
+        if (assetLibrary.Length <= 0)
+            return;
+
+        if (index >= assetLibrary.Length)
+            index = index % assetLibrary.Length;
+
+        currentObj.GetComponent<SkinnedMeshRenderer>().material = assetLibrary[index];
+    }
+
+    private void RefreshAll()
+    {
+        SetHair(m_HairIndex);
+        SetEyes(m_EyeIndex);
+        SetCostume(m_CostumeIndex);
+        SetFace(m_FaceIndex);
+        SetAccessory(m_AccessoryIndex);
+        SetHairColor(m_HairColorIndex);
+        SetEyeColor(m_EyeColorIndex);
+        SetCostumeColor(m_CostumeColorIndex);
+    }
+
 }
