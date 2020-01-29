@@ -1,0 +1,389 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		750575B4214B38CE004B1B34 /* UnityPlayer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 750575B3214B38CE004B1B34 /* UnityPlayer.dylib */; };
+		750575B5214B3DF2004B1B34 /* UnityPlayer.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 750575B3214B38CE004B1B34 /* UnityPlayer.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		752CA83E2149E6C400295EFC /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 752CA83D2149E6C400295EFC /* Main.cpp */; };
+		75498DD1217179CB003C00F7 /* libcrypto.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 75498D912171583C003C00F7 /* libcrypto.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		75498DD2217179CE003C00F7 /* libssl.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 75498D9321715842003C00F7 /* libssl.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		75D2DE1F2175685A0038651C /* unity default resources in Resources */ = {isa = PBXBuildFile; fileRef = 75D2DE1E2175685A0038651C /* unity default resources */; };
+		75D4238E2153338200782C91 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D4238B2153338200782C91 /* MainMenu.xib */; };
+		75E7179121715210002B2479 /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 75E7178E21715210002B2479 /* DefaultPreferences.plist */; };
+		75E7179221715210002B2479 /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 75E7178F21715210002B2479 /* Data */; };
+		75E7179321715210002B2479 /* PlayerIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 75E7179021715210002B2479 /* PlayerIcon.icns */; };
+		7B624EA7B097223F6FF98538 /* MonoBleedingEdge in CopyFiles */ = {isa = PBXBuildFile; fileRef = D380401FA59970349BE6E87F /* MonoBleedingEdge */; };
+		80FB47FA953369CBC413C4EA /* libmonobdwgc-2.0.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 62BF4FFB9DACC3DCECA86122 /* libmonobdwgc-2.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B5DD4DE49D2ADCD791CA420D /* libMonoPosixHelper.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65FF4693902D28854DCC622C /* libMonoPosixHelper.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		03484C08AC781EC31C582C62 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents;
+			dstSubfolderSpec = 1;
+			files = (
+				7B624EA7B097223F6FF98538 /* MonoBleedingEdge in CopyFiles */,
+			);
+			name = CopyFiles;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		750575B6214B3DF2004B1B34 /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				750575B5214B3DF2004B1B34 /* UnityPlayer.dylib in Embed Libraries */,
+				75498DD1217179CB003C00F7 /* libcrypto.dylib in Embed Libraries */,
+				75498DD2217179CE003C00F7 /* libssl.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E604FED8A09B1CB2674D96F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				80FB47FA953369CBC413C4EA /* libmonobdwgc-2.0.dylib in Embed Frameworks */,
+				B5DD4DE49D2ADCD791CA420D /* libMonoPosixHelper.dylib in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		62BF4FFB9DACC3DCECA86122 /* libmonobdwgc-2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libmonobdwgc-2.0.dylib"; path = "Aether/Frameworks/libmonobdwgc-2.0.dylib"; sourceTree = SOURCE_ROOT; };
+		65FF4693902D28854DCC622C /* libMonoPosixHelper.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMonoPosixHelper.dylib; path = Aether/Frameworks/libMonoPosixHelper.dylib; sourceTree = SOURCE_ROOT; };
+		750575B3214B38CE004B1B34 /* UnityPlayer.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = UnityPlayer.dylib; path = Aether/Frameworks/UnityPlayer.dylib; sourceTree = "<group>"; };
+		752CA8282149E6C100295EFC /* Aether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aether.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		752CA83C2149E6C400295EFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		752CA83D2149E6C400295EFC /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		75498D912171583C003C00F7 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = Aether/Frameworks/libcrypto.dylib; sourceTree = "<group>"; };
+		75498D9321715842003C00F7 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = Aether/Frameworks/libssl.dylib; sourceTree = "<group>"; };
+		75D2DE1E2175685A0038651C /* unity default resources */ = {isa = PBXFileReference; lastKnownFileType = text; name = "unity default resources"; path = "Aether/Resources/unity default resources"; sourceTree = "<group>"; };
+		75D4238B2153338200782C91 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		75E7178E21715210002B2479 /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultPreferences.plist; path = Aether/Resources/DefaultPreferences.plist; sourceTree = "<group>"; };
+		75E7178F21715210002B2479 /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Data; path = Aether/Resources/Data; sourceTree = "<group>"; };
+		75E7179021715210002B2479 /* PlayerIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PlayerIcon.icns; path = Aether/Resources/PlayerIcon.icns; sourceTree = "<group>"; };
+		D380401FA59970349BE6E87F /* MonoBleedingEdge */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MonoBleedingEdge; path = Aether/MonoBleedingEdge; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		752CA8252149E6C100295EFC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				750575B4214B38CE004B1B34 /* UnityPlayer.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		262E463BB0B0972A56CD2B3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62BF4FFB9DACC3DCECA86122 /* libmonobdwgc-2.0.dylib */,
+				65FF4693902D28854DCC622C /* libMonoPosixHelper.dylib */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		750575B2214B38CE004B1B34 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				750575B3214B38CE004B1B34 /* UnityPlayer.dylib */,
+				75498D912171583C003C00F7 /* libcrypto.dylib */,
+				75498D9321715842003C00F7 /* libssl.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		752CA81F2149E6C100295EFC = {
+			isa = PBXGroup;
+			children = (
+				75E7179421715230002B2479 /* Resources */,
+				750575B2214B38CE004B1B34 /* Frameworks */,
+				752CA82A2149E6C100295EFC /* Aether */,
+				752CA8292149E6C100295EFC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		752CA8292149E6C100295EFC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				752CA8282149E6C100295EFC /* Aether.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		752CA82A2149E6C100295EFC /* Aether */ = {
+			isa = PBXGroup;
+			children = (
+				752CA83C2149E6C400295EFC /* Info.plist */,
+				752CA83D2149E6C400295EFC /* Main.cpp */,
+				75D4238B2153338200782C91 /* MainMenu.xib */,
+				262E463BB0B0972A56CD2B3F /* Frameworks */,
+				D380401FA59970349BE6E87F /* MonoBleedingEdge */,
+			);
+			path = Aether;
+			sourceTree = "<group>";
+		};
+		75E7179421715230002B2479 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				75E7178F21715210002B2479 /* Data */,
+				75E7178E21715210002B2479 /* DefaultPreferences.plist */,
+				75E7179021715210002B2479 /* PlayerIcon.icns */,
+				75D2DE1E2175685A0038651C /* unity default resources */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		752CA8272149E6C100295EFC /* Aether */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 752CA8422149E6C400295EFC /* Build configuration list for PBXNativeTarget "Aether" */;
+			buildPhases = (
+				752CA8242149E6C100295EFC /* Sources */,
+				752CA8252149E6C100295EFC /* Frameworks */,
+				752CA8262149E6C100295EFC /* Resources */,
+				750575B6214B3DF2004B1B34 /* Embed Libraries */,
+				7E604FED8A09B1CB2674D96F /* Embed Frameworks */,
+				03484C08AC781EC31C582C62 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Aether;
+			productName = Aether;
+			productReference = 752CA8282149E6C100295EFC /* Aether.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		752CA8202149E6C100295EFC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Unity Technologies";
+				TargetAttributes = {
+					752CA8272149E6C100295EFC = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 752CA8232149E6C100295EFC /* Build configuration list for PBXProject "Aether" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 752CA81F2149E6C100295EFC;
+			productRefGroup = 752CA8292149E6C100295EFC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				752CA8272149E6C100295EFC /* Aether */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		752CA8262149E6C100295EFC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75E7179121715210002B2479 /* DefaultPreferences.plist in Resources */,
+				75E7179221715210002B2479 /* Data in Resources */,
+				75D4238E2153338200782C91 /* MainMenu.xib in Resources */,
+				75E7179321715210002B2479 /* PlayerIcon.icns in Resources */,
+				75D2DE1F2175685A0038651C /* unity default resources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		752CA8242149E6C100295EFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				752CA83E2149E6C400295EFC /* Main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		752CA8402149E6C400295EFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		752CA8412149E6C400295EFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		752CA8432149E6C400295EFC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Aether/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.unity3d.Aether;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		752CA8442149E6C400295EFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Aether/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.unity3d.Aether;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		752CA8232149E6C100295EFC /* Build configuration list for PBXProject "Aether" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				752CA8402149E6C400295EFC /* Debug */,
+				752CA8412149E6C400295EFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		752CA8422149E6C400295EFC /* Build configuration list for PBXNativeTarget "Aether" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				752CA8432149E6C400295EFC /* Debug */,
+				752CA8442149E6C400295EFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 752CA8202149E6C100295EFC /* Project object */;
+}

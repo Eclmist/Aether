@@ -242,15 +242,18 @@ public class CharacterCustomizer : MonoBehaviour
 
     public void SetCostumeColor(int index)
     {
+        Debug.Log(index);
         SetMaterial(index, m_CostumeColorLibrary, m_CurrentCostume);
         m_CostumeColorIndex = index;
     }
 
     private void SetMaterial(int index, Material[] assetLibrary, GameObject currentObj)
     {
+        Debug.Log(index);
         if (index < 0)
             return;
 
+        Debug.Log(assetLibrary.Length);
         if (assetLibrary.Length <= 0)
             return;
 
