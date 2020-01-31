@@ -99,4 +99,14 @@ public class RevealableTerrain : MonoBehaviour
             }
         }
     }
+
+    public Vector3[] GetVertexPositions()
+    {
+        return m_WorldSpaceVertices;
+    }
+
+    public Color32[] GetVertexColors()
+    {
+        return m_VertexColors;
+    }
 }

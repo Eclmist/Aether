@@ -200,7 +200,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""id"": ""8c8e490b-c610-4785-884f-f04217b23ca4"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.02,y=0.04)"",
+                    ""processors"": ""ScaleVector2(x=0.1,y=0.2)"",
                     ""groups"": "";Keyboard&Mouse;Touch"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
