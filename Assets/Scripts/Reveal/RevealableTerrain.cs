@@ -89,7 +89,7 @@ public class RevealableTerrain : MonoBehaviour
             if (falloff != null)
                 amount = falloff.Evaluate(distance / radius) * 255;
             else
-                amount = (1 - distance / radius) * 255;
+                amount = (1 - Mathf.Pow(distance / radius, 4)) * 255;
 
             // Ignore falloff for now
             if (amount > currentAmount)
