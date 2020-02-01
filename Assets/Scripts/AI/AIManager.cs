@@ -6,19 +6,23 @@ using UnityEngine.AI;
 
 public class AiManager : MonoBehaviour
 {
-    public GameObject[] waypoints;
     private NavMeshAgent agent;
+    private Animator animator;
+    public Transform player;
 
     public void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
-    public GameObject[] Waypoints
+    public void OnTriggerEnter(Collider other)
     {
-        get => waypoints;
-        set => waypoints = value;
+        if (other.tag.Equals("Player"))
+        {
+            //alerts the animator if the player has entered the vicinity.
+            animator.SetBool("isSafe", false);
+        }
     }
-
     
 }
