@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject[] players, itemToBeSpawned;
     private PlayerMovement playerMovement;
     private int goalsScoredRed, goalsScoredBlue;
+    public int goalsToWin = 3;
 
     public Int32 GoalsScoredRed
     {
@@ -39,12 +40,39 @@ public class GameManager : Singleton<GameManager>
         SpawnItems();
     }
 
+    public void Scored(Boolean isTeamRed)
+    {
+        if (isTeamRed)
+        {
+            goalsScoredRed++;
+        }
+        else
+        {
+            goalsScoredBlue++;
+        }
+
+        CheckWin();
+    }
+
+    private void CheckWin()
+    {
+        if (goalsScoredRed >= goalsToWin)
+        {
+            Win(true);
+        } else if (goalsScoredBlue >= goalsToWin)
+        {
+            Win(false);
+        }
+    }
+    
+
+
     private void SpawnItems()
     {
         throw new NotImplementedException();
     }
     
-    public void Win()
+    public void Win(Boolean isTeamRed)
     {
         // winPanel.SetActive(true);
         // enabled = false;
