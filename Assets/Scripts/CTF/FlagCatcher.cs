@@ -24,9 +24,15 @@ public class FlagCatcher : MonoBehaviour
 
             if (manager != null && manager.CheckIfFlagInPosession())
             {
-                Debug.Log("You Win!");
+                IndicateVictory(c);
             }
         }
+    }
+
+    private void IndicateVictory(Collider c)
+    {
+        c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
+        c.GetComponent<PlayerMovement>().SetUnmovable(true); 
     }
 
 }

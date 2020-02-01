@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private float m_LandingTime = 0;
     private bool m_IsMidAir;
     private bool m_JumpedInCurrentFrame;
+    private bool m_cannotMove;
 
     void Start()
     {
@@ -70,7 +71,13 @@ public class PlayerMovement : MonoBehaviour
 
         float t = Time.deltaTime;
         float t2 = t * t;
-        m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
+
+        if (m_cannotMove)
+        {
+            m_CharacterController.Move(new Vector3(0, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, 0));
+        } else {
+            m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
+        }
     }
 
     private void LateUpdate()
@@ -111,6 +118,9 @@ public class PlayerMovement : MonoBehaviour
         if (IsRecoveringFromFall())
             return;
 
+        if (m_cannotMove)
+            return;
+
         m_JumpedInCurrentFrame = true;
         m_IsMidAir = true;
     }
@@ -143,6 +153,16 @@ public class PlayerMovement : MonoBehaviour
     public bool GetJumpedInCurrentFrame()
     {
         return m_JumpedInCurrentFrame;
+    }
+
+    public void SetUnmovable(bool boolean)
+    {
+        m_cannotMove = boolean;
+    }
+
+    public bool CheckIfUnmovable()
+    {
+        return m_cannotMove;
     }
 
     // This should be an animation callback for more visually appealing jumps
