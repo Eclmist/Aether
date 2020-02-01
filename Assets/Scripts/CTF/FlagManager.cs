@@ -6,14 +6,16 @@ using UnityEngine.InputSystem.Controls;
 
 public class FlagManager : MonoBehaviour
 {
-    private FlagIconToggler m_FlagIconToggler;
+    public GameObject m_FlagIconToggler;
+    private FlagIconToggler m_FlagToggle;
     public GameObject m_Flag;
     private bool m_IsFlagInPosession;
     // Start is called before the first frame update
     void Start()
     {
         AetherInput.GetPlayerActions().Fire.performed += HandleFlag;
-        m_FlagIconToggler = gameObject.GetComponentInChildren<FlagIconToggler>();
+        m_FlagToggle = m_FlagIconToggler.GetComponent<FlagIconToggler>();
+        Debug.Log(m_FlagToggle == null);
     }
 
     // Update is called once per frame
@@ -21,7 +23,7 @@ public class FlagManager : MonoBehaviour
     {
         if (m_IsFlagInPosession)
         {
-            m_FlagIconToggler.SetIcon();
+            m_FlagToggle.SetIcon();
         }
     }
 
@@ -35,7 +37,7 @@ public class FlagManager : MonoBehaviour
             return;
 
         m_IsFlagInPosession = false;
-        m_FlagIconToggler.ResetIcon();
+        m_FlagToggle.ResetIcon();
         Instantiate(m_Flag, transform.position+(transform.forward*2)+(transform.up), transform.rotation);
     }
 
