@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
-public class FlagPowerUp : MonoBehaviour
+public class FlagActor : MonoBehaviour
 {
     void OnTriggerEnter(Collider c) 
     {
@@ -27,4 +27,12 @@ public class FlagPowerUp : MonoBehaviour
         parentGameObject.GetComponent<AiActor>().SetInactive();
     }
 
+    public void LetGo()
+    {
+        GameObject parentGameObject = this.transform.parent.gameObject;
+        parentGameObject.transform.SetParent(null);
+        parentGameObject.transform.position = new Vector3();
+        parentGameObject.GetComponent<AiActor>().SetActive();
+    }
+    
 }

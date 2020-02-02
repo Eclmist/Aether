@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class FlagGoal : MonoBehaviour
 {
-
+    
     void OnTriggerEnter(Collider c) 
     {
         if (c.CompareTag("Player"))
@@ -22,7 +23,9 @@ public class FlagGoal : MonoBehaviour
     private void IndicateVictory(Collider c)
     {
         c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
-        c.GetComponent<PlayerMovement>().SetUnmovable(true); 
+        //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
+        GameManager.Instance.Scored(true);
+        c.GetComponentInChildren<FlagActor>().LetGo();
     }
 
 }

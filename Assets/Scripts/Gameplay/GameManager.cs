@@ -69,7 +69,6 @@ public class GameManager : Singleton<GameManager>
 
     private void SpawnItems()
     {
-        throw new NotImplementedException();
     }
     
     public void Win(Boolean isTeamRed)

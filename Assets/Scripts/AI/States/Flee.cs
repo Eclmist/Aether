@@ -47,7 +47,6 @@ public class Flee : StateMachineBehaviour
         
         if (distanceFlee > distanceBetween && !isDelay)
         {
-            Debug.Log(distanceBetween);
             RunAway(playerLocation, aiLocation);
         }
         else if (distanceBetween > safeDistance)
