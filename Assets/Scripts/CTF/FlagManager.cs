@@ -14,8 +14,8 @@ public class FlagManager : MonoBehaviour
     void Start()
     {
         AetherInput.GetPlayerActions().Fire.performed += HandleFlag;
-        m_FlagToggle = m_FlagIconToggler.GetComponent<FlagIconToggler>();
-        Debug.Log(m_FlagToggle == null);
+        //m_FlagToggle = m_FlagIconToggler.GetComponent<FlagIconToggler>();
+        //Debug.Log(m_FlagToggle == null);
     }
     
     void HandleFlag(InputAction.CallbackContext ctx)
@@ -28,8 +28,8 @@ public class FlagManager : MonoBehaviour
             return;
 
         m_IsFlagInPosession = false;
-        m_FlagToggle.ResetIcon();
-        Instantiate(m_Flag, transform.position+(transform.forward*2)+(transform.up), transform.rotation);
+        //m_FlagToggle.ResetIcon();
+        //Instantiate(m_Flag, transform.position+(transform.forward*2)+(transform.up), transform.rotation);
     }
 
     public void SetBool(bool boolean)
