@@ -98,14 +98,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Optimized Bark Material
-  m_Shader: {fileID: 10604, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: 4fd7a72f71c597f4ab62e510b4196f2b,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -122,6 +125,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_3833C0E4: 1
+    - Vector1_81098F70: 0.4
+    - Vector1_89C1DAF2: 0
+    - Vector1_AD17D10A: 20
+    - Vector1_E6EC5E19: 0
+    - _Cutoff: 0.3
+    - _Opacity: 1
     - _SquashAmount: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -136,14 +146,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Optimized Leaf Material
-  m_Shader: {fileID: 10605, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: 4fd7a72f71c597f4ab62e510b4196f2b,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    MotionVector: User
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -164,7 +177,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_3833C0E4: 1
+    - Vector1_81098F70: 0.4
+    - Vector1_89C1DAF2: 0
+    - Vector1_AD17D10A: 20
+    - Vector1_E6EC5E19: 0
     - _Cutoff: 0.625
+    - _Opacity: 1
     - _ShadowOffsetScale: 1
     - _ShadowStrength: 0
     - _SquashAmount: 1
