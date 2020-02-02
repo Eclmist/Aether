@@ -19,6 +19,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        DontDestroyOnLoad(this);
     }
 
     void Update()
@@ -32,7 +33,7 @@ public class PlayerAnimation : MonoBehaviour
         // remove y-velocity
         velocity.y = 0;
 
-        if (velocity.magnitude > 0.01f)
+        if (velocity.magnitude > 0.0f)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(velocity.normalized), Time.deltaTime * 10);
 
         bool isGrounded = m_PlayerMovement.GetIsGrounded();
