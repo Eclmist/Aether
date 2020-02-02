@@ -49,4 +49,9 @@ public class PlayerAnimation : MonoBehaviour
                 m_Animator.speed = 1;
         }
     }
+
+    public void TriggerVictoryAnimation()
+    {
+        m_Animator.SetTrigger("WonGame");
+    }
 }
