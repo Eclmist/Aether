@@ -52,6 +52,6 @@ public class PlayerAnimation : MonoBehaviour
 
     public void TriggerVictoryAnimation()
     {
-        m_Animator.SetTrigger("WonGame");
+        m_Animator.SetTrigger("Scored");
     }
 }

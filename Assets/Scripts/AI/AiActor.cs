@@ -32,4 +32,10 @@ public class AiActor : MonoBehaviour
         m_StateAnimator.enabled = false;
     }
     
+    public void SetActive()
+    {
+        m_Agent.enabled = true;
+        m_StateAnimator.enabled = true;
+    }
+    
 }
