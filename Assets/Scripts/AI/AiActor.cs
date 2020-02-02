@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AiManager : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
+public class AiActor : MonoBehaviour
 {
     private NavMeshAgent agent;
     private Animator animator;

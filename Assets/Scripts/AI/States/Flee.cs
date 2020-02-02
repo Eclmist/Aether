@@ -12,7 +12,7 @@ public class Flee : StateMachineBehaviour
 {
     private NavMeshAgent m_agent;
 
-    private AiManager aiManager;
+    private AiActor m_aiActor;
 
     public float distanceFlee, safeDistance, speedBoost;
     private float runningSpeed; 
@@ -20,20 +20,20 @@ public class Flee : StateMachineBehaviour
     
     private void GetReference(Animator animator)
     {
-        if (agent == null)
+        if (m_agent == null)
         {
-            agent = animator.gameObject.GetComponent<NavMeshAgent>();
+            m_agent = animator.gameObject.GetComponent<NavMeshAgent>();
         }
-        if (aiManager == null)
+        if (m_aiActor == null)
         {
-            aiManager = animator.gameObject.GetComponent<AiManager>();
+            m_aiActor = animator.gameObject.GetComponent<AiActor>();
         }
     }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, Int32 layerIndex)
     {
         GetReference(animator);
-        runningSpeed = agent.speed + speedBoost;
+        runningSpeed = m_agent.speed + speedBoost;
     }
 
 
@@ -41,7 +41,7 @@ public class Flee : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Vector3 aiLocation = animator.transform.position;
-        Vector3 playerLocation = aiManager.player.position;
+        Vector3 playerLocation = m_aiActor.player.position;
         float distanceBetween = Vector3.Distance(playerLocation, aiLocation);
         
         
@@ -52,7 +52,7 @@ public class Flee : StateMachineBehaviour
         }
         else if (distanceBetween > safeDistance)
         {
-            agent.speed = runningSpeed - speedBoost;
+            m_agent.speed = runningSpeed - speedBoost;
             //terminates this state
             animator.SetBool("isSafe", true);
         }
@@ -60,9 +60,9 @@ public class Flee : StateMachineBehaviour
 
     private void RunAway(Vector3 playerLocation, Vector3 aiLocation)
     {
-        agent.speed = runningSpeed;
-        agent.SetDestination(aiLocation + aiLocation - playerLocation);
-        aiManager.StartCoroutine(SetDelay());
+        m_agent.speed = runningSpeed;
+        m_agent.SetDestination(aiLocation + aiLocation - playerLocation);
+        m_aiActor.StartCoroutine(SetDelay());
     }
     
     IEnumerator SetDelay()
