@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
  */
 public class Flee : StateMachineBehaviour
 {
-    private NavMeshAgent agent;
+    private NavMeshAgent m_agent;
 
     private AiManager aiManager;
 

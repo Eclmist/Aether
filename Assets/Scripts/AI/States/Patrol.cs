@@ -7,9 +7,8 @@ using Random = UnityEngine.Random;
 
 public class Patrol : StateMachineBehaviour
 {
-    [SerializeField]
     public Transform[] waypoints;
-    private NavMeshAgent agent;
+    private NavMeshAgent m_agent;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     
@@ -21,9 +20,9 @@ public class Patrol : StateMachineBehaviour
 
     private void CheckForAgent(Animator animator)
     {
-        if (agent == null)
+        if (m_agent == null)
         {
-            agent = animator.gameObject.GetComponent<NavMeshAgent>();
+            m_agent = animator.gameObject.GetComponent<NavMeshAgent>();
         }
     }
     
@@ -33,7 +32,7 @@ public class Patrol : StateMachineBehaviour
     {
         CheckForAgent(animator);
         
-        if (!agent.pathPending && agent.remainingDistance < 0.1f)
+        if (!m_agent.pathPending && m_agent.remainingDistance < 0.1f)
             GotoNextPoint();
     }
 
@@ -41,7 +40,7 @@ public class Patrol : StateMachineBehaviour
     {
         Transform destination = waypoints[Random.Range(0, waypoints.Length)];
         Debug.Log(destination.position);
-        agent.SetDestination(destination.position);
+        m_agent.SetDestination(destination.position);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
