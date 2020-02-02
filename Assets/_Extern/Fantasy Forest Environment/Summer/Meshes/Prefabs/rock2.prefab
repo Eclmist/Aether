@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 442818}
   - component: {fileID: 3335492}
   - component: {fileID: 2357232}
-  - component: {fileID: 6466802}
-  m_Layer: 0
+  - component: {fileID: 7503487349448528251}
+  - component: {fileID: 5397400664273747779}
+  m_Layer: 10
   m_Name: rock2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &442818
 Transform:
@@ -80,17 +81,29 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &6466802
-MeshCollider:
+--- !u!114 &7503487349448528251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad1d18ece29bc140a6e60fe8460d19d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TerrainRevealRadius: 0.6
+--- !u!135 &5397400664273747779
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 167538}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300004, guid: 943361c0ac7a11f47b3c8e401c5916f3, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.432176
+  m_Center: {x: 0.0025821328, y: 0.08724859, z: -0.026761577}
