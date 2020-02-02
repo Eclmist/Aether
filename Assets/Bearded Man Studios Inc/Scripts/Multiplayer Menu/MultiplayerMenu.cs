@@ -20,6 +20,7 @@ public class MultiplayerMenu : MonoBehaviour
 	public bool useElo = false;
 	public int myElo = 0;
 	public int eloRequired = 0;
+	public int maxPlayers = 0;
 
 	public GameObject networkManager = null;
 	public GameObject[] ToggledButtons;
@@ -137,12 +138,12 @@ public class MultiplayerMenu : MonoBehaviour
 	{
 		if (useTCP)
 		{
-			server = new TCPServer(64);
+			server = new TCPServer(maxPlayers);
 			((TCPServer)server).Connect();
 		}
 		else
 		{
-			server = new UDPServer(64);
+			server = new UDPServer(maxPlayers);
 
 			if (natServerHost.Trim().Length == 0)
 				((UDPServer)server).Connect(ipAddress.text, ushort.Parse(portNumber.text));

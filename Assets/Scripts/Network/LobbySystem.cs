@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Unity;
 using BeardedManStudios.Forge.Networking.Generated;
 
 public class LobbySystem : LobbySystemBehavior
 {
-
     [SerializeField]
     private List<Transform> m_PlayerPositions;
 
@@ -30,16 +31,7 @@ public class LobbySystem : LobbySystemBehavior
         // Setup host
         SetupPlayer(networkObject.Networker.Me.NetworkId);
 
-        NetworkManager.Instance.Networker.playerAccepted += PlayerAccepted;
-    }
-
-    private void PlayerAccepted(NetworkingPlayer player, NetWorker sender)
-    {
-        foreach (LobbyPlayer p in m_LobbyPlayers)
-        {
-            p.UpdateNameFor(player);
-        }
-        SetupPlayer(player.NetworkId);
+        NetworkManager.Instance.Networker.playerAccepted += OnPlayerAccepted;
     }
 
     private void SetupPlayer(uint playerId)
@@ -55,5 +47,32 @@ public class LobbySystem : LobbySystemBehavior
             string playerName = "Player-" + playerId;
             player.UpdateName(playerName);
         });
+    }
+
+    private IEnumerator StartGame(int sceneID)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneID);
+        asyncLoad.allowSceneActivation = true;
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+    }
+
+    private void OnPlayerAccepted(NetworkingPlayer player, NetWorker sender)
+    {
+        foreach (LobbyPlayer p in m_LobbyPlayers)
+        {
+            p.UpdateNameFor(player);
+        }
+        SetupPlayer(player.NetworkId);
+    }
+
+    public void OnStart()
+    {
+        StartCoroutine(StartGame(2));
     }
 }
