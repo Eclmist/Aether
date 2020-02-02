@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Cinemachine;
 using System;
+using System.Linq;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
     public GameObject losePanel, winPanel;
     
-    public GameObject[] players, itemToBeSpawned;
-    private PlayerMovement playerMovement;
+    public GameObject[] playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
-    public int goalsToWin = 3;
+    public int goalsToWin = 3, itemSpawnDelay = 30;
 
     public Int32 GoalsScoredRed
     {
@@ -28,18 +27,39 @@ public class GameManager : Singleton<GameManager>
         get => goalsScoredBlue;
         set => goalsScoredBlue = value;
     }
-
-    void Start()
+    
+    public void InitPlayers(GameObject[] playersInTeamRed, GameObject[] playersInTeamBlue)
     {
-        //healthSystem = GetComponent<HealthSystem>();
-        //playerMovement = player.GetComponent<PlayerMovement>();
+        this.playersInTeamRed = playersInTeamRed;
+        this.playersInTeamBlue = playersInTeamBlue;
     }
 
     private void Update()
     {
-        SpawnItems();
     }
 
+    private IEnumerator SpawnItems()
+    {
+        //Handle spawning items here
+        //itemsToBeSpawned
+        yield return new WaitForSeconds(itemSpawnDelay);
+        StartCoroutine(SpawnItems());
+    }
+    
+    public void Scored(GameObject playerWhoScored)
+    {
+        if(playersInTeamRed.Contains(playerWhoScored))
+        {
+            goalsScoredRed++;
+        }
+        else
+        {
+            goalsScoredBlue++;
+        }
+
+        CheckWin();
+    }
+    
     public void Scored(Boolean isTeamRed)
     {
         if (isTeamRed)
@@ -64,13 +84,7 @@ public class GameManager : Singleton<GameManager>
             Win(false);
         }
     }
-    
 
-
-    private void SpawnItems()
-    {
-    }
-    
     public void Win(Boolean isTeamRed)
     {
         // winPanel.SetActive(true);
