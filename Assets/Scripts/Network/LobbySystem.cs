@@ -52,27 +52,30 @@ public class LobbySystem : LobbySystemBehavior
     private IEnumerator StartGame(int sceneID)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneID);
-        asyncLoad.allowSceneActivation = true;
+        asyncLoad.allowSceneActivation = false;
 
         while (!asyncLoad.isDone)
         {
+            if (asyncLoad.progress >= 0.9f)
+                asyncLoad.allowSceneActivation = true;
+
             yield return null;
         }
-
+        
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
     }
 
     private void OnPlayerAccepted(NetworkingPlayer player, NetWorker sender)
     {
         foreach (LobbyPlayer p in m_LobbyPlayers)
-        {
             p.UpdateNameFor(player);
-        }
+   
         SetupPlayer(player.NetworkId);
     }
 
     public void OnStart()
     {
-        StartCoroutine(StartGame(2));
+        if (NetworkManager.Instance.IsServer)
+            StartCoroutine(StartGame(2));
     }
 }
