@@ -7,14 +7,14 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class AiActor : MonoBehaviour
 {
-    private NavMeshAgent agent;
-    private Animator animator;
+    private NavMeshAgent m_Agent;
+    private Animator m_StateAnimator;
     public Transform player;
 
     public void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
+        m_Agent = GetComponent<NavMeshAgent>();
+        m_StateAnimator = GetComponent<Animator>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -22,8 +22,14 @@ public class AiActor : MonoBehaviour
         if (other.tag.Equals("Player"))
         {
             //alerts the animator if the player has entered the vicinity.
-            animator.SetBool("isSafe", false);
+            m_StateAnimator.SetBool("isSafe", false);
         }
+    }
+
+    public void SetInactive()
+    {
+        m_Agent.enabled = false;
+        m_StateAnimator.enabled = false;
     }
     
 }

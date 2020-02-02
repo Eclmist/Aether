@@ -17,16 +17,7 @@ public class FlagManager : MonoBehaviour
         m_FlagToggle = m_FlagIconToggler.GetComponent<FlagIconToggler>();
         Debug.Log(m_FlagToggle == null);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (m_IsFlagInPosession)
-        {
-            m_FlagToggle.SetIcon();
-        }
-    }
-
+    
     void HandleFlag(InputAction.CallbackContext ctx)
     {
         ButtonControl button = ctx.control as ButtonControl;
