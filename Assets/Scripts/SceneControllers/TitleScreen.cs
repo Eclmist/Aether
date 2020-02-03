@@ -11,7 +11,6 @@ public class TitleScreen : MonoBehaviour
     [SerializeField]
     public GameObject[] m_DebugObjects;
 
-
     private bool m_AnyKeyPressed;
 
     // Update is called once per frame
