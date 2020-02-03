@@ -37,46 +37,18 @@ public class RevealableTerrain : MonoBehaviour
         m_VertexColors = new Color32[m_WorldSpaceVertices.Length];
         m_TargetVertexColors = new Color32[m_WorldSpaceVertices.Length];
         m_MeshFilter.mesh.colors32 = m_VertexColors;
-    }
 
-    private void Update()
-    {
-        if (Time.time - m_LastPaintTime < m_MinTimeBetweenPaints)
-            return;
-
-        if (!m_IsUpdating)
-            return;
-
-        Mesh mesh = m_MeshFilter.mesh;
-
-        bool atLeastOneVertUpdated = false;
-
-        for (int i = 0; i < m_VertexColors.Length; ++i)
-        {
-            // TODO: Profile if typecasting to Color is more or less efficient
-            float diff = Mathf.Abs(m_VertexColors[i].r - m_TargetVertexColors[i].r);
-            diff += Mathf.Abs(m_VertexColors[i].g - m_TargetVertexColors[i].g);
-            diff += Mathf.Abs(m_VertexColors[i].b - m_TargetVertexColors[i].b);
-
-            if (diff <= 1)
-                continue;
-
-            atLeastOneVertUpdated = true;
-            m_VertexColors[i] = Color32.Lerp(m_VertexColors[i], m_TargetVertexColors[i], Time.deltaTime * 2.0f);
-        }
-
-        if (!atLeastOneVertUpdated)
-        {
-            m_IsUpdating = false;
-            return;
-        }
-
-        m_LastPaintTime = Time.time;
-        mesh.colors32 = m_VertexColors;
+        StartCoroutine(Coroutine_UpdateMeshColors());
     }
 
     public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
     {
+        StartCoroutine(Coroutine_PaintAtPosition(position, radius, falloff));
+    }
+
+    IEnumerator Coroutine_PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
+    {
+
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
         {
             float distance = (position - m_WorldSpaceVertices[i]).magnitude;
@@ -86,6 +58,7 @@ public class RevealableTerrain : MonoBehaviour
 
             float amount;
             float currentAmount = m_TargetVertexColors[i].r;
+            float startTime = Time.time;
             if (falloff != null)
                 amount = falloff.Evaluate(distance / radius) * 255;
             else
@@ -97,6 +70,69 @@ public class RevealableTerrain : MonoBehaviour
                 m_TargetVertexColors[i].r = (byte)amount;
                 m_IsUpdating = true;
             }
+
+            if (startTime - Time.time >= 0.1f)
+            {
+                yield return null;
+            }
+        }
+
+        yield return null;
+    }
+
+    IEnumerator Coroutine_UpdateMeshColors()
+    {
+        while (true)
+        {
+            if (Time.time - m_LastPaintTime < m_MinTimeBetweenPaints)
+            {
+                yield return null;
+                continue;
+            }
+
+
+            if (!m_IsUpdating)
+            {
+                yield return null;
+                continue;
+            }
+
+            Mesh mesh = m_MeshFilter.mesh;
+
+            bool atLeastOneVertUpdated = false;
+
+
+            for (int i = 0; i < m_VertexColors.Length; ++i)
+            {
+                float startTime = Time.time;
+                // TODO: Profile if typecasting to Color is more or less efficient
+                float diff = Mathf.Abs(m_VertexColors[i].r - m_TargetVertexColors[i].r);
+                diff += Mathf.Abs(m_VertexColors[i].g - m_TargetVertexColors[i].g);
+                diff += Mathf.Abs(m_VertexColors[i].b - m_TargetVertexColors[i].b);
+
+                if (diff <= 1)
+                    continue;
+
+                atLeastOneVertUpdated = true;
+                m_VertexColors[i] = Color32.Lerp(m_VertexColors[i], m_TargetVertexColors[i], Time.deltaTime * 2.0f);
+
+                if (startTime - Time.time >= 0.1f)
+                {
+                    yield return null;
+                    continue;
+                }
+            }
+
+            if (!atLeastOneVertUpdated)
+            {
+                m_IsUpdating = false;
+                continue;
+            }
+
+            m_LastPaintTime = Time.time;
+            mesh.colors32 = m_VertexColors;
+
+            yield return null;
         }
     }
 
