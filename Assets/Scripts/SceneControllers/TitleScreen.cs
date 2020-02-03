@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TitleScreen : MonoBehaviour
 {
     [SerializeField]
     public Animator m_MainCanvasAnimator;
+
+    [SerializeField]
+    public GameObject[] m_DebugObjects;
+
 
     private bool m_AnyKeyPressed;
 
@@ -22,10 +27,25 @@ public class TitleScreen : MonoBehaviour
             AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_2", Camera.main.transform.position, 1.0f, 1.0f);
             m_AnyKeyPressed = true;
         }
+
+        // TODO: Implement cheat manager
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            foreach (GameObject target in m_DebugObjects)
+            {
+                target.SetActive(true);
+            }
+        }
     }
 
     public void GoToMultiplayLobby()
     {
+        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_1", Camera.main.transform.position, 1.0f, 1.0f);
+    }
+
+    public void LoadVisibilityGym()
+    {
+        SceneManager.LoadScene("GYM_Visibility 1");
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_1", Camera.main.transform.position, 1.0f, 1.0f);
     }
 
