@@ -8,15 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: woodbeams
-  m_Shader: {fileID: -6465566751694194690, guid: bd124297cdc049e40aa408c888cd2fae,
+  m_Shader: {fileID: -6465566751694194690, guid: 4fd7a72f71c597f4ab62e510b4196f2b,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _DOUBLESIDED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - DistortionVectors
   - TransparentDepthPrepass
@@ -181,6 +182,7 @@ Material:
     - Vector1_AD17D10A: 20
     - Vector1_C3D29010: 9.8
     - Vector1_C3E46BBF: 0.45
+    - Vector1_C5F70375: 1
     - Vector1_E6EC5E19: 0
     - Vector1_F4EF2C48: 0
     - _AORemapMax: 1
