@@ -14,7 +14,8 @@ public class GameManager : Singleton<GameManager>
     
     public GameObject[] playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
-    public int goalsToWin = 3, itemSpawnDelay = 30;
+    public int goalsToWin = 3;
+    public float itemSpawnDelay = 30;
 
     public Int32 GoalsScoredRed
     {
