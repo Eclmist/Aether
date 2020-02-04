@@ -8,6 +8,9 @@ public class RevealActor : MonoBehaviour
     private float m_Radius = 5;
 
     [SerializeField]
+    private float m_RadiusModifierForObjects = 2.0f;
+
+    [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
 
     [SerializeField]
@@ -68,7 +71,7 @@ public class RevealActor : MonoBehaviour
 
     private void PaintVertex()
     {
-        float modulatedRadius = m_Radius / 2;
+        float modulatedRadius = m_Radius / m_RadiusModifierForObjects;
         Collider[] colliders = Physics.OverlapSphere(transform.position, modulatedRadius, m_VertexPaintMask);
 
         foreach (Collider c in colliders)
