@@ -64,8 +64,8 @@ public class RevealableObject : MonoBehaviour
 
         m_TargetOpacity = 1; 
 
-        // TODO: Optimize this
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius);
+        // TODO: Fix this hardcode
+        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius, LayerMask.GetMask("Terrain"));
 
         foreach (Collider c in colliders)
         {
