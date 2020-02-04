@@ -8,6 +8,9 @@ public class RevealActor : MonoBehaviour
     private float m_Radius = 5;
 
     [SerializeField]
+    private float m_RadiusModifierForObjects = 2.0f;
+
+    [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
 
     [SerializeField]
@@ -37,10 +40,16 @@ public class RevealActor : MonoBehaviour
 #endif
     }
 
-    // Update Revealable Objects (the ones that fade from bottom to top in one go)
-    // FixedUpdate because physics functions
-    void FixedUpdate()
+    // Update the terrain per vertex. 
+    private void Update()
     {
+        if (Vector3.SqrMagnitude(transform.position - m_LastPaintedPosition) >= m_SqrDistanceBetweenPaints)
+        {
+            PaintVertex();
+            m_LastPaintedPosition = transform.position;
+        }
+
+        // Update Revealable Objects (the ones that fade from bottom to top in one go)
         Collider[] colliders = Physics.OverlapSphere(transform.position, m_Radius, m_ObjectLayerMask);
 
         foreach (Collider c in colliders)
@@ -52,16 +61,6 @@ public class RevealActor : MonoBehaviour
 
             target.Reveal();
         }
-    }
-
-    // Update the terrain per vertex. 
-    private void Update()
-    {
-        if (Vector3.SqrMagnitude(transform.position - m_LastPaintedPosition) >= m_SqrDistanceBetweenPaints)
-        {
-            PaintVertex();
-            m_LastPaintedPosition = transform.position;
-        }
 
 #if USE_FAKE_CAMERA_REVEAL
         m_LastPosition = Vector3.Lerp(m_LastPosition, transform.position, Time.deltaTime * m_RevealSpeed);
@@ -72,7 +71,7 @@ public class RevealActor : MonoBehaviour
 
     private void PaintVertex()
     {
-        float modulatedRadius = m_Radius / 2;
+        float modulatedRadius = m_Radius / m_RadiusModifierForObjects;
         Collider[] colliders = Physics.OverlapSphere(transform.position, modulatedRadius, m_VertexPaintMask);
 
         foreach (Collider c in colliders)
