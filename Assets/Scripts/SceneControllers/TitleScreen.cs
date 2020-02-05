@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 public class TitleScreen : MonoBehaviour
 {
     [SerializeField]
-    public Animator m_MainCanvasAnimator;
+    private Animator m_MainCanvasAnimator;
 
     [SerializeField]
-    public GameObject[] m_DebugObjects;
+    private GameObject[] m_DebugObjects;
+
+    [SerializeField]
+    private Animator m_ScreenFadeAnimator;
+
+    [SerializeField]
+    private MultiplayerMenu m_ForgeMultiplayerMenu;
 
     private bool m_AnyKeyPressed;
 
@@ -40,6 +46,14 @@ public class TitleScreen : MonoBehaviour
     public void GoToMultiplayLobby()
     {
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_1", Camera.main.transform.position, 1.0f, 1.0f);
+        m_ScreenFadeAnimator.SetTrigger("ToBlack");
+        StartCoroutine("HostLobby");
+    }
+
+    private IEnumerator HostLobby()
+    {
+        yield return new WaitForSeconds(1.5f);
+        m_ForgeMultiplayerMenu.Host();
     }
 
     public void LoadVisibilityGym()
