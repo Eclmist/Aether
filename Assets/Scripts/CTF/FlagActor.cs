@@ -6,6 +6,10 @@ using UnityEngine;
 public class FlagActor : MonoBehaviour
 {
     private Vector3 m_SpawnPos;
+    private Vector3 m_SpawnRotation;
+    public Vector3 m_PosWhenCaptured;
+    public Vector3 m_RotationWhenCaptured;
+
 
     private void Start()
     {
@@ -16,11 +20,12 @@ public class FlagActor : MonoBehaviour
     {
         if (c.CompareTag("Player"))
         {
-            SetCapture(c.gameObject);
+            
             FlagManager manager = c.GetComponent<FlagManager>();
 
             if (manager != null && !manager.CheckIfFlagInPosession())
             {
+                SetCapture(c.gameObject);
                 manager.SetBool(true);
                 //Destroy(gameObject);
             }
@@ -30,6 +35,8 @@ public class FlagActor : MonoBehaviour
     private void SetCapture(GameObject player)
     {
         gameObject.transform.SetParent(player.transform);
+        gameObject.transform.localPosition = m_PosWhenCaptured;
+        gameObject.transform.localEulerAngles = m_RotationWhenCaptured;
         //gameObject.GetComponent<AiActor>().SetInactive();
     }
 
@@ -37,6 +44,7 @@ public class FlagActor : MonoBehaviour
     {
         gameObject.transform.SetParent(null);
         gameObject.transform.position = m_SpawnPos;
+        gameObject.transform.eulerAngles = m_SpawnRotation;
         //gameObject.GetComponent<AiActor>().SetActive();
     }
     
