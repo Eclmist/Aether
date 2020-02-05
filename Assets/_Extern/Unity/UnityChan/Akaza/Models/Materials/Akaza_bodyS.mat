@@ -10,7 +10,7 @@ Material:
   m_Name: Akaza_bodyS
   m_Shader: {fileID: -6465566751694194690, guid: a117ce1876670f148aec986a29573ee3,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _TERRAIN_INSTANCED_PERPIXEL_NORMAL
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_CA803EBD:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _1st_ShadeMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -123,12 +127,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TerrainHolesTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_3833C0E4: 0
+    - Vector1_81098F70: 0.4
+    - Vector1_89C1DAF2: 0
+    - Vector1_AD17D10A: 20
+    - Vector1_E6EC5E19: 0
     - _1st2nd_Shades_Feather: 0.0001
     - _1st_ShadeColor_Feather: 0.095
     - _1st_ShadeColor_Step: 0.336
     - _2nd_ShadeColor_Feather: 0.0001
     - _2nd_ShadeColor_Step: 0
+    - _AddPrecomputedVelocity: 0
     - _Add_Antipodean_RimLight: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
@@ -150,11 +164,14 @@ Material:
     - _DoubleSidedEnable: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
+    - _EnableHeightBlend: 0
+    - _EnableInstancedPerPixelNormal: 1
     - _Farthest_Distance: 100
     - _GI_Intensity: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _HeightTransition: 0
     - _HighColor_Power: 0
     - _Inverse_MatcapMask: 0
     - _Inverse_Z_Axis_BLD: 1
@@ -191,6 +208,7 @@ Material:
     - _Offset_X_Axis_BLD: -0.05
     - _Offset_Y_Axis_BLD: 0.09
     - _Offset_Z: 0
+    - _Opacity: 1
     - _Outline_Width: 0.87
     - _Parallax: 0.02
     - _ReceivesSSR: 1
@@ -206,6 +224,7 @@ Material:
     - _ShadeColor_Step: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularOcclusionMode: 1
     - _SrcBlend: 1
     - _StencilRef: 2
     - _StencilRefDepth: 0
@@ -218,6 +237,7 @@ Material:
     - _StencilWriteMaskGBuffer: 51
     - _StencilWriteMaskMV: 176
     - _StepOffset: 0
+    - _SupportDecals: 1
     - _SurfaceType: 0
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
@@ -257,6 +277,7 @@ Material:
     - _Outline_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.8, g: 0.8, b: 1, a: 1}
+    - _WorldSpaceLightPos0: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &489291300123142102
 MonoBehaviour:
   m_ObjectHideFlags: 11
