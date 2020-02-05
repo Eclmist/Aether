@@ -11,7 +11,7 @@ using System.Linq;
 public class GameManager : Singleton<GameManager>
 {
     public GameObject restartPanel;
-    
+    public Vector2 regionItemsSpawn;
     public List<GameObject> playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
     public int goalsToWin = 3;
