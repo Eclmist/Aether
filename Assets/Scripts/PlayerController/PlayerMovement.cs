@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private bool m_cannotMove;
     private bool m_HasSpeedPowerUp;
     private bool m_HasJumpPowerUp;
+    private bool m_IsParalyzed;
 
     void Start()
     {
@@ -54,11 +55,20 @@ public class PlayerMovement : MonoBehaviour
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_PowerUps = GetComponent<PowerUpsManager>();
         m_VelocityModifier = GetComponent<VelocityModifier>();
+        m_IsParalyzed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_IsParalyzed)
+        {
+            if (!GetIsGrounded())
+            {
+                m_CharacterController.Move(new Vector3(-1.0f, -1.0f, -1.0f));
+            }
+            return;
+        }
         if (GetIsGrounded())
         {
             // Gravity should not accumulate when player is grounded. We set velocity to -2 instead of 0
@@ -187,4 +197,15 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
     }
+
+    public void SetParalyze()
+    {
+        m_IsParalyzed = true;
+    }
+
+    public void ResetParalyze()
+    {
+        m_IsParalyzed = false;
+    }
+
 }
