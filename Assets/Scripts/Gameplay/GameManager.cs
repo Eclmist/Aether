@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Cinemachine;
 using System;
+using System.Linq;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
-    public GameObject losePanel, winPanel;
+    public GameObject restartPanel;
     
-    public GameObject[] players, itemToBeSpawned;
-    private PlayerMovement playerMovement;
+    public List<GameObject> playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
     public int goalsToWin = 3;
+    public float itemSpawnDelay = 30;
 
     public Int32 GoalsScoredRed
     {
@@ -28,18 +28,40 @@ public class GameManager : Singleton<GameManager>
         get => goalsScoredBlue;
         set => goalsScoredBlue = value;
     }
-
-    void Start()
+    
+    public void InitPlayers(List<GameObject> playersInTeamRed, List<GameObject> playersInTeamBlue)
     {
-        //healthSystem = GetComponent<HealthSystem>();
-        //playerMovement = player.GetComponent<PlayerMovement>();
+        this.playersInTeamRed = playersInTeamRed;
+        this.playersInTeamBlue = playersInTeamBlue;
     }
 
-    private void Update()
+    private void Start()
     {
-        SpawnItems();
+        playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
     }
 
+    private IEnumerator SpawnItems()
+    {
+        //Handle spawning items here
+        //itemsToBeSpawned
+        yield return new WaitForSeconds(itemSpawnDelay);
+        StartCoroutine(SpawnItems());
+    }
+    
+    public void Scored(GameObject playerWhoScored)
+    {
+        if(playersInTeamRed.Contains(playerWhoScored))
+        {
+            goalsScoredRed++;
+        }
+        else
+        {
+            goalsScoredBlue++;
+        }
+
+        CheckWin();
+    }
+    
     public void Scored(Boolean isTeamRed)
     {
         if (isTeamRed)
@@ -64,24 +86,17 @@ public class GameManager : Singleton<GameManager>
             Win(false);
         }
     }
-    
 
-
-    private void SpawnItems()
-    {
-        throw new NotImplementedException();
-    }
-    
     public void Win(Boolean isTeamRed)
     {
-        // winPanel.SetActive(true);
-        // enabled = false;
-        // StartCoroutine("StopCongrats");
+        restartPanel.SetActive(true);
+        enabled = false;
+        StartCoroutine("StopRestart");
     }
 
     public void GameOver(int index)
     {
-        losePanel.SetActive(true);
+        //losePanel.SetActive(true);
         enabled = false;
         string loseText = null;
     
@@ -92,7 +107,7 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        losePanel.SetActive(false);
+        restartPanel.SetActive(false);
         // Time.timeScale = 1;
         enabled = true;
     }
