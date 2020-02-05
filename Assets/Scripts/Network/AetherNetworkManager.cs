@@ -1,0 +1,71 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Unity;
+
+public class AetherNetworkManager : Singleton<AetherNetworkManager>
+{
+    // Events for networking interaction
+    public delegate void AetherPlayerEvent(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap);
+
+    public event AetherPlayerEvent sceneChanged;
+
+    private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
+
+    private int m_SceneLoadCounter;
+
+    void Awake()
+    {
+        m_PlayerDetails = new Dictionary<NetworkingPlayer, PlayerDetails>();
+    }
+
+    void Start()
+    {
+        NetworkManager.Instance.playerLoadedScene += OnPlayerLoadScene;
+    }
+
+    public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
+    {
+        if (m_PlayerDetails.ContainsKey(player))
+            return false;
+
+        m_PlayerDetails.Add(player, details);
+        return true;
+    }
+
+    public void LoadScene(int sceneId)
+    {
+        StartCoroutine(Load(sceneId));
+    }
+
+    private IEnumerator Load(int sceneId)
+    {
+        AsyncOperation loadAsync = SceneManager.LoadSceneAsync(sceneId);
+
+        while (!loadAsync.isDone)
+        {
+            yield return null;
+        }
+
+        NetWorker sender = NetworkManager.Instance.Networker;
+        OnPlayerLoadScene(sender.Me, sender);
+    }
+
+    public void OnPlayerLoadScene(NetworkingPlayer player, NetWorker sender)
+    {
+        m_SceneLoadCounter++;
+        if (m_SceneLoadCounter == m_PlayerDetails.Count)
+        {
+            m_SceneLoadCounter = 0;
+            sceneChanged(m_PlayerDetails);
+        }
+    }
+
+    public struct PlayerDetails
+    {
+        public int team;
+        public int position;
+    }
+}
