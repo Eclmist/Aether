@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4807688408897552}
   - component: {fileID: 33026215516813020}
   - component: {fileID: 23975752085834462}
-  - component: {fileID: 6544052026906019088}
   - component: {fileID: 5128958977897966151}
+  - component: {fileID: 9075326509930133668}
   m_Layer: 10
   m_Name: tree_1_LOD1
   m_TagString: Untagged
@@ -82,19 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &6544052026906019088
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1042662711589732}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7.4141464
-  m_Center: {x: -0.123659134, y: 7.1245613, z: 0.27144623}
 --- !u!114 &5128958977897966151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +95,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 2.91
+--- !u!136 &9075326509930133668
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042662711589732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 12
+  m_Direction: 1
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!1 &1353136690725954
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,8 +120,8 @@ GameObject:
   - component: {fileID: 4966436038163712}
   - component: {fileID: 33595715886928978}
   - component: {fileID: 23830401795769148}
-  - component: {fileID: 2256773912524107766}
   - component: {fileID: 5242125076217518495}
+  - component: {fileID: 8789652499593590805}
   m_Layer: 10
   m_Name: tree_1_LOD0
   m_TagString: Untagged
@@ -190,19 +191,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &2256773912524107766
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1353136690725954}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7.3390865
-  m_Center: {x: -0.04859686, y: 7.1245613, z: 0.27144623}
 --- !u!114 &5242125076217518495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +204,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 2.91
+--- !u!136 &8789652499593590805
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353136690725954}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 12
+  m_Direction: 1
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!1 &1429701184366108
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,8 +229,8 @@ GameObject:
   - component: {fileID: 4695094166812208}
   - component: {fileID: 33842413775885716}
   - component: {fileID: 23269488451044122}
-  - component: {fileID: 1581995937025678395}
   - component: {fileID: 3424474617344743883}
+  - component: {fileID: 881363539843308602}
   m_Layer: 10
   m_Name: tree_1_LOD2
   m_TagString: Untagged
@@ -298,19 +300,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1581995937025678395
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1429701184366108}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 7.380856
-  m_Center: {x: -0.10639143, y: 7.1245613, z: 0.27144623}
 --- !u!114 &3424474617344743883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +313,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 2.91
+--- !u!136 &881363539843308602
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429701184366108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 12
+  m_Direction: 1
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!1 &1492387270087594
 GameObject:
   m_ObjectHideFlags: 0

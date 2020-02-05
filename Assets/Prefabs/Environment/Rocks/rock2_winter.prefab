@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 442818}
   - component: {fileID: 3335492}
   - component: {fileID: 2357232}
-  - component: {fileID: 20344798047346960}
   - component: {fileID: 6470832523495858738}
+  - component: {fileID: 8264549683564371016}
   m_Layer: 10
-  m_Name: rock2
+  m_Name: rock2_winter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &20344798047346960
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167538}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2913251
-  m_Center: {x: 0.0025821328, y: -0.053602338, z: -0.026761591}
 --- !u!114 &6470832523495858738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +94,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 0.38
+--- !u!65 &8264549683564371016
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167538}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.864352, y: 0.21554103, z: 0.57829094}
+  m_Center: {x: 0, y: 0, z: 0}

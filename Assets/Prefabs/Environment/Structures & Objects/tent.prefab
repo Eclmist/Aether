@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 496184}
   - component: {fileID: 3301502}
   - component: {fileID: 2325304}
-  - component: {fileID: 1520799621819593442}
   - component: {fileID: 6889425628481116750}
+  - component: {fileID: 5257668328535931008}
   m_Layer: 10
   m_Name: tent
   m_TagString: Untagged
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1520799621819593442
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162734}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.0612581
-  m_Center: {x: -0.027522802, y: 0.5028367, z: -0.04446888}
 --- !u!114 &6889425628481116750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +94,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 1.89
+--- !u!64 &5257668328535931008
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300010, guid: d4efc588c9af19f40a18c93c9854863d, type: 3}
