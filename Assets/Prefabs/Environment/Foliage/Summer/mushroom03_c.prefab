@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 432556}
   - component: {fileID: 3300598}
   - component: {fileID: 2387884}
-  - component: {fileID: 6929437193206364118}
   - component: {fileID: 8737957417621919990}
+  - component: {fileID: 2400855233574991386}
   m_Layer: 10
   m_Name: mushroom03_c
   m_TagString: Untagged
@@ -81,20 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6929437193206364118
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 157858}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.2954744
-  m_Height: 1.1943309
-  m_Direction: 1
-  m_Center: {x: 0.51591694, y: 0.51363575, z: 0.017607272}
 --- !u!114 &8737957417621919990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,3 +94,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 0.48
+--- !u!135 &2400855233574991386
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157858}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Center: {x: 0.7, y: 0.8, z: 0.017607272}
