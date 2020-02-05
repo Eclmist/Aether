@@ -14,7 +14,6 @@ public class FlagGoal : MonoBehaviour
         if (c.CompareTag("Player"))
         {
             FlagManager manager = c.GetComponent<FlagManager>();
-
             if (manager != null && manager.CheckIfFlagInPosession() && CheckPlayer(c.gameObject))
             {
                 IndicateVictory(c);
@@ -37,7 +36,6 @@ public class FlagGoal : MonoBehaviour
 
     private void IndicateVictory(Collider c)
     {
-
         c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
         //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
         GameManager.Instance.Scored(isRedGoal);
