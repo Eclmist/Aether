@@ -36,10 +36,10 @@ public class PowerUpsManager : MonoBehaviour
 
     IEnumerator TriggerPlayerSpeedPowerUp()
     {
-        m_PlayerMovement.SetSpeedPowerUpStateTrue();
+        //m_PlayerMovement.SetSpeedPowerUpStateTrue();
         SetSpeedPowerUp();
         yield return new WaitForSeconds(m_DoubleBuffDuration);
-        m_PlayerMovement.SetSpeedPowerUpStateFalse();
+        //m_PlayerMovement.SetSpeedPowerUpStateFalse();
         RemoveSpeedPowerUp();
     }
 
@@ -64,10 +64,10 @@ public class PowerUpsManager : MonoBehaviour
 
     IEnumerator TriggerPlayerJumpPowerUp()
     {
-        m_PlayerMovement.SetJumpPowerUpStateTrue();
+        //m_PlayerMovement.SetJumpPowerUpStateTrue();
         SetJumpPowerUp();
         yield return new WaitForSeconds(m_DoubleBuffDuration);
-        m_PlayerMovement.SetJumpPowerUpStateFalse();
+        //m_PlayerMovement.SetJumpPowerUpStateFalse();
         RemoveJumpPowerUp();
     }
 }

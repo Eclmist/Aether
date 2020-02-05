@@ -12,7 +12,7 @@ public class FlagManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AetherInput.GetPlayerActions().Fire.performed += HandleFlag;
+        ///AetherInput.GetPlayerActions().Fire.performed += HandleFlag;
         //m_FlagToggle = m_FlagIconToggler.GetComponent<FlagIconToggler>();
         //Debug.Log(m_FlagToggle == null);
     }
