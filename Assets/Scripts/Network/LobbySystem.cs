@@ -53,9 +53,12 @@ public class LobbySystem : LobbySystemBehavior
 
     private bool CanStart()
     {
+        // bypass for testing
+        return true;
+
         // TODO: Add ready check
-        //if (m_PlayerCount != 4)
-        //    return false;
+        if (m_PlayerCount != 4)
+            return false;
 
         int balance = 0;
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
