@@ -10,9 +10,9 @@ using System.Linq;
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
-    public GameObject losePanel, winPanel;
+    public GameObject restartPanel;
     
-    public GameObject[] playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
+    public List<GameObject> playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
     public int goalsToWin = 3;
     public float itemSpawnDelay = 30;
@@ -29,14 +29,15 @@ public class GameManager : Singleton<GameManager>
         set => goalsScoredBlue = value;
     }
     
-    public void InitPlayers(GameObject[] playersInTeamRed, GameObject[] playersInTeamBlue)
+    public void InitPlayers(List<GameObject> playersInTeamRed, List<GameObject> playersInTeamBlue)
     {
         this.playersInTeamRed = playersInTeamRed;
         this.playersInTeamBlue = playersInTeamBlue;
     }
 
-    private void Update()
+    private void Start()
     {
+        playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
     }
 
     private IEnumerator SpawnItems()
@@ -88,14 +89,14 @@ public class GameManager : Singleton<GameManager>
 
     public void Win(Boolean isTeamRed)
     {
-        // winPanel.SetActive(true);
-        // enabled = false;
-        // StartCoroutine("StopCongrats");
+        restartPanel.SetActive(true);
+        enabled = false;
+        StartCoroutine("StopRestart");
     }
 
     public void GameOver(int index)
     {
-        losePanel.SetActive(true);
+        //losePanel.SetActive(true);
         enabled = false;
         string loseText = null;
     
@@ -106,7 +107,7 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        losePanel.SetActive(false);
+        restartPanel.SetActive(false);
         // Time.timeScale = 1;
         enabled = true;
     }

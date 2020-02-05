@@ -74,20 +74,11 @@ public class PlayerMovement : MonoBehaviour
 
         float t = Time.deltaTime;
         float t2 = t * t;
-<<<<<<< HEAD
 
-        if (m_cannotMove)
-        {
-            m_CharacterController.Move(new Vector3(0, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, 0));
-        } else {
-            m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
-        }
-=======
         m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
 
         if (m_PlayerNetworkHandler.networkObject != null)
             m_PlayerNetworkHandler.networkObject.position = transform.position;
->>>>>>> e3
     }
 
     private void LateUpdate()
