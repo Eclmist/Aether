@@ -25,6 +25,9 @@ public class RevealableObject : MonoBehaviour
         if (m_Renderer == null)
             Destroy(this);
 
+        // Disable renderer until revealed
+        m_Renderer.enabled = false;
+
         // Set bbox height
         float pivotYOff = Mathf.Abs(transform.position.y - (m_Renderer.bounds.center.y - m_Renderer.bounds.extents.y));
 
@@ -62,6 +65,7 @@ public class RevealableObject : MonoBehaviour
         if (m_TargetOpacity == 1)
             return;
 
+        m_Renderer.enabled = true;
         m_TargetOpacity = 1; 
 
         // TODO: Fix this hardcode
@@ -99,7 +103,6 @@ public class RevealableObject : MonoBehaviour
         m_TimeOfLastSFX = Time.time;
 
         // Play audio
-        PlayAudioFx();
         AudioManager.m_Instance.PlaySoundAtPosition("MAGIC_Chime", transform.position, Random.Range(0.8f, 1.2f), Random.Range(0.8f, 1.2f));
     }
 
