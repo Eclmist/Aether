@@ -23,7 +23,8 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
 
     void Start()
     {
-        NetworkManager.Instance.playerLoadedScene += OnPlayerLoadScene;
+        if (NetworkManager.Instance != null)
+            NetworkManager.Instance.playerLoadedScene += OnPlayerLoadScene;
     }
 
     public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
@@ -37,20 +38,13 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
 
     public void LoadScene(int sceneId)
     {
-        StartCoroutine(Load(sceneId));
-    }
-
-    private IEnumerator Load(int sceneId)
-    {
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(sceneId);
 
-        while (!loadAsync.isDone)
+        loadAsync.completed += asyncOp =>
         {
-            yield return null;
-        }
-
-        NetWorker sender = NetworkManager.Instance.Networker;
-        OnPlayerLoadScene(sender.Me, sender);
+            NetWorker sender = NetworkManager.Instance.Networker;
+            OnPlayerLoadScene(sender.Me, sender);
+        };
     }
 
     public void OnPlayerLoadScene(NetworkingPlayer player, NetWorker sender)
