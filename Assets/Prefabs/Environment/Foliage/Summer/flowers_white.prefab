@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4095726876768260}
   - component: {fileID: 33991428249203400}
   - component: {fileID: 23830179653753692}
-  - component: {fileID: 7332247304609881396}
   - component: {fileID: 6565564473943419174}
+  - component: {fileID: 4836409763558917374}
   m_Layer: 10
   m_Name: flowers_white
   m_TagString: Untagged
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &7332247304609881396
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152323247259164}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.28305823
-  m_Center: {x: 0.037014887, y: 0.22714679, z: -0.08860905}
 --- !u!114 &6565564473943419174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +94,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TerrainRevealRadius: 0.25
+--- !u!136 &4836409763558917374
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152323247259164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.13
+  m_Height: 0.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.2, z: 0}
