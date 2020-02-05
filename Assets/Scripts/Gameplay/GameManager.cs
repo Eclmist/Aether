@@ -94,7 +94,7 @@ public class GameManager : Singleton<GameManager>
 
     public void Win(Boolean isTeamRed)
     {
-        restartPanel.SetActive(true);
+        //restartPanel.SetActive(true);
         enabled = false;
         StartCoroutine("StopRestart");
     }
@@ -112,7 +112,7 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        restartPanel.SetActive(false);
+        //restartPanel.SetActive(false);
         // Time.timeScale = 1;
         enabled = true;
     }
