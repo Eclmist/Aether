@@ -19,7 +19,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
-        DontDestroyOnLoad(this);
     }
 
     void Update()
