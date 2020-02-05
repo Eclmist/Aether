@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
     public GameObject restartPanel;
-    public Vector2 regionItemsSpawn;
+    public List<GameObject> terrainWhereItemsSpawn;
     public List<GameObject> playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
     private int goalsScoredRed, goalsScoredBlue;
     public int goalsToWin = 3;
@@ -38,12 +39,16 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
+        StartCoroutine(SpawnItems());
     }
 
     private IEnumerator SpawnItems()
     {
         //Handle spawning items here
+        GameObject item = itemsToBeSpawned[Random.Range(0, itemsToBeSpawned.Count)];
+        Vector3 spawnPos = terrainWhereItemsSpawn[Random.Range(0, terrainWhereItemsSpawn.Count)].transform.position;
         //itemsToBeSpawned
+        Instantiate(item, spawnPos, item.transform.rotation);
         yield return new WaitForSeconds(itemSpawnDelay);
         StartCoroutine(SpawnItems());
     }
