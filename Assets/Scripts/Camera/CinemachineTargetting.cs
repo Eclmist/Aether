@@ -5,12 +5,15 @@ using Cinemachine;
 
 public class CinemachineTargetting : MonoBehaviour
 {
+    private PlayerManager m_PlayerManager;
+
     private CinemachineVirtualCameraBase m_VirtualCam;
 
     private bool m_FirstRun = true;
 
     void Awake()
     {
+        m_PlayerManager = FindObjectOfType<PlayerManager>();
         m_VirtualCam = GetComponent<CinemachineVirtualCameraBase>();
     }
 
@@ -18,7 +21,11 @@ public class CinemachineTargetting : MonoBehaviour
     {
         if (m_FirstRun)
         {
-            Transform playerTransform = PlayerManager.GetLocalPlayerInstance().transform;
+
+            if (m_PlayerManager.GetLocalPlayerInstance().player == null)
+                return;
+
+            Transform playerTransform = m_PlayerManager.GetLocalPlayerInstance().player.transform;
             m_VirtualCam.Follow = playerTransform;
             m_VirtualCam.LookAt = playerTransform;
             m_FirstRun = false;
