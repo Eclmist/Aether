@@ -14,7 +14,7 @@ public class FlagGoal : MonoBehaviour
         if (c.CompareTag("Player"))
         {
             FlagManager manager = c.GetComponent<FlagManager>();
-            if (manager != null && manager.CheckIfFlagInPosession() && CheckPlayer(c.gameObject))
+            if (manager != null && manager.CheckIfFlagInPosession() /* && CheckPlayer(c.gameObject) */)
             {
                 IndicateVictory(c);
                 manager.SetBool(false);

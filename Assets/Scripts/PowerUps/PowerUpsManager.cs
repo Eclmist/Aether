@@ -1,73 +1,67 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
 public class PowerUpsManager : MonoBehaviour
 {
-    private bool m_CanDoubleSpeed;
-    private bool m_CanDoubleJump;
-    private PlayerMovement m_PlayerMovement;
-    private const float m_DoubleBuffDuration = 5.0f;
+    private bool m_canDoubleSpeed;
+    private bool m_canDoubleJump;
 
-    private void Start()
+    private const float m_doubleBuffDuration = 5.0f;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        m_PlayerMovement = GetComponent<PlayerMovement>();
-    }
-    private void SetSpeedPowerUp()
-    {
-        m_CanDoubleSpeed = true;
+
     }
 
-    private void RemoveSpeedPowerUp()
+    // Update is called once per frame
+    void Update()
     {
-        m_CanDoubleSpeed = false;
+
     }
 
-    // Allow other classes to check whether player has power ups
-    public bool HasSpeedPowerUp()
+        public bool GetDoubleSpeed()
     {
-        return m_CanDoubleSpeed;
+        return m_canDoubleSpeed;
+    }
+
+    public void SetDoubleSpeed(bool boolean)
+    {
+        m_canDoubleSpeed = boolean;
+    }
+
+    public bool GetDoubleJump()
+    {
+        return m_canDoubleJump;
+    }
+
+    public void SetDoubleJump(bool boolean)
+    {
+        m_canDoubleJump = boolean;
     }
 
     public void GoFaster()
     {
-        StartCoroutine("TriggerPlayerSpeedPowerUp");
-    }
-
-    IEnumerator TriggerPlayerSpeedPowerUp()
-    {
-        //m_PlayerMovement.SetSpeedPowerUpStateTrue();
-        SetSpeedPowerUp();
-        yield return new WaitForSeconds(m_DoubleBuffDuration);
-        //m_PlayerMovement.SetSpeedPowerUpStateFalse();
-        RemoveSpeedPowerUp();
-    }
-
-    private void SetJumpPowerUp()
-    {
-        m_CanDoubleJump = true;
-    }
-    private void RemoveJumpPowerUp()
-    {
-        m_CanDoubleJump = false;
-    }
-
-    public bool HasJumpPowerUp()
-    {
-        return m_CanDoubleJump;
+        StartCoroutine("DoubleUpSpeed");
     }
 
     public void JumpHigher()
     {
-        StartCoroutine("TriggerPlayerJumpPowerUp");
+        StartCoroutine("DoubleUpJump");
     }
 
-    IEnumerator TriggerPlayerJumpPowerUp()
+    IEnumerator DoubleUpJump()
     {
-        //m_PlayerMovement.SetJumpPowerUpStateTrue();
-        SetJumpPowerUp();
-        yield return new WaitForSeconds(m_DoubleBuffDuration);
-        //m_PlayerMovement.SetJumpPowerUpStateFalse();
-        RemoveJumpPowerUp();
+        SetDoubleJump(true);
+        yield return new WaitForSeconds(m_doubleBuffDuration);
+        SetDoubleJump(false);
+    }
+
+    IEnumerator DoubleUpSpeed()
+    {
+        SetDoubleSpeed(true);
+        yield return new WaitForSeconds(m_doubleBuffDuration);
+        SetDoubleSpeed(false);
     }
 }

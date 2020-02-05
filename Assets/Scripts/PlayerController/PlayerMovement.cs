@@ -31,6 +31,12 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerNetworkHandler m_PlayerNetworkHandler;
 
+    private PowerUpsManager m_PowerUps;
+
+    private VelocityModifier m_VelocityModifier;
+
+    private FlagManager m_FlagManager;
+
     private Vector3 m_Velocity;
     private Vector2 m_LastKnownInput;
 
@@ -42,17 +48,30 @@ public class PlayerMovement : MonoBehaviour
     private bool m_cannotMove;
     private bool m_HasSpeedPowerUp;
     private bool m_HasJumpPowerUp;
+    private bool m_IsParalyzed;
 
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += HandleJump;
         m_CharacterController = GetComponent<CharacterController>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        m_PowerUps = GetComponent<PowerUpsManager>();
+        m_VelocityModifier = GetComponent<VelocityModifier>();
+        m_FlagManager = GetComponent<FlagManager>();
+        m_IsParalyzed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_IsParalyzed)
+        {
+            if (!GetIsGrounded())
+            {
+                m_CharacterController.Move(new Vector3(-1.0f, -1.0f, -1.0f));
+            }
+            return;
+        }
         if (GetIsGrounded())
         {
             // Gravity should not accumulate when player is grounded. We set velocity to -2 instead of 0
@@ -78,19 +97,12 @@ public class PlayerMovement : MonoBehaviour
         float t2 = t * t;
 
         float xVelocity = m_Velocity.x;
-        float yVelocity = m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2;
+        float yVelocity = m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2; 
         float zVelocity = m_Velocity.z;
 
-        if (m_HasSpeedPowerUp)
-        {
-            xVelocity = ModifyXVelocity(xVelocity);
-            zVelocity = ModifyZVelocity(zVelocity);
-        }
-
-        if (m_HasJumpPowerUp)
-        {
-            yVelocity = ModifyYVelocity(yVelocity);
-        }
+        xVelocity = m_VelocityModifier.ModifyXVelocity(xVelocity, m_PowerUps);
+        yVelocity = m_VelocityModifier.ModifyYVelocity(yVelocity, m_PowerUps);
+        zVelocity = m_VelocityModifier.ModifyZVelocity(zVelocity, m_PowerUps);
 
         m_CharacterController.Move(new Vector3(xVelocity, yVelocity, zVelocity));
 
@@ -189,62 +201,14 @@ public class PlayerMovement : MonoBehaviour
         m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
     }
 
-    // SETTERS FOR MOVEMENT POWER UPS
-    public void SetSpeedPowerUpStateTrue()
+    public void SetParalyze()
     {
-        m_HasSpeedPowerUp = true;
+        m_IsParalyzed = true;
     }
 
-    public void SetJumpPowerUpStateTrue()
+    public void ResetParalyze()
     {
-        m_HasJumpPowerUp = true;
+        m_IsParalyzed = false;
     }
 
-    public void SetSpeedPowerUpStateFalse()
-    {
-        m_HasSpeedPowerUp = false;
-    }
-
-    public void SetJumpPowerUpStateFalse()
-    {
-        m_HasJumpPowerUp = false;
-    }
-
-    // Velocity modifiers for Speed powerups.
-    public float ModifyXVelocity(float velocityVector)
-    {
-        if (m_HasSpeedPowerUp)
-        {
-            velocityVector *= 2.0f;
-        }
-
-        return velocityVector;
-    }
-
-    public float ModifyYVelocity(float velocityVector)
-    {
-        if (m_HasJumpPowerUp)
-        {
-            if (velocityVector < 0)
-            {
-                velocityVector *= 0.5f;
-            }
-            else
-            {
-                velocityVector *= 2.0f;
-            }
-        }
-
-        return velocityVector;
-    }
-
-    public float ModifyZVelocity(float velocityVector)
-    {
-        if (m_HasSpeedPowerUp)
-        {
-            velocityVector *= 2.0f;
-        }
-
-        return velocityVector;
-    }
 }
