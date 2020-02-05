@@ -38,14 +38,18 @@ public class LobbySystem : LobbySystemBehavior
     {
         MainThreadManager.Run(() => {
             Vector3 position = m_PlayerPositions[m_PlayerCount].position;
-            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(position: position);
 
-            m_LobbyPlayers.Add(player);
+            // E3 hack
+            if (m_PlayerCount != 0)
+            {
+                LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(position: position);
+                m_LobbyPlayers.Add(player);
+                // Name setup
+                string playerName = "Player-" + playerId;
+                player.UpdateName(playerName);
+            }
+
             m_PlayerCount++;
-
-            // Name setup
-            string playerName = "Player-" + playerId;
-            player.UpdateName(playerName);
         });
     }
 
