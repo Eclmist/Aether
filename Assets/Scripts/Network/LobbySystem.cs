@@ -39,15 +39,15 @@ public class LobbySystem : LobbySystemBehavior
             Vector3 position = m_PlayerPositions[m_PlayerCount].position;
             LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(position: position);
 
-            m_LobbyPlayers.Add(np, player);
-            m_PlayerCount++;
-
             // Name setup
             string playerName = "Player-" + np.NetworkId;
             player.UpdateName(playerName);
 
             // Team setup
-            player.UpdateTeam(m_PlayerCount - 1);
+            player.UpdateTeam(m_PlayerCount % 2);
+
+            m_LobbyPlayers.Add(np, player);
+            m_PlayerCount++;
         });
     }
 
