@@ -62,4 +62,9 @@ public class PlayerAnimation : MonoBehaviour
             m_PlayerNetworkHandler.networkObject.grounded = isGrounded;
         }
     }
+
+    public void TriggerVictoryAnimation()
+    {
+        m_Animator.SetTrigger("Scored");
+    }
 }
