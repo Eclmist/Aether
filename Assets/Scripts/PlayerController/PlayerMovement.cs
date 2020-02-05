@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     private VelocityModifier m_VelocityModifier;
 
+    private FlagManager m_FlagManager;
+
     private Vector3 m_Velocity;
     private Vector2 m_LastKnownInput;
 
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_PowerUps = GetComponent<PowerUpsManager>();
         m_VelocityModifier = GetComponent<VelocityModifier>();
+        m_FlagManager = GetComponent<FlagManager>();
         m_IsParalyzed = false;
     }
 
