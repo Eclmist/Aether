@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     private bool m_IsMidAir;
     private bool m_JumpedInCurrentFrame;
     private bool m_cannotMove;
+    private bool m_HasSpeedPowerUp;
+    private bool m_HasJumpPowerUp;
 
     void Start()
     {
@@ -75,7 +77,22 @@ public class PlayerMovement : MonoBehaviour
         float t = Time.deltaTime;
         float t2 = t * t;
 
-        m_CharacterController.Move(new Vector3(m_Velocity.x, m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2, m_Velocity.z));
+        float xVelocity = m_Velocity.x;
+        float yVelocity = m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2;
+        float zVelocity = m_Velocity.z;
+
+        if (m_HasSpeedPowerUp)
+        {
+            xVelocity = ModifyXVelocity(xVelocity);
+            zVelocity = ModifyZVelocity(zVelocity);
+        }
+
+        if (m_HasJumpPowerUp)
+        {
+            yVelocity = ModifyYVelocity(yVelocity);
+        }
+
+        m_CharacterController.Move(new Vector3(xVelocity, yVelocity, zVelocity));
 
         if (m_PlayerNetworkHandler.networkObject != null)
             m_PlayerNetworkHandler.networkObject.position = transform.position;
@@ -170,5 +187,64 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
+    }
+
+    // SETTERS FOR MOVEMENT POWER UPS
+    public void SetSpeedPowerUpStateTrue()
+    {
+        m_HasSpeedPowerUp = true;
+    }
+
+    public void SetJumpPowerUpStateTrue()
+    {
+        m_HasJumpPowerUp = true;
+    }
+
+    public void SetSpeedPowerUpStateFalse()
+    {
+        m_HasSpeedPowerUp = false;
+    }
+
+    public void SetJumpPowerUpStateFalse()
+    {
+        m_HasJumpPowerUp = false;
+    }
+
+    // Velocity modifiers for Speed powerups.
+    public float ModifyXVelocity(float velocityVector)
+    {
+        if (m_HasSpeedPowerUp)
+        {
+            velocityVector *= 2.0f;
+        }
+
+        return velocityVector;
+    }
+
+    public float ModifyYVelocity(float velocityVector)
+    {
+        if (m_HasJumpPowerUp)
+        {
+            if (velocityVector < 0)
+            {
+                velocityVector *= 0.5f;
+            }
+            else
+            {
+                velocityVector *= 2.0f;
+            }
+        }
+
+        return velocityVector;
+    }
+
+    public float ModifyZVelocity(float velocityVector)
+    {
+        if (m_HasSpeedPowerUp)
+        {
+            velocityVector *= 2.0f;
+        }
+
+        return velocityVector;
     }
 }
