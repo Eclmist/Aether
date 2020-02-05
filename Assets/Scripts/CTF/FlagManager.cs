@@ -8,7 +8,6 @@ public class FlagManager : MonoBehaviour
 {
     public GameObject m_FlagIconToggler;
     private FlagIconToggler m_FlagToggle;
-    public GameObject m_Flag;
     private bool m_IsFlagInPosession;
     // Start is called before the first frame update
     void Start()

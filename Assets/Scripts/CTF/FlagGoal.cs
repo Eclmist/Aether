@@ -8,6 +8,7 @@ using UnityEngine;
 public class FlagGoal : MonoBehaviour
 {
     public bool isRedGoal;
+    
     void OnTriggerEnter(Collider c) 
     {
         if (c.CompareTag("Player"))
@@ -17,6 +18,7 @@ public class FlagGoal : MonoBehaviour
             if (manager != null && manager.CheckIfFlagInPosession() && CheckPlayer(c.gameObject))
             {
                 IndicateVictory(c);
+                manager.SetBool(false);
             }
         }
     }
@@ -32,10 +34,10 @@ public class FlagGoal : MonoBehaviour
             return GameManager.Instance.playersInTeamBlue.Contains(player);
         }
     }
-    
 
     private void IndicateVictory(Collider c)
     {
+
         c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
         //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
         GameManager.Instance.Scored(isRedGoal);

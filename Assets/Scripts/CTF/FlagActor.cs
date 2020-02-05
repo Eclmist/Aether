@@ -5,6 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class FlagActor : MonoBehaviour
 {
+    private Vector3 m_SpawnPos;
+
+    private void Start()
+    {
+        m_SpawnPos = this.gameObject.transform.position;
+    }
+    
     void OnTriggerEnter(Collider c) 
     {
         if (c.CompareTag("Player"))
@@ -22,17 +29,15 @@ public class FlagActor : MonoBehaviour
 
     private void SetCapture(GameObject player)
     {
-        GameObject parentGameObject = this.transform.parent.gameObject;
-        parentGameObject.transform.SetParent(player.transform);
-        parentGameObject.GetComponent<AiActor>().SetInactive();
+        gameObject.transform.SetParent(player.transform);
+        //gameObject.GetComponent<AiActor>().SetInactive();
     }
 
     public void LetGo()
     {
-        GameObject parentGameObject = this.transform.parent.gameObject;
-        parentGameObject.transform.SetParent(null);
-        parentGameObject.transform.position = new Vector3();
-        parentGameObject.GetComponent<AiActor>().SetActive();
+        gameObject.transform.SetParent(null);
+        gameObject.transform.position = m_SpawnPos;
+        //gameObject.GetComponent<AiActor>().SetActive();
     }
     
 }
