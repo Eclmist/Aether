@@ -15,6 +15,10 @@ public class PlayerAnimation : MonoBehaviour
 
     private PlayerNetworkHandler m_PlayerNetworkHandler;
 
+    private float m_FallenDuration = 1.0f;
+
+    private float m_MoveDelay = 2.5f;
+
     void Start()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
@@ -66,5 +70,32 @@ public class PlayerAnimation : MonoBehaviour
     public void TriggerVictoryAnimation()
     {
         m_Animator.SetTrigger("Scored");
+    }
+
+    public void MakePlayerFall()
+    {
+        StartCoroutine("FallAction");
+    }
+
+    IEnumerator FallAction()
+    {
+        yield return StartCoroutine(SetFalls());
+        yield return StartCoroutine(SetMoves());
+    }
+
+    IEnumerator SetFalls()
+    {
+        m_PlayerMovement.SetParalyze();
+        m_Animator.SetTrigger("HasFallen");
+        yield return new WaitForSeconds(m_FallenDuration);
+        m_Animator.ResetTrigger("HasFallen");
+        m_PlayerMovement.ResetParalyze();
+    }
+
+    IEnumerator SetMoves()
+    {
+        m_PlayerMovement.SetParalyze();
+        yield return new WaitForSeconds(m_MoveDelay);
+        m_PlayerMovement.ResetParalyze();
     }
 }
