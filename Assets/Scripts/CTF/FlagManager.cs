@@ -8,7 +8,9 @@ public class FlagManager : MonoBehaviour
 {
     public GameObject m_FlagIconToggler;
     private FlagIconToggler m_FlagToggle;
-    private bool m_IsFlagInPosession;
+    protected bool m_IsFlagInPosession;
+    public static GameObject m_PlayerInPossesion;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,10 +33,21 @@ public class FlagManager : MonoBehaviour
         //Instantiate(m_Flag, transform.position+(transform.forward*2)+(transform.up), transform.rotation);
     }
 
-    public void SetBool(bool boolean)
+    public void SetFlagInPosession(bool boolean)
     {
         m_IsFlagInPosession = boolean;
     }
+
+    public void SetPlayerInPosession(GameObject player)
+    {
+        if (!m_PlayerInPossesion.Equals(player))
+        {
+            m_PlayerInPossesion.GetComponent<FlagManager>().m_IsFlagInPosession = false;
+        }
+                
+        m_PlayerInPossesion = player;
+    }
+    
 
     public bool CheckIfFlagInPosession()
     {
