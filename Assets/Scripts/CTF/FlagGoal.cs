@@ -40,6 +40,9 @@ public class FlagGoal : MonoBehaviour
         //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
         GameManager.Instance.IncrementScore(isRedGoal);
         c.GetComponentInChildren<FlagActor>().LetGo();
+        MultiplayerSceneController.Instance.UINotify("Red Team Wins!");
+        AudioManager.m_Instance.PlaySound("GEN_Achievement_2", 1.0f, 1.0f);
+
     }
 
 }

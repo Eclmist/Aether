@@ -37,6 +37,9 @@ public class FlagActor : MonoBehaviour
 
     private void SetCapture(GameObject player)
     {
+        MultiplayerSceneController.Instance.UINotify("Flag Captured");
+        AudioManager.m_Instance.PlaySound("GEN_Achievement", 1.0f, 1.0f);
+
         Transform[] childTransform = player.transform.GetComponentsInChildren<Transform>();
         bool skipPastHairBone = false;
         foreach (Transform t in childTransform)
