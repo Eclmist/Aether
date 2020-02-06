@@ -16,6 +16,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		public GameObject[] LobbyPlayerNetworkObject = null;
 		public GameObject[] LobbySystemNetworkObject = null;
 		public GameObject[] NetworkCameraNetworkObject = null;
+		public GameObject[] PlayerManagerNetworkObject = null;
 		public GameObject[] PlayerNetworkObject = null;
 		public GameObject[] TestNetworkObject = null;
 
@@ -29,12 +30,12 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		    if (Networker != null)
 				Networker.objectCreated -= CaptureObjects;
 		}
-		
+
 		private void CaptureObjects(NetworkObject obj)
 		{
 			if (obj.CreateCode < 0)
 				return;
-				
+
 			if (obj is ChatManagerNetworkObject)
 			{
 				MainThreadManager.Run(() =>
@@ -46,12 +47,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(ChatManagerNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<ChatManagerBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -69,12 +71,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(CubeForgeGameNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<CubeForgeGameBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -92,12 +95,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(ExampleProximityPlayerNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<ExampleProximityPlayerBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -115,12 +119,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(LobbyPlayerNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<LobbyPlayerBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -138,12 +143,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(LobbySystemNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<LobbySystemBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -161,12 +167,37 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(NetworkCameraNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<NetworkCameraBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
+					newObj.Initialize(obj);
+
+					if (objectInitialized != null)
+						objectInitialized(newObj, obj);
+				});
+			}
+			else if (obj is PlayerManagerNetworkObject)
+			{
+				MainThreadManager.Run(() =>
+				{
+					NetworkBehavior newObj = null;
+					if (!NetworkBehavior.skipAttachIds.TryGetValue(obj.NetworkId, out newObj))
+					{
+						if (PlayerManagerNetworkObject.Length > 0 && PlayerManagerNetworkObject[obj.CreateCode] != null)
+						{
+							var go = Instantiate(PlayerManagerNetworkObject[obj.CreateCode]);
+							newObj = go.GetComponent<PlayerManagerBehavior>();
+							go.SetActive(false);
+						}
+					}
+
+					if (newObj == null)
+						return;
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -184,12 +215,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(PlayerNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<PlayerBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -207,12 +239,13 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(TestNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<TestBehavior>();
+							go.SetActive(false);
 						}
 					}
 
 					if (newObj == null)
 						return;
-						
+
 					newObj.Initialize(obj);
 
 					if (objectInitialized != null)
@@ -229,103 +262,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			obj.pendingInitialized -= InitializedObject;
 		}
 
-		[Obsolete("Use InstantiateChatManager instead, its shorter and easier to type out ;)")]
-		public ChatManagerBehavior InstantiateChatManagerNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(ChatManagerNetworkObject[index]);
-			var netBehavior = go.GetComponent<ChatManagerBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<ChatManagerBehavior>().networkObject = (ChatManagerNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateCubeForgeGame instead, its shorter and easier to type out ;)")]
-		public CubeForgeGameBehavior InstantiateCubeForgeGameNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(CubeForgeGameNetworkObject[index]);
-			var netBehavior = go.GetComponent<CubeForgeGameBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<CubeForgeGameBehavior>().networkObject = (CubeForgeGameNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateExampleProximityPlayer instead, its shorter and easier to type out ;)")]
-		public ExampleProximityPlayerBehavior InstantiateExampleProximityPlayerNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(ExampleProximityPlayerNetworkObject[index]);
-			var netBehavior = go.GetComponent<ExampleProximityPlayerBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<ExampleProximityPlayerBehavior>().networkObject = (ExampleProximityPlayerNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateLobbyPlayer instead, its shorter and easier to type out ;)")]
-		public LobbyPlayerBehavior InstantiateLobbyPlayerNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(LobbyPlayerNetworkObject[index]);
-			var netBehavior = go.GetComponent<LobbyPlayerBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<LobbyPlayerBehavior>().networkObject = (LobbyPlayerNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateLobbySystem instead, its shorter and easier to type out ;)")]
-		public LobbySystemBehavior InstantiateLobbySystemNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(LobbySystemNetworkObject[index]);
-			var netBehavior = go.GetComponent<LobbySystemBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<LobbySystemBehavior>().networkObject = (LobbySystemNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateNetworkCamera instead, its shorter and easier to type out ;)")]
-		public NetworkCameraBehavior InstantiateNetworkCameraNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(NetworkCameraNetworkObject[index]);
-			var netBehavior = go.GetComponent<NetworkCameraBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<NetworkCameraBehavior>().networkObject = (NetworkCameraNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiatePlayer instead, its shorter and easier to type out ;)")]
-		public PlayerBehavior InstantiatePlayerNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(PlayerNetworkObject[index]);
-			var netBehavior = go.GetComponent<PlayerBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<PlayerBehavior>().networkObject = (PlayerNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-		[Obsolete("Use InstantiateTest instead, its shorter and easier to type out ;)")]
-		public TestBehavior InstantiateTestNetworkObject(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(TestNetworkObject[index]);
-			var netBehavior = go.GetComponent<TestBehavior>();
-			var obj = netBehavior.CreateNetworkObject(Networker, index);
-			go.GetComponent<TestBehavior>().networkObject = (TestNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
-			return netBehavior;
-		}
-
 		/// <summary>
 		/// Instantiate an instance of ChatManager
 		/// </summary>
@@ -338,13 +274,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public ChatManagerBehavior InstantiateChatManager(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (ChatManagerNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: ChatManager. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(ChatManagerNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<ChatManagerBehavior>();
 
 			NetworkObject obj = null;
@@ -380,7 +311,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<ChatManagerBehavior>().networkObject = (ChatManagerNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -395,13 +326,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public CubeForgeGameBehavior InstantiateCubeForgeGame(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (CubeForgeGameNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: CubeForgeGame. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(CubeForgeGameNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<CubeForgeGameBehavior>();
 
 			NetworkObject obj = null;
@@ -437,7 +363,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<CubeForgeGameBehavior>().networkObject = (CubeForgeGameNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -452,13 +378,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public ExampleProximityPlayerBehavior InstantiateExampleProximityPlayer(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (ExampleProximityPlayerNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: ExampleProximityPlayer. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(ExampleProximityPlayerNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<ExampleProximityPlayerBehavior>();
 
 			NetworkObject obj = null;
@@ -494,7 +415,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<ExampleProximityPlayerBehavior>().networkObject = (ExampleProximityPlayerNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -509,13 +430,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public LobbyPlayerBehavior InstantiateLobbyPlayer(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (LobbyPlayerNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: LobbyPlayer. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(LobbyPlayerNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<LobbyPlayerBehavior>();
 
 			NetworkObject obj = null;
@@ -551,7 +467,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<LobbyPlayerBehavior>().networkObject = (LobbyPlayerNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -566,13 +482,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public LobbySystemBehavior InstantiateLobbySystem(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (LobbySystemNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: LobbySystem. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(LobbySystemNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<LobbySystemBehavior>();
 
 			NetworkObject obj = null;
@@ -608,7 +519,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<LobbySystemBehavior>().networkObject = (LobbySystemNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -623,13 +534,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public NetworkCameraBehavior InstantiateNetworkCamera(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (NetworkCameraNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: NetworkCamera. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(NetworkCameraNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<NetworkCameraBehavior>();
 
 			NetworkObject obj = null;
@@ -665,7 +571,59 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<NetworkCameraBehavior>().networkObject = (NetworkCameraNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
+			return netBehavior;
+		}
+		/// <summary>
+		/// Instantiate an instance of PlayerManager
+		/// </summary>
+		/// <returns>
+		/// A local instance of PlayerManagerBehavior
+		/// </returns>
+		/// <param name="index">The index of the PlayerManager prefab in the NetworkManager to Instantiate</param>
+		/// <param name="position">Optional parameter which defines the position of the created GameObject</param>
+		/// <param name="rotation">Optional parameter which defines the rotation of the created GameObject</param>
+		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
+		public PlayerManagerBehavior InstantiatePlayerManager(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
+		{
+			var go = Instantiate(PlayerManagerNetworkObject[index]);
+			go.SetActive(false);
+			var netBehavior = go.GetComponent<PlayerManagerBehavior>();
+
+			NetworkObject obj = null;
+			if (!sendTransform && position == null && rotation == null)
+				obj = netBehavior.CreateNetworkObject(Networker, index);
+			else
+			{
+				metadata.Clear();
+
+				if (position == null && rotation == null)
+				{
+					byte transformFlags = 0x1 | 0x2;
+					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
+					ObjectMapper.Instance.MapBytes(metadata, go.transform.position, go.transform.rotation);
+				}
+				else
+				{
+					byte transformFlags = 0x0;
+					transformFlags |= (byte)(position != null ? 0x1 : 0x0);
+					transformFlags |= (byte)(rotation != null ? 0x2 : 0x0);
+					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
+
+					if (position != null)
+						ObjectMapper.Instance.MapBytes(metadata, position.Value);
+
+					if (rotation != null)
+						ObjectMapper.Instance.MapBytes(metadata, rotation.Value);
+				}
+
+				obj = netBehavior.CreateNetworkObject(Networker, index, metadata.CompressBytes());
+			}
+
+			go.GetComponent<PlayerManagerBehavior>().networkObject = (PlayerManagerNetworkObject)obj;
+
+			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -680,13 +638,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public PlayerBehavior InstantiatePlayer(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (PlayerNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: Player. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(PlayerNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<PlayerBehavior>();
 
 			NetworkObject obj = null;
@@ -722,7 +675,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<PlayerBehavior>().networkObject = (PlayerNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 		/// <summary>
@@ -737,13 +690,8 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
 		public TestBehavior InstantiateTest(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			if (TestNetworkObject.Length <= index)
-			{
-				Debug.Log("Prefab(s) missing for: Test. Add them at the NetworkManager prefab.");
-				return null;
-			}
-			
 			var go = Instantiate(TestNetworkObject[index]);
+			go.SetActive(false);
 			var netBehavior = go.GetComponent<TestBehavior>();
 
 			NetworkObject obj = null;
@@ -779,7 +727,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			go.GetComponent<TestBehavior>().networkObject = (TestNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-			
+
 			return netBehavior;
 		}
 	}
