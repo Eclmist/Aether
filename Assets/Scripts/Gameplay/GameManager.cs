@@ -39,7 +39,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
-        //StartCoroutine(SpawnItems());
+        StartCoroutine(SpawnItems());
     }
 
     private IEnumerator SpawnItems()
