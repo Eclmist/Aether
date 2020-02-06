@@ -8,7 +8,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedRPCVariableNames("{\"types\":[]")]
 	public abstract partial class NetworkCameraBehavior : NetworkBehavior
 	{
-		
+
 		public NetworkCameraNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
@@ -16,7 +16,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			// We have already initialized this object
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
-			
+
 			networkObject = (NetworkCameraNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
@@ -44,27 +44,24 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					metadataTransform.Clone(obj.Metadata);
 					metadataTransform.MoveStartIndex(1);
 
-					if ((transformFlags & 0x01) != 0 && (transformFlags & 0x02) != 0)
-					{
-						MainThreadManager.Run(() =>
-						{
-							transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform);
-							transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform);
-						});
-					}
-					else if ((transformFlags & 0x01) != 0)
-					{
-						MainThreadManager.Run(() => { transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform); });
-					}
-					else if ((transformFlags & 0x02) != 0)
-					{
-						MainThreadManager.Run(() => { transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform); });
-					}
+					bool changePos = (transformFlags & 0x01) != 0;
+                    bool changeRotation = (transformFlags & 0x02) != 0;
+                    if (changePos || changeRotation)
+                    {
+                        MainThreadManager.Run(()=>
+                        {
+                            if (changePos)
+                                transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform);
+                            if (changeRotation)
+                                transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform);
+                        });
+                    }
 				}
 			}
 
 			MainThreadManager.Run(() =>
 			{
+				gameObject.SetActive(true);
 				NetworkStart();
 				networkObject.Networker.FlushCreateActions(networkObject);
 			});

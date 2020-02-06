@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"string\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"name\"]]")]
+	[GeneratedRPC("{\"types\":[[\"string\"][\"int\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"name\"][\"team\"]]")]
 	public abstract partial class LobbyPlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_NAME = 0 + 5;
-		
+		public const byte RPC_SET_TEAM = 1 + 5;
+
 		public LobbyPlayerNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
@@ -17,12 +18,13 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			// We have already initialized this object
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
-			
+
 			networkObject = (LobbyPlayerNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("SetName", SetName, typeof(string));
+			networkObject.RegisterRpc("SetTeam", SetTeam, typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -46,27 +48,24 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					metadataTransform.Clone(obj.Metadata);
 					metadataTransform.MoveStartIndex(1);
 
-					if ((transformFlags & 0x01) != 0 && (transformFlags & 0x02) != 0)
-					{
-						MainThreadManager.Run(() =>
-						{
-							transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform);
-							transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform);
-						});
-					}
-					else if ((transformFlags & 0x01) != 0)
-					{
-						MainThreadManager.Run(() => { transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform); });
-					}
-					else if ((transformFlags & 0x02) != 0)
-					{
-						MainThreadManager.Run(() => { transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform); });
-					}
+					bool changePos = (transformFlags & 0x01) != 0;
+                    bool changeRotation = (transformFlags & 0x02) != 0;
+                    if (changePos || changeRotation)
+                    {
+                        MainThreadManager.Run(()=>
+                        {
+                            if (changePos)
+                                transform.position = ObjectMapper.Instance.Map<Vector3>(metadataTransform);
+                            if (changeRotation)
+                                transform.rotation = ObjectMapper.Instance.Map<Quaternion>(metadataTransform);
+                        });
+                    }
 				}
 			}
 
 			MainThreadManager.Run(() =>
 			{
+				gameObject.SetActive(true);
 				NetworkStart();
 				networkObject.Networker.FlushCreateActions(networkObject);
 			});
@@ -104,6 +103,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// string name
 		/// </summary>
 		public abstract void SetName(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// int team
+		/// </summary>
+		public abstract void SetTeam(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

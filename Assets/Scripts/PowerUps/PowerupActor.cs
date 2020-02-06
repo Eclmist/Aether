@@ -2,26 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpsManager : MonoBehaviour
+public class PowerupActor : MonoBehaviour
 {
     private bool m_canDoubleSpeed;
     private bool m_canDoubleJump;
 
     private const float m_doubleBuffDuration = 5.0f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-        public bool GetDoubleSpeed()
+    public bool GetDoubleSpeed()
     {
         return m_canDoubleSpeed;
     }
