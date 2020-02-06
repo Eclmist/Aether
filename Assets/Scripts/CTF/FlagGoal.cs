@@ -22,23 +22,23 @@ public class FlagGoal : MonoBehaviour
         }
     }
 
-    private bool CheckPlayer(GameObject player)
-    {
-        if (isRedGoal)
-        {
-            return GameManager.Instance.playersInTeamRed.Contains(player);
-        }
-        else
-        {
-            return GameManager.Instance.playersInTeamBlue.Contains(player);
-        }
-    }
+    //private bool CheckPlayer(GameObject player)
+    //{
+    //    if (isRedGoal)
+    //    {
+    //        return GameManager.Instance.playersInTeamRed.Contains(player);
+    //    }
+    //    else
+    //    {
+    //        return GameManager.Instance.playersInTeamBlue.Contains(player);
+    //    }
+    //}
 
     private void IndicateVictory(Collider c)
     {
         c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
         //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
-        GameManager.Instance.Scored(isRedGoal);
+        GameManager.Instance.IncrementScore(isRedGoal);
         c.GetComponentInChildren<FlagActor>().LetGo();
     }
 

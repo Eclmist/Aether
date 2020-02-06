@@ -1,81 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using System;
-using System.Linq;
-using Random = UnityEngine.Random;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
-    public GameObject restartPanel;
-    public List<GameObject> terrainWhereItemsSpawn;
-    public List<GameObject> playersInTeamRed, playersInTeamBlue, itemsToBeSpawned;
-    private int goalsScoredRed, goalsScoredBlue;
-    public int goalsToWin = 3;
-    public float itemSpawnDelay = 30;
+    public static int m_WinningScore = 3;
+
+    private List<GameObject> m_RedTeamPlayers;
+    private List<GameObject> m_BlueTeamPlayers;
+
+    private int m_RedTeamScore, m_BlueTeamScore;
 
     public Int32 GoalsScoredRed
     {
-        get => goalsScoredRed;
-        set => goalsScoredRed = value;
+        get => m_RedTeamScore;
+        set => m_RedTeamScore = value;
     }
 
     public Int32 GoalsScoredBlue
     {
-        get => goalsScoredBlue;
-        set => goalsScoredBlue = value;
+        get => m_BlueTeamScore;
+        set => m_BlueTeamScore = value;
     }
     
     public void InitPlayers(List<GameObject> playersInTeamRed, List<GameObject> playersInTeamBlue)
     {
-        this.playersInTeamRed = playersInTeamRed;
-        this.playersInTeamBlue = playersInTeamBlue;
+        this.m_RedTeamPlayers = playersInTeamRed;
+        this.m_BlueTeamPlayers = playersInTeamBlue;
     }
 
     private void Start()
     {
-        playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
-        StartCoroutine(SpawnItems());
+        //playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
+        //StartCoroutine(SpawnItems()); // E3: SpawnItems is throwing errors array out of bound
     }
 
-    private IEnumerator SpawnItems()
+    public void IncrementScore(GameObject playerWhoScored)
     {
-        //Handle spawning items here
-        GameObject item = itemsToBeSpawned[Random.Range(0, itemsToBeSpawned.Count)];
-        Vector3 spawnPos = terrainWhereItemsSpawn[Random.Range(0, terrainWhereItemsSpawn.Count)].transform.position;
-        //itemsToBeSpawned
-        Instantiate(item, spawnPos, item.transform.rotation);
-        yield return new WaitForSeconds(itemSpawnDelay);
-        StartCoroutine(SpawnItems());
-    }
-    
-    public void Scored(GameObject playerWhoScored)
-    {
-        if(playersInTeamRed.Contains(playerWhoScored))
+        if(m_RedTeamPlayers.Contains(playerWhoScored))
         {
-            goalsScoredRed++;
+            m_RedTeamScore++;
         }
         else
         {
-            goalsScoredBlue++;
+            m_BlueTeamScore++;
         }
 
         CheckWin();
     }
     
-    public void Scored(Boolean isTeamRed)
+    public void IncrementScore(Boolean isTeamRed)
     {
         if (isTeamRed)
         {
-            goalsScoredRed++;
+            m_RedTeamScore++;
         }
         else
         {
-            goalsScoredBlue++;
+            m_BlueTeamScore++;
         }
 
         CheckWin();
@@ -83,10 +67,10 @@ public class GameManager : Singleton<GameManager>
 
     private void CheckWin()
     {
-        if (goalsScoredRed >= goalsToWin)
+        if (m_RedTeamScore >= m_WinningScore)
         {
             Win(true);
-        } else if (goalsScoredBlue >= goalsToWin)
+        } else if (m_BlueTeamScore >= m_WinningScore)
         {
             Win(false);
         }
@@ -101,19 +85,5 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver(int index)
     {
-        //losePanel.SetActive(true);
-        enabled = false;
-        string loseText = null;
-    
-        StartCoroutine("StopRestart");
-    }
-
-    IEnumerator StopRestart()
-    {
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //restartPanel.SetActive(false);
-        // Time.timeScale = 1;
-        enabled = true;
     }
 }
