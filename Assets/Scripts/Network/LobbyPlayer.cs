@@ -62,13 +62,14 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public override void SetTeam(RpcArgs args)
     {
         Team = args.GetNext<int>();
-        if (Team == 0)
-        {
-            m_PlayerTeam.text = "Red";
-        }
-        else
-        {
-            m_PlayerTeam.text = "Blue";
-        }
+        // E3: No text, this is breaking build
+        //if (Team == 0)
+        //{
+        //    m_PlayerTeam.text = "Red";
+        //}
+        //else
+        //{
+        //    m_PlayerTeam.text = "Blue";
+        //}
     }
 }

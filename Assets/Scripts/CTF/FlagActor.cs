@@ -38,7 +38,7 @@ public class FlagActor : MonoBehaviour
     private void SetCapture(GameObject player)
     {
         MultiplayerSceneController.Instance.UINotify("Flag Captured");
-        AudioManager.m_Instance.PlaySound("GEN_Achievement", 1.0f, 1.0f);
+        AudioManager.m_Instance.PlaySound("GEN_Achievement_2", 1.0f, 1.0f);
 
         Transform[] childTransform = player.transform.GetComponentsInChildren<Transform>();
         bool skipPastHairBone = false;
@@ -54,7 +54,7 @@ public class FlagActor : MonoBehaviour
 
                 gameObject.transform.SetParent(t);
                 gameObject.transform.localPosition = new Vector3(0.03f, 0.06f, 0); //E3: Hard coded values for now
-                gameObject.transform.localScale *= 0.3f;
+                gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 180, 180));
                 return;
             }

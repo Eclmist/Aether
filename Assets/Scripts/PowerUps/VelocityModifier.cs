@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(PowerupActor))]
+// E3: this is breaking build
+//[RequireComponent(typeof(PlayerMovement))]
+//[RequireComponent(typeof(PowerupActor))]
 public class VelocityModifier : MonoBehaviour
 {
     private PlayerMovement m_PlayerMovement;
@@ -12,8 +13,6 @@ public class VelocityModifier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Null guards not necessary here because the components are guaranteed to exist
-        // due to the RequireComponent property at the top of the class.
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PowerupActor = GetComponent<PowerupActor>();
     }
