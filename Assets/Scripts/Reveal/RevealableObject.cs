@@ -97,7 +97,7 @@ public class RevealableObject : MonoBehaviour
     private static float m_TimeOfLastSFX = 0;
     private void PlayAudioFx()
     {
-        if (Time.time - m_TimeOfLastSFX < 0.2f)
+        if (Time.time - m_TimeOfLastSFX < 0.4f)
             return;
 
         m_TimeOfLastSFX = Time.time;
