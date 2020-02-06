@@ -52,6 +52,8 @@ public class ProjectileSpawn : MonoBehaviour
         if (firePoint != null && Time.time >= timeToFire)
         {
             timeToFire = Time.time + 1 / firerate;
+            //E3 Hack:
+            Crosshair.m_Instance.SetFocusOneFrame();
 
             // Creates the muzzle VFX.
             if (muzzlePrefab != null)
