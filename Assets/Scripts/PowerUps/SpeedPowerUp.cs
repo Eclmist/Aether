@@ -13,6 +13,7 @@ public class SpeedPowerUp : MonoBehaviour
             if (manager != null && !manager.GetDoubleSpeed())
             {
                 manager.GoFaster();
+                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.0f);
                 Destroy(gameObject);
             }
         }
