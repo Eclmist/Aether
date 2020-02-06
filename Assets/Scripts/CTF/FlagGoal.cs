@@ -17,7 +17,7 @@ public class FlagGoal : MonoBehaviour
             if (manager != null && manager.CheckIfFlagInPosession() /* && CheckPlayer(c.gameObject) */)
             {
                 IndicateVictory(c);
-                manager.SetBool(false);
+                manager.SetFlagInPosession(false);
             }
         }
     }

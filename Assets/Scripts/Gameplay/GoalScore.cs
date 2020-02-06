@@ -7,21 +7,37 @@ using UnityEngine.UI;
 public class GoalScore : MonoBehaviour
 {
     private Text m_GoalsScoredText;
+    public bool isRed;
 
     private int m_GoalsScored;
     // Start is called before the first frame update
     void Start()
     {
         m_GoalsScoredText = GetComponent<Text>();
-        m_GoalsScored = GameManager.Instance.GoalsScoredRed;
+        if(isRed)
+            m_GoalsScored = GameManager.Instance.GoalsScoredRed;
+        else
+        {
+            m_GoalsScored = GameManager.Instance.GoalsScoredBlue;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_GoalsScored != GameManager.Instance.GoalsScoredRed)
+        if (isRed)
         {
-            m_GoalsScoredText.text = GameManager.Instance.GoalsScoredRed.ToString();
+            if (m_GoalsScored != GameManager.Instance.GoalsScoredRed)
+            {
+                m_GoalsScoredText.text = GameManager.Instance.GoalsScoredRed.ToString();
+            }
+        }
+        else
+        {
+            if (m_GoalsScored != GameManager.Instance.GoalsScoredBlue)
+            {
+                m_GoalsScoredText.text = GameManager.Instance.GoalsScoredBlue.ToString();
+            }
         }
     }
 }

@@ -11,6 +11,9 @@ public class LobbySystem : LobbySystemBehavior
     [SerializeField]
     private List<Transform> m_PlayerPositions;
 
+    [SerializeField]
+    private List<GameObject> m_Loaders;
+
     private List<LobbyPlayer> m_LobbyPlayers;
 
     private int m_PlayerCount;
@@ -38,14 +41,16 @@ public class LobbySystem : LobbySystemBehavior
     {
         MainThreadManager.Run(() => {
             Vector3 position = m_PlayerPositions[m_PlayerCount].position;
-            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(position: position);
+            Quaternion rotation = m_PlayerPositions[m_PlayerCount].rotation;
+            Destroy(m_Loaders[m_PlayerCount]);
 
+            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation);
+            player.transform.SetParent(m_PlayerPositions[m_PlayerCount].transform, false);
             m_LobbyPlayers.Add(player);
-            m_PlayerCount++;
-
             // Name setup
             string playerName = "Player-" + playerId;
             player.UpdateName(playerName);
+            m_PlayerCount++;
         });
     }
 
