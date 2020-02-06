@@ -8,7 +8,7 @@ public class JumpPowerUp : MonoBehaviour
     {
         if (c.CompareTag("Player"))
         {
-            PowerUpsManager manager = c.GetComponent<PowerUpsManager>();
+            PowerupActor manager = c.GetComponent<PowerupActor>();
 
             if (manager != null && !manager.GetDoubleJump())
             {
