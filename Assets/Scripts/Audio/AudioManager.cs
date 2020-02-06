@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour
     void Awake()
     {
         if (m_Instance != null)
-            Destroy(this);
+            Destroy(gameObject);
 
         m_Instance = this;
 
@@ -62,6 +62,26 @@ public class AudioManager : MonoBehaviour
         AudioSource audioSource = tempSoundPlayer.GetComponent<AudioSource>();
         audioSource.volume *= volume;
         audioSource.pitch *= pitch;
+
+        audioSource.Play();
+        Destroy(tempSoundPlayer, s.m_Clip.length);
+    }
+
+    public void PlaySound(string identifier, float volume = 1, float pitch = 1)
+    {
+        SoundEntry s = Array.Find(m_SfxLibrary, sound => sound.m_Identifier == identifier);
+
+        if (s == null)
+        {
+            Debug.LogWarning("The requested sound \"" + identifier + "\" does not exist!");
+            return;
+        }
+
+        GameObject tempSoundPlayer = Instantiate(s.m_Source.gameObject);
+        AudioSource audioSource = tempSoundPlayer.GetComponent<AudioSource>();
+        audioSource.volume *= volume;
+        audioSource.pitch *= pitch;
+        audioSource.spatialBlend = 0.0f; // Important
 
         audioSource.Play();
         Destroy(tempSoundPlayer, s.m_Clip.length);
