@@ -13,6 +13,7 @@ public class JumpPowerUp : MonoBehaviour
             if (manager != null && !manager.GetDoubleJump())
             {
                 manager.JumpHigher();
+                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
                 Destroy(gameObject);
             }
         }
