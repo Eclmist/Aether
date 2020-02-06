@@ -9,6 +9,7 @@ public class FlagActor : MonoBehaviour
     private Vector3 m_SpawnRotation;
     public Vector3 m_PosWhenCaptured;
     public Vector3 m_RotationWhenCaptured;
+    public GameObject m_HighlightObject;
 
 
     private void Start()
@@ -25,6 +26,7 @@ public class FlagActor : MonoBehaviour
 
             if (manager != null && !manager.CheckIfFlagInPosession())
             {
+                m_HighlightObject.SetActive(false);
                 SetCapture(c.gameObject);
                 manager.SetFlagInPosession(true);
                 manager.SetPlayerInPosession(c.gameObject);
@@ -35,6 +37,27 @@ public class FlagActor : MonoBehaviour
 
     private void SetCapture(GameObject player)
     {
+        Transform[] childTransform = player.transform.GetComponentsInChildren<Transform>();
+        bool skipPastHairBone = false;
+        foreach (Transform t in childTransform)
+        {
+            if (t.name == "Character1_RightHand")
+            {
+                if (!skipPastHairBone)
+                {
+                    skipPastHairBone = true;
+                    continue;
+                }
+
+                gameObject.transform.SetParent(t);
+                gameObject.transform.localPosition = new Vector3(0.03f, 0.06f, 0); //E3: Hard coded values for now
+                gameObject.transform.localScale *= 0.3f;
+                gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0, 180, 180));
+                return;
+            }
+        }
+
+
         gameObject.transform.SetParent(player.transform);
         gameObject.transform.localPosition = m_PosWhenCaptured;
         gameObject.transform.localEulerAngles = m_RotationWhenCaptured;
@@ -46,7 +69,9 @@ public class FlagActor : MonoBehaviour
         gameObject.transform.SetParent(null);
         gameObject.transform.position = m_SpawnPos;
         gameObject.transform.eulerAngles = m_SpawnRotation;
+        gameObject.transform.localScale = Vector3.one;
+        m_HighlightObject.SetActive(true);
         //gameObject.GetComponent<AiActor>().SetActive();
     }
-    
+
 }

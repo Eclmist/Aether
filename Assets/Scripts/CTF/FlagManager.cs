@@ -40,9 +40,12 @@ public class FlagManager : MonoBehaviour
 
     public void SetPlayerInPosession(GameObject player)
     {
-        if (!m_PlayerInPossesion.Equals(player))
+        if (m_PlayerInPossesion != null)
         {
-            m_PlayerInPossesion.GetComponent<FlagManager>().m_IsFlagInPosession = false;
+            if (!m_PlayerInPossesion.Equals(player))
+            {
+                m_PlayerInPossesion.GetComponent<FlagManager>().m_IsFlagInPosession = false;
+            }
         }
                 
         m_PlayerInPossesion = player;
