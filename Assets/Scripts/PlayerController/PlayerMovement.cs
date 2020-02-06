@@ -20,24 +20,23 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private float m_Gravity = -9.8f;
+    private float m_ExternalGravityModifier = 1.0f;
 
     [SerializeField]
     private float m_FallingGravityMultiplier = 2.0f;
 
     [SerializeField]
     private float m_JumpHeight = 1.3f;
+    private float m_ExternalJumpHeightModifier = 1.0f;
 
     private CharacterController m_CharacterController;
 
     private PlayerNetworkHandler m_PlayerNetworkHandler;
 
-    private PowerUpsManager m_PowerUps;
-
-    private VelocityModifier m_VelocityModifier;
-
     private FlagManager m_FlagManager;
 
     private Vector3 m_Velocity;
+    private Vector3 m_ExternalVelocityModifier = Vector3.one;
     private Vector2 m_LastKnownInput;
 
     private float m_LandingRecoveryTime = 0.05f;
@@ -55,8 +54,6 @@ public class PlayerMovement : MonoBehaviour
         AetherInput.GetPlayerActions().Jump.performed += HandleJump;
         m_CharacterController = GetComponent<CharacterController>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
-        m_PowerUps = GetComponent<PowerUpsManager>();
-        m_VelocityModifier = GetComponent<VelocityModifier>();
         m_FlagManager = GetComponent<FlagManager>();
         m_IsParalyzed = false;
     }
@@ -96,15 +93,14 @@ public class PlayerMovement : MonoBehaviour
         float t = Time.deltaTime;
         float t2 = t * t;
 
-        float xVelocity = m_Velocity.x;
-        float yVelocity = m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2; 
-        float zVelocity = m_Velocity.z;
+        Vector3 finalVelocity = GetVelocity();
 
-        xVelocity = m_VelocityModifier.ModifyXVelocity(xVelocity, m_PowerUps);
-        yVelocity = m_VelocityModifier.ModifyYVelocity(yVelocity, m_PowerUps);
-        zVelocity = m_VelocityModifier.ModifyZVelocity(zVelocity, m_PowerUps);
+        // Kinematic equation for constant acceleration
+        float yVelocity = m_Velocity.y * t + 0.5f * GetGravityMagnitude() * t2;
+        finalVelocity.y = yVelocity; // E3: For some reason setting the .y doesn't work
 
-        m_CharacterController.Move(new Vector3(xVelocity, yVelocity, zVelocity));
+        m_CharacterController.Move(finalVelocity);
+
 
         if (m_PlayerNetworkHandler.networkObject != null)
             m_PlayerNetworkHandler.networkObject.position = transform.position;
@@ -162,12 +158,15 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 GetVelocity()
     {
-        return m_Velocity;
+        return new Vector3(
+            m_Velocity.x * m_ExternalVelocityModifier.x,
+            m_Velocity.y * m_ExternalVelocityModifier.y,
+            m_Velocity.z * m_ExternalVelocityModifier.z);
     }
 
     public float GetGravityMagnitude()
     {
-        return m_Gravity * (m_Velocity.y >= 0 ? 1 : m_FallingGravityMultiplier);
+        return m_Gravity * (m_Velocity.y >= 0 ? 1 : m_FallingGravityMultiplier) * m_ExternalGravityModifier;
     }
 
     public bool IsRecoveringFromFall()
@@ -198,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
     // This should be an animation callback for more visually appealing jumps
     public void Jump()
     {
-        m_Velocity.y = Mathf.Sqrt(m_JumpHeight * -2 * m_Gravity);
+        m_Velocity.y = Mathf.Sqrt(m_JumpHeight * m_ExternalJumpHeightModifier * -2 * m_Gravity);
     }
 
     public void SetParalyze()
@@ -211,4 +210,18 @@ public class PlayerMovement : MonoBehaviour
         m_IsParalyzed = false;
     }
 
+    public void SetExternalVelocityModifier(Vector3 velocityModifier)
+    {
+        m_ExternalVelocityModifier = velocityModifier;
+    }
+
+    public void SetExternalGravityModifier(float modifier)
+    {
+        m_ExternalGravityModifier = modifier;
+    }
+
+    public void SetExternalJumpHeightModifier(float modifier)
+    {
+        m_ExternalJumpHeightModifier = modifier;
+    }
 }

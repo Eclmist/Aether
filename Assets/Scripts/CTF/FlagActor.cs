@@ -26,7 +26,8 @@ public class FlagActor : MonoBehaviour
             if (manager != null && !manager.CheckIfFlagInPosession())
             {
                 SetCapture(c.gameObject);
-                manager.SetBool(true);
+                manager.SetFlagInPosession(true);
+                manager.SetPlayerInPosession(c.gameObject);
                 //Destroy(gameObject);
             }
         }

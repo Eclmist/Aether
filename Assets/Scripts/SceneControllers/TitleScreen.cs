@@ -29,7 +29,7 @@ public class TitleScreen : MonoBehaviour
                 return;
 
             m_MainCanvasAnimator.SetTrigger("Start");
-            AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_2", Camera.main.transform.position, 1.0f, 1.0f);
+            AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
             m_AnyKeyPressed = true;
         }
 
@@ -45,7 +45,7 @@ public class TitleScreen : MonoBehaviour
 
     public void GoToMultiplayLobby()
     {
-        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_1", Camera.main.transform.position, 1.0f, 1.0f);
+        AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
         m_ScreenFadeAnimator.SetTrigger("ToBlack");
         StartCoroutine("HostLobby");
     }
@@ -59,7 +59,7 @@ public class TitleScreen : MonoBehaviour
     public void LoadVisibilityGym()
     {
         SceneManager.LoadScene("GYM_Visibility 1");
-        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Success_1", Camera.main.transform.position, 1.0f, 1.0f);
+        AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
     }
 
     public void Quit()
