@@ -1,4 +1,4 @@
 ﻿public interface IInteractable
 {
-    void Interact(IInteractor interactor);
+    void Interact(I_CanInteract interactor);
 } 

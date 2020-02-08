@@ -12,7 +12,7 @@ public class SpeedPowerUp : PowerUp
         Interact(interactor);
     }
 
-    public void Interact(IInteractor interactor) 
+    public void Interact(I_CanInteract interactor) 
     {
         if (interactor != null && interactor is PlayerHandler) 
         {
