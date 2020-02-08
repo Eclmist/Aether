@@ -6,19 +6,16 @@ public class SpeedPowerUp : PowerUp
 {
     void OnTriggerEnter(Collider c)
     {
-        if (c.CompareTag("Player"))
-        {
-            PowerupActor interactor = c.GetComponent<PowerupActor>();
-            BuffInteractor(interactor);
-        }
+        PlayerHandler interactor = c.GetComponent<PlayerHandler>();
+        BuffInteractor(interactor);
     }
 
-    public override void BuffInteractor(PowerupActor interactor)
+    public override void BuffInteractor(PlayerHandler interactor)
     {
-        if (interactor != null && !interactor.GetDoubleSpeed())
+        if (interactor != null)
         {
-            interactor.GoFaster();
             PlayPickUpSound();
+            interactor.HandleInteraction(this);
             Destroy(gameObject);
         }
     }

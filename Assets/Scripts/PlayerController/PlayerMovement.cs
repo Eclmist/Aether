@@ -33,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerNetworkHandler m_PlayerNetworkHandler;
 
-    private FlagManager m_FlagManager;
-
     private Vector3 m_Velocity;
     private Vector3 m_ExternalVelocityModifier = Vector3.one;
     private Vector2 m_LastKnownInput;
@@ -54,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         AetherInput.GetPlayerActions().Jump.performed += HandleJump;
         m_CharacterController = GetComponent<CharacterController>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
-        m_FlagManager = GetComponent<FlagManager>();
         m_IsParalyzed = false;
     }
 

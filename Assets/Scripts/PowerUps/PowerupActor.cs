@@ -31,12 +31,18 @@ public class PowerupActor : MonoBehaviour
 
     public void GoFaster()
     {
-        StartCoroutine("DoubleUpSpeed");
+        if (!GetDoubleSpeed()) 
+        {
+            StartCoroutine("DoubleUpSpeed");
+        }
     }
 
     public void JumpHigher()
     {
-        StartCoroutine("DoubleUpJump");
+        if (!GetDoubleSpeed())
+        {
+            StartCoroutine("DoubleUpJump");
+        }
     }
 
     IEnumerator DoubleUpJump()

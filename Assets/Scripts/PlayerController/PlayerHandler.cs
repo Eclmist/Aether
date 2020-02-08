@@ -2,22 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// E3: this is breaking build
-//[RequireComponent(typeof(PlayerMovement))]
-//[RequireComponent(typeof(PowerupActor))]
-public class VelocityModifier : MonoBehaviour
+public class PlayerHandler : MonoBehaviour, IInteractor
 {
+    [SerializeField]
     private PlayerMovement m_PlayerMovement;
+
+    [SerializeField]
+    private PlayerAnimation m_PlayerAnimation;
+
+    [SerializeField]
     private PowerupActor m_PowerupActor;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PowerupActor = GetComponent<PowerupActor>();
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateVelocity();
+    }
+
+    public void HandleInteraction(IInteractable interactable) {
+        if (interactable is JumpPowerUp) {
+            m_PowerupActor.JumpHigher();
+        } 
+
+        if (interactable is SpeedPowerUp) {
+            m_PowerupActor.GoFaster();
+        }
+    }
+
+    private void UpdateVelocity()
     {
         m_PlayerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
         m_PlayerMovement.SetExternalJumpHeightModifier(ComputeJumpHeightModifier());
