@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHandler : MonoBehaviour, I_CanInteract
+public class PlayerHandler : MonoBehaviour, ICanInteract
 {
     [SerializeField]
     private PlayerMovement m_PlayerMovement;
