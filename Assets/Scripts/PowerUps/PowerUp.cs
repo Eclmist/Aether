@@ -4,20 +4,18 @@ using UnityEngine;
 
 public abstract class PowerUp : MonoBehaviour, IInteractable
 {
-    public void Interact(PowerupActor interactor) 
+    protected void PlayPickUpSound() 
+    {
+        AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
+    }
+
+    public abstract float GetBuffDuration();
+
+    public void Interact(PlayerHandler interactor) 
     {
         if (interactor != null) 
         {
             Destroy(gameObject);
         }
     }
-
-    protected void PlayPickUpSound() 
-    {
-        AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
-    }
-
-    public abstract void BuffInteractor(PlayerHandler interactor);
-
-    
 }

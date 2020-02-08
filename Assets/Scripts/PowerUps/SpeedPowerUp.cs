@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class SpeedPowerUp : PowerUp
 {
+    private const float m_BuffDuration = 5.0f;
+
     void OnTriggerEnter(Collider c)
     {
         PlayerHandler interactor = c.GetComponent<PlayerHandler>();
-        BuffInteractor(interactor);
+        Interact(interactor);
     }
 
-    public override void BuffInteractor(PlayerHandler interactor)
+    public override float GetBuffDuration()
     {
-        if (interactor != null)
+        return m_BuffDuration;
+    }
+
+    public void Interact(PlayerHandler interactor) 
+    {
+        if (interactor != null) 
         {
             PlayPickUpSound();
             interactor.HandleInteraction(this);
