@@ -17,7 +17,7 @@ public abstract class PowerUp : MonoBehaviour, IInteractable
         AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
     }
 
-    public abstract void BuffInteractor(PowerupActor interactor);
+    public abstract void BuffInteractor(PlayerHandler interactor);
 
     
 }
