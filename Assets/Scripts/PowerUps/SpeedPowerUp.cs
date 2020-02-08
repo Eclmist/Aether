@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedPowerUp : MonoBehaviour
+public class SpeedPowerUp : PowerUp
 {
     void OnTriggerEnter(Collider c)
     {
         if (c.CompareTag("Player"))
         {
-            PowerupActor manager = c.GetComponent<PowerupActor>();
+            PowerupActor interactor = c.GetComponent<PowerupActor>();
+            BuffInteractor(interactor);
+        }
+    }
 
-            if (manager != null && !manager.GetDoubleSpeed())
-            {
-                manager.GoFaster();
-                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.0f);
-                Destroy(gameObject);
-            }
+    public override void BuffInteractor(PowerupActor interactor)
+    {
+        if (interactor != null && !interactor.GetDoubleSpeed())
+        {
+            interactor.GoFaster();
+            PlayPickUpSound();
+            Destroy(gameObject);
         }
     }
 }

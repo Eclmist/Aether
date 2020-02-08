@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpPowerUp : MonoBehaviour
+public class JumpPowerUp : PowerUp
 {
     void OnTriggerEnter(Collider c)
     {
         if (c.CompareTag("Player"))
         {
-            PowerupActor manager = c.GetComponent<PowerupActor>();
-
-            if (manager != null && !manager.GetDoubleJump())
-            {
-                manager.JumpHigher();
-                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
-                Destroy(gameObject);
-            }
+            PowerupActor interactor = c.GetComponent<PowerupActor>();
+            BuffInteractor(interactor);
         }
     }
+
+    public override void BuffInteractor(PowerupActor interactor)
+    {
+        if (interactor != null && !interactor.GetDoubleJump())
+        {
+            interactor.JumpHigher();
+            PlayPickUpSound();
+            Destroy(gameObject);
+        }
+    }
+
 }
