@@ -9,9 +9,7 @@ public abstract class PowerUp : MonoBehaviour, IInteractable
         AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
     }
 
-    public abstract float GetBuffDuration();
-
-    public void Interact(PlayerHandler interactor) 
+    public void Interact(IInteractor interactor) 
     {
         if (interactor != null) 
         {

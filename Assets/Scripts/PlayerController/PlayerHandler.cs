@@ -27,14 +27,23 @@ public class PlayerHandler : MonoBehaviour, IInteractor
         UpdateVelocity();
     }
 
-    public void HandleInteraction(IInteractable interactable) {
-        if (interactable is JumpPowerUp) {
-            m_PowerupActor.JumpHigher(((JumpPowerUp) interactable).GetBuffDuration());
-        } 
-
-        if (interactable is SpeedPowerUp) {
-            m_PowerupActor.GoFaster(((SpeedPowerUp) interactable).GetBuffDuration());
+    void OnTriggerEnter(Collider c)
+    {
+        IInteractable interactingObject = c.GetComponent<IInteractable>();
+        if (interactingObject != null)
+        {
+            interactingObject.Interact(this);
         }
+    }
+
+    public void BoostJump() 
+    {
+        m_PowerupActor.JumpHigher(JumpPowerUp.JUMP_BUFF_DURATION);
+    }
+
+    public void BoostSpeed() 
+    {
+        m_PowerupActor.GoFaster(SpeedPowerUp.SPEED_BUFF_DURATION);
     }
 
     private void UpdateVelocity()
