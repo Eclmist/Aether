@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpeedPowerUp : PowerUp
 {
-    private const float m_BuffDuration = 5.0f;
+    public static float SPEED_BUFF_DURATION = 5.0f;
 
     void OnTriggerEnter(Collider c)
     {
@@ -12,17 +12,12 @@ public class SpeedPowerUp : PowerUp
         Interact(interactor);
     }
 
-    public override float GetBuffDuration()
+    public void Interact(IInteractor interactor) 
     {
-        return m_BuffDuration;
-    }
-
-    public void Interact(PlayerHandler interactor) 
-    {
-        if (interactor != null) 
+        if (interactor != null && interactor is PlayerHandler) 
         {
             PlayPickUpSound();
-            interactor.HandleInteraction(this);
+            ((PlayerHandler) interactor).BoostSpeed();
             Destroy(gameObject);
         }
     }
