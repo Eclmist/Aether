@@ -29,11 +29,11 @@ public class PlayerHandler : MonoBehaviour, IInteractor
 
     public void HandleInteraction(IInteractable interactable) {
         if (interactable is JumpPowerUp) {
-            m_PowerupActor.JumpHigher();
+            m_PowerupActor.JumpHigher(((JumpPowerUp) interactable).GetBuffDuration());
         } 
 
         if (interactable is SpeedPowerUp) {
-            m_PowerupActor.GoFaster();
+            m_PowerupActor.GoFaster(((SpeedPowerUp) interactable).GetBuffDuration());
         }
     }
 
@@ -47,20 +47,20 @@ public class PlayerHandler : MonoBehaviour, IInteractor
     private Vector3 ComputeVelocityModifier()
     {
         Vector3 res = Vector3.zero;
-        res.x = m_PowerupActor.GetDoubleSpeed() ? 1.5f : 1.0f;
+        res.x = m_PowerupActor.IsDoubleSpeed() ? 1.5f : 1.0f;
         res.y = 1;
-        res.z = m_PowerupActor.GetDoubleSpeed() ? 1.5f : 1.0f;
+        res.z = m_PowerupActor.IsDoubleSpeed() ? 1.5f : 1.0f;
         return res;
     }
 
     private float ComputeJumpHeightModifier()
     {
-        return m_PowerupActor.GetDoubleJump() ? 1.5f : 1.0f;
+        return m_PowerupActor.IsDoubleJump() ? 1.5f : 1.0f;
     }
 
     private float ComputeGravityModifier()
     {
         // Empirical values here
-        return m_PowerupActor.GetDoubleJump() ? 0.85f : 1.0f;
+        return m_PowerupActor.IsDoubleJump() ? 0.85f : 1.0f;
     }
 }

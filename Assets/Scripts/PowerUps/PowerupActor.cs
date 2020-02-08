@@ -4,58 +4,44 @@ using UnityEngine;
 
 public class PowerupActor : MonoBehaviour
 {
-    private bool m_canDoubleSpeed;
-    private bool m_canDoubleJump;
+    private bool m_CanDoubleSpeed;
+    private bool m_CanDoubleJump;
 
-    private const float m_doubleBuffDuration = 5.0f;
-
-    public bool GetDoubleSpeed()
-    {
-        return m_canDoubleSpeed;
+    public bool IsDoubleSpeed() {
+        return m_CanDoubleSpeed;
     }
 
-    public void SetDoubleSpeed(bool boolean)
-    {
-        m_canDoubleSpeed = boolean;
+    public bool IsDoubleJump() {
+        return m_CanDoubleJump;
     }
 
-    public bool GetDoubleJump()
+    public void GoFaster(float buffDuration)
     {
-        return m_canDoubleJump;
-    }
-
-    public void SetDoubleJump(bool boolean)
-    {
-        m_canDoubleJump = boolean;
-    }
-
-    public void GoFaster()
-    {
-        if (!GetDoubleSpeed()) 
+        if (!m_CanDoubleSpeed) 
         {
-            StartCoroutine("DoubleUpSpeed");
+            StartCoroutine(DoubleUpSpeed(buffDuration));
         }
     }
 
-    public void JumpHigher()
+    public void JumpHigher(float buffDuration)
     {
-        if (!GetDoubleSpeed())
+        if (!m_CanDoubleJump)
         {
-            StartCoroutine("DoubleUpJump");
+            StartCoroutine(DoubleUpJump(buffDuration));
         }
     }
 
-    IEnumerator DoubleUpJump()
+    IEnumerator DoubleUpJump(float buffDuration)
     {
-        SetDoubleJump(true);
-        yield return new WaitForSeconds(m_doubleBuffDuration);
-        SetDoubleJump(false);
+        m_CanDoubleJump = true;
+        yield return new WaitForSeconds(buffDuration);
+        m_CanDoubleJump = false;
     }
 
-    IEnumerator DoubleUpSpeed()
+    IEnumerator DoubleUpSpeed(float buffDuration)
     {
-        SetDoubleSpeed(true);
-        yield return new WaitForSeconds(m_doubleBuffDuration);
-        SetDoubleSpeed(false);
+        m_CanDoubleSpeed = true;
+        yield return new WaitForSeconds(buffDuration);
+        m_CanDoubleSpeed = false;
     }
 }
