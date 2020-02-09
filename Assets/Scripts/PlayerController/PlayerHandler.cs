@@ -36,14 +36,24 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
         }
     }
 
-    public void BoostJump() 
+    public PlayerMovement GetPlayerMovement()
     {
-        m_PowerupActor.JumpHigher(JumpPowerUp.JUMP_BUFF_DURATION);
+        return m_PlayerMovement;
     }
 
-    public void BoostSpeed() 
+    public void SetPlayerMovement(PlayerMovement playerMovement)
     {
-        m_PowerupActor.GoFaster(SpeedPowerUp.SPEED_BUFF_DURATION);
+        m_PlayerMovement = playerMovement;
+    }
+
+    public PowerupActor GetPlayerPowerupActor()
+    {
+        return m_PowerupActor;
+    }
+
+    public void SetPlayerPowerupActor(PowerupActor powerupActor)
+    {
+        m_PowerupActor = powerupActor;
     }
 
     private void UpdateVelocity()
