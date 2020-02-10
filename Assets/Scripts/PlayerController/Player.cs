@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerAnimation), typeof(ClientServerTogglables))]
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerAnimation))]
+[RequireComponent(typeof(ClientServerTogglables))]
+[RequireComponent(typeof(PowerupActor))]
 public class Player : PlayerBehavior, ICanInteract
 {
     private PlayerMovement m_PlayerMovement;
