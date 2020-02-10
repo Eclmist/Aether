@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerNetworkHandler))]
+[RequireComponent(typeof(Player))]
 public class PlayerNetworkAnimation : MonoBehaviour
 {
     [SerializeField]
@@ -9,23 +9,23 @@ public class PlayerNetworkAnimation : MonoBehaviour
     [SerializeField]
     private AnimationCurve m_AnimationSpeedCurve;
 
-    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private Player m_Player;
 
     void Start()
     {
-        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        m_Player = GetComponent<Player>();
     }
 
     void Update()
     {
-        if (m_PlayerNetworkHandler.networkObject == null)
+        if (m_Player.networkObject == null)
             return;
 
-        float axisMagnitude = m_PlayerNetworkHandler.networkObject.axisMagnitude;
-        transform.rotation = m_PlayerNetworkHandler.networkObject.rotation;
+        float axisMagnitude = m_Player.networkObject.axisMagnitude;
+        transform.rotation = m_Player.networkObject.rotation;
         m_Animator.SetFloat("MovementInput", axisMagnitude);
-        m_Animator.SetFloat("VerticalVelocity", m_PlayerNetworkHandler.networkObject.vertVelocity);
-        m_Animator.SetBool("Grounded", m_PlayerNetworkHandler.networkObject.grounded);
+        m_Animator.SetFloat("VerticalVelocity", m_Player.networkObject.vertVelocity);
+        m_Animator.SetBool("Grounded", m_Player.networkObject.grounded);
 
         if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
         {
