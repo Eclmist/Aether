@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-[RequireComponent(typeof(CharacterController), typeof(PlayerNetworkHandler))]
+[RequireComponent(typeof(CharacterController), typeof(Player))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController m_CharacterController;
 
-    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private Player m_Player;
 
     private Vector3 m_Velocity;
     private Vector3 m_ExternalVelocityModifier = Vector3.one;
@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     {
         AetherInput.GetPlayerActions().Jump.performed += HandleJump;
         m_CharacterController = GetComponent<CharacterController>();
-        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        m_Player = GetComponent<Player>();
         m_IsParalyzed = false;
     }
 
@@ -99,8 +99,8 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterController.Move(finalVelocity);
 
 
-        if (m_PlayerNetworkHandler.networkObject != null)
-            m_PlayerNetworkHandler.networkObject.position = transform.position;
+        if (m_Player.networkObject != null)
+            m_Player.networkObject.position = transform.position;
     }
 
     private void LateUpdate()

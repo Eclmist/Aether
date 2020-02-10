@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class PowerUp : MonoBehaviour, IInteractable
 {
@@ -11,14 +9,14 @@ public abstract class PowerUp : MonoBehaviour, IInteractable
 
     public void Interact(ICanInteract interactor) 
     {
-        if (interactor != null && interactor is PlayerHandler) 
+        if (interactor != null && interactor is Player player) 
         {
             PlayPickUpSound();
-            HandlePowerups(((PlayerHandler) interactor).GetPlayerPowerupActor());
+            HandlePowerup(player.GetPlayerPowerupActor());
             Destroy(gameObject);
         }
     }
 
-    public abstract void HandlePowerups(PowerupActor powerupActor);
+    public abstract void HandlePowerup(PowerupActor powerupActor);
     
 }

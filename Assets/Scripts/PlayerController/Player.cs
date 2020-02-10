@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerAnimation), typeof(PowerupActor))]
-public class PlayerHandler : MonoBehaviour, ICanInteract
+[RequireComponent(typeof(PlayerMovement), typeof(PlayerAnimation), typeof(ClientServerTogglables))]
+public class Player : PlayerBehavior, ICanInteract
 {
-    [SerializeField]
     private PlayerMovement m_PlayerMovement;
 
-    [SerializeField]
     private PlayerAnimation m_PlayerAnimation;
 
-    [SerializeField]
     private PowerupActor m_PowerupActor;
+
+    private ClientServerTogglables m_ClientServerTogglables;
 
     private const float m_SpeedModifier = 1.50f;
 
@@ -20,15 +18,23 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
 
     private const float m_GravityModifier = 0.85f;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
+        m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_PowerupActor = GetComponent<PowerupActor>();
+        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
     }
 
-    // Update is called once per frame
+    protected override void NetworkStart()
+    {
+        base.NetworkStart();
+
+        m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
+        networkObject.positionInterpolation.Enabled = false;
+        networkObject.positionChanged += WarpToFirstPosition;
+    }
+
     void Update()
     {
         UpdateVelocity();
@@ -39,12 +45,12 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
         InteractWith(c.GetComponent<IInteractable>());
     }
 
-    private void InteractWith(IInteractable interactable) 
+    void WarpToFirstPosition(Vector3 field, ulong timestep)
     {
-        if (interactable != null) // null check done here instead. 
-        {
-            interactingObject.Interact(this);
-        }
+        networkObject.positionChanged -= WarpToFirstPosition;
+        networkObject.positionInterpolation.Enabled = true;
+        networkObject.positionInterpolation.current = networkObject.position;
+        networkObject.positionInterpolation.target = networkObject.position;
     }
 
     public PlayerMovement GetPlayerMovement()
@@ -65,6 +71,14 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
     public void SetPlayerPowerupActor(PowerupActor powerupActor)
     {
         m_PowerupActor = powerupActor;
+    }
+
+    private void InteractWith(IInteractable interactable)
+    {
+        if (interactable != null) // null check done here instead. 
+        {
+            interactable.Interact(this);
+        }
     }
 
     private void UpdateVelocity()
