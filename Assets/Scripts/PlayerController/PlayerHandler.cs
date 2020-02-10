@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovement), typeof(PlayerAnimation), typeof(PowerupActor))]
 public class PlayerHandler : MonoBehaviour, ICanInteract
 {
     [SerializeField]
@@ -12,6 +13,12 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
 
     [SerializeField]
     private PowerupActor m_PowerupActor;
+
+    private const float m_SpeedModifier = 1.50f;
+
+    private const float m_JumpModifier = 1.50f; 
+
+    private const float m_GravityModifier = 0.85f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +36,12 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
 
     void OnTriggerEnter(Collider c)
     {
-        IInteractable interactingObject = c.GetComponent<IInteractable>();
-        if (interactingObject != null)
+        InteractWith(c.GetComponent<IInteractable>());
+    }
+
+    private void InteractWith(IInteractable interactable) 
+    {
+        if (interactable != null) // null check done here instead. 
         {
             interactingObject.Interact(this);
         }
@@ -66,20 +77,20 @@ public class PlayerHandler : MonoBehaviour, ICanInteract
     private Vector3 ComputeVelocityModifier()
     {
         Vector3 res = Vector3.zero;
-        res.x = m_PowerupActor.IsDoubleSpeed() ? 1.5f : 1.0f;
+        res.x = m_PowerupActor.IsDoubleSpeed() ? m_SpeedModifier : 1.0f;
         res.y = 1;
-        res.z = m_PowerupActor.IsDoubleSpeed() ? 1.5f : 1.0f;
+        res.z = m_PowerupActor.IsDoubleSpeed() ? m_SpeedModifier : 1.0f;
         return res;
     }
 
     private float ComputeJumpHeightModifier()
     {
-        return m_PowerupActor.IsDoubleJump() ? 1.5f : 1.0f;
+        return m_PowerupActor.IsDoubleJump() ? m_JumpModifier : 1.0f;
     }
 
     private float ComputeGravityModifier()
     {
         // Empirical values here
-        return m_PowerupActor.IsDoubleJump() ? 0.85f : 1.0f;
+        return m_PowerupActor.IsDoubleJump() ? m_GravityModifier : 1.0f;
     }
 }
