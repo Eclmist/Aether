@@ -32,7 +32,7 @@ public class Patrol : StateMachineBehaviour
     {
         CheckForAgent(animator);
         
-        if (!m_agent.pathPending && m_agent.remainingDistance < 0.1f)
+        if (!m_agent.pathPending && m_agent.remainingDistance < m_agent.stoppingDistance)
             GotoNextPoint();
     }
 

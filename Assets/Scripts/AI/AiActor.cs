@@ -7,8 +7,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class AiActor : MonoBehaviour
 {
-    private NavMeshAgent m_Agent;
-    private Animator m_StateAnimator;
+    protected NavMeshAgent m_Agent;
+    protected Animator m_StateAnimator;
     public Transform player;
 
     public void Awake()
