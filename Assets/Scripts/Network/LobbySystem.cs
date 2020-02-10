@@ -8,6 +8,9 @@ using BeardedManStudios.Forge.Networking.Generated;
 public class LobbySystem : LobbySystemBehavior
 {
     [SerializeField]
+    private bool m_BypassTeamCheck;
+
+    [SerializeField]
     private List<Transform> m_PlayerPositions;
 
     [SerializeField]
@@ -61,7 +64,8 @@ public class LobbySystem : LobbySystemBehavior
     private bool CanStart()
     {
         // bypass for testing
-        return true;
+        if (m_BypassTeamCheck)
+            return true;
 
         // TODO: Add ready check
         if (m_PlayerCount != 4)
