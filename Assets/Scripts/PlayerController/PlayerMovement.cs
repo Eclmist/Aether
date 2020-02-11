@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
@@ -44,8 +42,6 @@ public class PlayerMovement : MonoBehaviour
     private bool m_IsMidAir;
     private bool m_JumpedInCurrentFrame;
     private bool m_cannotMove;
-    private bool m_HasSpeedPowerUp;
-    private bool m_HasJumpPowerUp;
     private bool m_IsParalyzed;
 
     void Start()
