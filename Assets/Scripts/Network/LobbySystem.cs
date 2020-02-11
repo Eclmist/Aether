@@ -11,10 +11,10 @@ public class LobbySystem : LobbySystemBehavior
     private bool m_BypassTeamCheck;
 
     [SerializeField]
-    private List<Transform> m_PlayerPositions;
+    private Transform[] m_PlayerPositions;
 
     [SerializeField]
-    private List<GameObject> m_Loaders;
+    private GameObject[] m_Loaders;
 
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
@@ -74,7 +74,7 @@ public class LobbySystem : LobbySystemBehavior
         int balance = 0;
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
         {
-            if (p.Team == 0)
+            if (p.GetTeam() == 0)
                 balance++;
             else
                 balance--;
@@ -104,7 +104,7 @@ public class LobbySystem : LobbySystemBehavior
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
                     AetherNetworkManager.PlayerDetails details;
-                    details.team = m_LobbyPlayers[np].Team;
+                    details.team = m_LobbyPlayers[np].GetTeam();
                     details.position = details.team == 0 ? left++ : right++;
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);
