@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class PowerUp : MonoBehaviour, IInteractable
 {
-    private void PlayPickUpSound() 
+    [SerializeField]
+    protected const float m_BuffDuration = 5.0f;
+
+    public void Interact(ICanInteract interactor) 
+    {
+        if (interactor != null && interactor is Player player)
+        {
+            PowerupHandler powerupHandler = player.gameObject.GetComponent<PowerupHandler>();
+            if (powerupHandler != null)
+            {
+                PlayPickUpSound();
+                HandlePowerup(powerupHandler, player.GetPlayerMovement());
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void PlayPickUpSound()
     {
         AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
     }
 
-    public void Interact(ICanInteract interactor) 
-    {
-        if (interactor != null && interactor is Player player) 
-        {
-            PlayPickUpSound();
-            HandlePowerup(player.GetPlayerPowerupActor());
-            Destroy(gameObject);
-        }
-    }
+    public abstract void HandlePowerup(PowerupHandler powerupHandler, PlayerMovement playerMovement);
 
-    public abstract void HandlePowerup(PowerupActor powerupActor);
-    
+    public abstract void OnPowerupActivated(PlayerMovement playerMovement);
+
+    public abstract void OnPowerupExpired(PlayerMovement playerMovement);
+
+    protected abstract IEnumerator StartPowerup(PowerupHandler powerupHandler, PlayerMovement playerMovement);
 }
