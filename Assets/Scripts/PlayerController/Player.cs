@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(PlayerMovement))]
@@ -13,15 +12,11 @@ public class Player : PlayerBehavior, ICanInteract
 
     private ClientServerTogglables m_ClientServerTogglables;
 
-    private List<PowerUp> m_PowerupsList;
-
     void Awake()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
-
-        m_PowerupsList = new List<PowerUp>();
     }
 
     protected override void NetworkStart()

@@ -1,38 +1,28 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpeedPowerUp : PowerUp
+[DisallowMultipleComponent]
+public class SpeedPowerUp : PowerUpBase
 {
-    private const int m_Id = 1;
-
     [SerializeField]
     private const float m_SpeedModifier = 1.50f;
 
-    public override void HandlePowerup(PowerupHandler powerupHandler, PlayerMovement playerMovement)
+
+    public override void OnPowerUpExpired()
     {
-        if (!powerupHandler.IsBoosted(m_Id))
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
         {
-            OnPowerupActivated(playerMovement);
-            powerupHandler.StartCoroutine(StartPowerup(powerupHandler, playerMovement));
+            playerMovement.SetExternalVelocityModifier(Vector3.one);
         }
     }
 
-    protected override IEnumerator StartPowerup(PowerupHandler powerupHandler, PlayerMovement playerMovement)
+    public override void OnPowerUpActivated()
     {
-        powerupHandler.SetBoosted(m_Id, true);
-        yield return new WaitForSeconds(m_BuffDuration);
-        OnPowerupExpired(playerMovement);
-        powerupHandler.SetBoosted(m_Id, false);
-    }
-
-    public override void OnPowerupExpired(PlayerMovement playerMovement)
-    {
-        playerMovement.SetExternalVelocityModifier(Vector3.one);
-    }
-
-    public override void OnPowerupActivated(PlayerMovement playerMovement)
-    {
-        playerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
+        }
     }
 
     private Vector3 ComputeVelocityModifier()
