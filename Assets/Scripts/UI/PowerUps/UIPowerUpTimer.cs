@@ -5,41 +5,29 @@ using UnityEngine.UI;
 
 public class UIPowerUpTimer : MonoBehaviour
 {
-    [SerializeField]
-    private Image m_Filler;
 
     [SerializeField]
     private Image m_Icon;
 
+    [SerializeField]
+    private float m_Timer;
+
+    private Color m_IconColor;
+
+    private float m_alphaDecrement;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        m_IconColor = new Color(m_Icon.color.r, m_Icon.color.g, m_Icon.color.b, m_Icon.color.a);
+        m_alphaDecrement = 0.40f * Time.deltaTime;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateIcon();
-    }
-
-    private void UpdateIcon()
-    {
-        if (m_Filler.fillAmount > 0.0f) 
-        {
-            m_Filler.fillAmount -= (0.20f * Time.deltaTime);
-        } 
-
-        if (m_Filler.fillAmount >= 0.5f)
-        {
-            SetColoredIcon();
-        }
-        else if (m_Filler.fillAmount > 0.0f) {
-            FadeIcon();
-        }
-        else {
-            SetWhiteIcon();
-        }
+        UpdateTimer();
+        FadeIcon();
     }
 
     private void SetWhiteIcon() 
@@ -54,26 +42,32 @@ public class UIPowerUpTimer : MonoBehaviour
 
     private void SetColoredIcon()
     {
-        m_Icon.color = new Color(m_Filler.color.r, m_Filler.color.g, m_Filler.color.b, m_Icon.color.a);
+        m_Icon.color = new Color(m_IconColor.r, m_IconColor.g, m_IconColor.b, m_Icon.color.a);
     }
 
     private void SetColoredIcon(float alpha)
     {
-        m_Icon.color = new Color(m_Filler.color.r, m_Filler.color.g, m_Filler.color.b, alpha);
+        m_Icon.color = new Color(m_IconColor.r, m_IconColor.g, m_IconColor.b, alpha);
+    }
+
+    private void UpdateTimer()
+    {
+        m_Timer -= Time.deltaTime;
     }
 
     private void FadeIcon() 
     {
-        float newAlpha = m_Icon.color.a - (0.40f * Time.deltaTime);
+        if (m_Timer <= 0.0f || m_Timer >= 2.5f) 
+        {
+            return;
+        }
 
         if (m_Icon.color.r == 255 && m_Icon.color.g == 255 && m_Icon.color.r == 255) 
         {
-            SetColoredIcon(newAlpha);
+            SetColoredIcon(m_Icon.color.a - m_alphaDecrement);
         }
         else {
-            SetWhiteIcon(newAlpha);
+            SetWhiteIcon(m_Icon.color.a - m_alphaDecrement);
         }
-
-        Debug.Log(m_Icon.color.r + " : " + m_Icon.color.a);
     }
 }
