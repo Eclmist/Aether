@@ -12,6 +12,8 @@ public class UIPowerUpTimer : MonoBehaviour
     [SerializeField]
     private float m_Timer;
 
+    private float m_CountdownTimer;
+
     private Color m_IconColor;
 
     private float m_alphaDecrement;
@@ -21,28 +23,29 @@ public class UIPowerUpTimer : MonoBehaviour
     {
         m_IconColor = new Color(m_Icon.color.r, m_Icon.color.g, m_Icon.color.b, m_Icon.color.a);
         m_alphaDecrement = 0.40f * Time.deltaTime;
+        SetWhiteIcon(0.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateTimer();
-        FadeIcon();
+        if (m_CountdownTimer > 0.0f)
+        {
+            UpdateTimer();
+            FadeIcon();
+        }
     }
 
-    private void SetWhiteIcon() 
+    public void Activate()
     {
-        m_Icon.color = new Color(255, 255, 255, m_Icon.color.a);
+        Debug.Log("Here Again");
+        m_CountdownTimer = m_Timer;
+        SetColoredIcon(1.0f);
     }
 
     private void SetWhiteIcon(float alpha) 
     {
         m_Icon.color = new Color(255, 255, 255, alpha);
-    }
-
-    private void SetColoredIcon()
-    {
-        m_Icon.color = new Color(m_IconColor.r, m_IconColor.g, m_IconColor.b, m_Icon.color.a);
     }
 
     private void SetColoredIcon(float alpha)
@@ -52,12 +55,12 @@ public class UIPowerUpTimer : MonoBehaviour
 
     private void UpdateTimer()
     {
-        m_Timer -= Time.deltaTime;
+        m_CountdownTimer -= Time.deltaTime;
     }
 
     private void FadeIcon() 
     {
-        if (m_Timer <= 0.0f || m_Timer >= 2.5f) 
+        if (m_CountdownTimer <= 0.0f || m_CountdownTimer >= 2.5f) 
         {
             return;
         }
@@ -70,4 +73,5 @@ public class UIPowerUpTimer : MonoBehaviour
             SetWhiteIcon(m_Icon.color.a - m_alphaDecrement);
         }
     }
+
 }
