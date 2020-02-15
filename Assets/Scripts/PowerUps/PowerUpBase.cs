@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using UnityEngine;
 
-public abstract class PowerUpBase : MonoBehaviour, IInteractable
+public abstract class PowerUpBase : MonoBehaviour
 {
     [SerializeField]
     protected const float m_BuffDuration = 5.0f;
@@ -17,44 +17,12 @@ public abstract class PowerUpBase : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(ICanInteract interactor) 
+    public void InitializePowerUp()
     {
-        if (interactor != null && interactor is Player player)
-        {
-            PlayPickUpSound();
-            HandlePowerUp(player);
-            Destroy(gameObject);
-        }
+        m_TimeOfActivation = Time.time;
+        OnPowerUpActivated();
     }
-
-    private void PlayPickUpSound()
-    {
-        AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
-    }
-
-    public void HandlePowerUp(Player player)
-    {
-        System.Type powerUpType = GetType();
-        if (player.GetComponent(powerUpType) == null)
-        {
-            PowerUpBase powerUp = (PowerUpBase)player.gameObject.AddComponent(powerUpType);
-            CopyPowerUpToPlayer(this, powerUp); // Use reflection to copy script onto player
-
-            powerUp.m_TimeOfActivation = Time.time;
-            powerUp.OnPowerUpActivated();
-        }
-    }
-
-    protected static void CopyPowerUpToPlayer(PowerUpBase source, PowerUpBase target)
-    {
-        FieldInfo[] sourceFields = source.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-        for (int i = 0; i < sourceFields.Length; i++)
-        {
-            var value = sourceFields[i].GetValue(source);
-            sourceFields[i].SetValue(target, value);
-        }
-    }
-
+    
     public abstract void OnPowerUpActivated();
 
     public abstract void OnPowerUpExpired();
