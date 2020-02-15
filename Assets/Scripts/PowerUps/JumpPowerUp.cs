@@ -1,21 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class JumpPowerUp : MonoBehaviour
+[DisallowMultipleComponent]
+public class JumpPowerUp : PowerUpBase
 {
-    void OnTriggerEnter(Collider c)
-    {
-        if (c.CompareTag("Player"))
-        {
-            PowerupActor manager = c.GetComponent<PowerupActor>();
+    [SerializeField]
+    private const float m_JumpHeightModifier = 1.50f;
 
-            if (manager != null && !manager.GetDoubleJump())
-            {
-                manager.JumpHigher();
-                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
-                Destroy(gameObject);
-            }
+    [SerializeField]
+    private const float m_GravityModifier = 0.85f;
+
+    public override void OnPowerUpExpired()
+    {
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.SetExternalJumpHeightModifier(1.0f);
+            playerMovement.SetExternalGravityModifier(1.0f);
+        }
+    }
+
+    public override void OnPowerUpActivated()
+    {
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.SetExternalJumpHeightModifier(m_JumpHeightModifier);
+            playerMovement.SetExternalGravityModifier(m_GravityModifier);
         }
     }
 }

@@ -7,10 +7,10 @@ using BeardedManStudios.Forge.Networking.Generated;
 public class PlayerManager : PlayerManagerBehavior
 {
     [SerializeField]
-    private List<Transform> m_SpawnPositionsRed;
+    private Transform[] m_SpawnPositionsRed;
 
     [SerializeField]
-    private List<Transform> m_SpawnPositionsBlue;
+    private Transform[] m_SpawnPositionsBlue;
 
     private List<PlayerData> m_Players;
 
