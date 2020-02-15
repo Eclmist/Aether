@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-
+/*
 [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
 [RequireComponent(typeof (CharacterController))]
 public class AICharacterControl : MonoBehaviour
@@ -238,4 +238,4 @@ public class AICharacterControl : MonoBehaviour
         this.target = target;
     }
 }
-
+*/

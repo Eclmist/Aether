@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class AiAnimation : MonoBehaviour
 {
     [SerializeField]
@@ -10,8 +10,8 @@ public class AiAnimation : MonoBehaviour
     [SerializeField]
     private AnimationCurve m_AnimationSpeedCurve;
     
-    private PlayerNetworkHandler m_PlayerNetworkHandler;
-    private AICharacterControl m_AiCharacterControl;
+    //private PlayerNetworkHandler m_PlayerNetworkHandler;
+    //private AICharacterControl m_AiCharacterControl;
 
     private float m_FallenDuration = 1.0f;
 
@@ -20,8 +20,8 @@ public class AiAnimation : MonoBehaviour
 
     void Start()
     {
-        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
-        m_AiCharacterControl = GetComponent<AICharacterControl>();
+        //m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        //m_AiCharacterControl = GetComponent<AICharacterControl>();
     }
 
     void Update()
@@ -97,3 +97,4 @@ public class AiAnimation : MonoBehaviour
         m_AiCharacterControl.ResetParalyze();
     }
 }
+*/
