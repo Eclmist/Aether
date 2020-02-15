@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerNetworkHandler))]
+[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField]
@@ -13,7 +14,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private PlayerMovement m_PlayerMovement;
 
-    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private Player m_Player;
 
     private float m_FallenDuration = 1.0f;
 
@@ -22,7 +23,7 @@ public class PlayerAnimation : MonoBehaviour
     void Start()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
-        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        m_Player = GetComponent<Player>();
     }
 
     void Update()
@@ -57,12 +58,12 @@ public class PlayerAnimation : MonoBehaviour
                 m_Animator.speed = 1;
         }
 
-        if (m_PlayerNetworkHandler.networkObject != null)
+        if (m_Player.networkObject != null)
         {
-            m_PlayerNetworkHandler.networkObject.axisMagnitude = axisMagnitude;
-            m_PlayerNetworkHandler.networkObject.vertVelocity = velocity.y;
-            m_PlayerNetworkHandler.networkObject.rotation = transform.rotation;
-            m_PlayerNetworkHandler.networkObject.grounded = isGrounded;
+            m_Player.networkObject.axisMagnitude = axisMagnitude;
+            m_Player.networkObject.vertVelocity = velocity.y;
+            m_Player.networkObject.rotation = transform.rotation;
+            m_Player.networkObject.grounded = isGrounded;
         }
     }
 
