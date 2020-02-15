@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class ItemSkill : MonoBehaviour
 {
-    public void UseSkill()
-    {
-        
-    }
+    protected int m_NoOfUses;
+
+
+    public abstract void UseSkill();
 }
