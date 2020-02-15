@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BeardedManStudios.Forge.Networking;
@@ -14,7 +13,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
-    private int m_SceneLoadCounter;
+    private int m_PlayersLoadedScene;
 
     void Awake()
     {
@@ -49,10 +48,10 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
 
     public void OnPlayerLoadScene(NetworkingPlayer player, NetWorker sender)
     {
-        m_SceneLoadCounter++;
-        if (m_SceneLoadCounter == m_PlayerDetails.Count)
+        m_PlayersLoadedScene++;
+        if (m_PlayersLoadedScene == m_PlayerDetails.Count)
         {
-            m_SceneLoadCounter = 0;
+            m_PlayersLoadedScene = 0;
             sceneChanged(m_PlayerDetails);
         }
     }

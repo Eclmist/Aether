@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerNetworkHandler))]
+[RequireComponent(typeof(Player))]
 public class PlayerNetworkMovement : MonoBehaviour
 {
-    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private Player m_Player;
 
     void Start()
     {
-        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
+        m_Player = GetComponent<Player>();
     }
 
     void Update()
     {
-        if (m_PlayerNetworkHandler.networkObject == null)
+        if (m_Player.networkObject == null)
             return;
 
-        transform.position = m_PlayerNetworkHandler.networkObject.position;
+        transform.position = m_Player.networkObject.position;
     }
 }

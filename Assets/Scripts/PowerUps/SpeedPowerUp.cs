@@ -1,21 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpeedPowerUp : MonoBehaviour
+[DisallowMultipleComponent]
+public class SpeedPowerUp : PowerUpBase
 {
-    void OnTriggerEnter(Collider c)
-    {
-        if (c.CompareTag("Player"))
-        {
-            PowerupActor manager = c.GetComponent<PowerupActor>();
+    [SerializeField]
+    private const float m_SpeedModifier = 1.50f;
 
-            if (manager != null && !manager.GetDoubleSpeed())
-            {
-                manager.GoFaster();
-                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.0f);
-                Destroy(gameObject);
-            }
+
+    public override void OnPowerUpExpired()
+    {
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.SetExternalVelocityModifier(Vector3.one);
         }
+    }
+
+    public override void OnPowerUpActivated()
+    {
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
+        }
+    }
+
+    private Vector3 ComputeVelocityModifier()
+    {
+        Vector3 res = new Vector3(m_SpeedModifier, 1.0f, m_SpeedModifier);
+        return res;
     }
 }
