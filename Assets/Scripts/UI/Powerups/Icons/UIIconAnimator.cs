@@ -6,19 +6,19 @@ using UnityEngine.UI;
 public class UIIconAnimator : MonoBehaviour
 {
     [SerializeField]
-    private Image m_icon;
+    private Image m_Icon;
 
     [SerializeField]
-    private Image m_fadedIcon;
+    private Image m_FadedIcon;
 
     [SerializeField]
-    private Image m_fillArea;
+    private Image m_FillArea;
 
-    private Image m_box;
+    private Image m_Box;
 
-    private Outline m_outline;
+    private Outline m_Outline;
 
-    private UIIconTimer m_iconTimer;
+    private UIIconTimer m_IconTimer;
 
     private const float m_ImageDecrementFactor = 0.20f;
 
@@ -27,9 +27,9 @@ public class UIIconAnimator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_iconTimer = GetComponent<UIIconTimer>();
-        m_box = GetComponent<Image>();
-        m_outline = GetComponent<Outline>();
+        m_IconTimer = GetComponent<UIIconTimer>();
+        m_Box = GetComponent<Image>();
+        m_Outline = GetComponent<Outline>();
 
         ActivateIcon();
     }
@@ -37,19 +37,19 @@ public class UIIconAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_iconTimer == null)
+        if (m_IconTimer == null)
         {
             return;
         }
 
-        if (m_iconTimer.HasCountdownFinishedHalfway())
+        if (m_IconTimer.HasCountdownFinishedHalfway())
         {
             DecreaseAlphaValues();    
         }
 
-        if (!m_iconTimer.HasCountdownFinished()) 
+        if (!m_IconTimer.HasCountdownFinished()) 
         {
-            FillIcon(m_iconTimer.GetPercentageLeft());
+            FillIcon(m_IconTimer.GetPercentageLeft());
         }
         else {
             Destroy(this.gameObject);
@@ -78,26 +78,26 @@ public class UIIconAnimator : MonoBehaviour
 
     private void DecreaseAlphaValues()
     {
-        DecreaseAlphaValue(m_icon, m_ImageDecrementFactor * 2);
-        DecreaseAlphaValue(m_fadedIcon, m_ImageDecrementFactor);
-        DecreaseAlphaValue(m_box, m_ImageDecrementFactor * 2);
-        DecreaseAlphaValue(m_outline, m_ImageDecrementFactor);
-        DecreaseAlphaValue(m_fillArea, m_FillAreaDecrementFactor);
+        DecreaseAlphaValue(m_Icon, m_ImageDecrementFactor * 2);
+        DecreaseAlphaValue(m_FadedIcon, m_ImageDecrementFactor);
+        DecreaseAlphaValue(m_Box, m_ImageDecrementFactor * 2);
+        DecreaseAlphaValue(m_Outline, m_ImageDecrementFactor);
+        DecreaseAlphaValue(m_FillArea, m_FillAreaDecrementFactor);
     }
 
     public void ActivateIcon()
     {
-        if (m_iconTimer != null)
+        if (m_IconTimer != null)
         {
-            m_iconTimer.StartTimer();
+            m_IconTimer.StartTimer();
         }
     }
 
     public void FillIcon(float amount)
     {
-        if (m_icon != null)
+        if (m_Icon != null)
         {
-            m_icon.fillAmount = amount;
+            m_Icon.fillAmount = amount;
         }
     }
 }
