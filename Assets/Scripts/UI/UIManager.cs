@@ -5,40 +5,31 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject[] m_PowerUps;
+    private GameObject m_powerUpHandler;
 
-    [SerializeField]
-    private GameObject[] m_Items;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static string JumpSignal = "Jump";
+    public static string SpeedSignal = "Speed";
 
-    // Update is called once per frame
-    void Update()
+    public void ActivatePowerupIcon(string signal)
     {
-        
-    }
-
-    public void ActivatePowerupIcon(int index)
-    {
-        GameObject powerupIcon = m_PowerUps[index];
-        UIPowerUpTimer timer = powerupIcon.GetComponent<UIPowerUpTimer>();
-        if (timer != null)
+        if (m_powerUpHandler != null)
         {
-            timer.Activate();
+            PowerUpPanelHandler handler = m_powerUpHandler.GetComponent<PowerUpPanelHandler>();
+            if (handler != null) 
+            {
+                switch (signal)
+                {
+                case "Jump":
+                    handler.ActivateJumpIcon();
+                    break;
+                case "Speed":
+                    handler.ActivateSpeedIcon();
+                    break;
+                default: 
+                    return;
+                }
+            }
         }
     }
 
-    public void ActivateItem(int index)
-    {
-        GameObject itemIcon = m_Items[index];
-        UIItemHandler handler = itemIcon.GetComponent<UIItemHandler>();
-        if (handler != null)
-        {
-            handler.ReduceInstances();
-        }
-    }
 }
