@@ -143,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
 
         m_JumpedInCurrentFrame = true;
         m_IsMidAir = true;
+        Jump();
     }
 
     public Vector2 GetLastKnownInput()

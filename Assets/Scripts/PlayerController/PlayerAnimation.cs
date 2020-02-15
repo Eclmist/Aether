@@ -9,16 +9,13 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField]
     private Animator m_Animator;
 
-    [SerializeField]
-    private AnimationCurve m_AnimationSpeedCurve;
-
     private PlayerMovement m_PlayerMovement;
 
     private Player m_Player;
 
     private float m_FallenDuration = 1.0f;
-
     private float m_MoveDelay = 2.5f;
+    private float m_AxisDelta;
 
     void Start()
     {
@@ -28,8 +25,9 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
-        float axisMagnitude = m_PlayerMovement.GetLastKnownInput().magnitude;
-        m_Animator.SetFloat("MovementInput", axisMagnitude);
+        m_AxisDelta = Mathf.Max(0, m_AxisDelta - Time.deltaTime * 5);
+        m_AxisDelta = Mathf.Max(m_AxisDelta, m_PlayerMovement.GetLastKnownInput().magnitude);
+        m_Animator.SetFloat("AxisDelta", m_AxisDelta);
 
         Vector3 velocity = m_PlayerMovement.GetVelocity();
         m_Animator.SetFloat("VerticalVelocity", velocity.y);
@@ -46,21 +44,11 @@ public class PlayerAnimation : MonoBehaviour
 
         // Handle Jumping callback
         if (m_PlayerMovement.GetJumpedInCurrentFrame())
-            m_Animator.SetTrigger("Jumping");
-
-        // Set walking animation speed based on players actual velocity. This allows slightly better sync between
-        // animation and gameplay.
-        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-        {
-            if (axisMagnitude > 0.01f)
-                m_Animator.speed = m_AnimationSpeedCurve.Evaluate(axisMagnitude); // Make running animation speed match actual movement speed
-            else 
-                m_Animator.speed = 1;
-        }
+            m_Animator.SetTrigger("Jump");
 
         if (m_Player.networkObject != null)
         {
-            m_Player.networkObject.axisMagnitude = axisMagnitude;
+            m_Player.networkObject.axisMagnitude = m_AxisDelta;
             m_Player.networkObject.vertVelocity = velocity.y;
             m_Player.networkObject.rotation = transform.rotation;
             m_Player.networkObject.grounded = isGrounded;
