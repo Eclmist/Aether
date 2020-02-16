@@ -40,7 +40,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""id"": ""2addab5d-50d4-4dcf-be83-f57413d0b6ed"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Jump"",

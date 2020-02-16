@@ -71,7 +71,7 @@ public class PlayerAnimation : MonoBehaviour
         
         if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
         {
-            m_Animator.SetTrigger("Attacked");
+            m_Animator.SetTrigger("Attack");
             return;
         }
 
