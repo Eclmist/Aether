@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// DEPRECATED
 [RequireComponent(typeof(Animator))]
 public class AnimationCallbacks : MonoBehaviour
 {
@@ -10,6 +9,9 @@ public class AnimationCallbacks : MonoBehaviour
 
     [SerializeField]
     private PlayerMovement m_PlayerMovement;
+
+    [SerializeField]
+    private PlayerStance m_PlayerStance;
 
     protected void Start()
     {
@@ -23,5 +25,11 @@ public class AnimationCallbacks : MonoBehaviour
     public void OnCallChangeFace(string target)
     {
 
+    }
+
+    public void SetWeaponActive()
+    {
+        if (m_PlayerStance != null)
+            m_PlayerStance.SetWeaponActive();
     }
 }
