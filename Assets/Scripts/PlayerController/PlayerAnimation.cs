@@ -81,5 +81,7 @@ public class PlayerAnimation : MonoBehaviour
             m_Animator.SetInteger("DashDirection", m_PlayerMovement.GetDashDirectionIndex());
             return;
         }
+
+        m_Animator.SetBool("Block", m_PlayerCombatHandler.GetBlockedInCurrentFrame());
     }
 }
