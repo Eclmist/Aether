@@ -8,7 +8,8 @@ public class SetBomb : MonoBehaviour
 
     private void Start()
     {
-        AetherInput.GetPlayerActions().SetBomb.performed += HandleSetBomb;
+        // TODO: Use generic controller "ability" buttons instead of dedicated button
+        //AetherInput.GetPlayerActions().SetBomb.performed += HandleSetBomb;
     }
 
     private void HandleSetBomb(InputAction.CallbackContext context)
