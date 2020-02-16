@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// DEPRECATED
 [RequireComponent(typeof(Animator))]
 public class AnimationCallbacks : MonoBehaviour
 {
@@ -17,8 +18,6 @@ public class AnimationCallbacks : MonoBehaviour
 
     public void JumpStartCompleted()
     {
-        m_Animator.SetBool("Jumping", false);
-        m_PlayerMovement.Jump();
     }
 
     public void OnCallChangeFace(string target)

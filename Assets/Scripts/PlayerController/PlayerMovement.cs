@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour
     private float m_MoveSpeed = 6;
 
     [SerializeField]
+    private AnimationCurve m_NonForwardMovePenalty;
+
+    [SerializeField]
     private Transform m_GroundCheck = null;
 
     [SerializeField]
@@ -31,39 +34,35 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController m_CharacterController;
 
     private Player m_Player;
+    private PlayerStance m_PlayerStance;
 
     private Vector3 m_Velocity;
     private Vector3 m_ExternalVelocityModifier = Vector3.one;
     private Vector2 m_LastKnownInput;
 
-    private float m_LandingRecoveryTime = 0.05f;
-    private float m_LandingSpeedModifier = 0.0f;
-    private float m_LandingTime = 0;
-    private bool m_IsMidAir;
-    private bool m_JumpedInCurrentFrame;
-    private bool m_cannotMove;
-    private bool m_IsParalyzed;
+    // Dashing
+    private bool m_IsDashing;
+    private bool m_DashedInCurrentFrame;
+    private float m_DashTimeTotal = 0.7f;
+    private float m_DashTimeCurrent = 0;
+    private float m_DashDelay = 0.2f;
+    private float m_DashSpeed = 9;
+    private Vector3 m_DashDirection;
+    private int m_DashDirectionAnimationIndex;
 
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += HandleJump;
+        AetherInput.GetPlayerActions().Roll.performed += HandleDash;
         m_CharacterController = GetComponent<CharacterController>();
         m_Player = GetComponent<Player>();
-        m_IsParalyzed = false;
+        m_PlayerStance = GetComponent<PlayerStance>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (m_IsParalyzed)
-        {
-            if (!GetIsGrounded())
-            {
-                m_CharacterController.Move(new Vector3(-1.0f, -1.0f, -1.0f));
-            }
-            return;
-        }
-        if (GetIsGrounded())
+        if (IsGrounded())
         {
             // Gravity should not accumulate when player is grounded. We set velocity to -2 instead of 0
             // because the collision may register before we actually fully touch the ground. This value is purely
@@ -72,16 +71,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 m_Velocity.y = -2.0f;
             }
-
-            if (m_IsMidAir)
-            {
-                m_IsMidAir = false;
-                // Landing frame
-                m_LandingTime = Time.time;
-            }
         }
 
         HandleGravity();
+
+        // Movement overrides
+        if (HandleMovementOverrides())
+            return;
+
         HandleMovement();
 
         float t = Time.deltaTime;
@@ -102,12 +99,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        m_JumpedInCurrentFrame = false;
+        m_DashedInCurrentFrame = false;
     }
 
     private void HandleGravity()
     {
         m_Velocity.y += GetGravityMagnitude() * Time.deltaTime;
+    }
+
+    private bool HandleMovementOverrides()
+    {
+        if (m_IsDashing)
+        {
+            if (m_DashTimeCurrent >= m_DashTimeTotal)
+            {
+                m_IsDashing = false;
+                m_DashTimeCurrent = 0;
+                return false;
+            }
+
+            m_DashTimeCurrent += Time.deltaTime;
+
+            if (m_DashTimeCurrent <= m_DashDelay)
+                return true;
+
+            m_CharacterController.Move(m_DashDirection * m_DashSpeed * Time.deltaTime);
+
+            return true;
+        }
+
+        return false;
     }
     
     private void HandleMovement()
@@ -115,14 +136,6 @@ public class PlayerMovement : MonoBehaviour
         m_LastKnownInput = AetherInput.GetPlayerActions().Move.ReadValue<Vector2>();
         Vector3 move = Camera.main.transform.right * m_LastKnownInput.x + Camera.main.transform.forward * m_LastKnownInput.y;
         move *= Time.deltaTime * m_MoveSpeed;
-
-        // Slow the player down after a fall
-        if (IsRecoveringFromFall())
-        {
-            float mod = (Time.time - m_LandingTime) / m_LandingRecoveryTime;
-            move *= Mathf.Lerp(m_LandingSpeedModifier, 1, mod);
-        }
-
         m_Velocity = new Vector3(move.x, m_Velocity.y, move.z);
     }
 
@@ -132,18 +145,38 @@ public class PlayerMovement : MonoBehaviour
         if (!button.wasPressedThisFrame)
             return;
 
-        if (!GetIsGrounded())
+        if (!IsGrounded())
             return;
 
-        if (IsRecoveringFromFall())
+        m_Velocity.y = Mathf.Sqrt(m_JumpHeight * m_ExternalJumpHeightModifier * -2 * m_Gravity);
+    }
+
+    public void HandleDash(InputAction.CallbackContext ctx)
+    {
+        ButtonControl button = ctx.control as ButtonControl;
+        if (!button.wasPressedThisFrame)
             return;
 
-        if (m_cannotMove)
+        if (m_IsDashing)
             return;
 
-        m_JumpedInCurrentFrame = true;
-        m_IsMidAir = true;
-        Jump();
+        float vdf = VelocityDotForward();
+
+        if (vdf < 0.0f)
+            return;
+
+        m_IsDashing = true;
+        m_DashedInCurrentFrame = true;
+
+        // Compute the absolute dash direction for animation (left, right, forward)
+        if (vdf > 0.9)
+            m_DashDirectionAnimationIndex = 1;
+        else if (Vector3.Cross(GetXZVelocity(), transform.forward).y < 0)
+            m_DashDirectionAnimationIndex = 2;
+        else
+            m_DashDirectionAnimationIndex = 0;
+
+        m_DashDirection = GetXZVelocity().normalized;
     }
 
     public Vector2 GetLastKnownInput()
@@ -153,10 +186,16 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector3 GetVelocity()
     {
-        return new Vector3(
-            m_Velocity.x * m_ExternalVelocityModifier.x,
-            m_Velocity.y * m_ExternalVelocityModifier.y,
-            m_Velocity.z * m_ExternalVelocityModifier.z);
+        Vector3 finalVelocity = m_Velocity;
+
+        // Slow the player down when walking backwards or side to side
+        if (m_PlayerStance.IsCombatStance() && !IsWalkingForward())
+            finalVelocity *= m_NonForwardMovePenalty.Evaluate(Mathf.Abs(VelocityDotForward()));
+
+        // Add external modifier;
+        finalVelocity.Scale(m_ExternalVelocityModifier);
+
+        return finalVelocity;
     }
 
     public float GetGravityMagnitude()
@@ -164,45 +203,29 @@ public class PlayerMovement : MonoBehaviour
         return m_Gravity * (m_Velocity.y >= 0 ? 1 : m_FallingGravityMultiplier) * m_ExternalGravityModifier;
     }
 
-    public bool IsRecoveringFromFall()
+    public bool IsGrounded()
     {
-        return Time.time - m_LandingTime < m_LandingRecoveryTime;
+        return Physics.CheckSphere(m_GroundCheck.position, 0.5f, m_LayerMask);
     }
 
-    public bool GetIsGrounded()
+    public bool IsDashing()
     {
-        return Physics.CheckSphere(m_GroundCheck.position, 0.5f, m_LayerMask) && !GetJumpedInCurrentFrame();
+        return m_IsDashing;
     }
 
-    public bool GetJumpedInCurrentFrame()
+    public bool DashedInCurrentFrame()
     {
-        return m_JumpedInCurrentFrame;
+        return m_DashedInCurrentFrame;
     }
 
-    public void SetUnmovable(bool boolean)
+    public int GetDashDirectionIndex()
     {
-        m_cannotMove = boolean;
+        return m_DashDirectionAnimationIndex;
     }
 
-    public bool CheckIfUnmovable()
+    public bool IsWalkingForward()
     {
-        return m_cannotMove;
-    }
-
-    // This should be an animation callback for more visually appealing jumps
-    public void Jump()
-    {
-        m_Velocity.y = Mathf.Sqrt(m_JumpHeight * m_ExternalJumpHeightModifier * -2 * m_Gravity);
-    }
-
-    public void SetParalyze()
-    {
-        m_IsParalyzed = true;
-    }
-
-    public void ResetParalyze()
-    {
-        m_IsParalyzed = false;
+        return VelocityDotForward() > 0;
     }
 
     public void SetExternalVelocityModifier(Vector3 velocityModifier)
@@ -218,5 +241,15 @@ public class PlayerMovement : MonoBehaviour
     public void SetExternalJumpHeightModifier(float modifier)
     {
         m_ExternalJumpHeightModifier = modifier;
+    }
+
+    private Vector3 GetXZVelocity()
+    {
+        return new Vector3(m_Velocity.x, 0, m_Velocity.z);
+    }
+
+    private float VelocityDotForward()
+    {
+        return Vector3.Dot(transform.forward, GetXZVelocity().normalized);
     }
 }

@@ -51,9 +51,17 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""SetBomb"",
+                    ""name"": ""Sheathe"",
                     ""type"": ""Button"",
-                    ""id"": ""a80e864f-f6d5-4801-8098-2ef7039ba3b2"",
+                    ""id"": ""10c17fd3-6519-409d-b507-66826ff58946"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6e2dde3-a04d-4406-8dbf-bd33f529ab32"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press""
@@ -304,12 +312,23 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a6c55c43-037e-4fe8-b458-b19212d1edc3"",
-                    ""path"": ""<Keyboard>/b"",
-                    ""interactions"": ""Hold(duration=3)"",
+                    ""id"": ""b04583bf-a02c-45ee-8b48-58589ba62913"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": ""Hold(duration=0.3)"",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SetBomb"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Sheathe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad4e8112-7553-497e-a29d-6b9e2308da15"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -844,7 +863,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_SetBomb = m_Player.FindAction("SetBomb", throwIfNotFound: true);
+        m_Player_Sheathe = m_Player.FindAction("Sheathe", throwIfNotFound: true);
+        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -911,7 +931,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_SetBomb;
+    private readonly InputAction m_Player_Sheathe;
+    private readonly InputAction m_Player_Roll;
     public struct PlayerActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -920,7 +941,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @SetBomb => m_Wrapper.m_Player_SetBomb;
+        public InputAction @Sheathe => m_Wrapper.m_Player_Sheathe;
+        public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -942,9 +964,12 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @SetBomb.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSetBomb;
-                @SetBomb.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSetBomb;
-                @SetBomb.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSetBomb;
+                @Sheathe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Sheathe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Sheathe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -961,9 +986,12 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @SetBomb.started += instance.OnSetBomb;
-                @SetBomb.performed += instance.OnSetBomb;
-                @SetBomb.canceled += instance.OnSetBomb;
+                @Sheathe.started += instance.OnSheathe;
+                @Sheathe.performed += instance.OnSheathe;
+                @Sheathe.canceled += instance.OnSheathe;
+                @Roll.started += instance.OnRoll;
+                @Roll.performed += instance.OnRoll;
+                @Roll.canceled += instance.OnRoll;
             }
         }
     }
@@ -1132,7 +1160,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnSetBomb(InputAction.CallbackContext context);
+        void OnSheathe(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
