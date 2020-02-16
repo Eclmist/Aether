@@ -20,7 +20,7 @@ public class PlayerCombatHandler : MonoBehaviour
         m_PlayerStance = GetComponent<PlayerStance>();
         AetherInput.GetPlayerActions().Fire.performed += Attack;
         AetherInput.GetPlayerActions().Sheathe.performed += SheatheWeapon;
-        AetherInput.GetPlayerActions().Block.performed += ctx => m_BlockedInCurrentFrame = ((ButtonControl)ctx.control).isPressed;
+        AetherInput.GetPlayerActions().Block.performed += Block;
     }
 
     private void LateUpdate()
@@ -42,6 +42,25 @@ public class PlayerCombatHandler : MonoBehaviour
 
         m_AttackedInCurrentFrame = true;
     }
+    private void Block(InputAction.CallbackContext ctx)
+    {
+        ButtonControl button = ctx.control as ButtonControl;
+
+        if (!button.wasPressedThisFrame)
+        {
+            m_BlockedInCurrentFrame = false;
+            return;
+        }
+
+        if (!m_PlayerStance.IsCombatStance())
+        {
+            m_BlockedInCurrentFrame = false;
+            return;
+        }
+
+        m_BlockedInCurrentFrame = button.isPressed;
+    }
+
 
     public bool GetAttackedInCurrentFrame()
     {
@@ -50,6 +69,9 @@ public class PlayerCombatHandler : MonoBehaviour
 
     public bool GetBlockedInCurrentFrame()
     {
+        if (GetAttackedInCurrentFrame())
+            return false;
+
         return m_BlockedInCurrentFrame;
     }
 
