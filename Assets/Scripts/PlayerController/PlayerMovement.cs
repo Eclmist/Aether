@@ -153,6 +153,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleDash(InputAction.CallbackContext ctx)
     {
+        if (!m_PlayerStance.IsCombatStance())
+            return;
+
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
             return;

@@ -12,12 +12,16 @@ public class PlayerStance : MonoBehaviour
         STANCE_ONEHANDED = 2,
     }
 
+    [SerializeField]
+    private GameObject m_Weapon;
+
     private Stance m_Stance;
     private PlayerMovement m_PlayerMovement;
 
     void Start()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
+        SetWeaponActive();
     }
 
     void Update()
@@ -62,6 +66,11 @@ public class PlayerStance : MonoBehaviour
     public bool IsCombatStance()
     {
         return m_Stance != Stance.STANCE_UNARMED;
+    }
+
+    public void SetWeaponActive()
+    {
+        m_Weapon.SetActive(IsCombatStance());
     }
 }
 
