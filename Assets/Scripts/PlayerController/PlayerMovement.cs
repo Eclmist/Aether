@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     private AnimationCurve m_NonForwardMovePenalty;
 
     [SerializeField]
+    [Range(0, 1)]
+    private float m_BlockMovePenalty = 0.3f;
+
+    [SerializeField]
     private Transform m_GroundCheck = null;
 
     [SerializeField]
@@ -35,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Player m_Player;
     private PlayerStance m_PlayerStance;
+    private PlayerCombatHandler m_PlayerCombatHandler;
 
     private Vector3 m_Velocity;
     private Vector3 m_ExternalVelocityModifier = Vector3.one;
@@ -57,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterController = GetComponent<CharacterController>();
         m_Player = GetComponent<Player>();
         m_PlayerStance = GetComponent<PlayerStance>();
+        m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
     }
 
     // Update is called once per frame
@@ -76,10 +82,8 @@ public class PlayerMovement : MonoBehaviour
         HandleGravity();
 
         // Movement overrides
-        if (HandleMovementOverrides())
-            return;
-
-        HandleMovement();
+        if (!HandleMovementOverrides())
+            HandleMovement();
 
         float t = Time.deltaTime;
         float t2 = t * t;
@@ -91,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
         finalVelocity.y = yVelocity; // E3: For some reason setting the .y doesn't work
 
         m_CharacterController.Move(finalVelocity);
-
 
         if (m_Player.networkObject != null)
             m_Player.networkObject.position = transform.position;
@@ -156,6 +159,12 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.IsCombatStance())
             return;
 
+        if (!IsGrounded())
+            return;
+
+        if (GetXZVelocity().magnitude <= 0)
+            return;
+
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
             return;
@@ -194,6 +203,10 @@ public class PlayerMovement : MonoBehaviour
         // Slow the player down when walking backwards or side to side
         if (m_PlayerStance.IsCombatStance() && !IsWalkingForward())
             finalVelocity *= m_NonForwardMovePenalty.Evaluate(Mathf.Abs(VelocityDotForward()));
+
+        // Slow the player down when blocking
+        if (m_PlayerCombatHandler.GetBlockedInCurrentFrame())
+            finalVelocity *= (1 - m_BlockMovePenalty);
 
         // Add external modifier;
         finalVelocity.Scale(m_ExternalVelocityModifier);

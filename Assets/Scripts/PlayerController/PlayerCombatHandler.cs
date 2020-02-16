@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using static UnityEngine.InputSystem.HID.HID;
 
 [RequireComponent(typeof(PlayerStance))]
 public class PlayerCombatHandler : MonoBehaviour
@@ -11,6 +12,7 @@ public class PlayerCombatHandler : MonoBehaviour
 
     // For animation lookup
     private bool m_AttackedInCurrentFrame;
+    private bool m_BlockedInCurrentFrame;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class PlayerCombatHandler : MonoBehaviour
         m_PlayerStance = GetComponent<PlayerStance>();
         AetherInput.GetPlayerActions().Fire.performed += Attack;
         AetherInput.GetPlayerActions().Sheathe.performed += SheatheWeapon;
+        AetherInput.GetPlayerActions().Block.performed += ctx => m_BlockedInCurrentFrame = ((ButtonControl)ctx.control).isPressed;
     }
 
     private void LateUpdate()
@@ -43,6 +46,11 @@ public class PlayerCombatHandler : MonoBehaviour
     public bool GetAttackedInCurrentFrame()
     {
         return m_AttackedInCurrentFrame;
+    }
+
+    public bool GetBlockedInCurrentFrame()
+    {
+        return m_BlockedInCurrentFrame;
     }
 
     public void SheatheWeapon(InputAction.CallbackContext ctx)
