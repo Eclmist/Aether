@@ -21,7 +21,7 @@ public class SpeedPowerUp : PowerUpBase
         PlayerMovement playerMovement = GetComponent<PlayerMovement>();
         if (playerMovement != null)
         {
-            UIManager.Instance.ActivatePowerupIcon(UIManager.SpeedSignal);
+            UIManager.Instance.ActivatePowerupIcon(UIPowerUpSignals.SPEED_SIGNAL);
             playerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
         }
     }

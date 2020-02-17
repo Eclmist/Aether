@@ -24,7 +24,7 @@ public class JumpPowerUp : PowerUpBase
         PlayerMovement playerMovement = GetComponent<PlayerMovement>();
         if (playerMovement != null)
         {
-            UIManager.Instance.ActivatePowerupIcon(UIManager.JumpSignal);
+            UIManager.Instance.ActivatePowerupIcon(UIPowerUpSignals.JUMP_SIGNAL);
             playerMovement.SetExternalJumpHeightModifier(m_JumpHeightModifier);
             playerMovement.SetExternalGravityModifier(m_GravityModifier);
         }
