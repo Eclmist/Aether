@@ -8,8 +8,13 @@ public class SkillHandler : MonoBehaviour
     
     //Max 3
     private int m_MaxSkillsNum = 3;
-    public List<ItemSkill> m_SkillSlots = new List<ItemSkill>();
+    public List<ItemSkill> m_SkillSlots;
     
+    private void Awake()
+    {
+       m_SkillSlots = new List<ItemSkill>();
+    }
+        
     //key bindings
     public void UseSkillAt(int index)
     {
