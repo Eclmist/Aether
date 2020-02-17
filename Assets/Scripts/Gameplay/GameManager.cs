@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
@@ -17,18 +15,6 @@ public class GameManager : Singleton<GameManager>
     private int m_RedTeamScore, m_BlueTeamScore;
     public int goalsToWin = 3;
     public float itemSpawnDelay = 30;
-
-    public Int32 GoalsScoredRed
-    {
-        get => m_RedTeamScore;
-        set => m_RedTeamScore = value;
-    }
-
-    public Int32 GoalsScoredBlue
-    {
-        get => m_BlueTeamScore;
-        set => m_BlueTeamScore = value;
-    }
     
     public void InitPlayers(List<GameObject> playersInTeamRed, List<GameObject> playersInTeamBlue)
     {
@@ -71,7 +57,7 @@ public class GameManager : Singleton<GameManager>
         CheckWin();
     }
     
-    public void IncrementScore(Boolean isTeamRed)
+    public void IncrementScore(bool isTeamRed)
     {
         if (isTeamRed)
         {
@@ -96,7 +82,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void Win(Boolean isTeamRed)
+    public void Win(bool isTeamRed)
     {
         //restartPanel.SetActive(true);
         //enabled = false;
