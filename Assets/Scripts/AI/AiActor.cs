@@ -8,34 +8,25 @@ using UnityEngine.AI;
 public class AiActor : MonoBehaviour
 {
     protected NavMeshAgent m_Agent;
-    protected Animator m_StateAnimator;
-    public Transform player;
+    protected Animator m_StateMachineAnim;
+    public Transform m_Player;
 
     public void Awake()
     {
         m_Agent = GetComponent<NavMeshAgent>();
-        m_StateAnimator = GetComponent<Animator>();
+        m_StateMachineAnim = GetComponent<Animator>();
     }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag.Equals("Player"))
-        {
-            //alerts the animator if the player has entered the vicinity.
-            m_StateAnimator.SetBool("isSafe", false);
-        }
-    }
-
+    
     public void SetInactive()
     {
         m_Agent.enabled = false;
-        m_StateAnimator.enabled = false;
+        m_StateMachineAnim.enabled = false;
     }
     
     public void SetActive()
     {
         m_Agent.enabled = true;
-        m_StateAnimator.enabled = true;
+        m_StateMachineAnim.enabled = true;
     }
     
 }
