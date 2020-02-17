@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class PowerUpBase : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    protected const float m_BuffDuration = 5.0f;
+    protected const float m_BuffDuration = 5.5f;
 
     protected float m_TimeOfActivation = -1.0f;
 
