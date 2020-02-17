@@ -84,4 +84,10 @@ public class PlayerAnimation : MonoBehaviour
 
         m_Animator.SetBool("Block", m_PlayerCombatHandler.GetBlockedInCurrentFrame());
     }
+
+    public bool IsPlayingAttackAnimation()
+    {
+        // TODO: Find a more elegant way to do this (animation callbacks?)
+        return m_Animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+    }
 }

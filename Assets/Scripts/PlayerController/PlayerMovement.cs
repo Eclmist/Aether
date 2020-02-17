@@ -48,9 +48,9 @@ public class PlayerMovement : MonoBehaviour
     // Dashing
     private bool m_IsDashing;
     private bool m_DashedInCurrentFrame;
-    private float m_DashTimeTotal = 0.7f;
+    private float m_DashTimeTotal = 0.5f;
     private float m_DashTimeCurrent = 0;
-    private float m_DashDelay = 0.2f;
+    private float m_DashDelay = 0.3f;
     private float m_DashSpeed = 9;
     private Vector3 m_DashDirection;
     private int m_DashDirectionAnimationIndex;
@@ -136,9 +136,16 @@ public class PlayerMovement : MonoBehaviour
     
     private void HandleMovement()
     {
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_WALK))
+        {
+            m_Velocity = new Vector3(0, m_Velocity.y, 0);
+            return;
+        }
+
         m_LastKnownInput = AetherInput.GetPlayerActions().Move.ReadValue<Vector2>();
         Vector3 move = Camera.main.transform.right * m_LastKnownInput.x + Camera.main.transform.forward * m_LastKnownInput.y;
         move *= Time.deltaTime * m_MoveSpeed;
+
         m_Velocity = new Vector3(move.x, m_Velocity.y, move.z);
     }
 
@@ -148,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         if (!button.wasPressedThisFrame)
             return;
 
-        if (!IsGrounded())
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_JUMP))
             return;
 
         m_Velocity.y = Mathf.Sqrt(m_JumpHeight * m_ExternalJumpHeightModifier * -2 * m_Gravity);
@@ -159,17 +166,11 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.IsCombatStance())
             return;
 
-        if (!IsGrounded())
-            return;
-
-        if (GetXZVelocity().magnitude <= 0)
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH))
             return;
 
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
-            return;
-
-        if (m_IsDashing)
             return;
 
         float vdf = VelocityDotForward();

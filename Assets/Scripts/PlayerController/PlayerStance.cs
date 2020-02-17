@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerCombatHandler))]
+[RequireComponent(typeof(PlayerAnimation))]
 public class PlayerStance : MonoBehaviour
 {
     [SerializeField]
@@ -31,37 +32,40 @@ public class PlayerStance : MonoBehaviour
     [System.Flags]
     public enum Action
     {
-        ACTION_NONE     = 0,
-        ACTION_WALK     = 1,
-        ACTION_SPRINT   = 2,
-        ACTION_JUMP     = 4,
-        ACTION_DASH     = 8,
-        ACTION_ATTACK   = 16,
-        ACTION_BLOCK    = 32,
-        ACTION_SHEATHE  = 64,
+        ACTION_UNSET    = 0,
+        ACTION_IDLE     = 1,
+        ACTION_WALK     = 2,
+        ACTION_SPRINT   = 4,
+        ACTION_JUMP     = 8,
+        ACTION_DASH     = 16,
+        ACTION_ATTACK   = 32,
+        ACTION_BLOCK    = 64,
+        ACTION_SHEATHE  = 128,
         // More actions to be added here (e.g., ACTION_CAPTURE, ACTION_DEATH, etc)
         ACTION_ALL      = int.MaxValue
     }
 
     // Action masks
-    private Action m_CanWalkMask = Action.ACTION_ALL;
+    private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DASH);
     private Action m_CanSprintMask = Action.ACTION_WALK;
-    private Action m_CanJumpMask = Action.ACTION_NONE | Action.ACTION_WALK | Action.ACTION_SPRINT;
+    private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DASH;
     private Action m_CanDashMask = Action.ACTION_WALK | Action.ACTION_SPRINT;
-    private Action m_CanAttackMask = Action.ACTION_NONE | Action.ACTION_WALK | Action.ACTION_SPRINT;
-    private Action m_CanBlockMask = Action.ACTION_NONE | Action.ACTION_WALK;
-    private Action m_CanSheatheMask = Action.ACTION_NONE | Action.ACTION_WALK | Action.ACTION_SPRINT;
+    private Action m_CanAttackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
+    private Action m_CanBlockMask = Action.ACTION_IDLE | Action.ACTION_WALK;
+    private Action m_CanSheatheMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
 
     private Stance m_Stance;
     private Action m_CurrentActions;
     private PlayerMovement m_PlayerMovement;
     private PlayerCombatHandler m_PlayerCombatHandler;
+    private PlayerAnimation m_PlayerAnimation;
     private bool m_IsTogglingCombatStance;
 
     void Start()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
+        m_PlayerAnimation = GetComponent<PlayerAnimation>();
         SetWeaponActive();
     }
 
@@ -94,30 +98,30 @@ public class PlayerStance : MonoBehaviour
     
     void SetCurrentActions()
     {
-        m_CurrentActions = Action.ACTION_NONE;
+        m_CurrentActions = Action.ACTION_UNSET;
 
         if (m_PlayerMovement.GetXZVelocity().magnitude > 0)
             m_CurrentActions |= Action.ACTION_WALK;
 
         // TODO: Set Sprint action
 
-        if (m_PlayerMovement.GetVelocity().y > 0 && !m_PlayerMovement.IsGrounded())
+        if (m_PlayerMovement.GetVelocity().y > 0 || !m_PlayerMovement.IsGrounded())
             m_CurrentActions |= Action.ACTION_JUMP;
 
         if (m_PlayerMovement.IsDashing())
             m_CurrentActions |= Action.ACTION_DASH;
 
-        if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
+        if (m_PlayerAnimation.IsPlayingAttackAnimation())
             m_CurrentActions |= Action.ACTION_ATTACK;
-
-        if (m_PlayerCombatHandler.GetBlockedInCurrentFrame())
-            m_CurrentActions |= Action.ACTION_BLOCK;
 
         if (m_PlayerCombatHandler.GetBlockedInCurrentFrame())
             m_CurrentActions |= Action.ACTION_BLOCK;
 
         if (m_IsTogglingCombatStance)
             m_CurrentActions |= Action.ACTION_SHEATHE;
+
+        if (m_CurrentActions == Action.ACTION_UNSET)
+            m_CurrentActions = Action.ACTION_IDLE;
     }
 
     public void SetStance(Stance targetStance)
@@ -160,26 +164,25 @@ public class PlayerStance : MonoBehaviour
     {
         switch (targetAction)
         {
-            case Action.ACTION_NONE:
+            case Action.ACTION_UNSET:
                 return true;
             case Action.ACTION_WALK:
-                return m_CurrentActions.HasFlag(m_CanWalkMask) && !m_CurrentActions.HasFlag(~m_CanWalkMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanWalkMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanWalkMask);
             case Action.ACTION_SPRINT:
                 return false;
             case Action.ACTION_JUMP:
-                return m_CurrentActions.HasFlag(m_CanJumpMask) && !m_CurrentActions.HasFlag(~m_CanJumpMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanJumpMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanJumpMask);
             case Action.ACTION_DASH:
-                return m_CurrentActions.HasFlag(m_CanDashMask) && !m_CurrentActions.HasFlag(~m_CanDashMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanDashMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanDashMask);
             case Action.ACTION_ATTACK:
-                return m_CurrentActions.HasFlag(m_CanAttackMask) && !m_CurrentActions.HasFlag(~m_CanAttackMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanAttackMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanAttackMask);
             case Action.ACTION_BLOCK:
-                return m_CurrentActions.HasFlag(m_CanBlockMask) && !m_CurrentActions.HasFlag(~m_CanBlockMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanBlockMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanBlockMask);
             case Action.ACTION_SHEATHE:
-                return m_CurrentActions.HasFlag(m_CanSheatheMask) && !m_CurrentActions.HasFlag(~m_CanSheatheMask);
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanSheatheMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanSheatheMask);
             default:
                 return false;
         }
-
     }
 }
 
