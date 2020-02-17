@@ -259,7 +259,7 @@ public class PlayerMovement : MonoBehaviour
         m_ExternalJumpHeightModifier = modifier;
     }
 
-    private Vector3 GetXZVelocity()
+    public Vector3 GetXZVelocity()
     {
         return new Vector3(m_Velocity.x, 0, m_Velocity.z);
     }

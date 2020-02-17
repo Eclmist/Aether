@@ -13,6 +13,7 @@ public class PlayerCombatHandler : MonoBehaviour
     // For animation lookup
     private bool m_AttackedInCurrentFrame;
     private bool m_BlockedInCurrentFrame;
+    private bool m_IsSheathing;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,11 @@ public class PlayerCombatHandler : MonoBehaviour
             return false;
 
         return m_BlockedInCurrentFrame;
+    }
+
+    public bool IsSheathing()
+    {
+        return m_IsSheathing;
     }
 
     public void SheatheWeapon(InputAction.CallbackContext ctx)
