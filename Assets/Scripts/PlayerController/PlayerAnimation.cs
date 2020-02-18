@@ -29,7 +29,7 @@ public class PlayerAnimation : MonoBehaviour
         m_AxisDelta.x = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.x, 0, Time.deltaTime * 5), -1, 1);
         m_AxisDelta.y = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.y, 0, Time.deltaTime * 5), -1, 1);
 
-        Vector2 playerInput = m_PlayerMovement.GetLastKnownInput();
+        Vector2 playerInput = m_PlayerMovement.GetInputAxisXZ();
         m_AxisDelta.x = Mathf.Abs(m_AxisDelta.x) < Mathf.Abs(playerInput.x) ? playerInput.x : m_AxisDelta.x;
         m_AxisDelta.y = Mathf.Abs(m_AxisDelta.y) < Mathf.Abs(playerInput.y) ? playerInput.y : m_AxisDelta.y;
         m_Animator.SetFloat("Velocity-XZ-Normalized-01", m_AxisDelta.magnitude);
@@ -51,6 +51,10 @@ public class PlayerAnimation : MonoBehaviour
 
         // Set Player Weapon Stance
         m_Animator.SetInteger("WeaponIndex", (int)m_PlayerStance.GetStance());
+
+        // Set Jump trigger
+        if (m_PlayerMovement.JumpedInCurrentFrame())
+            m_Animator.SetTrigger("Jump");
 
         // Set combat states
         HandleCombatAnimations();

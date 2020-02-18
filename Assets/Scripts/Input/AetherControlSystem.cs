@@ -343,7 +343,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6a82bf7d-9343-40f1-81f0-760a53b6d93f"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
