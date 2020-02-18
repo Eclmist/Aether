@@ -29,9 +29,10 @@ public class PlayerAnimation : MonoBehaviour
         m_AxisDelta.x = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.x, 0, Time.deltaTime * 5), -1, 1);
         m_AxisDelta.y = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.y, 0, Time.deltaTime * 5), -1, 1);
 
-        Vector2 playerInput = m_PlayerMovement.GetInputAxisXZ();
+        Vector2 playerInput = m_PlayerMovement.GetInputAxis();
         m_AxisDelta.x = Mathf.Abs(m_AxisDelta.x) < Mathf.Abs(playerInput.x) ? playerInput.x : m_AxisDelta.x;
         m_AxisDelta.y = Mathf.Abs(m_AxisDelta.y) < Mathf.Abs(playerInput.y) ? playerInput.y : m_AxisDelta.y;
+
         m_Animator.SetFloat("Velocity-XZ-Normalized-01", m_AxisDelta.magnitude);
 
         // TODO: Support Velocity X, Velocity Z for unarmed rotation
@@ -79,14 +80,19 @@ public class PlayerAnimation : MonoBehaviour
             return;
         }
 
-        if (m_PlayerMovement.DashedInCurrentFrame())
+        if (m_PlayerMovement.DashedBackwardsInCurrentFrame())
         {
-            m_Animator.SetTrigger("Dash");
-            m_Animator.SetInteger("DashDirection", m_PlayerMovement.GetDashDirectionIndex());
+            m_Animator.SetTrigger("Backstep");
             return;
         }
 
-        m_Animator.SetBool("Block", m_PlayerCombatHandler.GetBlockedInCurrentFrame());
+        if (m_PlayerMovement.DashedInCurrentFrame())
+        {
+            m_Animator.SetTrigger("Dash");
+            return;
+        }
+
+        m_Animator.SetBool("Block", m_PlayerCombatHandler.IsBlocking());
     }
 
     public bool IsPlayingAttackAnimation()
