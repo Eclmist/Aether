@@ -54,10 +54,11 @@ public class PlayerMovement : MonoBehaviour
         public bool m_DashedInCurrentFrame;
         public bool m_IsBackwardsDash;
         public float m_DashTimeTotal = 0.5f;
+        public float m_BackDashTimeTotal = 0.3f;
         public float m_DashDelay = 0.3f;
         public float m_DashSpeed = 9;
         public float m_DashCooldown = 0.5f;
-        public float m_LastDashTime;
+        public float m_LastCompletedDashTime;
         public Vector3 m_DashDirection;
     }
 
@@ -94,9 +95,13 @@ public class PlayerMovement : MonoBehaviour
         ComputeXZAxisVelocity();
         m_CharacterController.Move(ComputeMovementDelta());
 
-
         if (m_Player.networkObject != null)
             m_Player.networkObject.position = transform.position;
+    }
+
+    private void LateUpdate()
+    {
+        m_DashParams.m_DashedInCurrentFrame = false;
     }
 
     private void ComputeYAxisVelocity()
@@ -121,8 +126,8 @@ public class PlayerMovement : MonoBehaviour
         // If the player is not allowed to walk, don't.
         if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_WALK))
         {
-            m_MovementParams.m_Velocity.x = 0;
-            m_MovementParams.m_Velocity.z = 0;
+            m_MovementParams.m_Velocity.x = Mathf.Lerp(m_MovementParams.m_Velocity.x, 0, Time.deltaTime * 5);
+            m_MovementParams.m_Velocity.z = Mathf.Lerp(m_MovementParams.m_Velocity.z, 0, Time.deltaTime * 5);
             return;
         }
 
@@ -231,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.IsCombatStance())
             return;
 
-        if (Time.time - (m_DashParams.m_LastDashTime + m_DashParams.m_DashTimeTotal) < m_DashParams.m_DashCooldown)
+        if (Time.time - m_DashParams.m_LastCompletedDashTime < m_DashParams.m_DashCooldown)
             return;
 
         if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH) && IsMovingForward())
@@ -253,15 +258,20 @@ public class PlayerMovement : MonoBehaviour
     {
         m_DashParams.m_IsDashing = true;
         m_DashParams.m_IsBackwardsDash = false;
-        m_DashParams.m_LastDashTime = Time.time;
+        m_DashParams.m_DashedInCurrentFrame = true;
 
-        Vector3 dashDirection = GetXZVelocity().normalized;
-
+        // Is a backwards dash
         if (GetInputAxis()[1] <= 0)
         {
-            dashDirection = -transform.forward;
             m_DashParams.m_IsBackwardsDash = true;
+            yield return new WaitForSeconds(m_DashParams.m_BackDashTimeTotal);
+            m_DashParams.m_IsDashing = false;
+            m_DashParams.m_IsBackwardsDash = false;
+            m_DashParams.m_LastCompletedDashTime = Time.time;
+            yield break;
         }
+
+        Vector3 dashDirection = GetXZVelocity().normalized;
 
         // TODO: "Velocity" is technically 0 immediately after a backwards dash
         // Possible fixes are: delay repeated dashes (done), read only controller input for dash (but must
@@ -274,36 +284,19 @@ public class PlayerMovement : MonoBehaviour
         Debug.Assert(dashDirection != Vector3.zero);
         m_DashParams.m_DashDirection = dashDirection;
 
+        // Let the wind up animation play (this should really be an animation callback @TODO)
+        yield return new WaitForSeconds(m_DashParams.m_DashDelay);
+
         float startTime = Time.time;
-
-        m_DashParams.m_DashedInCurrentFrame = true;
-        yield return new WaitForEndOfFrame();
-        m_DashParams.m_DashedInCurrentFrame = false;
-
         while (Time.time - startTime < m_DashParams.m_DashTimeTotal)
         {
-            // Backwards dash is driven by root motion
-            if (m_DashParams.m_IsBackwardsDash)
-            {
-                yield return null;
-                continue;
-            }
-            // Dash animation has not yet started, don't make the player dash yet.
-            else if (Time.time - startTime < m_DashParams.m_DashDelay)
-            {
-                yield return null;
-                continue;
-            }
-            else
-            {
-                // Send the player flying
-                m_CharacterController.Move(dashDirection * m_DashParams.m_DashSpeed * Time.deltaTime);
-                yield return null;
-            }
+            // Send the player flying
+            m_CharacterController.Move(dashDirection * m_DashParams.m_DashSpeed * Time.deltaTime);
+            yield return null;
         }
 
+        m_DashParams.m_LastCompletedDashTime = Time.time;
         m_DashParams.m_IsDashing = false;
-        m_DashParams.m_IsBackwardsDash = false;
     }
 
     public Vector2 GetInputAxis()
