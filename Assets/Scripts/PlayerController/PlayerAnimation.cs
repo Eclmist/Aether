@@ -98,6 +98,10 @@ public class PlayerAnimation : MonoBehaviour
     public bool IsPlayingAttackAnimation()
     {
         // TODO: Find a more elegant way to do this (animation callbacks?)
-        return m_Animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack");
+        for (int i = 0; i < m_Animator.layerCount; ++i)
+            if (m_Animator.GetCurrentAnimatorStateInfo(i).IsTag("IsAttack"))
+                return true;
+
+        return false;
     }
 }

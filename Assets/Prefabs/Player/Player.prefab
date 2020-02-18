@@ -381,7 +381,7 @@ MonoBehaviour:
     m_GroundCheckPosition: {fileID: 4526435887938752789}
     m_GroundLayerMask:
       serializedVersion: 2
-      m_Bits: 2048
+      m_Bits: 3072
     m_IsGrounded: 0
   m_GravityParams:
     m_Gravity: -30
@@ -394,10 +394,13 @@ MonoBehaviour:
   m_DashParams:
     m_IsDashing: 0
     m_DashedInCurrentFrame: 0
-    m_DashTimeTotal: 0.55
+    m_IsBackwardsDash: 0
+    m_DashTimeTotal: 0.65
     m_DashDelay: 0.15
-    m_DashSpeed: 12
-    m_DashDirectionAnimationIndex: 0
+    m_DashSpeed: 10
+    m_DashCooldown: 0.5
+    m_LastDashTime: 0
+    m_DashDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &4526435887570521013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,12 +763,12 @@ PrefabInstance:
     - target: {fileID: 6079326829632867507, guid: 1fd3eb28b928bb94d9523b2e9a6d4c13,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.09389304
+      value: 0.093893066
       objectReference: {fileID: 0}
     - target: {fileID: 6079326829632867507, guid: 1fd3eb28b928bb94d9523b2e9a6d4c13,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.012392778
+      value: -0.012392781
       objectReference: {fileID: 0}
     - target: {fileID: 6079326829632867507, guid: 1fd3eb28b928bb94d9523b2e9a6d4c13,
         type: 3}
