@@ -18,9 +18,8 @@ public class PlayerCombatHandler : MonoBehaviour
     void Start()
     {
         m_PlayerStance = GetComponent<PlayerStance>();
-        AetherInput.GetPlayerActions().Fire.performed += Attack;
-        AetherInput.GetPlayerActions().Sheathe.performed += SheatheWeapon;
-        AetherInput.GetPlayerActions().Block.performed += Block;
+        AetherInput.GetPlayerActions().Fire.performed += AttackInputCallback;
+        AetherInput.GetPlayerActions().Sheathe.performed += SheatheInputCallback;
     }
 
     private void LateUpdate()
@@ -28,7 +27,13 @@ public class PlayerCombatHandler : MonoBehaviour
         m_AttackedInCurrentFrame = false;
     }
 
-    private void Attack(InputAction.CallbackContext ctx)
+    private void Update()
+    {
+        // "Held Down" Inputs should be checked in update
+        BlockIfPossible();
+    }
+
+    private void AttackInputCallback(InputAction.CallbackContext ctx)
     {
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
@@ -45,35 +50,25 @@ public class PlayerCombatHandler : MonoBehaviour
 
         m_AttackedInCurrentFrame = true;
     }
-    private void Block(InputAction.CallbackContext ctx)
+    private void BlockIfPossible()
     {
-        ButtonControl button = ctx.control as ButtonControl;
-
-        if (!button.wasPressedThisFrame)
-        {
-            m_BlockedInCurrentFrame = false;
-            return;
-        }
+        m_BlockedInCurrentFrame = false;
 
         if (!m_PlayerStance.IsCombatStance())
-        {
-            m_BlockedInCurrentFrame = false;
             return;
-        }
 
         if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_BLOCK))
             return;
 
-        m_BlockedInCurrentFrame = button.isPressed;
+        m_BlockedInCurrentFrame = AetherInput.GetPlayerActions().Block.ReadValue<float>() != 0;
     }
-
 
     public bool GetAttackedInCurrentFrame()
     {
         return m_AttackedInCurrentFrame;
     }
 
-    public bool GetBlockedInCurrentFrame()
+    public bool IsBlocking()
     {
         if (GetAttackedInCurrentFrame())
             return false;
@@ -81,7 +76,7 @@ public class PlayerCombatHandler : MonoBehaviour
         return m_BlockedInCurrentFrame;
     }
 
-    public void SheatheWeapon(InputAction.CallbackContext ctx)
+    public void SheatheInputCallback(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
             m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);

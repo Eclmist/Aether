@@ -49,9 +49,9 @@ public class PlayerStance : MonoBehaviour
     private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DASH);
     private Action m_CanSprintMask = Action.ACTION_WALK;
     private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DASH;
-    private Action m_CanDashMask = Action.ACTION_WALK | Action.ACTION_SPRINT;
+    private Action m_CanDashMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
     private Action m_CanAttackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
-    private Action m_CanBlockMask = Action.ACTION_IDLE | Action.ACTION_WALK;
+    private Action m_CanBlockMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_BLOCK;
     private Action m_CanSheatheMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
 
     private Stance m_Stance;
@@ -71,29 +71,7 @@ public class PlayerStance : MonoBehaviour
 
     void Update()
     {
-        SetPlayerRotation();
         SetCurrentActions();
-    }
-
-    void SetPlayerRotation()
-    {
-        if (m_PlayerMovement.IsDashing())
-            return;
-
-        if (m_Stance == Stance.STANCE_UNARMED)
-        {
-            Vector3 velocity = m_PlayerMovement.GetVelocity();
-            velocity.y = 0;
-            if (velocity.magnitude > 0.0f)
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(velocity.normalized), Time.deltaTime * 10);
-        }
-        else
-        {
-            // Look towards camera lookat
-            Vector3 cameraLookAt = Camera.main.transform.forward;
-            cameraLookAt.y = 0;
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(cameraLookAt.normalized), Time.deltaTime * 10);
-        }
     }
     
     void SetCurrentActions()
@@ -114,7 +92,7 @@ public class PlayerStance : MonoBehaviour
         if (m_PlayerAnimation.IsPlayingAttackAnimation())
             m_CurrentActions |= Action.ACTION_ATTACK;
 
-        if (m_PlayerCombatHandler.GetBlockedInCurrentFrame())
+        if (m_PlayerCombatHandler.IsBlocking())
             m_CurrentActions |= Action.ACTION_BLOCK;
 
         if (m_IsTogglingCombatStance)

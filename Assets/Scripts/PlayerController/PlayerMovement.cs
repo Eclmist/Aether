@@ -52,10 +52,11 @@ public class PlayerMovement : MonoBehaviour
     {
         public bool m_IsDashing;
         public bool m_DashedInCurrentFrame;
+        public bool m_IsBackwardsDash;
         public float m_DashTimeTotal = 0.5f;
         public float m_DashDelay = 0.3f;
         public float m_DashSpeed = 9;
-        public int m_DashDirectionAnimationIndex;
+        public Vector3 m_DashDirection;
     }
 
     #region References
@@ -86,10 +87,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RotatePlayer();
         ComputeYAxisVelocity();
         ComputeXZAxisVelocity();
-
         m_CharacterController.Move(ComputeMovementDelta());
+
 
         if (m_Player.networkObject != null)
             m_Player.networkObject.position = transform.position;
@@ -122,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector2 inputXZ = GetInputAxisXZ();
+        Vector2 inputXZ = GetInputAxis();
         Vector3 xzVelocity = Camera.main.transform.right * inputXZ[0] + Camera.main.transform.forward * inputXZ[1];
         xzVelocity *= m_MovementParams.m_MoveSpeed;
         xzVelocity.y = 0;
@@ -132,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
             xzVelocity *= m_MovementParams.m_NonForwardMovePenalty.Evaluate(Mathf.Abs(VelocityDotForward()));
 
         // Slow the player down when blocking
-        if (m_PlayerCombatHandler.GetBlockedInCurrentFrame())
+        if (m_PlayerCombatHandler.IsBlocking())
             xzVelocity *= (1 - m_MovementParams.m_BlockMovePenalty);
 
         // Add external modifier;
@@ -155,6 +157,44 @@ public class PlayerMovement : MonoBehaviour
         deltaPos.y = Vy * t + 0.5f * GetGravityMagnitude() * t2;
 
         return deltaPos;
+    }
+
+    private void RotatePlayer()
+    {
+        // Overrides
+        if (IsDashing())
+        {
+            if (!m_DashParams.m_IsBackwardsDash)
+                RotateTowardsDirection(m_DashParams.m_DashDirection);
+            else
+            {
+                // Don't rotate
+            }
+        }
+        // Last two entries are defaults
+        else if (m_PlayerStance.IsCombatStance())
+        {
+            Vector3 cameraLookAt = Camera.main.transform.forward;
+            cameraLookAt.y = 0;
+            RotateTowardsDirection(cameraLookAt);
+        }
+        else
+        {
+            RotateTowardsMovement();
+        }
+    }
+
+    private void RotateTowardsDirection(Vector3 direction)
+    {
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction.normalized), Time.deltaTime * 10);
+    }
+
+    private void RotateTowardsMovement()
+    {
+        Vector3 velocity = GetXZVelocity();
+
+        if (velocity.magnitude > 0.0f)
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(velocity.normalized), Time.deltaTime * 10);
     }
 
     public void JumpInputCallback(InputAction.CallbackContext ctx)
@@ -192,7 +232,10 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH))
             return;
 
-        if (VelocityDotForward() < 0.0f)
+        if (IsMovingForward() && GetInputAxis().magnitude < 0.5f)
+            return;
+
+        if (!IsMovingForward() && Mathf.Abs(GetInputAxis().x) > 0.5f)
             return;
 
         StartCoroutine(Dash());
@@ -201,16 +244,26 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Dash()
     {
         m_DashParams.m_IsDashing = true;
-
-        // Compute the absolute dash direction for animator use (left, right, forward)
-        if (VelocityDotForward() > 0.9)
-            m_DashParams.m_DashDirectionAnimationIndex = 1;
-        else if (Vector3.Cross(GetXZVelocity(), transform.forward).y < 0)
-            m_DashParams.m_DashDirectionAnimationIndex = 2;
-        else
-            m_DashParams.m_DashDirectionAnimationIndex = 0;
+        m_DashParams.m_IsBackwardsDash = false;
 
         Vector3 dashDirection = GetXZVelocity().normalized;
+
+        if (GetInputAxis()[1] <= 0)
+        {
+            dashDirection = -transform.forward;
+            m_DashParams.m_IsBackwardsDash = true;
+        }
+
+        // BUG: "Velocity" is technically 0 immediately after a backwards dash
+        // Possible fixes are: delay repeated dashes, read only controller input for dash (but must
+        // convert to actual direction)
+        if (dashDirection.magnitude == 0)
+        {
+            dashDirection = transform.forward;
+        }
+
+        Debug.Assert(dashDirection != Vector3.zero);
+        m_DashParams.m_DashDirection = dashDirection;
 
         float startTime = Time.time;
 
@@ -220,8 +273,14 @@ public class PlayerMovement : MonoBehaviour
 
         while (Time.time - startTime < m_DashParams.m_DashTimeTotal)
         {
+            // Backwards dash is driven by root motion
+            if (m_DashParams.m_IsBackwardsDash)
+            {
+                yield return null;
+                continue;
+            }
             // Dash animation has not yet started, don't make the player dash yet.
-            if (Time.time - startTime < m_DashParams.m_DashDelay)
+            else if (Time.time - startTime < m_DashParams.m_DashDelay)
             {
                 yield return null;
                 continue;
@@ -235,9 +294,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         m_DashParams.m_IsDashing = false;
+        m_DashParams.m_IsBackwardsDash = false;
     }
 
-    public Vector2 GetInputAxisXZ()
+    public Vector2 GetInputAxis()
     {
         return AetherInput.GetPlayerActions().Move.ReadValue<Vector2>();
     }
@@ -258,6 +318,15 @@ public class PlayerMovement : MonoBehaviour
         return finalGravity;
     }
 
+    public void RootMotionMoveTo(Vector3 rootPosition, Quaternion rootRotation)
+    {
+        m_MovementParams.m_Velocity.x = 0;
+        m_MovementParams.m_Velocity.z = 0;
+        Vector3 moveAmount = rootPosition - transform.position;
+        m_CharacterController.Move(moveAmount * 2); // Hack
+        transform.rotation = rootRotation;
+    }
+
     public bool IsGrounded()
     {
         return m_GroundingParams.m_IsGrounded;
@@ -273,14 +342,15 @@ public class PlayerMovement : MonoBehaviour
         return m_DashParams.m_IsDashing;
     }
 
+    public bool DashedBackwardsInCurrentFrame()
+    {
+        return m_DashParams.m_IsBackwardsDash && m_DashParams.m_DashedInCurrentFrame;
+
+    }
+
     public bool DashedInCurrentFrame()
     {
         return m_DashParams.m_DashedInCurrentFrame;
-    }
-
-    public int GetDashDirectionIndex()
-    {
-        return m_DashParams.m_DashDirectionAnimationIndex;
     }
 
     public bool IsMovingForward()

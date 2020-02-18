@@ -32,4 +32,15 @@ public class AnimationCallbacks : MonoBehaviour
         if (m_PlayerStance != null)
             m_PlayerStance.SetWeaponActive();
     }
+
+    public void OnAnimatorMove()
+    {
+        if (!m_Animator)
+            return;
+
+        if (!m_Animator.GetCurrentAnimatorStateInfo(4).IsTag("ApplyRootMotion"))
+            return;
+
+        m_PlayerMovement.RootMotionMoveTo(m_Animator.rootPosition, m_Animator.rootRotation);
+    }
 }
