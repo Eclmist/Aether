@@ -56,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
         public float m_DashTimeTotal = 0.5f;
         public float m_DashDelay = 0.3f;
         public float m_DashSpeed = 9;
+        public float m_DashCooldown = 0.5f;
+        public float m_LastDashTime;
         public Vector3 m_DashDirection;
     }
 
@@ -229,7 +231,13 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.IsCombatStance())
             return;
 
-        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH))
+        if (Time.time - (m_DashParams.m_LastDashTime + m_DashParams.m_DashTimeTotal) < m_DashParams.m_DashCooldown)
+            return;
+
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH) && IsMovingForward())
+            return;
+
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASHBACK) && !IsMovingForward())
             return;
 
         if (IsMovingForward() && GetInputAxis().magnitude < 0.5f)
@@ -245,6 +253,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_DashParams.m_IsDashing = true;
         m_DashParams.m_IsBackwardsDash = false;
+        m_DashParams.m_LastDashTime = Time.time;
 
         Vector3 dashDirection = GetXZVelocity().normalized;
 
@@ -254,8 +263,8 @@ public class PlayerMovement : MonoBehaviour
             m_DashParams.m_IsBackwardsDash = true;
         }
 
-        // BUG: "Velocity" is technically 0 immediately after a backwards dash
-        // Possible fixes are: delay repeated dashes, read only controller input for dash (but must
+        // TODO: "Velocity" is technically 0 immediately after a backwards dash
+        // Possible fixes are: delay repeated dashes (done), read only controller input for dash (but must
         // convert to actual direction)
         if (dashDirection.magnitude == 0)
         {
@@ -342,10 +351,14 @@ public class PlayerMovement : MonoBehaviour
         return m_DashParams.m_IsDashing;
     }
 
+    public bool IsDashingBackwards()
+    {
+        return m_DashParams.m_IsBackwardsDash;
+    }
+
     public bool DashedBackwardsInCurrentFrame()
     {
         return m_DashParams.m_IsBackwardsDash && m_DashParams.m_DashedInCurrentFrame;
-
     }
 
     public bool DashedInCurrentFrame()
