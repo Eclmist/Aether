@@ -21,15 +21,16 @@ public abstract class PowerUpBase : MonoBehaviour, IInteractable
     {
         if (interactor != null && interactor is Player player)
         {
-            PlayPickUpSound();
+            AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
+            StartActivation();
             HandlePowerUp(player);
             Destroy(gameObject);
         }
     }
 
-    private void PlayPickUpSound()
+    private void StartActivation()
     {
-         m_TimeOfActivation = Time.time;
+        m_TimeOfActivation = Time.time;
         OnPowerUpActivated();
     }
 
