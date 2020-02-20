@@ -31,8 +31,10 @@ public class PowerUpUIHandler : MonoBehaviour
         }
 
         if (activatedIcon != null)
+        {
             activatedIcon.transform.SetParent(this.gameObject.transform, false);
             StartCoroutine(DelayDestruction(activatedIcon));
+        }
     }
 
     private IEnumerator DelayDestruction(GameObject icon) {
