@@ -9,6 +9,9 @@ public class PowerUpUIHandler : MonoBehaviour
     [SerializeField]
     private GameObject m_SpeedPowerUpIconPrefab;
 
+    [SerializeField]
+    private const float m_BuffDuration = 5.0f;
+
     public void ActivateIcon(UIPowerUpSignals signal) 
     {
         GameObject activatedIcon = null; 
@@ -29,5 +32,11 @@ public class PowerUpUIHandler : MonoBehaviour
 
         if (activatedIcon != null)
             activatedIcon.transform.SetParent(this.gameObject.transform, false);
+            StartCoroutine(DelayDestruction(activatedIcon));
     }
+
+    private IEnumerator DelayDestruction(GameObject icon) {
+        yield return new WaitForSeconds(m_BuffDuration);
+        Destroy(icon);
+    } 
 }
