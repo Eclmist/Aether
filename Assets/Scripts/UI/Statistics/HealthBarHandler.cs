@@ -50,6 +50,14 @@ public class HealthBarHandler : MonoBehaviour
     {
         float decrement = m_decrementMultiplier * seconds;
 
+        // Consider edge case when you have nothing to deplete.
+        if (m_healthDecrement.fillAmount <= decrement)
+        {
+            m_healthDecrement.fillAmount = 0.0f;
+            m_changeAmount = 0.0f;
+            return;
+        }
+
         if (decrement > m_changeAmount)
         {
             m_healthDecrement.fillAmount -= m_changeAmount;
