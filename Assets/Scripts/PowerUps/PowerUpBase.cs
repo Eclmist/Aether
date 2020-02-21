@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class PowerUpBase : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    protected const float m_BuffDuration = 5.0f;
+    protected const float m_BuffDuration = 5.5f;
 
     protected float m_TimeOfActivation = -1.0f;
 
@@ -21,15 +21,17 @@ public abstract class PowerUpBase : MonoBehaviour, IInteractable
     {
         if (interactor != null && interactor is Player player)
         {
-            PlayPickUpSound();
+            AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
+            StartActivation();
             HandlePowerUp(player);
             Destroy(gameObject);
         }
     }
 
-    private void PlayPickUpSound()
+    private void StartActivation()
     {
-        AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
+        m_TimeOfActivation = Time.time;
+        OnPowerUpActivated();
     }
 
     public void HandlePowerUp(Player player)
