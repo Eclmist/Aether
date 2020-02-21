@@ -38,9 +38,8 @@ public class HealthBarHandler : MonoBehaviour
         }
 
         if (m_healthDecrement != null && m_changeAmount >= 0.0f)
-        {
             UpdateHealthPercentage(Time.deltaTime);
-        }
+            
     }
     public void IndicateDamage(float percentageChange) 
     {

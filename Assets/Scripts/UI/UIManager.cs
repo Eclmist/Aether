@@ -15,9 +15,8 @@ public class UIManager : Singleton<UIManager>
         {
             PowerUpUIHandler handler = m_powerUpHandler.GetComponent<PowerUpUIHandler>();
             if (handler != null && signal != null) 
-            {
                 handler.ActivateIcon(signal);
-            }
+
         }
     }
 
@@ -27,9 +26,8 @@ public class UIManager : Singleton<UIManager>
         {
             HealthBarHandler handler = m_healthBarHandler.GetComponent<HealthBarHandler>();
             if (handler != null) 
-            {
                 handler.IndicateDamage(percentageChange);
-            }
+                
         }
     }
 
