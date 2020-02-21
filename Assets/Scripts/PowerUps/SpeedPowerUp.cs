@@ -22,7 +22,6 @@ public class SpeedPowerUp : PowerUpBase
         if (playerMovement != null)
         {
             UIManager.Instance.ActivatePowerupIcon(UIPowerUpSignals.SPEED_SIGNAL);
-            UIManager.Instance.ModifyHealthBar(0.1f);
             playerMovement.SetExternalVelocityModifier(ComputeVelocityModifier());
         }
     }
