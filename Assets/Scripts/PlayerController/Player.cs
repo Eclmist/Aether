@@ -32,6 +32,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
 
+        m_RevealActor.enabled = false;
         m_StealthActor.enabled = false;
     }
 

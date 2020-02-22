@@ -19,7 +19,7 @@ public class RevealActor : MonoBehaviour
     [SerializeField]
     private AnimationCurve m_VertexPaintCurve = null;
 
-    private bool m_IsRevealer = false;
+    private RevealMode m_RevealMode = RevealMode.SHOW;
 
 #if USE_FAKE_CAMERA_REVEAL
     [SerializeField]
@@ -61,10 +61,18 @@ public class RevealActor : MonoBehaviour
             if (target == null)
                 continue;
 
-            if (m_IsRevealer)
-                target.Reveal();
-            else
-                target.Hide();
+            switch (m_RevealMode)
+            {
+                case RevealMode.SHOW:
+                    target.Reveal();
+                    break;
+                case RevealMode.HIDE:
+                    target.Hide();
+                    break;
+                default:
+                    Debug.LogWarning("Should not reach here. Reveal Mode switch default.");
+                    break;
+            }
         }
 
 #if USE_FAKE_CAMERA_REVEAL
@@ -74,9 +82,9 @@ public class RevealActor : MonoBehaviour
 #endif
     }
 
-    public void SetIsRevealer(bool value)
+    public void SetRevealMode(RevealMode revealMode)
     {
-        m_IsRevealer = value;
+        m_RevealMode = revealMode;
     }
 
     private void PaintVertex()
@@ -91,7 +99,7 @@ public class RevealActor : MonoBehaviour
             if (target == null)
                 continue;
 
-            target.PaintAtPosition(m_IsRevealer, transform.position, modulatedRadius, m_VertexPaintCurve);
+            target.PaintAtPosition(m_RevealMode, transform.position, modulatedRadius, m_VertexPaintCurve);
         }
     }
 
