@@ -19,6 +19,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_SkillsTransform = new GameObject("Skills").transform;
+        m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
         m_SkillsTransform.parent = gameObject.transform;
     }
 
