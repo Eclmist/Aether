@@ -4,98 +4,104 @@ using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerStance))]
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField]
     private Animator m_Animator;
-
-    [SerializeField]
-    private AnimationCurve m_AnimationSpeedCurve;
-
     private PlayerMovement m_PlayerMovement;
-
+    private PlayerStance m_PlayerStance;
+    private PlayerCombatHandler m_PlayerCombatHandler;
     private Player m_Player;
 
-    private float m_FallenDuration = 1.0f;
-
-    private float m_MoveDelay = 2.5f;
+    private Vector2 m_AxisDelta;
 
     void Start()
     {
-        m_PlayerMovement = GetComponent<PlayerMovement>();
         m_Player = GetComponent<Player>();
+        m_PlayerMovement = GetComponent<PlayerMovement>();
+        m_PlayerStance = GetComponent<PlayerStance>();
+        m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
     }
 
     void Update()
     {
-        float axisMagnitude = m_PlayerMovement.GetLastKnownInput().magnitude;
-        m_Animator.SetFloat("MovementInput", axisMagnitude);
+        m_AxisDelta.x = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.x, 0, Time.deltaTime * 5), -1, 1);
+        m_AxisDelta.y = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.y, 0, Time.deltaTime * 5), -1, 1);
+
+        Vector2 playerInput = m_PlayerMovement.GetInputAxis();
+        m_AxisDelta.x = Mathf.Abs(m_AxisDelta.x) < Mathf.Abs(playerInput.x) ? playerInput.x : m_AxisDelta.x;
+        m_AxisDelta.y = Mathf.Abs(m_AxisDelta.y) < Mathf.Abs(playerInput.y) ? playerInput.y : m_AxisDelta.y;
+
+        m_Animator.SetFloat("Velocity-XZ-Normalized-01", m_AxisDelta.magnitude);
+
+        // TODO: Support Velocity X, Velocity Z for unarmed rotation
+        if (m_PlayerStance.IsCombatStance())
+        {
+            m_Animator.SetFloat("Velocity-X-Normalized", m_AxisDelta.x);
+            m_Animator.SetFloat("Velocity-Z-Normalized", m_AxisDelta.y);
+        }
 
         Vector3 velocity = m_PlayerMovement.GetVelocity();
-        m_Animator.SetFloat("VerticalVelocity", velocity.y);
+        m_Animator.SetFloat("Velocity-Y-Normalized", velocity.y);
 
-        // remove y-velocity
-        velocity.y = 0;
+        bool isGrounded = m_PlayerMovement.IsGrounded();
 
-        if (velocity.magnitude > 0.0f)
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(velocity.normalized), Time.deltaTime * 10);
-
-        bool isGrounded = m_PlayerMovement.GetIsGrounded();
         // Set Grounded boolean
         m_Animator.SetBool("Grounded", isGrounded);
 
-        // Handle Jumping callback
-        if (m_PlayerMovement.GetJumpedInCurrentFrame())
-            m_Animator.SetTrigger("Jumping");
+        // Set Player Weapon Stance
+        m_Animator.SetInteger("WeaponIndex", (int)m_PlayerStance.GetStance());
 
-        // Set walking animation speed based on players actual velocity. This allows slightly better sync between
-        // animation and gameplay.
-        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
-        {
-            if (axisMagnitude > 0.01f)
-                m_Animator.speed = m_AnimationSpeedCurve.Evaluate(axisMagnitude); // Make running animation speed match actual movement speed
-            else 
-                m_Animator.speed = 1;
-        }
+        // Set Jump trigger
+        if (m_PlayerMovement.JumpedInCurrentFrame())
+            m_Animator.SetTrigger("Jump");
+
+        // Set combat states
+        HandleCombatAnimations();
 
         if (m_Player.networkObject != null)
         {
-            m_Player.networkObject.axisMagnitude = axisMagnitude;
+            m_Player.networkObject.axisMagnitude = m_AxisDelta.magnitude;
             m_Player.networkObject.vertVelocity = velocity.y;
             m_Player.networkObject.rotation = transform.rotation;
             m_Player.networkObject.grounded = isGrounded;
         }
     }
 
-    public void TriggerVictoryAnimation()
+    void HandleCombatAnimations()
     {
-        m_Animator.SetTrigger("Scored");
+        if (m_PlayerCombatHandler == null)
+            return;
+        
+        if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
+        {
+            m_Animator.SetTrigger("Attack");
+            return;
+        }
+
+        if (m_PlayerMovement.DashedBackwardsInCurrentFrame())
+        {
+            m_Animator.SetTrigger("Backstep");
+            return;
+        }
+
+        if (m_PlayerMovement.DashedInCurrentFrame())
+        {
+            m_Animator.SetTrigger("Dash");
+            return;
+        }
+
+        m_Animator.SetBool("Block", m_PlayerCombatHandler.IsBlocking());
     }
 
-    public void MakePlayerFall()
+    public bool IsPlayingAttackAnimation()
     {
-        StartCoroutine("FallAction");
-    }
+        // TODO: Find a more elegant way to do this (animation callbacks?)
+        for (int i = 0; i < m_Animator.layerCount; ++i)
+            if (m_Animator.GetCurrentAnimatorStateInfo(i).IsTag("IsAttack"))
+                return true;
 
-    IEnumerator FallAction()
-    {
-        yield return StartCoroutine(SetFalls());
-        yield return StartCoroutine(SetMoves());
-    }
-
-    IEnumerator SetFalls()
-    {
-        m_PlayerMovement.SetParalyze();
-        m_Animator.SetTrigger("HasFallen");
-        yield return new WaitForSeconds(m_FallenDuration);
-        m_Animator.ResetTrigger("HasFallen");
-        m_PlayerMovement.ResetParalyze();
-    }
-
-    IEnumerator SetMoves()
-    {
-        m_PlayerMovement.SetParalyze();
-        yield return new WaitForSeconds(m_MoveDelay);
-        m_PlayerMovement.ResetParalyze();
+        return false;
     }
 }

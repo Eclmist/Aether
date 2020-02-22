@@ -27,7 +27,7 @@
                     "id": "2addab5d-50d4-4dcf-be83-f57413d0b6ed",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "Jump",
@@ -38,12 +38,28 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "SetBomb",
+                    "name": "Sheathe",
                     "type": "Button",
-                    "id": "a80e864f-f6d5-4801-8098-2ef7039ba3b2",
+                    "id": "10c17fd3-6519-409d-b507-66826ff58946",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "c6e2dde3-a04d-4406-8dbf-bd33f529ab32",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Block",
+                    "type": "Button",
+                    "id": "e8ab1bad-cb24-493c-80d1-28bc6aea74b8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -291,12 +307,34 @@
                 },
                 {
                     "name": "",
-                    "id": "a6c55c43-037e-4fe8-b458-b19212d1edc3",
-                    "path": "<Keyboard>/b",
-                    "interactions": "Hold(duration=3)",
+                    "id": "b04583bf-a02c-45ee-8b48-58589ba62913",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "Hold(duration=0.3)",
                     "processors": "",
-                    "groups": "",
-                    "action": "SetBomb",
+                    "groups": "Gamepad",
+                    "action": "Sheathe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad4e8112-7553-497e-a29d-6b9e2308da15",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a82bf7d-9343-40f1-81f0-760a53b6d93f",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Joystick",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
