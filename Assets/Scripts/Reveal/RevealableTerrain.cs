@@ -25,7 +25,7 @@ public class RevealableTerrain : MonoBehaviour
     private bool m_IsUpdating;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         m_MeshFilter = GetComponent<MeshFilter>();
         m_WorldSpaceVertices = m_MeshFilter.mesh.vertices;
@@ -41,12 +41,12 @@ public class RevealableTerrain : MonoBehaviour
         StartCoroutine(Coroutine_UpdateMeshColors());
     }
 
-    public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
+    public void PaintAtPosition(bool reveal, Vector3 position, float radius, AnimationCurve falloff = null)
     {
-        StartCoroutine(Coroutine_PaintAtPosition(position, radius, falloff));
+        StartCoroutine(Coroutine_PaintAtPosition(reveal, position, radius, falloff));
     }
 
-    IEnumerator Coroutine_PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
+    IEnumerator Coroutine_PaintAtPosition(bool reveal, Vector3 position, float radius, AnimationCurve falloff = null)
     {
 
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
@@ -65,10 +65,22 @@ public class RevealableTerrain : MonoBehaviour
                 amount = (1 - Mathf.Pow(distance / radius, 4)) * 255;
 
             // Ignore falloff for now
-            if (amount > currentAmount)
+            if (reveal)
             {
-                m_TargetVertexColors[i].r = (byte)amount;
-                m_IsUpdating = true;
+                if (amount > currentAmount)
+                {
+                    m_TargetVertexColors[i].r = (byte)amount;
+                    m_IsUpdating = true;
+                }
+            }
+            else
+            {
+                amount = 255 - amount;
+                if (amount < currentAmount)
+                {
+                    m_TargetVertexColors[i].r = (byte)amount;
+                    m_IsUpdating = true;
+                }
             }
 
             if (startTime - Time.time >= 0.1f)

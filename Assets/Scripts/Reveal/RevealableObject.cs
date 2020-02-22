@@ -22,7 +22,7 @@ public class RevealableObject : MonoBehaviour
     private float m_Opacity = 0.01f;
     private float m_TargetOpacity = 0;
 
-    private bool m_IsRevealMode = true;
+    private bool m_InRevealableMode = true;
 
     private Renderer m_Renderer;
 
@@ -61,7 +61,7 @@ public class RevealableObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_IsRevealMode)
+        if (m_InRevealableMode)
         {
             if (Mathf.Abs(m_Opacity - m_TargetOpacity) < 0.001f)
                 return;
@@ -72,7 +72,7 @@ public class RevealableObject : MonoBehaviour
                 if (m_Opacity > m_TargetOpacity)
                     m_Opacity = m_TargetOpacity;
             }
-            else
+            else if (m_Opacity > m_TargetOpacity)
             {
                 m_Opacity -= m_TransitionSpeed * Time.deltaTime;
                 if (m_Opacity < m_TargetOpacity)
@@ -86,7 +86,7 @@ public class RevealableObject : MonoBehaviour
 
     public void Reveal()
     {
-        SetIsRevealMode(true);
+        SetInRevealableMode(true);
 
         if (m_TargetOpacity == 1)
             return;
@@ -104,7 +104,7 @@ public class RevealableObject : MonoBehaviour
             if (target == null)
                 continue;
 
-            target.PaintAtPosition(transform.position, m_TerrainRevealRadius);
+            target.PaintAtPosition(true, transform.position, m_TerrainRevealRadius);
         }
 
         PlayAudioFx();
@@ -112,6 +112,8 @@ public class RevealableObject : MonoBehaviour
 
     public void Hide()
     {
+        SetInRevealableMode(true);
+
         if (m_TargetOpacity == 0)
             return;
 
@@ -123,24 +125,24 @@ public class RevealableObject : MonoBehaviour
     public void Stealth()
     {
         if (m_Opacity == 0)
-            SetIsRevealMode(false);
+            SetInRevealableMode(false);
     }
 
     public void UnStealth()
     {
-        SetIsRevealMode(true);
+        SetInRevealableMode(true);
     }
 
-    private void SetIsRevealMode(bool value)
+    private void SetInRevealableMode(bool value)
     {
-        if (m_IsRevealMode == value)
+        if (m_InRevealableMode == value)
             return;
 
-        m_IsRevealMode = value;
-        if (m_IsRevealMode)
+        m_InRevealableMode = value;
+        if (m_InRevealableMode)
         {
-            m_Renderer.enabled = false;
             m_Renderer.materials = m_RevealMaterials;
+            m_Renderer.enabled = false;
         }
         else
         {
