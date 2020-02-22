@@ -54,7 +54,7 @@ public class LobbySystem : LobbySystemBehavior
             player.UpdateName(playerName);
 
             // Team setup
-            player.UpdateTeam(m_PlayerCount % 2);
+            player.UpdateTeam(m_PlayerCount < 2 ? 0 : 1);
 
             m_LobbyPlayers.Add(np, player);
             m_PlayerCount++;
