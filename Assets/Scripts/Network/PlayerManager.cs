@@ -44,13 +44,13 @@ public class PlayerManager : PlayerManagerBehavior
     private void SpawnOwnPlayer(AetherNetworkManager.PlayerDetails details)
     {
         MainThreadManager.Run(() => {
-            Vector3 spawnPosition;
+            Transform spawnPoint;
             if (details.teamId == 0)
-                spawnPosition = m_SpawnPositionsRed[details.position].position;
+                spawnPoint = m_SpawnPositionsRed[details.position];
             else
-                spawnPosition = m_SpawnPositionsBlue[details.position].position;
-
-            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPosition) as Player;
+                spawnPoint = m_SpawnPositionsBlue[details.position];
+            
+            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
 
             p.playerLoaded += OnPlayerLoaded;
             p.SetTeam(details.teamId);
