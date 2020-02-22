@@ -104,7 +104,7 @@ public class RevealableObject : MonoBehaviour
             if (target == null)
                 continue;
 
-            target.PaintAtPosition(true, transform.position, m_TerrainRevealRadius);
+            target.PaintAtPosition(RevealMode.SHOW, transform.position, m_TerrainRevealRadius);
         }
 
         PlayAudioFx();

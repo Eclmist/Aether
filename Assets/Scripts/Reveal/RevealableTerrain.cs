@@ -41,12 +41,12 @@ public class RevealableTerrain : MonoBehaviour
         StartCoroutine(Coroutine_UpdateMeshColors());
     }
 
-    public void PaintAtPosition(bool reveal, Vector3 position, float radius, AnimationCurve falloff = null)
+    public void PaintAtPosition(RevealMode revealMode, Vector3 position, float radius, AnimationCurve falloff = null)
     {
-        StartCoroutine(Coroutine_PaintAtPosition(reveal, position, radius, falloff));
+        StartCoroutine(Coroutine_PaintAtPosition(revealMode, position, radius, falloff));
     }
 
-    IEnumerator Coroutine_PaintAtPosition(bool reveal, Vector3 position, float radius, AnimationCurve falloff = null)
+    IEnumerator Coroutine_PaintAtPosition(RevealMode revealMode, Vector3 position, float radius, AnimationCurve falloff = null)
     {
 
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
@@ -65,7 +65,7 @@ public class RevealableTerrain : MonoBehaviour
                 amount = (1 - Mathf.Pow(distance / radius, 4)) * 255;
 
             // Ignore falloff for now
-            if (reveal)
+            if (revealMode == RevealMode.SHOW)
             {
                 if (amount > currentAmount)
                 {

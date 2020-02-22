@@ -46,7 +46,7 @@ public class LobbySystem : LobbySystemBehavior
             Quaternion rotation = m_PlayerPositions[m_PlayerCount].rotation;
             Destroy(m_Loaders[m_PlayerCount]);
 
-            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation);
+            LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation) as LobbyPlayer;
             player.transform.SetParent(m_PlayerPositions[m_PlayerCount].transform, false);
 
             // Name setup

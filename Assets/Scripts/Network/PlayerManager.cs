@@ -87,7 +87,14 @@ public class PlayerManager : PlayerManagerBehavior
     {
         int myTeamId = m_LocalPlayer.GetTeam();
         foreach (Player p in m_Players)
-            p.GetRevealActor().SetIsRevealer(p.GetTeam() == myTeamId);
+        {
+            RevealActor revealActor = p.GetRevealActor();
+            revealActor.enabled = true;
+            if (p.GetTeam() == myTeamId)
+                revealActor.SetRevealMode(RevealMode.SHOW);
+            else
+                revealActor.SetRevealMode(RevealMode.HIDE);
+        }
     }
 
     // Callback for when each player has finished setting up network
