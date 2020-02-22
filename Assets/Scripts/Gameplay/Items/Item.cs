@@ -25,15 +25,7 @@ public class Item : MonoBehaviour, IInteractable
 
     public void HandleItemSkill(Player player)
     {
-        Transform skillTransform = player.transform.Find("Skills");
-        
-        if (skillTransform == null)
-        {
-            Debug.LogError("Player should have a child GameObject named Skills");
-            return;
-        }
-
-        ItemSkill itemSkill = skillTransform.gameObject.AddComponent(m_ItemSkill.GetType()) as ItemSkill; //adds child type
+        ItemSkill itemSkill = player.GetSkillsTransform().gameObject.AddComponent(m_ItemSkill.GetType()) as ItemSkill; //adds child type
         itemSkill.InitializeSkill();
         player.GetComponentInChildren<SkillHandler>().AddSkill(itemSkill); //must be after or else will be deleted
 
