@@ -24,8 +24,6 @@ public class HealthBarHandler : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(m_healthDecrement.fillAmount);
-
         if(m_Animator != null)
         {
             if (IsInCriticalHealth())
