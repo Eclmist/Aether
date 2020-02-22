@@ -4,11 +4,14 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\", \"int\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"team\", \"position\"]]")]
+	[GeneratedRPC("{\"types\":[[\"int\", \"int\"][\"uint\", \"int\"][][\"uint\", \"int\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"teamId\", \"position\"][\"networkId\", \"teamId\"][][\"networkId\", \"teamId\"]]")]
 	public abstract partial class PlayerManagerBehavior : NetworkBehavior
 	{
-		public const byte RPC_SETUP_PLAYER = 0 + 5;
+		public const byte RPC_TRIGGER_SETUP_PLAYER = 0 + 5;
+		public const byte RPC_TRIGGER_PLAYER_SYNC = 1 + 5;
+		public const byte RPC_TRIGGER_SETUP_REVEAL = 2 + 5;
+		public const byte RPC_REQUEST_PLAYER_SYNC = 3 + 5;
 
 		public PlayerManagerNetworkObject networkObject = null;
 
@@ -22,7 +25,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("SetupPlayer", SetupPlayer, typeof(int), typeof(int));
+			networkObject.RegisterRpc("TriggerSetupPlayer", TriggerSetupPlayer, typeof(int), typeof(int));
+			networkObject.RegisterRpc("TriggerPlayerSync", TriggerPlayerSync, typeof(uint), typeof(int));
+			networkObject.RegisterRpc("TriggerSetupReveal", TriggerSetupReveal);
+			networkObject.RegisterRpc("RequestPlayerSync", RequestPlayerSync, typeof(uint), typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -98,10 +104,24 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		/// <summary>
 		/// Arguments:
-		/// int team
+		/// int teamId
 		/// int position
 		/// </summary>
-		public abstract void SetupPlayer(RpcArgs args);
+		public abstract void TriggerSetupPlayer(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// uint networkId
+		/// int teamId
+		/// </summary>
+		public abstract void TriggerPlayerSync(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void TriggerSetupReveal(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void RequestPlayerSync(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

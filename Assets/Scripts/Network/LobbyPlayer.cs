@@ -11,7 +11,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
     [SerializeField]
     private Text m_PlayerTeam;
 
-    private int m_Team;
+    private int m_TeamId;
 
     public string GetName()
     {
@@ -20,7 +20,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     public int GetTeam()
     {
-        return m_Team;
+        return m_TeamId;
     }
 
     public void UpdateName(string name)
@@ -31,12 +31,12 @@ public class LobbyPlayer : LobbyPlayerBehavior
             networkObject.SendRpc(RPC_SET_NAME, Receivers.All, name);
     }
 
-    public void UpdateTeam(int team)
+    public void UpdateTeam(int teamId)
     {
-        m_Team = team;
+        m_TeamId = teamId;
         if (m_PlayerTeam != null)
         {
-            if (m_Team == 0)
+            if (m_TeamId == 0)
             {
                 m_PlayerTeam.text = "Red";
             }
@@ -47,13 +47,13 @@ public class LobbyPlayer : LobbyPlayerBehavior
         }
 
         if (networkObject != null)
-            networkObject.SendRpc(RPC_SET_TEAM, Receivers.All, m_Team);
+            networkObject.SendRpc(RPC_SET_TEAM, Receivers.All, m_TeamId);
     }
 
     public void UpdateDataFor(NetworkingPlayer player)
     {
         networkObject.SendRpc(player, RPC_SET_NAME, m_PlayerName.text);
-        networkObject.SendRpc(player, RPC_SET_TEAM, m_Team);
+        networkObject.SendRpc(player, RPC_SET_TEAM, m_TeamId);
     }
 
     public override void SetName(RpcArgs args)
@@ -63,7 +63,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     public override void SetTeam(RpcArgs args)
     {
-        m_Team = args.GetNext<int>();
+        m_TeamId = args.GetNext<int>();
         // E3: No text, this is breaking build
         //if (Team == 0)
         //{

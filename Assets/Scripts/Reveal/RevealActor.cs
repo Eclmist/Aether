@@ -19,6 +19,8 @@ public class RevealActor : MonoBehaviour
     [SerializeField]
     private AnimationCurve m_VertexPaintCurve = null;
 
+    private bool m_IsRevealer = false;
+
 #if USE_FAKE_CAMERA_REVEAL
     [SerializeField]
     private float m_RevealSpeed;
@@ -59,7 +61,10 @@ public class RevealActor : MonoBehaviour
             if (target == null)
                 continue;
 
-            target.Reveal();
+            if (m_IsRevealer)
+                target.Reveal();
+            else
+                target.Hide();
         }
 
 #if USE_FAKE_CAMERA_REVEAL
@@ -67,6 +72,11 @@ public class RevealActor : MonoBehaviour
 
         Shader.SetGlobalVector("_PaintPosition", m_LastPosition);
 #endif
+    }
+
+    public void SetIsRevealer(bool value)
+    {
+        m_IsRevealer = value;
     }
 
     private void PaintVertex()
@@ -81,7 +91,7 @@ public class RevealActor : MonoBehaviour
             if (target == null)
                 continue;
 
-            target.PaintAtPosition(transform.position, modulatedRadius, m_VertexPaintCurve);
+            target.PaintAtPosition(m_IsRevealer, transform.position, modulatedRadius, m_VertexPaintCurve);
         }
     }
 

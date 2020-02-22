@@ -68,7 +68,7 @@ public class LobbySystem : LobbySystemBehavior
             return true;
 
         // TODO: Add ready check
-        if (m_PlayerCount != 4)
+        if (m_PlayerCount != AetherNetworkManager.MAX_PLAYER_COUNT)
             return false;
 
         int balance = 0;
@@ -104,8 +104,8 @@ public class LobbySystem : LobbySystemBehavior
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
                     AetherNetworkManager.PlayerDetails details;
-                    details.team = m_LobbyPlayers[np].GetTeam();
-                    details.position = details.team == 0 ? left++ : right++;
+                    details.teamId = m_LobbyPlayers[np].GetTeam();
+                    details.position = details.teamId == 0 ? left++ : right++;
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);
                 }
