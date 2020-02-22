@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class SkillsUIHandler : MonoBehaviour
 {
-    [SerializeField]
-    private Image m_PrimaryIcon;
-
-    [SerializeField]
-    private Image m_SecondaryIcon;
 
     private Animator m_Animator;
 
@@ -17,7 +12,7 @@ public class SkillsUIHandler : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-        SwitchIcons();
+        SwitchSkills();
     }
 
     void Update()
@@ -25,43 +20,13 @@ public class SkillsUIHandler : MonoBehaviour
         // Debug.Log(m_PrimaryIcon.sprite);
     }
 
-    public void SavePrimaryIcon(Image image)
+    public void SwitchSkills()
     {
-        if (image != null)
-        {
-             m_PrimaryIcon = image;
-        }
-        
+        SwitchSkillCoroutine();
     }
 
-    public void SaveSecondaryIcon(Image image)
+    private void SwitchSkillCoroutine()
     {
-        if (image != null)
-        {
-            m_SecondaryIcon = image;
-        }
-    }
-
-    public void SwitchIcons()
-    {
-        StartCoroutine(SwitchUIIcons());
-    }
-
-    private IEnumerator SwitchUIIcons()
-    {
-        if (m_PrimaryIcon != null && m_SecondaryIcon != null)
-        {
-            m_Animator.SetTrigger("FadeIcons");
-            yield return new WaitForSeconds(1.5f);
-            SwitchSprites();
-            m_Animator.SetTrigger("ReappearIcons");
-        }
-    }
-
-    private void SwitchSprites()
-    {
-        Sprite tempIcon = m_PrimaryIcon.sprite;
-        m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;
-        m_SecondaryIcon.sprite = tempIcon;
+        m_Animator.SetTrigger("PrimaryToSecondary");
     }
 }
