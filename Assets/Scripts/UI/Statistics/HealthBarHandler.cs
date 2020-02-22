@@ -15,7 +15,7 @@ public class HealthBarHandler : MonoBehaviour
 
     private const float m_decrementMultiplier = 0.05f;
 
-    private const float m_criticalLimit = 0.2f;
+    private const float m_criticalLimit = 0.25f;
 
     void Start()
     {
@@ -36,7 +36,7 @@ public class HealthBarHandler : MonoBehaviour
         }
 
         if (m_healthDecrement != null && m_changeAmount >= 0.0f)
-            UpdateHealthPercentage(Time.deltaTime);
+            UpdateHealthPercentage(m_changeAmount * 10 * Time.deltaTime);
             
     }
     public void IndicateDamage(float percentageChange) 
