@@ -6,7 +6,7 @@ namespace UTJ
 {
     public class SpringBoneWindow : EditorWindow
     {
-        [MenuItem("UTJ/スプリングボーン窓")]
+        [MenuItem("Tools/UTJ/スプリングボーン窓")]
         public static void ShowWindow()
         {
             var window = GetWindow<SpringBoneWindow>("スプリングボーン");
