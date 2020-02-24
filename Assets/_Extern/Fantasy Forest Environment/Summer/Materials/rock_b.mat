@@ -60,11 +60,16 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WorldVisibilityTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_3833C0E4: 0
     - Vector1_81098F70: 0.5
     - Vector1_89C1DAF2: 0
     - Vector1_AD17D10A: 20
+    - Vector1_C5F70375: 1
     - Vector1_E6EC5E19: 0
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
@@ -81,11 +86,13 @@ Material:
     - _DstBlend: 0
     - _EmissionScaleUI: 0
     - _Glossiness: 0.5
+    - _Height: 22
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _Parallax: 0.02
+    - _PivotYOff: 0
     - _ReceivesSSR: 1
     - _RenderQueueType: 1
     - _RequireSplitLighting: 0
@@ -117,6 +124,7 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
+    - _WorldVisibilityTextureSize: {r: 256, g: 32, b: 256, a: 0}
 --- !u!114 &6983678796389673999
 MonoBehaviour:
   m_ObjectHideFlags: 11
