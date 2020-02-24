@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
+[DisallowMultipleComponent]
 public class RevealableObject : MonoBehaviour
 {
-    private static float m_TransitionSpeed = 0.3f;
+    private static float m_TransitionSpeed = 4.0f;
 
     [SerializeField]
     [Range(0, 5)]
@@ -32,7 +33,7 @@ public class RevealableObject : MonoBehaviour
         // Set bbox height
         float pivotYOff = Mathf.Abs(transform.position.y - (m_Renderer.bounds.center.y - m_Renderer.bounds.extents.y));
         float height = m_Renderer.bounds.size.y;
-        float m_BBHeightInv = 1.0f / height;
+        m_BBHeightInv = 1.0f / height;
 
         foreach(Material m in m_Renderer.materials)
         {
@@ -55,7 +56,7 @@ public class RevealableObject : MonoBehaviour
         }
         else
         {
-            m_Opacity -= m_TransitionSpeed * Time.deltaTime * m_BBHeightInv);
+            m_Opacity -= m_TransitionSpeed * Time.deltaTime * m_BBHeightInv;
             if (m_Opacity < m_TargetOpacity)
                 m_Opacity = m_TargetOpacity;
         }

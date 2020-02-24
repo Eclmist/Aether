@@ -139,9 +139,9 @@ public class VisibilityManager : Singleton<VisibilityManager>
         // offset by adding half of texture width and height
         Vector3 modPosTangentSpace = mod.m_Position + new Vector3(m_TextureSizeX / 2, 0, m_TextureSizeZ / 2);
 
-        int numThreadGroupX = (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_X);
-        int numThreadGroupY = (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Y);
-        int numThreadGroupZ = (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Z);
+        int numThreadGroupX = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_X));
+        int numThreadGroupY = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Y));
+        int numThreadGroupZ = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Z));
 
         m_VisibilityCS.SetVector("ModifierPosition", modPosTangentSpace);
         m_VisibilityCS.SetFloat("ModifierRadius", mod.m_Radius);
