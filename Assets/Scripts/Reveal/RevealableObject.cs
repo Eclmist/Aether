@@ -66,20 +66,13 @@ public class RevealableObject : MonoBehaviour
             return;
 
         m_Renderer.enabled = true;
-        m_TargetOpacity = 1; 
+        m_TargetOpacity = 1;
 
-        // TODO: Fix this hardcode
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius, LayerMask.GetMask("Terrain"));
-
-        foreach (Collider c in colliders)
-        {
-            RevealableTerrain target = c.GetComponent<RevealableTerrain>();
-            
-            if (target == null)
-                continue;
-
-            target.PaintAtPosition(transform.position, m_TerrainRevealRadius);
-        }
+        VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
+        mod.m_Radius = m_TerrainRevealRadius;
+        mod.m_Position = transform.position;
+        mod.m_TargetVisibility = 1;
+        VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();
     }

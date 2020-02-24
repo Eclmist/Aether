@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// DEPRECATED: This system has been replaced by the 3D texture system.
+///
 /// Enables per vertex painting of visibility. This is an expensive operation that should
 /// only be used on terrains or large objects when RevealableObject is insufficient to do
 /// the trick.
