@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
+[DisallowMultipleComponent]
 public class RevealableObject : MonoBehaviour
 {
-    private static float m_TransitionSpeed = 0.3f;
+    private static float m_TransitionSpeed = 4.0f;
 
     [SerializeField]
     [Range(0, 5)]
@@ -15,6 +16,7 @@ public class RevealableObject : MonoBehaviour
 
     private float m_Opacity = 0.01f;
     private float m_TargetOpacity = 0;
+    private float m_BBHeightInv;
 
     private Renderer m_Renderer;
 
@@ -30,10 +32,13 @@ public class RevealableObject : MonoBehaviour
 
         // Set bbox height
         float pivotYOff = Mathf.Abs(transform.position.y - (m_Renderer.bounds.center.y - m_Renderer.bounds.extents.y));
+        float height = m_Renderer.bounds.size.y;
+        m_BBHeightInv = 1.0f / height;
 
         foreach(Material m in m_Renderer.materials)
         {
             m.SetFloat("_PivotYOff", pivotYOff);
+            m.SetFloat("_Height", height);
         }
     }
 
@@ -45,13 +50,13 @@ public class RevealableObject : MonoBehaviour
 
         if (m_Opacity < m_TargetOpacity)
         {
-            m_Opacity += m_TransitionSpeed * Time.deltaTime;
+            m_Opacity += m_TransitionSpeed * Time.deltaTime * m_BBHeightInv;
             if (m_Opacity > m_TargetOpacity)
                 m_Opacity = m_TargetOpacity;
         }
         else
         {
-            m_Opacity -= m_TransitionSpeed * Time.deltaTime;
+            m_Opacity -= m_TransitionSpeed * Time.deltaTime * m_BBHeightInv;
             if (m_Opacity < m_TargetOpacity)
                 m_Opacity = m_TargetOpacity;
         }
@@ -66,20 +71,13 @@ public class RevealableObject : MonoBehaviour
             return;
 
         m_Renderer.enabled = true;
-        m_TargetOpacity = 1; 
+        m_TargetOpacity = 1;
 
-        // TODO: Fix this hardcode
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius, LayerMask.GetMask("Terrain"));
-
-        foreach (Collider c in colliders)
-        {
-            RevealableTerrain target = c.GetComponent<RevealableTerrain>();
-            
-            if (target == null)
-                continue;
-
-            target.PaintAtPosition(transform.position, m_TerrainRevealRadius);
-        }
+        VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
+        mod.m_Radius = m_TerrainRevealRadius;
+        mod.m_Position = transform.position;
+        mod.m_TargetVisibility = 1;
+        VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();
     }

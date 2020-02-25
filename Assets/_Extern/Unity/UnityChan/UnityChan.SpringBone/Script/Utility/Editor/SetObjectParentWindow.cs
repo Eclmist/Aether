@@ -6,7 +6,7 @@ namespace UTJ
 {
     public class SetObjectParentWindow : EditorWindow
     {
-        [MenuItem("UTJ/親子付け")]
+        [MenuItem("Tools/UTJ/親子付け")]
         public static void ShowWindow()
         {
             GetWindow<SetObjectParentWindow>("親子付け");
