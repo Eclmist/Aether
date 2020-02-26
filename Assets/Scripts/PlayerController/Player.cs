@@ -11,12 +11,21 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerAnimation m_PlayerAnimation;
 
     private ClientServerTogglables m_ClientServerTogglables;
+    private Transform m_SkillsTransform;
 
     void Awake()
     {
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
+        m_SkillsTransform = new GameObject("Skills").transform;
+        m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
+        m_SkillsTransform.parent = gameObject.transform;
+    }
+
+    public Transform GetSkillsTransform()
+    {
+        return m_SkillsTransform;
     }
 
     protected override void NetworkStart()
