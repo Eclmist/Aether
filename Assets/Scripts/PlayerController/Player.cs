@@ -9,7 +9,6 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
 {
-
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
     private PlayerNetworkAnimation m_PlayerNetworkAnimation;
@@ -45,6 +44,11 @@ public class Player : PlayerBehavior, ICanInteract
 
         networkObject.positionInterpolation.Enabled = false;
         networkObject.positionChanged += WarpToFirstPosition;
+    }
+
+    private void Update()
+    {
+        Shader.SetGlobalVector("_LocalPlayerPosition", transform.position);
     }
 
     private void OnTriggerEnter(Collider c)

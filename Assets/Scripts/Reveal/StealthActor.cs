@@ -11,6 +11,11 @@ public class StealthActor : MonoBehaviour
     [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
 
+    private void Start()
+    {
+        Shader.SetGlobalFloat("_MaxVisibleDistance", m_Radius);
+    }
+
     // Update the terrain per vertex. 
     private void Update()
     {
