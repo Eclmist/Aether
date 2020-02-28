@@ -99,13 +99,16 @@ public class LobbySystem : LobbySystemBehavior
         {
             if (CanStart())
             {
-                int left = 0;
-                int right = 0;
+                int teamA = 0;
+                int teamB = 0;
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
-                    AetherNetworkManager.PlayerDetails details;
-                    details.teamId = m_LobbyPlayers[np].GetTeam();
-                    details.position = details.teamId == 0 ? left++ : right++;
+                    int teamId = m_LobbyPlayers[np].GetTeam();
+                    PlayerDetails details = new PlayerDetails(
+                        np.NetworkId,
+                        teamId,
+                        teamId == 0 ? teamA++ : teamB++
+                    );
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);
                 }
