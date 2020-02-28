@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class RevealableObject : MonoBehaviour
 {
-    private static float m_TransitionSpeed = 0.3f;
+    private static float m_TransitionSpeed = 4.0f;
 
     private static Shader m_StealthShader;
 
@@ -21,6 +21,7 @@ public class RevealableObject : MonoBehaviour
 
     private float m_Opacity = 0.01f;
     private float m_TargetOpacity = 0;
+    private float m_BBHeightInv;
 
     private bool m_InRevealableMode = true;
 
@@ -44,6 +45,8 @@ public class RevealableObject : MonoBehaviour
 
         // Set bbox height
         float pivotYOff = Mathf.Abs(transform.position.y - (m_Renderer.bounds.center.y - m_Renderer.bounds.extents.y));
+        float height = m_Renderer.bounds.size.y;
+        m_BBHeightInv = 1.0f / height;
 
         int numMaterials = m_Renderer.materials.Length;
         m_RevealMaterials = new Material[numMaterials];
@@ -51,6 +54,7 @@ public class RevealableObject : MonoBehaviour
         for (int i = 0; i < numMaterials; i++)
         {
             m_Renderer.materials[i].SetFloat("_PivotYOff", pivotYOff);
+            m_Renderer.materials[i].SetFloat("_Height", height);
 
             m_RevealMaterials[i] = m_Renderer.materials[i];
             m_StealthMaterials[i] = new Material(m_StealthShader);
@@ -68,13 +72,13 @@ public class RevealableObject : MonoBehaviour
 
             if (m_Opacity < m_TargetOpacity)
             {
-                m_Opacity += m_TransitionSpeed * Time.deltaTime;
+                m_Opacity += m_TransitionSpeed * Time.deltaTime * m_BBHeightInv;
                 if (m_Opacity > m_TargetOpacity)
                     m_Opacity = m_TargetOpacity;
             }
             else if (m_Opacity > m_TargetOpacity)
             {
-                m_Opacity -= m_TransitionSpeed * Time.deltaTime;
+                m_Opacity -= m_TransitionSpeed * Time.deltaTime * m_BBHeightInv;
                 if (m_Opacity < m_TargetOpacity)
                     m_Opacity = m_TargetOpacity;
             }
@@ -92,20 +96,13 @@ public class RevealableObject : MonoBehaviour
             return;
 
         m_Renderer.enabled = true;
-        m_TargetOpacity = 1; 
+        m_TargetOpacity = 1;
 
-        // TODO: Fix this hardcode
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_TerrainRevealRadius, LayerMask.GetMask("Terrain"));
-
-        foreach (Collider c in colliders)
-        {
-            RevealableTerrain target = c.GetComponent<RevealableTerrain>();
-            
-            if (target == null)
-                continue;
-
-            target.PaintAtPosition(RevealMode.SHOW, transform.position, m_TerrainRevealRadius);
-        }
+        VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
+        mod.m_Radius = m_TerrainRevealRadius;
+        mod.m_Position = transform.position;
+        mod.m_TargetVisibility = 1;
+        VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();
     }
@@ -118,6 +115,12 @@ public class RevealableObject : MonoBehaviour
             return;
 
         m_TargetOpacity = 0;
+
+        VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
+        mod.m_Radius = m_TerrainRevealRadius;
+        mod.m_Position = transform.position;
+        mod.m_TargetVisibility = 0;
+        VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();
     }
@@ -141,20 +144,12 @@ public class RevealableObject : MonoBehaviour
         m_InRevealableMode = value;
         if (m_InRevealableMode)
         {
-            m_Renderer.materials = m_RevealMaterials;
             m_Renderer.enabled = false;
+            m_Renderer.materials = m_RevealMaterials;
         }
         else
         {
             m_RevealMaterials = m_Renderer.materials;
-
-            if (m_StealthMaterials == null)
-            {
-                m_StealthMaterials = new Material[m_RevealMaterials.Length];
-                for (int i = 0; i < m_StealthMaterials.Length; i++)
-                    m_StealthMaterials[i] = new Material(m_StealthShader);
-            }
-
             m_Renderer.materials = m_StealthMaterials;
             m_Renderer.enabled = true;
         }

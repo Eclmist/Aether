@@ -36,7 +36,8 @@ public class FlagGoal : MonoBehaviour
 
     private void IndicateVictory(Collider c)
     {
-        c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
+        // TODO: Handle animations in a more scalable way
+        //c.GetComponent<PlayerAnimation>().TriggerVictoryAnimation();
         //c.GetComponent<PlayerMovement>().SetUnmovable(true); 
         GameManager.Instance.IncrementScore(isRedGoal);
         c.GetComponentInChildren<FlagActor>().LetGo();
