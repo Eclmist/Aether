@@ -8,7 +8,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[0.15,0.15,0,0.15,0]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 8;
+		public const int IDENTITY = 10;
 
 		private byte[] _dirtyFields = new byte[1];
 
@@ -78,35 +78,35 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (fieldAltered != null) fieldAltered("rotation", _rotation, timestep);
 		}
 		[ForgeGeneratedField]
-		private float _axisMagnitude;
-		public event FieldEvent<float> axisMagnitudeChanged;
-		public InterpolateFloat axisMagnitudeInterpolation = new InterpolateFloat() { LerpT = 0f, Enabled = false };
-		public float axisMagnitude
+		private float _axisDeltaMagnitude;
+		public event FieldEvent<float> axisDeltaMagnitudeChanged;
+		public InterpolateFloat axisDeltaMagnitudeInterpolation = new InterpolateFloat() { LerpT = 0f, Enabled = false };
+		public float axisDeltaMagnitude
 		{
-			get { return _axisMagnitude; }
+			get { return _axisDeltaMagnitude; }
 			set
 			{
 				// Don't do anything if the value is the same
-				if (_axisMagnitude == value)
+				if (_axisDeltaMagnitude == value)
 					return;
 
 				// Mark the field as dirty for the network to transmit
 				_dirtyFields[0] |= 0x4;
-				_axisMagnitude = value;
+				_axisDeltaMagnitude = value;
 				hasDirtyFields = true;
 			}
 		}
 
-		public void SetaxisMagnitudeDirty()
+		public void SetaxisDeltaMagnitudeDirty()
 		{
 			_dirtyFields[0] |= 0x4;
 			hasDirtyFields = true;
 		}
 
-		private void RunChange_axisMagnitude(ulong timestep)
+		private void RunChange_axisDeltaMagnitude(ulong timestep)
 		{
-			if (axisMagnitudeChanged != null) axisMagnitudeChanged(_axisMagnitude, timestep);
-			if (fieldAltered != null) fieldAltered("axisMagnitude", _axisMagnitude, timestep);
+			if (axisDeltaMagnitudeChanged != null) axisDeltaMagnitudeChanged(_axisDeltaMagnitude, timestep);
+			if (fieldAltered != null) fieldAltered("axisDeltaMagnitude", _axisDeltaMagnitude, timestep);
 		}
 		[ForgeGeneratedField]
 		private float _vertVelocity;
@@ -181,7 +181,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		{
 			positionInterpolation.current = positionInterpolation.target;
 			rotationInterpolation.current = rotationInterpolation.target;
-			axisMagnitudeInterpolation.current = axisMagnitudeInterpolation.target;
+			axisDeltaMagnitudeInterpolation.current = axisDeltaMagnitudeInterpolation.target;
 			vertVelocityInterpolation.current = vertVelocityInterpolation.target;
 			groundedInterpolation.current = groundedInterpolation.target;
 		}
@@ -192,7 +192,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		{
 			UnityObjectMapper.Instance.MapBytes(data, _position);
 			UnityObjectMapper.Instance.MapBytes(data, _rotation);
-			UnityObjectMapper.Instance.MapBytes(data, _axisMagnitude);
+			UnityObjectMapper.Instance.MapBytes(data, _axisDeltaMagnitude);
 			UnityObjectMapper.Instance.MapBytes(data, _vertVelocity);
 			UnityObjectMapper.Instance.MapBytes(data, _grounded);
 
@@ -209,10 +209,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			rotationInterpolation.current = _rotation;
 			rotationInterpolation.target = _rotation;
 			RunChange_rotation(timestep);
-			_axisMagnitude = UnityObjectMapper.Instance.Map<float>(payload);
-			axisMagnitudeInterpolation.current = _axisMagnitude;
-			axisMagnitudeInterpolation.target = _axisMagnitude;
-			RunChange_axisMagnitude(timestep);
+			_axisDeltaMagnitude = UnityObjectMapper.Instance.Map<float>(payload);
+			axisDeltaMagnitudeInterpolation.current = _axisDeltaMagnitude;
+			axisDeltaMagnitudeInterpolation.target = _axisDeltaMagnitude;
+			RunChange_axisDeltaMagnitude(timestep);
 			_vertVelocity = UnityObjectMapper.Instance.Map<float>(payload);
 			vertVelocityInterpolation.current = _vertVelocity;
 			vertVelocityInterpolation.target = _vertVelocity;
@@ -233,7 +233,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if ((0x2 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _rotation);
 			if ((0x4 & _dirtyFields[0]) != 0)
-				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _axisMagnitude);
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _axisDeltaMagnitude);
 			if ((0x8 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _vertVelocity);
 			if ((0x10 & _dirtyFields[0]) != 0)
@@ -282,15 +282,15 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			}
 			if ((0x4 & readDirtyFlags[0]) != 0)
 			{
-				if (axisMagnitudeInterpolation.Enabled)
+				if (axisDeltaMagnitudeInterpolation.Enabled)
 				{
-					axisMagnitudeInterpolation.target = UnityObjectMapper.Instance.Map<float>(data);
-					axisMagnitudeInterpolation.Timestep = timestep;
+					axisDeltaMagnitudeInterpolation.target = UnityObjectMapper.Instance.Map<float>(data);
+					axisDeltaMagnitudeInterpolation.Timestep = timestep;
 				}
 				else
 				{
-					_axisMagnitude = UnityObjectMapper.Instance.Map<float>(data);
-					RunChange_axisMagnitude(timestep);
+					_axisDeltaMagnitude = UnityObjectMapper.Instance.Map<float>(data);
+					RunChange_axisDeltaMagnitude(timestep);
 				}
 			}
 			if ((0x8 & readDirtyFlags[0]) != 0)
@@ -336,10 +336,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 				_rotation = (Quaternion)rotationInterpolation.Interpolate();
 				//RunChange_rotation(rotationInterpolation.Timestep);
 			}
-			if (axisMagnitudeInterpolation.Enabled && !axisMagnitudeInterpolation.current.UnityNear(axisMagnitudeInterpolation.target, 0.0015f))
+			if (axisDeltaMagnitudeInterpolation.Enabled && !axisDeltaMagnitudeInterpolation.current.UnityNear(axisDeltaMagnitudeInterpolation.target, 0.0015f))
 			{
-				_axisMagnitude = (float)axisMagnitudeInterpolation.Interpolate();
-				//RunChange_axisMagnitude(axisMagnitudeInterpolation.Timestep);
+				_axisDeltaMagnitude = (float)axisDeltaMagnitudeInterpolation.Interpolate();
+				//RunChange_axisDeltaMagnitude(axisDeltaMagnitudeInterpolation.Timestep);
 			}
 			if (vertVelocityInterpolation.Enabled && !vertVelocityInterpolation.current.UnityNear(vertVelocityInterpolation.target, 0.0015f))
 			{

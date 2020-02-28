@@ -32,7 +32,8 @@ public class ExplodableObject : MonoBehaviour
                 PlayerAnimation playerAnimation = c.GetComponent<PlayerAnimation>();
                 if (playerAnimation != null)
                 {
-                    playerAnimation.MakePlayerFall();
+                    // TODO: Handle animations in a more scalable way
+                    //playerAnimation.MakePlayerFall();
                 }
             }
         }

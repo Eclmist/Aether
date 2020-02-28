@@ -12,6 +12,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
+    private PlayerNetworkAnimation m_PlayerNetworkAnimation;
     private ClientServerTogglables m_ClientServerTogglables;
 
     private RevealActor m_RevealActor;
@@ -25,6 +26,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
+        m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
 
@@ -34,7 +36,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void Start()
     {
-        AetherInput.GetPlayerActions().Stealth.performed += HandleStealth;
+        AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
     }
 
     protected override void NetworkStart()
@@ -87,7 +89,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     // Toggles between stealth and reveal modes upon pressing stealth button.
     // Only the local player should be able to activate this.
-    private void HandleStealth(InputAction.CallbackContext ctx)
+    private void StealthInputCallback(InputAction.CallbackContext ctx)
     {
         // Ensure that only local player can call this
         if (networkObject == null || !networkObject.IsOwner)
@@ -134,6 +136,11 @@ public class Player : PlayerBehavior, ICanInteract
         networkObject.positionInterpolation.Enabled = true;
         networkObject.positionInterpolation.current = networkObject.position;
         networkObject.positionInterpolation.target = networkObject.position;
+    }
+
+    public override void TriggerJump(RpcArgs args)
+    {
+        m_PlayerNetworkAnimation.TriggerJump();
     }
 
     // RPC sent by host to send player details to all clients
