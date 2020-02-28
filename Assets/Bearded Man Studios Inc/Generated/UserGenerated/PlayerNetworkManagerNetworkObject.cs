@@ -6,7 +6,7 @@ using UnityEngine;
 namespace BeardedManStudios.Forge.Networking.Generated
 {
 	[GeneratedInterpol("{\"inter\":[]")]
-	public partial class PlayerManagerNetworkObject : NetworkObject
+	public partial class PlayerNetworkManagerNetworkObject : NetworkObject
 	{
 		public const int IDENTITY = 10;
 
@@ -75,9 +75,9 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		}
 
-		public PlayerManagerNetworkObject() : base() { Initialize(); }
-		public PlayerManagerNetworkObject(NetWorker networker, INetworkBehavior networkBehavior = null, int createCode = 0, byte[] metadata = null) : base(networker, networkBehavior, createCode, metadata) { Initialize(); }
-		public PlayerManagerNetworkObject(NetWorker networker, uint serverId, FrameStream frame) : base(networker, serverId, frame) { Initialize(); }
+		public PlayerNetworkManagerNetworkObject() : base() { Initialize(); }
+		public PlayerNetworkManagerNetworkObject(NetWorker networker, INetworkBehavior networkBehavior = null, int createCode = 0, byte[] metadata = null) : base(networker, networkBehavior, createCode, metadata) { Initialize(); }
+		public PlayerNetworkManagerNetworkObject(NetWorker networker, uint serverId, FrameStream frame) : base(networker, serverId, frame) { Initialize(); }
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

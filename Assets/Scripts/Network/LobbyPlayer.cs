@@ -25,7 +25,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     public void UpdateName(string name)
     {
-        // m_PlayerName.text = name;
+        m_PlayerName.text = name;
 
         if (networkObject != null)
             networkObject.SendRpc(RPC_SET_NAME, Receivers.All, name);

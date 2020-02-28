@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(ClientServerTogglables))]
@@ -8,9 +9,6 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
 {
-    // Events for player manager to hook onto
-    public delegate void PlayerEvent(Player player);
-    public event PlayerEvent playerLoaded;
 
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
@@ -19,16 +17,14 @@ public class Player : PlayerBehavior, ICanInteract
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
 
-    private int m_TeamId;
+    private PlayerDetails m_PlayerDetails;
     private bool m_IsStealthy;
 
     private void Awake()
     {
-        // Cannot use RequireComponent for movement and animation
-        // (both scripts cannot be deleted for networkplayer otherwise)
+        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
 
@@ -45,31 +41,28 @@ public class Player : PlayerBehavior, ICanInteract
     {
         base.NetworkStart();
 
-        m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
         networkObject.positionInterpolation.Enabled = false;
         networkObject.positionChanged += WarpToFirstPosition;
-
-        if (networkObject.IsOwner)
-            playerLoaded(this);
     }
 
-    // Workaround for player sliding into position when instantiated.
-    private void WarpToFirstPosition(Vector3 field, ulong timestep)
+    private void OnTriggerEnter(Collider c)
     {
-        networkObject.positionChanged -= WarpToFirstPosition;
-        networkObject.positionInterpolation.Enabled = true;
-        networkObject.positionInterpolation.current = networkObject.position;
-        networkObject.positionInterpolation.target = networkObject.position;
+        InteractWith(c.GetComponent<IInteractable>());
     }
 
-    public int GetTeam()
+    public PlayerDetails GetPlayerDetails()
     {
-        return m_TeamId;
+        return m_PlayerDetails;
     }
 
-    public void SetTeam(int teamId)
+    public void SetDetails(PlayerDetails details)
     {
-        m_TeamId = teamId;
+        if (details == null)
+        {
+            Debug.Log("Details should not be null");
+        }
+
+        m_PlayerDetails = details;
     }
       
     public PlayerMovement GetPlayerMovement()
@@ -85,6 +78,11 @@ public class Player : PlayerBehavior, ICanInteract
     public RevealActor GetRevealActor()
     {
         return m_RevealActor;
+    }
+
+    public void UpdateToggleables()
+    {
+        m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
     }
 
     // Toggles between stealth and reveal modes upon pressing stealth button.
@@ -123,8 +121,37 @@ public class Player : PlayerBehavior, ICanInteract
         }
     }
 
-    private void OnTriggerEnter(Collider c)
+    ////////////////////
+    ///
+    /// NETWORK CODE
+    ///
+    ////////////////////
+
+    // Workaround for player sliding into position when instantiated.
+    private void WarpToFirstPosition(Vector3 field, ulong timestep)
     {
-        InteractWith(c.GetComponent<IInteractable>());
+        networkObject.positionChanged -= WarpToFirstPosition;
+        networkObject.positionInterpolation.Enabled = true;
+        networkObject.positionInterpolation.current = networkObject.position;
+        networkObject.positionInterpolation.target = networkObject.position;
+    }
+
+    // RPC sent by host to send player details to all clients
+    public override void TriggerUpdateDetails(RpcArgs args)
+    {
+        PlayerDetails details = PlayerDetails.FromArray(args.Args);
+        if (details == null)
+        {
+            Debug.LogWarning("Details not received correctly");
+        }
+        m_PlayerDetails = details;
+
+        // Setup playermanager
+        if (details.GetNetworkId() == networkObject.MyPlayerId)
+        {
+            PlayerManager.Instance.SetLocalPlayer(this);
+        }
+
+        PlayerManager.Instance.AddPlayer(this);
     }
 }
