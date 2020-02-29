@@ -21,11 +21,10 @@ public class CinemachineTargetting : MonoBehaviour
     {
         if (m_FirstRun)
         {
-
-            if (m_PlayerManager.GetLocalPlayerInstance().player == null)
+            if (m_PlayerManager.GetLocalPlayer() == null)
                 return;
 
-            Transform playerTransform = m_PlayerManager.GetLocalPlayerInstance().player.transform;
+            Transform playerTransform = m_PlayerManager.GetLocalPlayer().transform;
             m_VirtualCam.Follow = playerTransform;
             m_VirtualCam.LookAt = playerTransform;
             m_FirstRun = false;

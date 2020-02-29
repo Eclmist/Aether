@@ -21,16 +21,15 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TST_RevealFloor
-  m_Shader: {fileID: -6465566751694194690, guid: bd124297cdc049e40aa408c888cd2fae,
+  m_Shader: {fileID: -6465566751694194690, guid: f0eb2d0a70677ed46a6ee8a364f416e3,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
-    RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentBackface
   - MOTIONVECTORS
@@ -86,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b0ac727ab6e5c5d42826db4679d03d58, type: 3}
+        m_Texture: {fileID: 2800000, guid: da936786dc64da04abb153e6f81f6b36, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -98,6 +97,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -128,9 +131,10 @@ Material:
     m_Floats:
     - Vector1_2EC3E108: 0.229
     - Vector1_6EB0C65D: 8.86
-    - Vector1_7B0BBA6A: 5
+    - Vector1_7B0BBA6A: 0.54
+    - Vector1_BBB8CF70: 0
     - Vector1_C3D29010: 0.1
-    - Vector1_C3E46BBF: 0.45
+    - Vector1_C3E46BBF: 8.4
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1

@@ -46,7 +46,7 @@ public class LobbySystem : LobbySystemBehavior
             Quaternion rotation = m_PlayerPositions[m_PlayerCount].rotation;
             Destroy(m_Loaders[m_PlayerCount]);
 
-            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation);
+            LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation) as LobbyPlayer;
             player.transform.SetParent(m_PlayerPositions[m_PlayerCount].transform, false);
 
             // Name setup
@@ -54,7 +54,7 @@ public class LobbySystem : LobbySystemBehavior
             player.UpdateName(playerName);
 
             // Team setup
-            player.UpdateTeam(m_PlayerCount % 2);
+            player.UpdateTeam(m_PlayerCount < 2 ? 0 : 1);
 
             m_LobbyPlayers.Add(np, player);
             m_PlayerCount++;
@@ -68,7 +68,7 @@ public class LobbySystem : LobbySystemBehavior
             return true;
 
         // TODO: Add ready check
-        if (m_PlayerCount != 4)
+        if (m_PlayerCount != AetherNetworkManager.MAX_PLAYER_COUNT)
             return false;
 
         int balance = 0;
@@ -99,13 +99,16 @@ public class LobbySystem : LobbySystemBehavior
         {
             if (CanStart())
             {
-                int left = 0;
-                int right = 0;
+                int teamA = 0;
+                int teamB = 0;
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
-                    AetherNetworkManager.PlayerDetails details;
-                    details.team = m_LobbyPlayers[np].GetTeam();
-                    details.position = details.team == 0 ? left++ : right++;
+                    int teamId = m_LobbyPlayers[np].GetTeam();
+                    PlayerDetails details = new PlayerDetails(
+                        np.NetworkId,
+                        teamId,
+                        teamId == 0 ? teamA++ : teamB++
+                    );
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);
                 }
