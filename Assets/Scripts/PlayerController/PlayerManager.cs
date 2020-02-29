@@ -5,7 +5,12 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     public System.Action PlayersLoaded;
 
+    private PlayerNetworkManager m_PlayerNetworkManager;
+
     private List<Player> m_Players;
+
+    private List<int> m_Team1Indices;
+    private List<int> m_Team2Indices;
 
     private Player m_LocalPlayer;
 
@@ -20,8 +25,22 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         m_Players.Add(player);
 
+        if (IsFromTeam(player, 0))
+            m_Team1Indices.Add(m_Players.Count - 1);
+        else
+            m_Team2Indices.Add(m_Players.Count - 1);
+
         if (m_Players.Count == m_TotalPlayerCount)
             PlayersLoaded();
+    }
+
+    public bool IsFromTeam(Player player, int teamId)
+    {
+        PlayerDetails playerDetails = player.GetPlayerDetails();
+        if (playerDetails == null)
+            return false;
+
+        return playerDetails.GetTeam() == teamId;
     }
 
     public void SetLocalPlayer(Player player)
@@ -46,6 +65,9 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public List<Player> GetPlayersByTeam(int teamId)
     {
-        return m_Players.FindAll(p => p.GetPlayerDetails().GetTeam() == teamId);
+        if (teamId == 0)
+            return m_Team1Indices.ConvertAll(index => m_Players[index]);
+        else
+            return m_Team2Indices.ConvertAll(index => m_Players[index]);
     }
 }

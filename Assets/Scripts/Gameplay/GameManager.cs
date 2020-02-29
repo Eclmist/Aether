@@ -1,89 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 //It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
-    public static int m_WinningScore = 3;
 
-    private List<GameObject> m_RedTeamPlayers;
-    private List<GameObject> m_BlueTeamPlayers;
+    [SerializeField]
+    private Tower[] m_Towers;
 
-    private int m_RedTeamScore, m_BlueTeamScore;
+    private int m_Team1CaptureCount = 0;
+    private int m_Team2CaptureCount = 0;
 
-    public Int32 GoalsScoredRed
+    private void Update()
     {
-        get => m_RedTeamScore;
-        set => m_RedTeamScore = value;
-    }
-
-    public Int32 GoalsScoredBlue
-    {
-        get => m_BlueTeamScore;
-        set => m_BlueTeamScore = value;
-    }
-    
-    public void InitPlayers(List<GameObject> playersInTeamRed, List<GameObject> playersInTeamBlue)
-    {
-        this.m_RedTeamPlayers = playersInTeamRed;
-        this.m_BlueTeamPlayers = playersInTeamBlue;
-    }
-
-    private void Start()
-    {
-        //playersInTeamRed.Add(GameObject.FindGameObjectWithTag("Player"));
-        //StartCoroutine(SpawnItems()); // E3: SpawnItems is throwing errors array out of bound
-    }
-
-    public void IncrementScore(GameObject playerWhoScored)
-    {
-        if(m_RedTeamPlayers.Contains(playerWhoScored))
+        foreach (Tower tower in m_Towers)
         {
-            m_RedTeamScore++;
-        }
-        else
-        {
-            m_BlueTeamScore++;
+            // Check tower to get state of capture (range between -100 to 100)
+            Tower.CaptureState captureState = tower.GetCaptureState();
+
+            if (captureState.IsCaptured())
+            {
+                if (captureState.GetTeam() == 0)
+                    m_Team1CaptureCount++;
+                else
+                    m_Team2CaptureCount++;
+            }
         }
 
-        CheckWin();
+        if (m_Team1CaptureCount == m_Towers.Length)
+            SetGameOver(0);
+        else if (m_Team2CaptureCount == m_Towers.Length)
+            SetGameOver(1);
+
     }
-    
-    public void IncrementScore(Boolean isTeamRed)
+
+
+
+    public void StartGame()
     {
-        if (isTeamRed)
-        {
-            m_RedTeamScore++;
-        }
-        else
-        {
-            m_BlueTeamScore++;
-        }
-
-        CheckWin();
     }
 
-    private void CheckWin()
+    private void GameOverCheck()
     {
-        if (m_RedTeamScore >= m_WinningScore)
-        {
-            Win(true);
-        } else if (m_BlueTeamScore >= m_WinningScore)
-        {
-            Win(false);
-        }
     }
 
-    public void Win(Boolean isTeamRed)
-    {
-        //restartPanel.SetActive(true);
-        enabled = false;
-        StartCoroutine("StopRestart");
-    }
-
-    public void GameOver(int index)
+    public void SetGameOver(int index)
     {
     }
 }

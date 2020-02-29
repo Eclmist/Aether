@@ -12,7 +12,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     [SerializeField]
     private Transform[] m_SpawnPositionsBlue;
 
-    void Awake()
+    private void Awake()
     {
         AetherNetworkManager.Instance.SceneChanged += OnSceneLoaded;
         PlayerManager.Instance.PlayersLoaded += OnPlayersLoaded;

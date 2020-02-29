@@ -5,6 +5,7 @@ using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(ClientServerTogglables))]
+[RequireComponent(typeof(PlayerStance))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
@@ -13,6 +14,7 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerAnimation m_PlayerAnimation;
     private PlayerNetworkAnimation m_PlayerNetworkAnimation;
     private ClientServerTogglables m_ClientServerTogglables;
+    private PlayerStance m_PlayerStance;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -26,6 +28,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
+        m_PlayerStance = GetComponent<PlayerStance>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
 
