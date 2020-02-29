@@ -6,11 +6,9 @@ public class VisibilityManager : Singleton<VisibilityManager>
 {
     private const int THREADGROUP_SIZE_X = 8;
     private const int THREADGROUP_SIZE_Y = 8;
-    private const int THREADGROUP_SIZE_Z = 8;
 
     private const int COMPUTE_KERNEL = 0;
     private const int RESET_KERNEL = 1;
-    private const int DEBUG_KERNEL = 2;
 
     public class VisibilityModifier
     {
@@ -26,15 +24,11 @@ public class VisibilityManager : Singleton<VisibilityManager>
     [SerializeField]
     private bool m_DebugView = false;
 
-    private const int m_TextureSizeX = 256;
-    private const int m_TextureSizeY = 32;
-    private const int m_TextureSizeZ = 256;
+    private const int m_TextureSizeX = 512;
+    private const int m_TextureSizeY = 512;
 
     private ComputeShader m_VisibilityCS;
     private RenderTexture m_WorldVisibilityTexture;
-#if UNITY_EDITOR
-    private RenderTexture m_VisibilityDebugTexture;
-#endif
 
     private List<VisibilityModifier> m_PersistentModifierList = new List<VisibilityModifier>();
     private Queue<VisibilityModifier> m_OneShotModifierQueue = new Queue<VisibilityModifier>();
@@ -52,11 +46,6 @@ public class VisibilityManager : Singleton<VisibilityManager>
         {
             Destroy(m_WorldVisibilityTexture);
             m_WorldVisibilityTexture = null;
-
-#if UNITY_EDITOR
-            Destroy(m_VisibilityDebugTexture);
-            m_VisibilityDebugTexture = null;
-#endif
         }
     }
 
@@ -74,7 +63,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
     private void SetShaderGlobals()
     {
         Shader.SetGlobalTexture("_WorldVisibilityTexture", m_WorldVisibilityTexture);
-        Shader.SetGlobalVector("_WorldVisibilityTextureSize", new Vector3(m_TextureSizeX, m_TextureSizeY, m_TextureSizeZ));
+        Shader.SetGlobalVector("_WorldVisibilityTextureSize", new Vector2(m_TextureSizeX, m_TextureSizeY));
     }
 
     private void InitGlobalTextures()
@@ -82,19 +71,11 @@ public class VisibilityManager : Singleton<VisibilityManager>
         if (m_WorldVisibilityTexture == null)
         {
             RenderTextureDescriptor desc = new RenderTextureDescriptor(m_TextureSizeX, m_TextureSizeY, RenderTextureFormat.R8);
-            desc.volumeDepth = m_TextureSizeZ;
             desc.depthBufferBits = 0;
             desc.enableRandomWrite = true;
-            desc.dimension = UnityEngine.Rendering.TextureDimension.Tex3D;
             m_WorldVisibilityTexture = new RenderTexture(desc);
             m_WorldVisibilityTexture.Create();
         }
-
-#if UNITY_EDITOR
-        m_VisibilityDebugTexture = new RenderTexture(m_TextureSizeX, m_TextureSizeZ, 0, RenderTextureFormat.R8);
-        m_VisibilityDebugTexture.enableRandomWrite = true;
-        m_VisibilityDebugTexture.Create();
-#endif
     }
 
     private void Update()
@@ -126,10 +107,6 @@ public class VisibilityManager : Singleton<VisibilityManager>
 
         if (!m_DebugView)
             return;
-
-        m_VisibilityCS.SetTexture(DEBUG_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
-        m_VisibilityCS.SetTexture(DEBUG_KERNEL, "DebugTexture", m_VisibilityDebugTexture);
-        m_VisibilityCS.Dispatch(DEBUG_KERNEL, m_TextureSizeX / THREADGROUP_SIZE_X, m_TextureSizeZ / THREADGROUP_SIZE_Z, 1);
     }
 #endif
 
@@ -137,11 +114,11 @@ public class VisibilityManager : Singleton<VisibilityManager>
     {
         // Let the center of the texture be world origin (0,0), so every position should be
         // offset by adding half of texture width and height
-        Vector3 modPosTangentSpace = mod.m_Position + new Vector3(m_TextureSizeX / 2, 0, m_TextureSizeZ / 2);
+        Vector2 modPosTangentSpace = new Vector2(mod.m_Position.x, mod.m_Position.z) + 
+            new Vector2(m_TextureSizeX / 2, m_TextureSizeY / 2);
 
         int numThreadGroupX = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_X));
         int numThreadGroupY = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Y));
-        int numThreadGroupZ = Mathf.Max(1, (int)Mathf.Ceil((mod.m_Radius * 2) / THREADGROUP_SIZE_Z));
 
         m_VisibilityCS.SetVector("ModifierPosition", modPosTangentSpace);
         m_VisibilityCS.SetFloat("ModifierRadius", mod.m_Radius);
@@ -149,7 +126,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
         m_VisibilityCS.SetFloat("UpdateSpeed", isInstant ? 1 : Time.deltaTime * 6);
         m_VisibilityCS.SetTexture(COMPUTE_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
 
-        m_VisibilityCS.Dispatch(COMPUTE_KERNEL, numThreadGroupX, numThreadGroupY, numThreadGroupZ);
+        m_VisibilityCS.Dispatch(COMPUTE_KERNEL, numThreadGroupX, numThreadGroupY, 1);
     }
 
 #if UNITY_EDITOR
@@ -161,7 +138,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
         if (Event.current.type != EventType.Repaint)
             return;
 
-        Graphics.DrawTexture(new Rect(0, 0, 512, 512), m_VisibilityDebugTexture);
+        Graphics.DrawTexture(new Rect(0, 0, 512, 512), m_WorldVisibilityTexture);
     }
 #endif
 

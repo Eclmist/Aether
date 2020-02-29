@@ -1,20 +1,18 @@
 ﻿#pragma kernel ComputeVisibility
 #pragma kernel ResetVisibility
-#pragma kernel VisibilityDebugger
 
-RWTexture3D<float> WorldVisibilityResult;
-RWTexture2D<float> DebugTexture;
+RWTexture2D<float> WorldVisibilityResult;
 
-float3 ModifierPosition;
+float2 ModifierPosition;
 float TargetVisibility;
 float ModifierRadius;
 float UpdateSpeed;
 
-[numthreads(8,8,8)]
-void ComputeVisibility(uint3 id : SV_DispatchThreadID)
+[numthreads(8,8,1)]
+void ComputeVisibility(uint2 id : SV_DispatchThreadID)
 {
-    float3 offsetFromCenter = id - ModifierRadius;
-    uint3 writePos = ModifierPosition + offsetFromCenter;
+    float2 offsetFromCenter = id - ModifierRadius;
+    uint2 writePos = ModifierPosition + offsetFromCenter;
     float t = 1 - saturate(length(offsetFromCenter) / ModifierRadius);
 
     float currentVal = WorldVisibilityResult[writePos];
@@ -24,14 +22,8 @@ void ComputeVisibility(uint3 id : SV_DispatchThreadID)
     WorldVisibilityResult[writePos] = writeVal;
 }
 
-[numthreads(8,8,8)]
-void ResetVisibility(uint3 id : SV_DispatchThreadID)
-{
-    WorldVisibilityResult[id.xyz] = TargetVisibility;
-}
-
 [numthreads(8,8,1)]
-void VisibilityDebugger(uint3 id : SV_DispatchThreadID)
+void ResetVisibility(uint2 id : SV_DispatchThreadID)
 {
-    DebugTexture[id.xy] = WorldVisibilityResult[uint3(id.x, 0, id.y)];
+    WorldVisibilityResult[id] = TargetVisibility;
 }
