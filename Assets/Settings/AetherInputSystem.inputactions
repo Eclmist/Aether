@@ -68,6 +68,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "SwitchSkills",
+                    "type": "Button",
+                    "id": "67dbebb4-83eb-4811-8307-df84c971253b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -365,6 +373,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Stealth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bbf0318-60c1-41df-bfea-b2381faf567b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SwitchSkills",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5449088f-d1f4-4cdf-8316-52abdec0bf9f",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SwitchSkills",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

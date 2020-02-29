@@ -81,6 +81,14 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchSkills"",
+                    ""type"": ""Button"",
+                    ""id"": ""67dbebb4-83eb-4811-8307-df84c971253b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -378,6 +386,28 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Stealth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bbf0318-60c1-41df-bfea-b2381faf567b"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5449088f-d1f4-4cdf-8316-52abdec0bf9f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchSkills"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -916,6 +946,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         m_Player_Stealth = m_Player.FindAction("Stealth", throwIfNotFound: true);
+        m_Player_SwitchSkills = m_Player.FindAction("SwitchSkills", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -986,6 +1017,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Roll;
     private readonly InputAction m_Player_Block;
     private readonly InputAction m_Player_Stealth;
+    private readonly InputAction m_Player_SwitchSkills;
     public struct PlayerActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -998,6 +1030,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputAction @Stealth => m_Wrapper.m_Player_Stealth;
+        public InputAction @SwitchSkills => m_Wrapper.m_Player_SwitchSkills;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1031,6 +1064,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Stealth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
                 @Stealth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
                 @Stealth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
+                @SwitchSkills.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1059,6 +1095,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Stealth.started += instance.OnStealth;
                 @Stealth.performed += instance.OnStealth;
                 @Stealth.canceled += instance.OnStealth;
+                @SwitchSkills.started += instance.OnSwitchSkills;
+                @SwitchSkills.performed += instance.OnSwitchSkills;
+                @SwitchSkills.canceled += instance.OnSwitchSkills;
             }
         }
     }
@@ -1231,6 +1270,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnStealth(InputAction.CallbackContext context);
+        void OnSwitchSkills(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

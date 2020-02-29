@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -10,8 +12,13 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private GameObject m_healthBarHandler;
 
-    [SerializedField]
+    [SerializeField]
     private GameObject m_skillsUIHandler;
+
+    void Start()
+    {
+        AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchPlayerSkills;    
+    }
 
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
@@ -35,7 +42,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
     
-    public void SwitchPlayerSkills()
+    public void SwitchPlayerSkills(InputAction.CallbackContext ctx)
     {
         if (m_skillsUIHandler != null)
         {
