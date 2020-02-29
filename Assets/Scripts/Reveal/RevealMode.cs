@@ -1,4 +1,4 @@
 ﻿public enum RevealMode
 {
-    SHOW, HIDE
+    REVEALMODE_SHOW, REVEALMODE_HIDE
 }

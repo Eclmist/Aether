@@ -21,9 +21,7 @@ public class PlayerManager : Singleton<PlayerManager>
         m_Players.Add(player);
 
         if (m_Players.Count == m_TotalPlayerCount)
-        {
             PlayersLoaded();
-        }
     }
 
     public void SetLocalPlayer(Player player)

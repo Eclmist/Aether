@@ -64,9 +64,7 @@ public class Player : PlayerBehavior, ICanInteract
     public void SetDetails(PlayerDetails details)
     {
         if (details == null)
-        {
             Debug.Log("Details should not be null");
-        }
 
         m_PlayerDetails = details;
     }
@@ -122,9 +120,7 @@ public class Player : PlayerBehavior, ICanInteract
     private void InteractWith(IInteractable interactable)
     {
         if (interactable != null) // null check done here instead. 
-        {
             interactable.Interact(this);
-        }
     }
 
     ////////////////////
@@ -152,16 +148,12 @@ public class Player : PlayerBehavior, ICanInteract
     {
         PlayerDetails details = PlayerDetails.FromArray(args.Args);
         if (details == null)
-        {
             Debug.LogWarning("Details not received correctly");
-        }
         m_PlayerDetails = details;
 
         // Setup playermanager
         if (details.GetNetworkId() == networkObject.MyPlayerId)
-        {
             PlayerManager.Instance.SetLocalPlayer(this);
-        }
 
         PlayerManager.Instance.AddPlayer(this);
     }

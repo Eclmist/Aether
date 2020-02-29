@@ -67,22 +67,27 @@ public class RevealableTerrain : MonoBehaviour
                 amount = (1 - Mathf.Pow(distance / radius, 4)) * 255;
 
             // Ignore falloff for now
-            if (revealMode == RevealMode.SHOW)
+            switch (revealMode)
             {
-                if (amount > currentAmount)
-                {
-                    m_TargetVertexColors[i].r = (byte)amount;
-                    m_IsUpdating = true;
-                }
-            }
-            else
-            {
-                amount = 255 - amount;
-                if (amount < currentAmount)
-                {
-                    m_TargetVertexColors[i].r = (byte)amount;
-                    m_IsUpdating = true;
-                }
+                case RevealMode.REVEALMODE_SHOW:
+                    if (amount > currentAmount)
+                    {
+                        m_TargetVertexColors[i].r = (byte)amount;
+                        m_IsUpdating = true;
+                    }
+
+                    amount = 255 - amount;
+                    break;
+                case RevealMode.REVEALMODE_HIDE:
+                    if (amount < currentAmount)
+                    {
+                        m_TargetVertexColors[i].r = (byte)amount;
+                        m_IsUpdating = true;
+                    }
+                    break;
+                default:
+                    Debug.LogWarning("Should not be entering default case in RevealableTerrain PaintAtPosition");
+                    break;
             }
 
             if (startTime - Time.time >= 0.1f)

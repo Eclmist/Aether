@@ -24,9 +24,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
         Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
         if (localPlayer == null)
-        {
             Debug.LogError("Local player not set");
-        }
+
         PlayerDetails localPlayerDetails = localPlayer.GetPlayerDetails();
 
         foreach (Player player in players)
@@ -39,13 +38,9 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             PlayerDetails details = player.GetPlayerDetails();
             RevealActor revealActor = player.GetRevealActor();
             if (details.GetTeam() == localPlayerDetails.GetTeam())
-            {
-                revealActor.SetRevealMode(RevealMode.SHOW);
-            }
+                revealActor.SetRevealMode(RevealMode.REVEALMODE_SHOW);
             else
-            {
-                revealActor.SetRevealMode(RevealMode.HIDE);
-            }
+                revealActor.SetRevealMode(RevealMode.REVEALMODE_HIDE);
 
             revealActor.enabled = true;
         }

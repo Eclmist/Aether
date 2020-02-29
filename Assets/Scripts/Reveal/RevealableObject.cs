@@ -30,7 +30,13 @@ public class RevealableObject : MonoBehaviour
     private void Awake()
     {
         if (m_StealthShader == null)
-            m_StealthShader = Shader.Find("Shader Graphs/Stealth");
+        {
+            Shader stealthShader = Shader.Find("Shader Graphs/Stealth");
+            if (stealthShader == null)
+                Debug.LogWarning("Stealth Shader was not found");
+
+            m_StealthShader = stealthShader;
+        }
     }
 
     // Start is called before the first frame update
