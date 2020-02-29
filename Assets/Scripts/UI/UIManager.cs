@@ -48,7 +48,10 @@ public class UIManager : Singleton<UIManager>
         {
             SkillsUIHandler handler = m_skillsUIHandler.GetComponent<SkillsUIHandler>();
             if (handler != null)
+            {
                 handler.SwitchSkills();
+                handler.SwitchIcons();
+            }   
         }
     }
 }
