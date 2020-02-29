@@ -6,10 +6,10 @@ using BeardedManStudios.Forge.Networking.Unity;
 
 public class AetherNetworkManager : Singleton<AetherNetworkManager>
 {
-    // Events for networking interaction
-    public delegate void AetherPlayerEvent(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap);
+    public static int MAX_PLAYER_COUNT = 4;
 
-    public event AetherPlayerEvent sceneChanged;
+    // Events for networking interaction
+    public System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneChanged;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
@@ -22,6 +22,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
 
     void Start()
     {
+        // Event triggers on host when clients finish loading scene
         if (NetworkManager.Instance != null)
             NetworkManager.Instance.playerLoadedScene += OnPlayerLoadScene;
     }
@@ -42,6 +43,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
         loadAsync.completed += asyncOp =>
         {
             NetWorker sender = NetworkManager.Instance.Networker;
+            // When host finishes loading scene
             OnPlayerLoadScene(sender.Me, sender);
         };
     }
@@ -52,13 +54,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
         if (m_PlayersLoadedScene == m_PlayerDetails.Count)
         {
             m_PlayersLoadedScene = 0;
-            sceneChanged(m_PlayerDetails);
+            SceneChanged(m_PlayerDetails);
         }
-    }
-
-    public struct PlayerDetails
-    {
-        public int team;
-        public int position;
     }
 }
