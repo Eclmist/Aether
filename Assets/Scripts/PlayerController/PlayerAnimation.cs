@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using BeardedManStudios.Forge.Networking;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMovement))]
@@ -54,7 +53,8 @@ public class PlayerAnimation : MonoBehaviour
         m_Animator.SetInteger("WeaponIndex", (int)m_PlayerStance.GetStance());
 
         // Set Jump trigger
-        if (m_PlayerMovement.JumpedInCurrentFrame())
+        bool hasJumped = m_PlayerMovement.JumpedInCurrentFrame();
+        if (hasJumped)
             m_Animator.SetTrigger("Jump");
 
         // Set combat states
@@ -62,14 +62,17 @@ public class PlayerAnimation : MonoBehaviour
 
         if (m_Player.networkObject != null)
         {
-            m_Player.networkObject.axisMagnitude = m_AxisDelta.magnitude;
+            m_Player.networkObject.axisDeltaMagnitude = m_AxisDelta.magnitude;
             m_Player.networkObject.vertVelocity = velocity.y;
             m_Player.networkObject.rotation = transform.rotation;
             m_Player.networkObject.grounded = isGrounded;
+
+            if (hasJumped)
+                m_Player.networkObject.SendRpc(Player.RPC_TRIGGER_JUMP, Receivers.All);
         }
     }
 
-    void HandleCombatAnimations()
+    private void HandleCombatAnimations()
     {
         if (m_PlayerCombatHandler == null)
             return;

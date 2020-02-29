@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\", \"int\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"team\", \"position\"]]")]
-	public abstract partial class PlayerManagerBehavior : NetworkBehavior
+	[GeneratedRPC("{\"types\":[[\"int\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"]]")]
+	public abstract partial class PlayerNetworkManagerBehavior : NetworkBehavior
 	{
-		public const byte RPC_SETUP_PLAYER = 0 + 5;
+		public const byte RPC_SET_PLAYER_COUNT = 0 + 5;
 
-		public PlayerManagerNetworkObject networkObject = null;
+		public PlayerNetworkManagerNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
 		{
@@ -18,11 +18,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
 
-			networkObject = (PlayerManagerNetworkObject)obj;
+			networkObject = (PlayerNetworkManagerNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("SetupPlayer", SetupPlayer, typeof(int), typeof(int));
+			networkObject.RegisterRpc("SetPlayerCount", SetPlayerCount, typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -77,7 +77,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override void Initialize(NetWorker networker, byte[] metadata = null)
 		{
-			Initialize(new PlayerManagerNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
+			Initialize(new PlayerNetworkManagerNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
 		}
 
 		private void DestroyGameObject(NetWorker sender)
@@ -88,7 +88,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override NetworkObject CreateNetworkObject(NetWorker networker, int createCode, byte[] metadata = null)
 		{
-			return new PlayerManagerNetworkObject(networker, this, createCode, metadata);
+			return new PlayerNetworkManagerNetworkObject(networker, this, createCode, metadata);
 		}
 
 		protected override void InitializedTransform()
@@ -98,10 +98,9 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		/// <summary>
 		/// Arguments:
-		/// int team
-		/// int position
+		/// int playerCount
 		/// </summary>
-		public abstract void SetupPlayer(RpcArgs args);
+		public abstract void SetPlayerCount(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

@@ -16,7 +16,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		public GameObject[] LobbyPlayerNetworkObject = null;
 		public GameObject[] LobbySystemNetworkObject = null;
 		public GameObject[] NetworkCameraNetworkObject = null;
-		public GameObject[] PlayerManagerNetworkObject = null;
+		public GameObject[] PlayerNetworkManagerNetworkObject = null;
 		public GameObject[] PlayerNetworkObject = null;
 		public GameObject[] TestNetworkObject = null;
 
@@ -180,17 +180,17 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						objectInitialized(newObj, obj);
 				});
 			}
-			else if (obj is PlayerManagerNetworkObject)
+			else if (obj is PlayerNetworkManagerNetworkObject)
 			{
 				MainThreadManager.Run(() =>
 				{
 					NetworkBehavior newObj = null;
 					if (!NetworkBehavior.skipAttachIds.TryGetValue(obj.NetworkId, out newObj))
 					{
-						if (PlayerManagerNetworkObject.Length > 0 && PlayerManagerNetworkObject[obj.CreateCode] != null)
+						if (PlayerNetworkManagerNetworkObject.Length > 0 && PlayerNetworkManagerNetworkObject[obj.CreateCode] != null)
 						{
-							var go = Instantiate(PlayerManagerNetworkObject[obj.CreateCode]);
-							newObj = go.GetComponent<PlayerManagerBehavior>();
+							var go = Instantiate(PlayerNetworkManagerNetworkObject[obj.CreateCode]);
+							newObj = go.GetComponent<PlayerNetworkManagerBehavior>();
 							go.SetActive(false);
 						}
 					}
@@ -575,20 +575,20 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			return netBehavior;
 		}
 		/// <summary>
-		/// Instantiate an instance of PlayerManager
+		/// Instantiate an instance of PlayerNetworkManager
 		/// </summary>
 		/// <returns>
-		/// A local instance of PlayerManagerBehavior
+		/// A local instance of PlayerNetworkManagerBehavior
 		/// </returns>
-		/// <param name="index">The index of the PlayerManager prefab in the NetworkManager to Instantiate</param>
+		/// <param name="index">The index of the PlayerNetworkManager prefab in the NetworkManager to Instantiate</param>
 		/// <param name="position">Optional parameter which defines the position of the created GameObject</param>
 		/// <param name="rotation">Optional parameter which defines the rotation of the created GameObject</param>
 		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
-		public PlayerManagerBehavior InstantiatePlayerManager(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
+		public PlayerNetworkManagerBehavior InstantiatePlayerNetworkManager(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
 		{
-			var go = Instantiate(PlayerManagerNetworkObject[index]);
+			var go = Instantiate(PlayerNetworkManagerNetworkObject[index]);
 			go.SetActive(false);
-			var netBehavior = go.GetComponent<PlayerManagerBehavior>();
+			var netBehavior = go.GetComponent<PlayerNetworkManagerBehavior>();
 
 			NetworkObject obj = null;
 			if (!sendTransform && position == null && rotation == null)
@@ -620,7 +620,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 				obj = netBehavior.CreateNetworkObject(Networker, index, metadata.CompressBytes());
 			}
 
-			go.GetComponent<PlayerManagerBehavior>().networkObject = (PlayerManagerNetworkObject)obj;
+			go.GetComponent<PlayerNetworkManagerBehavior>().networkObject = (PlayerNetworkManagerNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
 
