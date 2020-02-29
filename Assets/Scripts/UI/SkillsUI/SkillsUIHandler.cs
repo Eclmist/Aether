@@ -7,11 +7,13 @@ public class SkillsUIHandler : MonoBehaviour
 {
 
     private Animator m_Animator;
+    private bool isPrimary;
 
     // Start is called before the first frame update
     void Start()
     {
         m_Animator = GetComponent<Animator>();
+        isPrimary = true;
     }
 
     public void SwitchSkills()
@@ -21,6 +23,13 @@ public class SkillsUIHandler : MonoBehaviour
 
     private void SwitchSkillCoroutine()
     {
-        m_Animator.SetTrigger("PrimaryToSecondary");
+        if (isPrimary)
+        {
+            m_Animator.SetTrigger("PrimaryToSecondary");
+        } else
+        {
+            
+        }
+        
     }
 }
