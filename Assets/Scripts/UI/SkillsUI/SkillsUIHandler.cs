@@ -12,12 +12,6 @@ public class SkillsUIHandler : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-        SwitchSkills();
-    }
-
-    void Update()
-    {
-        // Debug.Log(m_PrimaryIcon.sprite);
     }
 
     public void SwitchSkills()

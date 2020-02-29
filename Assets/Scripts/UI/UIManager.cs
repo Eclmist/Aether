@@ -9,6 +9,10 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField]
     private GameObject m_healthBarHandler;
+
+    [SerializedField]
+    private GameObject m_skillsUIHandler;
+
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
         if (m_powerUpHandler != null)
@@ -30,5 +34,14 @@ public class UIManager : Singleton<UIManager>
                 
         }
     }
-
+    
+    public void SwitchPlayerSkills()
+    {
+        if (m_skillsUIHandler != null)
+        {
+            SkillsUIHandler handler = m_skillsUIHandler.GetComponent<SkillsUIHandler>();
+            if (handler != null)
+                handler.SwitchSkills();
+        }
+    }
 }
