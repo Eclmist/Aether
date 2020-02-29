@@ -38,9 +38,9 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             PlayerDetails details = player.GetPlayerDetails();
             RevealActor revealActor = player.GetRevealActor();
             if (details.GetTeam() == localPlayerDetails.GetTeam())
-                revealActor.SetRevealMode(RevealMode.REVEALMODE_SHOW);
+                revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_SHOW);
             else
-                revealActor.SetRevealMode(RevealMode.REVEALMODE_HIDE);
+                revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_HIDE);
 
             revealActor.enabled = true;
         }

@@ -74,4 +74,9 @@ public class RevealActor : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, m_Radius);
     }
+
+    public enum RevealMode
+    {
+        REVEALMODE_SHOW, REVEALMODE_HIDE
+    }
 }
