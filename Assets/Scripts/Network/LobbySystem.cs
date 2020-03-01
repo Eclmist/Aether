@@ -86,9 +86,7 @@ public class LobbySystem : LobbySystemBehavior
     private void OnPlayerAccepted(NetworkingPlayer player, NetWorker sender)
     {
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
-        {
             p.UpdateDataFor(player);
-        }
    
         SetupPlayer(player);
     }

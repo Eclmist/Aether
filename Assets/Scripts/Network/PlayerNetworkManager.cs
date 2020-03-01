@@ -6,11 +6,15 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
+    public System.Action PlayersReady;
+
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsBlue;
+
+    private int m_ReadyClientCount = 0;
 
     private void Awake()
     {
@@ -44,11 +48,18 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
             revealActor.enabled = true;
         }
+
+        networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.Server);
     }
 
     public override void SetPlayerCount(RpcArgs args)
     {
         PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
+    }
+
+    public override void SetAllReady(RpcArgs args)
+    {
+        PlayersReady();
     }
 
     ////////////////////
@@ -64,8 +75,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             return;
 
         // Set total player count
-        PlayerManager.Instance.SetPlayerCount(detailsMap.Count);
         networkObject.SendRpc(RPC_SET_PLAYER_COUNT, Receivers.All, detailsMap.Count);
+        PlayerManager.Instance.SetPlayerCount(detailsMap.Count);
 
         // Host spawns all players
         NetworkManager.Instance.Networker.IteratePlayers(np =>
@@ -102,5 +113,20 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         NetworkingPlayer np = networkObject.Networker.GetPlayerById(details.GetNetworkId());
         player.networkObject.AssignOwnership(np);
         player.networkObject.SendRpc(Player.RPC_TRIGGER_UPDATE_DETAILS, Receivers.All, details.ToArray());
+    }
+
+    // RPC sent to host when a client is ready
+    public override void SetClientReady(RpcArgs args)
+    {
+        // Only received by host
+        if (!networkObject.IsServer)
+            return;
+
+        m_ReadyClientCount++;
+        if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
+        {
+            // Tell clients that all players are ready
+            networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
+        }
     }
 }

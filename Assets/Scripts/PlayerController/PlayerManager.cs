@@ -5,8 +5,6 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     public System.Action PlayersLoaded;
 
-    private PlayerNetworkManager m_PlayerNetworkManager;
-
     private List<Player> m_Players;
 
     private List<int> m_Team1Indices;
@@ -19,6 +17,8 @@ public class PlayerManager : Singleton<PlayerManager>
     private void Awake()
     {
         m_Players = new List<Player>();
+        m_Team1Indices = new List<int>();
+        m_Team2Indices = new List<int>();
     }
 
     public void AddPlayer(Player player)
@@ -51,6 +51,11 @@ public class PlayerManager : Singleton<PlayerManager>
     public void SetPlayerCount(int count)
     {
         m_TotalPlayerCount = count;
+    }
+
+    public int GetPlayerCount()
+    {
+        return m_TotalPlayerCount;
     }
 
     public Player GetLocalPlayer()

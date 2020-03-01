@@ -21,6 +21,11 @@ public class Tower : MonoBehaviour
             return m_CapturePercentage == 100;
         }
 
+        public int GetCapturePercentage()
+        {
+            return m_CapturePercentage;
+        }
+
         public int GetTeam()
         {
             return m_TeamId;

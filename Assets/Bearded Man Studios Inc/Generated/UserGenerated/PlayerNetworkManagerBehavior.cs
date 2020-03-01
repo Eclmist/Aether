@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"]]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][][]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][][]]")]
 	public abstract partial class PlayerNetworkManagerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_PLAYER_COUNT = 0 + 5;
+		public const byte RPC_SET_CLIENT_READY = 1 + 5;
+		public const byte RPC_SET_ALL_READY = 2 + 5;
 
 		public PlayerNetworkManagerNetworkObject networkObject = null;
 
@@ -23,6 +25,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("SetPlayerCount", SetPlayerCount, typeof(int));
+			networkObject.RegisterRpc("SetClientReady", SetClientReady);
+			networkObject.RegisterRpc("SetAllReady", SetAllReady);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -101,6 +105,14 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// int playerCount
 		/// </summary>
 		public abstract void SetPlayerCount(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void SetClientReady(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void SetAllReady(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

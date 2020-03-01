@@ -17,7 +17,7 @@ public class MultiplayerSceneController : Singleton<MultiplayerSceneController>
     IEnumerator NotifyCTFGameMode()
     {
         yield return new WaitForSeconds(2);
-        UINotify("Capture the Flag");
+        UINotify("King Of The Hill");
     }
 
     public void UINotify(string message)
