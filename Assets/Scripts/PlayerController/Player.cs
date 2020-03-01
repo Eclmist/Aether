@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Unity;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(ClientServerTogglables))]
@@ -149,6 +150,9 @@ public class Player : PlayerBehavior, ICanInteract
     // RPC sent by host to send player details to all clients
     public override void TriggerUpdateDetails(RpcArgs args)
     {
+        // May not be run on main thread for the sake of performance.
+        // Nothing else should be touching player details at this point anyway.
+
         PlayerDetails details = PlayerDetails.FromArray(args.Args);
         if (details == null)
             Debug.LogWarning("Details not received correctly");
