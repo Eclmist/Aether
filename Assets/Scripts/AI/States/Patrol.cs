@@ -32,14 +32,13 @@ public class Patrol : StateMachineBehaviour
     {
         CheckForAgent(animator);
         
-        if (!m_agent.pathPending && m_agent.remainingDistance < 0.1f)
+        if (!m_agent.pathPending && m_agent.remainingDistance < m_agent.stoppingDistance)
             GotoNextPoint();
     }
 
     private void GotoNextPoint()
     {
         Transform destination = waypoints[Random.Range(0, waypoints.Length)];
-        Debug.Log(destination.position);
         m_agent.SetDestination(destination.position);
     }
 

@@ -41,7 +41,7 @@ public class Flee : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Vector3 aiLocation = animator.transform.position;
-        Vector3 playerLocation = m_aiActor.player.position;
+        Vector3 playerLocation = m_aiActor.m_NearestPlayer.position;
         float distanceBetween = Vector3.Distance(playerLocation, aiLocation);
         
         

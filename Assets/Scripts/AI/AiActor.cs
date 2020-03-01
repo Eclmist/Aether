@@ -7,35 +7,39 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
 public class AiActor : MonoBehaviour
 {
-    private NavMeshAgent m_Agent;
-    private Animator m_StateAnimator;
-    public Transform player;
+    protected NavMeshAgent m_Agent;
+    protected Animator m_StateMachineAnim;
+    [HideInInspector]
+    public Transform m_NearestPlayer;
+    protected Vector3 m_SpawnPos;
 
     public void Awake()
     {
         m_Agent = GetComponent<NavMeshAgent>();
-        m_StateAnimator = GetComponent<Animator>();
+        m_StateMachineAnim = GetComponent<Animator>();
+        m_SpawnPos = transform.position;
+        m_NearestPlayer = null;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public Vector3 GetSpawnPos()
     {
-        if (other.tag.Equals("Player"))
-        {
-            //alerts the animator if the player has entered the vicinity.
-            m_StateAnimator.SetBool("isSafe", false);
-        }
+        return m_SpawnPos;
     }
 
-    public void SetInactive()
+    public virtual void SetInactive()
     {
-        m_Agent.enabled = false;
-        m_StateAnimator.enabled = false;
+        enabled = false;
     }
     
-    public void SetActive()
+    public virtual void SetActive()
     {
-        m_Agent.enabled = true;
-        m_StateAnimator.enabled = true;
+        enabled = true;
+        m_StateMachineAnim.enabled = true;
+    }
+
+    public virtual float DistanceFromSpawnPoint()
+    {
+        return Vector3.Distance(transform.position, m_SpawnPos);
     }
     
 }
