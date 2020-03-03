@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -8,18 +9,22 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private PlayerNetworkManager m_PlayerNetworkManager;
 
-    private int m_Team1CaptureCount = 0;
-    private int m_Team2CaptureCount = 0;
+    private Dictionary<Team, int> m_TeamCaptureCounts;
+
+    private int m_TotalCaptureCount = 0;
 
     private bool m_GameStarted = false;
 
     private void Awake()
     {
         m_PlayerNetworkManager.PlayersReady += StartGame;
+        m_TeamCaptureCounts = new Dictionary<Team, int>();
+
         foreach (TowerBase tower in m_Towers)
-        {
             tower.TowerCaptured += OnTowerCaptured;
-        }
+
+        foreach (Team team in (Team[])System.Enum.GetValues(typeof(Team)))
+            m_TeamCaptureCounts.Add(team, 0);
     }
 
     private void OnTowerCaptured(TowerBase tower)
@@ -28,16 +33,26 @@ public class GameManager : Singleton<GameManager>
             return;
 
         tower.SetIsCaptured(true);
+        m_TotalCaptureCount++;
 
         TowerBase.CaptureState captureState = tower.GetCaptureState();
-        if (captureState.GetLeadingTeam() == 0)
-            m_Team1CaptureCount++;
-        else
-            m_Team2CaptureCount++;
+        m_TeamCaptureCounts[captureState.GetLeadingTeam()]++;
 
         // Check for game over
-        if (m_Team1CaptureCount + m_Team2CaptureCount == m_Towers.Length)
-            SetGameOver(m_Team1CaptureCount > m_Team2CaptureCount ? 0 : 1);
+        if (m_TotalCaptureCount == m_Towers.Length)
+        {
+            Team winningTeam = Team.TEAM_ONE;
+            int winningScore = 0;
+            foreach (KeyValuePair<Team, int> pair in m_TeamCaptureCounts)
+            {
+                if (pair.Value > winningScore)
+                {
+                    winningTeam = pair.Key;
+                    winningScore = pair.Value;
+                }
+            }
+            SetGameOver(winningTeam);
+        }
     }
 
     public void StartGame()
@@ -46,8 +61,8 @@ public class GameManager : Singleton<GameManager>
         m_GameStarted = true;
     }
 
-    public void SetGameOver(int teamId)
+    public void SetGameOver(Team team)
     {
-        Debug.Log("Team " + teamId + " wins");
+        Debug.Log("Team " + (int)team + " wins");
     }
 }

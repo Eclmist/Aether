@@ -43,7 +43,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 // Player details not null
                 PlayerDetails details = player.GetPlayerDetails();
                 RevealActor revealActor = player.GetRevealActor();
-                if (details.GetTeam() == localPlayerDetails.GetTeam())
+                if (details.GetTeam().Equals(localPlayerDetails.GetTeam()))
                     revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_SHOW);
                 else
                     revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_HIDE);
@@ -99,12 +99,20 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     private void SpawnPlayer(NetworkingPlayer np, PlayerDetails details)
     {
         // Run on main thread for unity to be able to grab transform data and instantiate player etc
-        MainThreadManager.Run(() => { 
-            Transform spawnPoint;
-            if (details.GetTeam() == 0)
-                spawnPoint = m_SpawnPositionsRed[details.GetPosition()];
-            else
-                spawnPoint = m_SpawnPositionsBlue[details.GetPosition()];
+        MainThreadManager.Run(() => {
+            Transform spawnPoint = null;
+            switch(details.GetTeam())
+            {
+                case Team.TEAM_ONE:
+                    spawnPoint = m_SpawnPositionsRed[details.GetPosition()];
+                    break;
+                case Team.TEAM_TWO:
+                    spawnPoint = m_SpawnPositionsBlue[details.GetPosition()];
+                    break;
+                default:
+                    Debug.Assert(false, "Should not be reached unless a team was unhandled. PlayerNetworkManager.SpawnPlayer");
+                    break;
+            }
 
             Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
 

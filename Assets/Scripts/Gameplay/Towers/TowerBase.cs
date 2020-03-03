@@ -64,12 +64,13 @@ public class TowerBase : TowerBehavior
 
     public struct CaptureState
     {
-        private int m_LeadingTeamId;
+        private Team m_LeadingTeam;
         private float m_CapturePercentage; 
 
         public CaptureState(float captureGauge)
         {
-            m_LeadingTeamId = captureGauge > 0 ? 0 : 1;
+            // Only supports two teams using 1 single float as gauge
+            m_LeadingTeam = captureGauge > 0 ? Team.TEAM_ONE : Team.TEAM_TWO;
             m_CapturePercentage = captureGauge < 0 ? -captureGauge : captureGauge;
         }
 
@@ -78,9 +79,9 @@ public class TowerBase : TowerBehavior
             return m_CapturePercentage;
         }
 
-        public int GetLeadingTeam()
+        public Team GetLeadingTeam()
         {
-            return m_LeadingTeamId;
+            return m_LeadingTeam;
         }
     }
 }

@@ -27,11 +27,19 @@ public class TowerLocal : MonoBehaviour, IInteractable
 
         foreach (Player player in m_PlayersInCaptureZone)
         {
-            int teamId = player.GetPlayerDetails().GetTeam();
-            if (teamId == 0)
-                captureRate++;
-            else
-                captureRate--;
+            Team team = player.GetPlayerDetails().GetTeam();
+            switch (team)
+            {
+                case Team.TEAM_ONE:
+                    captureRate++;
+                    break;
+                case Team.TEAM_TWO:
+                    captureRate--;
+                    break;
+                default:
+                    Debug.Assert(false, "Should not be reached unless a team was unhandled. TowerLocal.Update");
+                    break;
+            }
         }
 
         float captureGauge = m_Tower.GetCaptureGauge();
