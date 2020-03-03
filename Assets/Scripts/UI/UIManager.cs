@@ -50,7 +50,6 @@ public class UIManager : Singleton<UIManager>
             if (handler != null)
             {
                 handler.SwitchSkills();
-                handler.SwitchIcons();
             }   
         }
     }
