@@ -57,7 +57,12 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void OnTriggerEnter(Collider c)
     {
-        InteractWith(c.GetComponent<IInteractable>());
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_ENTER);
+    }
+
+    private void OnTriggerExit(Collider c)
+    {
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
     }
 
     public PlayerDetails GetPlayerDetails()
@@ -121,10 +126,10 @@ public class Player : PlayerBehavior, ICanInteract
         }
     }
 
-    private void InteractWith(IInteractable interactable)
+    private void InteractWith(IInteractable interactable, InteractionType interactionType)
     {
         if (interactable != null) // null check done here instead. 
-            interactable.Interact(this);
+            interactable.Interact(this, interactionType);
     }
 
     ////////////////////

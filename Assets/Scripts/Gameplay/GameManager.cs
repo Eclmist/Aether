@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-//It's a singleton so call this using GameManager.Instance.
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
-    private Tower[] m_Towers;
+    private TowerBase[] m_Towers;
 
     [SerializeField]
     private PlayerNetworkManager m_PlayerNetworkManager;
@@ -19,30 +16,28 @@ public class GameManager : Singleton<GameManager>
     private void Awake()
     {
         m_PlayerNetworkManager.PlayersReady += StartGame;
+        foreach (TowerBase tower in m_Towers)
+        {
+            tower.TowerCaptured += OnTowerCaptured;
+        }
     }
 
-    private void Update()
+    private void OnTowerCaptured(TowerBase tower)
     {
         if (!m_GameStarted)
             return;
 
-        foreach (Tower tower in m_Towers)
-        {
-            Tower.CaptureState captureState = tower.GetCaptureState();
+        tower.SetIsCaptured(true);
 
-            if (captureState.IsCaptured())
-            {
-                if (captureState.GetTeam() == 0)
-                    m_Team1CaptureCount++;
-                else
-                    m_Team2CaptureCount++;
-            }
-        }
+        TowerBase.CaptureState captureState = tower.GetCaptureState();
+        if (captureState.GetLeadingTeam() == 0)
+            m_Team1CaptureCount++;
+        else
+            m_Team2CaptureCount++;
 
-        if (m_Team1CaptureCount == m_Towers.Length)
-            SetGameOver(0);
-        else if (m_Team2CaptureCount == m_Towers.Length)
-            SetGameOver(1);
+        // Check for game over
+        if (m_Team1CaptureCount + m_Team2CaptureCount == m_Towers.Length)
+            SetGameOver(m_Team1CaptureCount > m_Team2CaptureCount ? 0 : 1);
     }
 
     public void StartGame()

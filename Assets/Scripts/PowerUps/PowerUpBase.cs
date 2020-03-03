@@ -17,14 +17,22 @@ public abstract class PowerUpBase : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(ICanInteract interactor) 
+    public void Interact(ICanInteract interactor, InteractionType interactionType) 
     {
-        if (interactor != null && interactor is Player player)
+        if (!(interactor is Player))
+            return;
+        Player player = interactor as Player;
+
+        switch (interactionType)
         {
-            AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
-            StartActivation();
-            HandlePowerUp(player);
-            Destroy(gameObject);
+            case InteractionType.INTERACTION_TRIGGER_ENTER:
+                AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
+                StartActivation();
+                HandlePowerUp(player);
+                Destroy(gameObject);
+                break;
+            default:
+                break;
         }
     }
 
