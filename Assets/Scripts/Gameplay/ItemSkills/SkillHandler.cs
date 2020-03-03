@@ -1,19 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SkillHandler : MonoBehaviour
 {
-    //Requires UI
+    public ItemSkill[] m_SkillSlots = new ItemSkill[3];
     
-    //Max 3
-    private int m_MaxSkillsNum = 3;
-    public List<ItemSkill> m_SkillSlots = new List<ItemSkill>();
-    
-    //key bindings
-    public void UseSkillAt(int index)
+    void Start()
     {
+        AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
+    }
+
+    //key bindings
+    public void UseSkillAt(InputAction.CallbackContext ctx)
+    {
+        int index = UIManager.Instance.GetSkillsIndex();
+        if (m_SkillSlots[index] == null)
+            return;
+
         m_SkillSlots[index].UseSkill();
+        m_SkillSlots[index].m_NoOfUses--;
+        if (m_SkillSlots[index].m_NoOfUses == 0)
+        {
+            RemoveSkill(index);
+            UIManager.Instance.RemoveSkill();
+        }
     }
 
     /*
@@ -22,22 +34,35 @@ public class SkillHandler : MonoBehaviour
      */
     public bool AddSkill(ItemSkill itemSkill)
     {
-        if (m_SkillSlots.Count >= 3)
+        if (m_SkillSlots[0] == null)
         {
-            return false;
+            m_SkillSlots[0] = itemSkill;
+            return true;
+        }
+
+        if (m_SkillSlots[1] == null)
+        {
+            m_SkillSlots[1] = itemSkill;
+            return true;
         }
         
-        m_SkillSlots.Add(itemSkill);
-        return true;
+        if (m_SkillSlots[2] == null)
+        {
+            m_SkillSlots[2] = itemSkill;
+                return true;
+        }
+
+        return false;
     }
 
     /*
      * Attempts to remove skill from player slots,
      * returns true if successful
      */
-    public bool RemoveSkill(ItemSkill itemSkill)
+    public bool RemoveSkill(int index)
     {
-        return m_SkillSlots.Remove(itemSkill);
+        m_SkillSlots[index] = null;
+        return true;
     }
     
 }

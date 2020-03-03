@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -49,14 +48,19 @@ public class UIManager : Singleton<UIManager>
             SkillsUIHandler handler = m_skillsUIHandler.GetComponent<SkillsUIHandler>();
             if (handler != null)
             {
-                handler.SwitchSkills();
+                handler.SwitchSkillsSprites();
             }   
         }
     }
 
     public void SaveSkill(ItemSkill itemSkill) 
     {
-        m_skillsUIHandler.GetComponent<SkillsUIHandler>().HandleSKillPickUp(itemSkill);
+        m_skillsUIHandler.GetComponent<SkillsUIHandler>().HandleSkillPickUp(itemSkill);
+    }
+
+    public int GetSkillsIndex()
+    {
+        return m_skillsUIHandler.GetComponent<SkillsUIHandler>().GetSkillsIndex();
     }
 
     public void RemoveSkill()

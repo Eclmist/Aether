@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class SkillsUIHandler : MonoBehaviour
 {
-
-    private Animator m_Animator;
-
     [SerializeField]
     private Image m_PrimaryIcon;
 
@@ -17,108 +14,73 @@ public class SkillsUIHandler : MonoBehaviour
     [SerializeField]
     private Image m_TertiaryIcon;
 
-    private ItemSkill m_PrimarySkill;
-
-    private ItemSkill m_SecondarySkill;
-
-    private ItemSkill m_TertiarySkill;
+    private Sprite m_NullSprite;
 
     private int m_SkillsIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Animator = GetComponent<Animator>();
+        m_NullSprite = m_PrimaryIcon.sprite;
         m_SkillsIndex = 0;
     }
 
-    public void HandleSKillPickUp(ItemSkill itemSkill)
+    public void HandleSkillPickUp(ItemSkill itemSkill)
     {
         if (itemSkill == null)
-            return; 
-        
-        Image icon = itemSkill.GetComponent<Image>();
+            return;
 
-        if (m_PrimarySkill == null)
-        {
-            SavePrimarySkill(itemSkill, icon);
+        Image icon = itemSkill.m_SkillIcon;
+        if (m_PrimaryIcon.sprite.name == m_NullSprite.name)
+        {      
+            SavePrimaryIcon(icon);
         } 
-        else if (m_SecondarySkill == null)
+        else if (m_SecondaryIcon.sprite.name == m_NullSprite.name)
         {
-            SaveSecondarySkill(itemSkill, icon);
+            SaveSecondaryIcon(icon);
+        } 
+        else if (m_TertiaryIcon.sprite.name == m_NullSprite.name)
+        {
+            SaveTertiaryIcon(icon);
         }
-        else if (m_TertiarySkill == null) 
+        else
         {
-            SaveTertiarySkill(itemSkill, icon);
+            return;
         }
     }
 
+    // As of now, just simply remove the skill icon but plan to add cycle system in the future for player convenience.
     public void RemoveUsedSkill()
     {
-        if (m_PrimarySkill == null)
-            return;
-
-        m_PrimarySkill = m_SecondarySkill;
-        m_PrimaryIcon = m_SecondaryIcon;
-
-        m_SecondarySkill = m_TertiarySkill;
-        m_SecondaryIcon = m_TertiaryIcon;
-
-        m_TertiarySkill = null;
-        m_TertiaryIcon = null;
+        m_PrimaryIcon.sprite = m_NullSprite;
     }
-
-    public void SaveSecondarySkill(ItemSkill itemskill, Image image)
+    public void SavePrimaryIcon(Image image)
     {
         if (image != null)
         {
-            m_SecondarySkill = itemskill;
-            m_SecondaryIcon = image;
+            m_PrimaryIcon.sprite = image.sprite;
         }
     }
-
-    public void SaveTertiarySkill(ItemSkill itemskill, Image image)
+    public void SaveSecondaryIcon(Image image)
     {
         if (image != null)
         {
-            m_TertiarySkill = itemskill;
-            m_TertiaryIcon = image;
+            m_SecondaryIcon.sprite = image.sprite;
         }
     }
 
-    public void SavePrimarySkill(ItemSkill itemskill, Image image)
+    public void SaveTertiaryIcon(Image image)
     {
         if (image != null)
         {
-            m_PrimarySkill = itemskill;
-            m_PrimaryIcon = image;
+            m_TertiaryIcon.sprite = image.sprite;
         }
     }
 
-
-    public void SwitchSkills()
+    public void SwitchSkillsSprites()
     {
-        IncrementIndex();
-        SwitchSkillCoroutine();
         SwitchSpritesCoroutine();
-    }
-
-    private void SwitchSkillCoroutine()
-    {
-        if (m_SkillsIndex == 0)
-        {
-            return;
-        }
-        
-        if (m_SkillsIndex == 1)
-        {
-            return;
-        }
-
-        if (m_SkillsIndex == 2)
-        {
-            return;
-        }
+        IncrementIndex();
     }
 
     private void SwitchSpritesCoroutine()
@@ -163,5 +125,10 @@ public class SkillsUIHandler : MonoBehaviour
         {
             m_SkillsIndex++;
         }
+    }
+
+    public int GetSkillsIndex()
+    {
+        return m_SkillsIndex;
     }
 }
