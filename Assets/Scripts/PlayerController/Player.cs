@@ -132,6 +132,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void InteractWith(IInteractable interactable)
     {
+        Debug.Log(interactable);
         if (interactable != null) // null check done here instead. 
             interactable.Interact(this);
     }

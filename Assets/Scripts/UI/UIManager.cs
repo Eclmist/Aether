@@ -53,4 +53,14 @@ public class UIManager : Singleton<UIManager>
             }   
         }
     }
+
+    public void SaveSkill(ItemSkill itemSkill) 
+    {
+        m_skillsUIHandler.GetComponent<SkillsUIHandler>().HandleSKillPickUp(itemSkill);
+    }
+
+    public void RemoveSkill()
+    {
+         m_skillsUIHandler.GetComponent<SkillsUIHandler>().RemoveUsedSkill();
+    }
 }

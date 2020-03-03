@@ -17,6 +17,12 @@ public class SkillsUIHandler : MonoBehaviour
     [SerializeField]
     private Image m_TertiaryIcon;
 
+    private ItemSkill m_PrimarySkill;
+
+    private ItemSkill m_SecondarySkill;
+
+    private ItemSkill m_TertiarySkill;
+
     private int m_SkillsIndex;
 
     // Start is called before the first frame update
@@ -26,29 +32,69 @@ public class SkillsUIHandler : MonoBehaviour
         m_SkillsIndex = 0;
     }
 
-    public void SavePrimaryIcon(Image image)
+    public void HandleSKillPickUp(ItemSkill itemSkill)
     {
-        if (image != null)
+        if (itemSkill == null)
+            return; 
+        
+        Image icon = itemSkill.GetComponent<Image>();
+
+        if (m_PrimarySkill == null)
         {
-            m_PrimaryIcon = image;
+            SavePrimarySkill(itemSkill, icon);
+        } 
+        else if (m_SecondarySkill == null)
+        {
+            SaveSecondarySkill(itemSkill, icon);
+        }
+        else if (m_TertiarySkill == null) 
+        {
+            SaveTertiarySkill(itemSkill, icon);
         }
     }
 
-    public void SaveSecondaryIcon(Image image)
+    public void RemoveUsedSkill()
+    {
+        if (m_PrimarySkill == null)
+            return;
+
+        m_PrimarySkill = m_SecondarySkill;
+        m_PrimaryIcon = m_SecondaryIcon;
+
+        m_SecondarySkill = m_TertiarySkill;
+        m_SecondaryIcon = m_TertiaryIcon;
+
+        m_TertiarySkill = null;
+        m_TertiaryIcon = null;
+    }
+
+    public void SaveSecondarySkill(ItemSkill itemskill, Image image)
     {
         if (image != null)
         {
+            m_SecondarySkill = itemskill;
             m_SecondaryIcon = image;
         }
     }
 
-    public void SaveTertiaryIcon(Image image)
+    public void SaveTertiarySkill(ItemSkill itemskill, Image image)
     {
         if (image != null)
         {
+            m_TertiarySkill = itemskill;
             m_TertiaryIcon = image;
         }
     }
+
+    public void SavePrimarySkill(ItemSkill itemskill, Image image)
+    {
+        if (image != null)
+        {
+            m_PrimarySkill = itemskill;
+            m_PrimaryIcon = image;
+        }
+    }
+
 
     public void SwitchSkills()
     {
