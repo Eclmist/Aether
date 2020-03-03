@@ -24,6 +24,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void OnPlayersLoaded()
     {
+        // Run on main thread to lock data and send rpc
         MainThreadManager.Run(() => {
             List<Player> players = PlayerManager.Instance.GetAllPlayers();
 
@@ -57,6 +58,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     public override void SetPlayerCount(RpcArgs args)
     {
+        // Run on main thread to lock player count
         MainThreadManager.Run(() => {
             PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
         });
@@ -79,6 +81,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         if (!networkObject.IsServer)
             return;
 
+        // Run on main thread to send RPC.
         MainThreadManager.Run(() =>
         {
             // Set total player count
@@ -95,6 +98,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     // Called by host to spawn every client's player
     private void SpawnPlayer(NetworkingPlayer np, PlayerDetails details)
     {
+        // Run on main thread for unity to be able to grab transform data and instantiate player etc
         MainThreadManager.Run(() => { 
             Transform spawnPoint;
             if (details.GetTeam() == 0)
@@ -124,10 +128,10 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     // RPC sent to host when a client is ready
     public override void SetClientReady(RpcArgs args)
     {
-        // Only received by host
         if (!networkObject.IsServer)
             return;
 
+        // Run on main thread to ensure client count is locked and rpc can be sent
         MainThreadManager.Run(() => {
             m_ReadyClientCount++;
             if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
