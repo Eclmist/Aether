@@ -1,13 +1,13 @@
 ﻿public class PlayerDetails
 {
     private uint m_NetworkId;
-    private int m_TeamId;
+    private Team m_Team;
     private int m_Position;
 
-    public PlayerDetails(uint networkId, int teamId, int position)
+    public PlayerDetails(uint networkId, Team team, int position)
     {
         m_NetworkId = networkId;
-        m_TeamId = teamId;
+        m_Team = team;
         m_Position = position;
     }
 
@@ -16,9 +16,9 @@
         m_NetworkId = networkId;
     }
 
-    public void SetTeam(int teamId)
+    public void SetTeam(Team team)
     {
-        m_TeamId = teamId;
+        m_Team = team;
     }
 
     public void SetPosition(int position)
@@ -31,9 +31,9 @@
         return m_NetworkId;
     }
 
-    public int GetTeam()
+    public Team GetTeam()
     {
-        return m_TeamId;
+        return m_Team;
     }
 
     public int GetPosition()
@@ -43,7 +43,7 @@
 
     public object[] ToArray()
     {
-        return new object[] { m_NetworkId, m_TeamId, m_Position };
+        return new object[] { m_NetworkId, (int)m_Team, m_Position };
     }
 
     public static PlayerDetails FromArray(object[] arr)
@@ -51,6 +51,6 @@
         if (arr.Length != 3)
             return null;
 
-        return new PlayerDetails((uint)arr[0], (int)arr[1], (int)arr[2]);
+        return new PlayerDetails((uint)arr[0], (Team)arr[1], (int)arr[2]);
     }
 }

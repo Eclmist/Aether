@@ -4,15 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\"][][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][][]]")]
-	public abstract partial class PlayerNetworkManagerBehavior : NetworkBehavior
+	[GeneratedRPC("{\"types\":[]")]
+	[GeneratedRPCVariableNames("{\"types\":[]")]
+	public abstract partial class TowerBehavior : NetworkBehavior
 	{
-		public const byte RPC_SET_PLAYER_COUNT = 0 + 5;
-		public const byte RPC_SET_CLIENT_READY = 1 + 5;
-		public const byte RPC_SET_ALL_READY = 2 + 5;
 
-		public PlayerNetworkManagerNetworkObject networkObject = null;
+		public TowerNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
 		{
@@ -20,13 +17,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
 
-			networkObject = (PlayerNetworkManagerNetworkObject)obj;
+			networkObject = (TowerNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("SetPlayerCount", SetPlayerCount, typeof(int));
-			networkObject.RegisterRpc("SetClientReady", SetClientReady);
-			networkObject.RegisterRpc("SetAllReady", SetAllReady);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -81,7 +75,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override void Initialize(NetWorker networker, byte[] metadata = null)
 		{
-			Initialize(new PlayerNetworkManagerNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
+			Initialize(new TowerNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
 		}
 
 		private void DestroyGameObject(NetWorker sender)
@@ -92,7 +86,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override NetworkObject CreateNetworkObject(NetWorker networker, int createCode, byte[] metadata = null)
 		{
-			return new PlayerNetworkManagerNetworkObject(networker, this, createCode, metadata);
+			return new TowerNetworkObject(networker, this, createCode, metadata);
 		}
 
 		protected override void InitializedTransform()
@@ -100,19 +94,6 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
-		/// <summary>
-		/// Arguments:
-		/// int playerCount
-		/// </summary>
-		public abstract void SetPlayerCount(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void SetClientReady(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void SetAllReady(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

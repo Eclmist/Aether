@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BeardedManStudios.Forge.Networking.Generated
 {
 	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"int\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"teamId\", \"position\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"team\", \"position\"]]")]
 	public abstract partial class PlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_TRIGGER_JUMP = 0 + 5;
