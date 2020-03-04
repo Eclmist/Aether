@@ -77,7 +77,7 @@ public class Player : PlayerBehavior, ICanInteract
     public void SetDetails(PlayerDetails details)
     {
         if (details == null)
-            Debug.Log("Details should not be null");
+            return;
 
         m_PlayerDetails = details;
     }
@@ -118,13 +118,11 @@ public class Player : PlayerBehavior, ICanInteract
         m_IsStealthy = !m_IsStealthy;
         if (m_IsStealthy)
         {
-            Debug.Log("Now in Stealth");
             m_RevealActor.enabled = false;
             m_StealthActor.enabled = true;
         }
         else
         {
-            Debug.Log("Now revealing");
             m_RevealActor.enabled = true;
             m_StealthActor.enabled = false;
         }
@@ -132,7 +130,6 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void InteractWith(IInteractable interactable)
     {
-        Debug.Log(interactable);
         if (interactable != null) // null check done here instead. 
             interactable.Interact(this);
     }
