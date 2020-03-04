@@ -6,7 +6,7 @@ public class PlaceholderSkill1 : ItemSkill
 {
     public override void InitializeSkill()
     {
-        m_NoOfUses = 3;
+        SetNumberOfUses(3);
         m_SkillIcon = GameObject.Find("Placeholder Item 2 Skill").GetComponent<Image>();
         UIManager.Instance.SaveSkill(this);
     }

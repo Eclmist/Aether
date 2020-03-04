@@ -19,9 +19,11 @@ public class SkillHandler : MonoBehaviour
         if (m_SkillSlots[index] == null)
             return;
 
-        m_SkillSlots[index].UseSkill();
-        m_SkillSlots[index].m_NoOfUses--;
-        if (m_SkillSlots[index].m_NoOfUses == 0)
+        ItemSkill currentSkill = m_SkillSlots[index];
+
+        currentSkill.UseSkill();
+        currentSkill.DecrementUses();
+        if (currentSkill.HasNoMoreUses())
         {
             RemoveSkill(index);
             UIManager.Instance.RemoveSkill();
