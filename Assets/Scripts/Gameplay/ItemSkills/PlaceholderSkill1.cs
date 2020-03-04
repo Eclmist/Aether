@@ -4,10 +4,10 @@ using UnityEngine.UI;
 // Replace this with actual skills.
 public class PlaceholderSkill1 : ItemSkill
 {
+    private const int m_ICON_INDEX = 0;
     public override void InitializeSkill()
     {
-        SetNumberOfUses(3);
-        m_SkillIcon = GameObject.Find("Placeholder Item 2 Skill").GetComponent<Image>();
+        SetSkillsIcon(IconsManager.Instance.GetIcon(m_ICON_INDEX));
         UIManager.Instance.SaveSkill(this);
     }
 

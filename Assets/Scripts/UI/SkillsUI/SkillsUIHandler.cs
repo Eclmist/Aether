@@ -30,7 +30,7 @@ public class SkillsUIHandler : MonoBehaviour
         if (itemSkill == null)
             return;
 
-        Image icon = itemSkill.m_SkillIcon;
+        Image icon = itemSkill.GetSkillsIcon();
         if (m_PrimaryIcon.sprite.name == m_NullSprite.name) 
             SavePrimaryIcon(icon);
         else if (m_SecondaryIcon.sprite.name == m_NullSprite.name)

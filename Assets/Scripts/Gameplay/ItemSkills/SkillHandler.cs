@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class SkillHandler : MonoBehaviour
 {
+    
     public ItemSkill[] m_SkillSlots = new ItemSkill[3];
     
     void Start()
