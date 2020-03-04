@@ -16,6 +16,10 @@ public class SkillHandler : MonoBehaviour
     //key bindings
     public void UseSkillAt(InputAction.CallbackContext ctx)
     {
+        Debug.Log(m_SkillSlots[0] == null ? 0 : m_SkillSlots[0].GetNumberOfUses());
+        Debug.Log(m_SkillSlots[1] == null ? 0 : m_SkillSlots[1].GetNumberOfUses());
+        Debug.Log(m_SkillSlots[2] == null ? 0 : m_SkillSlots[2].GetNumberOfUses());
+
         int index = UIManager.Instance.GetSkillsIndex();
         if (m_SkillSlots[index] == null)
             return;

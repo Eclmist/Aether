@@ -25,6 +25,9 @@ public class Item : MonoBehaviour, IInteractable
 
     public void HandleItemSkill(Player player)
     {
+
+        Debug.Log(m_ItemSkill);
+
         ItemSkill itemSkill = player.GetSkillsTransform().gameObject.AddComponent(m_ItemSkill.GetType()) as ItemSkill; //adds child type
         itemSkill.InitializeSkill();
         player.GetComponentInChildren<SkillHandler>().AddSkill(itemSkill); //must be after or else will be deleted

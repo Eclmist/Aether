@@ -6,12 +6,13 @@ public class PlaceholderSkill : ItemSkill
 {
     private const int m_ICON_INDEX = 0;
 
+    private const int m_MAX_MOVES = 3;
+
     public override void InitializeSkill()
     {
-        SetSkillsIcon(IconsManager.Instance.GetIcon(m_ICON_INDEX));
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
         UIManager.Instance.SaveSkill(this);
     }
-
     public override void UseSkill()
     {
         Debug.Log("Boots Skill Used");

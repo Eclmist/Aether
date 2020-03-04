@@ -6,13 +6,13 @@ using UnityEngine.InputSystem;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject m_powerUpHandler;
+    private PowerUpUIHandler m_powerUpHandler;
 
     [SerializeField]
-    private GameObject m_healthBarHandler;
+    private HealthBarHandler m_healthBarHandler;
 
     [SerializeField]
-    private GameObject m_skillsUIHandler;
+    private SkillsUIHandler m_skillsUIHandler;
 
     void Start()
     {
@@ -23,9 +23,8 @@ public class UIManager : Singleton<UIManager>
     {
         if (m_powerUpHandler != null)
         {
-            PowerUpUIHandler handler = m_powerUpHandler.GetComponent<PowerUpUIHandler>();
-            if (handler != null && signal != null) 
-                handler.ActivateIcon(signal);
+            if (signal != null) 
+                m_powerUpHandler.ActivateIcon(signal);
 
         }
     }
@@ -33,38 +32,30 @@ public class UIManager : Singleton<UIManager>
     public void ModifyHealthBar(float percentageChange)
     {
         if (m_healthBarHandler != null)
-        {
-            HealthBarHandler handler = m_healthBarHandler.GetComponent<HealthBarHandler>();
-            if (handler != null) 
-                handler.IndicateDamage(percentageChange);
+             m_healthBarHandler.IndicateDamage(percentageChange);
                 
-        }
     }
     
     public void SwitchPlayerSkills(InputAction.CallbackContext ctx)
     {
         if (m_skillsUIHandler != null)
         {
-            SkillsUIHandler handler = m_skillsUIHandler.GetComponent<SkillsUIHandler>();
-            if (handler != null)
-            {
-                handler.SwitchSkillsSprites();
-            }   
+            m_skillsUIHandler.SwitchSkillsSprites(); 
         }
     }
 
     public void SaveSkill(ItemSkill itemSkill) 
     {
-        m_skillsUIHandler.GetComponent<SkillsUIHandler>().HandleSkillPickUp(itemSkill);
+        m_skillsUIHandler.HandleSkillPickUp(itemSkill);
     }
 
     public int GetSkillsIndex()
     {
-        return m_skillsUIHandler.GetComponent<SkillsUIHandler>().GetSkillsIndex();
+        return m_skillsUIHandler.GetSkillsIndex();
     }
 
     public void RemoveSkill()
     {
-         m_skillsUIHandler.GetComponent<SkillsUIHandler>().RemoveUsedSkill();
+         m_skillsUIHandler.RemoveUsedSkill();
     }
 }
