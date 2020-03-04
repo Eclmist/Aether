@@ -31,22 +31,12 @@ public class SkillsUIHandler : MonoBehaviour
             return;
 
         Image icon = itemSkill.m_SkillIcon;
-        if (m_PrimaryIcon.sprite.name == m_NullSprite.name)
-        {      
+        if (m_PrimaryIcon.sprite.name == m_NullSprite.name) 
             SavePrimaryIcon(icon);
-        } 
         else if (m_SecondaryIcon.sprite.name == m_NullSprite.name)
-        {
             SaveSecondaryIcon(icon);
-        } 
         else if (m_TertiaryIcon.sprite.name == m_NullSprite.name)
-        {
             SaveTertiaryIcon(icon);
-        }
-        else
-        {
-            return;
-        }
     }
 
     // As of now, just simply remove the skill icon but plan to add cycle system in the future for player convenience.
@@ -57,33 +47,27 @@ public class SkillsUIHandler : MonoBehaviour
     public void SavePrimaryIcon(Image image)
     {
         if (image != null)
-        {
             m_PrimaryIcon.sprite = image.sprite;
-        }
     }
     public void SaveSecondaryIcon(Image image)
     {
         if (image != null)
-        {
             m_SecondaryIcon.sprite = image.sprite;
-        }
     }
 
     public void SaveTertiaryIcon(Image image)
     {
         if (image != null)
-        {
             m_TertiaryIcon.sprite = image.sprite;
-        }
     }
 
     public void SwitchSkillsSprites()
     {
-        SwitchSpritesCoroutine();
+        SwitchSpriteIcons();
         IncrementIndex();
     }
 
-    private void SwitchSpritesCoroutine()
+    private void SwitchSpriteIcons()
     {
         if (m_SkillsIndex == 0)
         {
@@ -118,13 +102,7 @@ public class SkillsUIHandler : MonoBehaviour
 
     public void IncrementIndex()
     {
-        if (m_SkillsIndex == 2)
-        {
-            m_SkillsIndex = 0;
-        } else
-        {
-            m_SkillsIndex++;
-        }
+        m_SkillsIndex = (m_SkillsIndex + 1) % 3;
     }
 
     public int GetSkillsIndex()
