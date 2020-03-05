@@ -6,13 +6,17 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
+    public System.Action PlayersReady;
+
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsBlue;
 
-    void Awake()
+    private int m_ReadyClientCount = 0;
+
+    private void Awake()
     {
         AetherNetworkManager.Instance.SceneChanged += OnSceneLoaded;
         PlayerManager.Instance.PlayersLoaded += OnPlayersLoaded;
@@ -20,35 +24,49 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void OnPlayersLoaded()
     {
-        List<Player> players = PlayerManager.Instance.GetAllPlayers();
+        // Run on main thread to lock data and send rpc
+        MainThreadManager.Run(() => {
+            List<Player> players = PlayerManager.Instance.GetAllPlayers();
 
-        Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
-        if (localPlayer == null)
-            Debug.LogError("Local player not set");
+            Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
+            if (localPlayer == null)
+                Debug.LogError("Local player not set");
 
-        PlayerDetails localPlayerDetails = localPlayer.GetPlayerDetails();
+            PlayerDetails localPlayerDetails = localPlayer.GetPlayerDetails();
 
-        foreach (Player player in players)
-        {
-            // Remove unnecessary objects/components
-            player.UpdateToggleables();
+            foreach (Player player in players)
+            {
+                // Remove unnecessary objects/components
+                player.UpdateToggleables();
 
-            // Set reveal based on team
-            // Player details not null
-            PlayerDetails details = player.GetPlayerDetails();
-            RevealActor revealActor = player.GetRevealActor();
-            if (details.GetTeam() == localPlayerDetails.GetTeam())
-                revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_SHOW);
-            else
-                revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_HIDE);
+                // Set reveal based on team
+                // Player details not null
+                PlayerDetails details = player.GetPlayerDetails();
+                RevealActor revealActor = player.GetRevealActor();
+                if (details.GetTeam().Equals(localPlayerDetails.GetTeam()))
+                    revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_SHOW);
+                else
+                    revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_HIDE);
 
-            revealActor.enabled = true;
-        }
+                revealActor.enabled = true;
+            }
+
+            networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.Server);
+        });
+
     }
 
     public override void SetPlayerCount(RpcArgs args)
     {
-        PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
+        // Run on main thread to lock player count
+        MainThreadManager.Run(() => {
+            PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
+        });
+    }
+
+    public override void SetAllReady(RpcArgs args)
+    {
+        PlayersReady();
     }
 
     ////////////////////
@@ -63,27 +81,38 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         if (!networkObject.IsServer)
             return;
 
-        // Set total player count
-        PlayerManager.Instance.SetPlayerCount(detailsMap.Count);
-        networkObject.SendRpc(RPC_SET_PLAYER_COUNT, Receivers.All, detailsMap.Count);
+        // Run on main thread to send RPC.
+        MainThreadManager.Run(() =>
+        {
+            // Set total player count
+            networkObject.SendRpc(RPC_SET_PLAYER_COUNT, Receivers.All, detailsMap.Count);
+        });
 
         // Host spawns all players
         NetworkManager.Instance.Networker.IteratePlayers(np =>
         {
             SpawnPlayer(np, detailsMap[np]);
         });
-
     }
 
     // Called by host to spawn every client's player
     private void SpawnPlayer(NetworkingPlayer np, PlayerDetails details)
     {
+        // Run on main thread for unity to be able to grab transform data and instantiate player etc
         MainThreadManager.Run(() => {
-            Transform spawnPoint;
-            if (details.GetTeam() == 0)
-                spawnPoint = m_SpawnPositionsRed[details.GetPosition()];
-            else
-                spawnPoint = m_SpawnPositionsBlue[details.GetPosition()];
+            Transform spawnPoint = null;
+            switch(details.GetTeam())
+            {
+                case Team.TEAM_ONE:
+                    spawnPoint = m_SpawnPositionsRed[details.GetPosition()];
+                    break;
+                case Team.TEAM_TWO:
+                    spawnPoint = m_SpawnPositionsBlue[details.GetPosition()];
+                    break;
+                default:
+                    Debug.Assert(false, "Should not be reached unless a team was unhandled. PlayerNetworkManager.SpawnPlayer");
+                    break;
+            }
 
             Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
 
@@ -102,5 +131,22 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         NetworkingPlayer np = networkObject.Networker.GetPlayerById(details.GetNetworkId());
         player.networkObject.AssignOwnership(np);
         player.networkObject.SendRpc(Player.RPC_TRIGGER_UPDATE_DETAILS, Receivers.All, details.ToArray());
+    }
+
+    // RPC sent to host when a client is ready
+    public override void SetClientReady(RpcArgs args)
+    {
+        if (!networkObject.IsServer)
+            return;
+
+        // Run on main thread to ensure client count is locked and rpc can be sent
+        MainThreadManager.Run(() => {
+            m_ReadyClientCount++;
+            if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
+            {
+                // Tell clients that all players are ready
+                networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
+            }
+        });
     }
 }
