@@ -3804,6 +3804,7 @@
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
                     TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap); float4 _MaskMap_TexelSize;
+                    TEXTURE2D(_WorldVisibilityTexture); SAMPLER(sampler_WorldVisibilityTexture);
                     float4 _GlobalWindDirectionAndStrength;
                     float4 _GlobalShiver;
                     TEXTURE2D(_ShiverNoise); SAMPLER(sampler_ShiverNoise); float4 _ShiverNoise_TexelSize;
@@ -3840,6 +3841,7 @@
                     struct SurfaceDescriptionInputs
                     {
                         float3 TangentSpaceNormal; // optional
+                        float3 AbsoluteWorldSpacePosition;
                         float4 uv0; // optional
                     };
                 // Pixel Graph Outputs
@@ -4378,7 +4380,9 @@
                         description.VertexTangent = IN.ObjectSpaceTangent;
                         return description;
                     }
-                    
+
+#include "VisibilityCompute.hlsl"
+
                 // Pixel Graph Evaluation
                     SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                     {
@@ -4396,7 +4400,7 @@
                         float _SampleTexture2D_FFEA8409_A_7 = _SampleTexture2D_FFEA8409_RGBA_0.a;
                         surface.Normal = (_SampleTexture2D_12F932C1_RGBA_0.xyz);
                         surface.Smoothness = _SampleTexture2D_FFEA8409_A_7;
-                        surface.Alpha = 1;
+                        surface.Alpha = ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition);
                         return surface;
                     }
                     
@@ -4526,7 +4530,7 @@
                     // output.ObjectSpacePosition =         TransformWorldToObject(input.positionRWS);
                     // output.ViewSpacePosition =           TransformWorldToView(input.positionRWS);
                     // output.TangentSpacePosition =        float3(0.0f, 0.0f, 0.0f);
-                    // output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
+                    output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
                     // output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
                     output.uv0 =                         input.texCoord0;
                     // output.uv1 =                         input.texCoord1;
@@ -4703,7 +4707,7 @@
         
                 // Perform alpha test very early to save performance (a killed pixel will not sample textures)
                 // TODO: split graph evaluation to grab just alpha dependencies first? tricky..
-                // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold);
+                DoAlphaTest(surfaceDescription.Alpha, 0.3);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPrepass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPostpass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
@@ -5147,6 +5151,7 @@
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
                     TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap); float4 _MaskMap_TexelSize;
+                    TEXTURE2D(_WorldVisibilityTexture); SAMPLER(sampler_WorldVisibilityTexture);
                     float4 _GlobalWindDirectionAndStrength;
                     float4 _GlobalShiver;
                     TEXTURE2D(_ShiverNoise); SAMPLER(sampler_ShiverNoise); float4 _ShiverNoise_TexelSize;
@@ -5184,6 +5189,7 @@
                     struct SurfaceDescriptionInputs
                     {
                         float3 TangentSpaceNormal; // optional
+                        float3 AbsoluteWorldSpacePosition;
                         float4 uv0; // optional
                     };
                 // Pixel Graph Outputs
@@ -5757,7 +5763,7 @@
                         description.VertexTangent = IN.ObjectSpaceTangent;
                         return description;
                     }
-                    
+#include "VisibilityCompute.hlsl"              
                 // Pixel Graph Evaluation
                     SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                     {
@@ -5797,7 +5803,7 @@
                         surface.Emission = float3(0, 0, 0);
                         surface.Smoothness = _SampleTexture2D_FFEA8409_A_7;
                         surface.Occlusion = _SampleTexture2D_FFEA8409_G_5;
-                        surface.Alpha = 1;
+                        surface.Alpha = ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition);
                         return surface;
                     }
                     
@@ -5927,7 +5933,7 @@
                     // output.ObjectSpacePosition =         TransformWorldToObject(input.positionRWS);
                     // output.ViewSpacePosition =           TransformWorldToView(input.positionRWS);
                     // output.TangentSpacePosition =        float3(0.0f, 0.0f, 0.0f);
-                    // output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
+                    output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
                     // output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
                     output.uv0 =                         input.texCoord0;
                     // output.uv1 =                         input.texCoord1;
@@ -6104,7 +6110,7 @@
         
                 // Perform alpha test very early to save performance (a killed pixel will not sample textures)
                 // TODO: split graph evaluation to grab just alpha dependencies first? tricky..
-                // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThreshold);
+                DoAlphaTest(surfaceDescription.Alpha, 0.3);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPrepass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPostpass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);

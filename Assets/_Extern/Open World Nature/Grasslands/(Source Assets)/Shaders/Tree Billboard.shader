@@ -3293,6 +3293,7 @@
                     CBUFFER_END
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
+                    TEXTURE2D(_WorldVisibilityTexture); SAMPLER(sampler_WorldVisibilityTexture);
                     SAMPLER(_SampleTexture2D_E4B29158_Sampler_3_Linear_Repeat);
                     SAMPLER(_SampleTexture2D_29A29D61_Sampler_3_Linear_Repeat);
                 
@@ -3322,6 +3323,7 @@
                         float3 TangentSpaceNormal; // optional
                         float3 WorldSpaceTangent; // optional
                         float3 WorldSpaceBiTangent; // optional
+                        float3 AbsoluteWorldSpacePosition;
                         float4 uv0; // optional
                     };
                 // Pixel Graph Outputs
@@ -3421,7 +3423,6 @@
                     {
                         Out = A * B;
                     }
-                
                 // Vertex Graph Evaluation
                     VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
                     {
@@ -3462,9 +3463,12 @@
                         description.VertexPosition = _Combine_F763F954_RGB_5;
                         description.VertexNormal = IN.ObjectSpaceNormal;
                         description.VertexTangent = IN.ObjectSpaceTangent;
+
                         return description;
                     }
                     
+#include "VisibilityCompute.hlsl"
+
                 // Pixel Graph Evaluation
                     SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                     {
@@ -3536,7 +3540,7 @@
                         float _Property_DA5F57E_Out_0 = _AlphaClip;
                         surface.Normal = (_SampleTexture2D_E4B29158_RGBA_0.xyz);
                         surface.Smoothness = 0.15;
-                        surface.Alpha = _SampleTexture2D_29A29D61_A_7;
+                        surface.Alpha = min(ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition), _SampleTexture2D_29A29D61_A_7);
                         surface.AlphaClipThreshold = _Property_DA5F57E_Out_0;
                         return surface;
                     }
@@ -3667,7 +3671,7 @@
                     // output.ObjectSpacePosition =         TransformWorldToObject(input.positionRWS);
                     // output.ViewSpacePosition =           TransformWorldToView(input.positionRWS);
                     // output.TangentSpacePosition =        float3(0.0f, 0.0f, 0.0f);
-                    // output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
+                    output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
                     // output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
                     output.uv0 =                         input.texCoord0;
                     // output.uv1 =                         input.texCoord1;

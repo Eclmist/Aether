@@ -4116,6 +4116,7 @@
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
                     TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap); float4 _MaskMap_TexelSize;
+                    TEXTURE2D(_WorldVisibilityTexture); SAMPLER(sampler_WorldVisibilityTexture);
                     float4 _GlobalWindDirectionAndStrength;
                     float4 _GlobalShiver;
                     TEXTURE2D(_GustNoise); SAMPLER(sampler_GustNoise); float4 _GustNoise_TexelSize;
@@ -4153,6 +4154,7 @@
                     struct SurfaceDescriptionInputs
                     {
                         float3 TangentSpaceNormal; // optional
+                        float3 AbsoluteWorldSpacePosition;
                         float4 uv0; // optional
                     };
                 // Pixel Graph Outputs
@@ -4798,7 +4800,9 @@
                         description.VertexTangent = IN.ObjectSpaceTangent;
                         return description;
                     }
-                    
+
+#include "VisibilityCompute.hlsl"
+
                 // Pixel Graph Evaluation
                     SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
                     {
@@ -4822,7 +4826,7 @@
                         float _Property_4CB428E3_Out_0 = _AlphaClip;
                         surface.Normal = (_SampleTexture2D_12F932C1_RGBA_0.xyz);
                         surface.Smoothness = _SampleTexture2D_F369DF5C_A_7;
-                        surface.Alpha = _SampleTexture2D_F86B9939_A_7;
+                        surface.Alpha = min(ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition), _SampleTexture2D_F86B9939_A_7);
                         surface.AlphaClipThreshold = _Property_4CB428E3_Out_0;
                         return surface;
                     }
@@ -4953,7 +4957,7 @@
                     // output.ObjectSpacePosition =         TransformWorldToObject(input.positionRWS);
                     // output.ViewSpacePosition =           TransformWorldToView(input.positionRWS);
                     // output.TangentSpacePosition =        float3(0.0f, 0.0f, 0.0f);
-                    // output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
+                    output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
                     // output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
                     output.uv0 =                         input.texCoord0;
                     // output.uv1 =                         input.texCoord1;
