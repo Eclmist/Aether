@@ -8,7 +8,8 @@ public class VisibilityManager : Singleton<VisibilityManager>
     private const int THREADGROUP_SIZE_Y = 8;
 
     private const int COMPUTE_KERNEL = 0;
-    private const int RESET_KERNEL = 1;
+    private const int UPDATE_KERNEL = 1;
+    private const int RESET_KERNEL = 2;
 
     public class VisibilityModifier
     {
@@ -70,7 +71,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
     {
         if (m_WorldVisibilityTexture == null)
         {
-            RenderTextureDescriptor desc = new RenderTextureDescriptor(m_TextureSizeX, m_TextureSizeY, RenderTextureFormat.R8);
+            RenderTextureDescriptor desc = new RenderTextureDescriptor(m_TextureSizeX, m_TextureSizeY, RenderTextureFormat.ARGB32);
             desc.depthBufferBits = 0;
             desc.enableRandomWrite = true;
             m_WorldVisibilityTexture = new RenderTexture(desc);
@@ -94,12 +95,20 @@ public class VisibilityManager : Singleton<VisibilityManager>
             DispatchModifier(mod, false);
         }
 
-#if UNITY_EDITOR
+        VisibilityUpdate();
+
         VisibilityDebugger();
-#endif
     }
 
-#if UNITY_EDITOR
+    private void VisibilityUpdate()
+    {
+        int numThreadGroupX = m_TextureSizeX / THREADGROUP_SIZE_X;
+        int numThreadGroupY = m_TextureSizeY / THREADGROUP_SIZE_Y;
+        m_VisibilityCS.SetFloat("UpdateSpeed", Time.deltaTime * 0.2f);
+        m_VisibilityCS.SetTexture(UPDATE_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
+        m_VisibilityCS.Dispatch(UPDATE_KERNEL, numThreadGroupX, numThreadGroupY, 1);
+    }
+
     private void VisibilityDebugger()
     {
         if (Input.GetKeyDown(KeyCode.F2))
@@ -108,7 +117,6 @@ public class VisibilityManager : Singleton<VisibilityManager>
         if (!m_DebugView)
             return;
     }
-#endif
 
     private void DispatchModifier(VisibilityModifier mod, bool isInstant)
     {
@@ -129,7 +137,6 @@ public class VisibilityManager : Singleton<VisibilityManager>
         m_VisibilityCS.Dispatch(COMPUTE_KERNEL, numThreadGroupX, numThreadGroupY, 1);
     }
 
-#if UNITY_EDITOR
     public void OnGUI()
     {
         if (!m_DebugView)
@@ -138,9 +145,8 @@ public class VisibilityManager : Singleton<VisibilityManager>
         if (Event.current.type != EventType.Repaint)
             return;
 
-        Graphics.DrawTexture(new Rect(0, 0, 512, 512), m_WorldVisibilityTexture);
+        GUI.DrawTexture(new Rect(0, 0, 256, 256), m_WorldVisibilityTexture, ScaleMode.ScaleToFit, false);
     }
-#endif
 
     public void RegisterVisibilityOneShot(VisibilityModifier modifier)
     {

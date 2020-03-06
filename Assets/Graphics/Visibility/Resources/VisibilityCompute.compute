@@ -1,7 +1,8 @@
 ﻿#pragma kernel ComputeVisibility
+#pragma kernel VisibilityUpdate
 #pragma kernel ResetVisibility
 
-RWTexture2D<float> WorldVisibilityResult;
+RWTexture2D<float4> WorldVisibilityResult;
 
 float2 ModifierPosition;
 float TargetVisibility;
@@ -15,15 +16,24 @@ void ComputeVisibility(uint2 id : SV_DispatchThreadID)
     uint2 writePos = ModifierPosition + offsetFromCenter;
     float t = 1 - saturate(length(offsetFromCenter) / ModifierRadius);
 
-    float currentVal = WorldVisibilityResult[writePos];
-    float targetVal = t * TargetVisibility;
-    float writeVal = max(currentVal, lerp(currentVal, targetVal, UpdateSpeed));
+    float4 currentVal = WorldVisibilityResult[writePos];
+    float targetRVal = t * TargetVisibility;
+    float writeVal = max(currentVal, lerp(currentVal.r, targetRVal, UpdateSpeed));
 
-    WorldVisibilityResult[writePos] = writeVal;
+    WorldVisibilityResult[writePos] = float4(writeVal, currentVal.gba);
+}
+
+[numthreads(8,8,1)]
+void VisibilityUpdate(uint2 id : SV_DispatchThreadID)
+{
+    uint2 writePos = id;
+    float4 currentVal = WorldVisibilityResult[writePos];
+    currentVal.g = lerp(currentVal.g, currentVal.r, UpdateSpeed);
+    WorldVisibilityResult[writePos] = currentVal;
 }
 
 [numthreads(8,8,1)]
 void ResetVisibility(uint2 id : SV_DispatchThreadID)
 {
-    WorldVisibilityResult[id] = TargetVisibility;
+    WorldVisibilityResult[id].rgba = TargetVisibility;
 }
