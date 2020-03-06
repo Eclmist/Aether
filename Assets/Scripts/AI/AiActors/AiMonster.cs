@@ -6,7 +6,8 @@ using Debug = System.Diagnostics.Debug;
 [RequireComponent(typeof(Collider))]
 public class AiMonster : AiActor, Attacker
 {
-    [SerializeField] private Animator m_PlantMonsterAnimator;
+    [SerializeField] 
+    private Animator m_PlantMonsterAnimator;
     [SerializeField]
     private float m_farAwayDistance = 10f;
 
@@ -99,7 +100,7 @@ public class AiMonster : AiActor, Attacker
     {
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
         {
-            m_PlantMonsterAnimator.SetFloat("locomotion", 0.55f); //hardcoded as it's the most appealing
+            m_PlantMonsterAnimator.SetFloat("locomotion", 0.55f); //hardcoded value now as it's the most appealing
         }
         else
         {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /*
- * Unity Standard Assets to help me see how to control AI with animation.
+ * Unity Standard Asset Script to help me see how to control AI with animation.
  */
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]

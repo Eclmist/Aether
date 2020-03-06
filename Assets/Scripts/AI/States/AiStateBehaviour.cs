@@ -11,7 +11,7 @@ public abstract class AiStateBehaviour : StateMachineBehaviour
     protected AiActor m_AiActor;
     protected Animator m_StateAnimator;
     protected Transform m_NearestPlayer;
-    protected float updateRate = 0.15f; //Used to circumvent expensive computation every frame.
+    protected const float UPDATE_RATE = 0.15f; //Used to circumvent expensive computation every frame.
     private Coroutine m_Update;
     protected void GetReference(Animator animator)
     {
@@ -66,7 +66,7 @@ public abstract class AiStateBehaviour : StateMachineBehaviour
     IEnumerator IntervalUpdate()
     {
         CoroutineUpdate();
-        yield return new WaitForSeconds(updateRate);
+        yield return new WaitForSeconds(UPDATE_RATE);
         m_Update = m_AiActor.StartCoroutine(IntervalUpdate());
     }
     
@@ -78,7 +78,7 @@ public abstract class AiStateBehaviour : StateMachineBehaviour
     protected void ExitState()
     {
         //m_StateAnimator.Play("Exit");
-        m_StateAnimator.SetTrigger("Exit");
+        m_StateAnimator.SetTrigger("Exit"); 
     }
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
