@@ -54,7 +54,7 @@ public class LobbySystem : LobbySystemBehavior
             player.UpdateName(playerName);
 
             // Team setup
-            player.UpdateTeam(m_PlayerCount < 2 ? 0 : 1);
+            player.UpdateTeam(m_PlayerCount < 1 ? Team.TEAM_ONE : Team.TEAM_TWO);
 
             m_LobbyPlayers.Add(np, player);
             m_PlayerCount++;
@@ -74,10 +74,18 @@ public class LobbySystem : LobbySystemBehavior
         int balance = 0;
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
         {
-            if (p.GetTeam() == 0)
-                balance++;
-            else
-                balance--;
+            switch (p.GetTeam())
+            {
+                case Team.TEAM_ONE:
+                    balance++;
+                    break;
+                case Team.TEAM_TWO:
+                    balance--;
+                    break;
+                default:
+                    Debug.Assert(false, "Should not be reached unless a team was unhandled. LobbySystem.CanStart");
+                    break;
+            }
         }
 
         return balance == 0;
@@ -86,9 +94,7 @@ public class LobbySystem : LobbySystemBehavior
     private void OnPlayerAccepted(NetworkingPlayer player, NetWorker sender)
     {
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
-        {
             p.UpdateDataFor(player);
-        }
    
         SetupPlayer(player);
     }
@@ -99,15 +105,29 @@ public class LobbySystem : LobbySystemBehavior
         {
             if (CanStart())
             {
-                int teamA = 0;
-                int teamB = 0;
+                int teamOne = 0;
+                int teamTwo = 0;
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
-                    int teamId = m_LobbyPlayers[np].GetTeam();
+                    Team team = m_LobbyPlayers[np].GetTeam();
+                    int position = 0;
+                    switch (team)
+                    {
+                        case Team.TEAM_ONE:
+                            position = teamOne++;
+                            break;
+                        case Team.TEAM_TWO:
+                            position = teamTwo++;
+                            break;
+                        default:
+                            Debug.Assert(false, "Should not be reached unless a team was unhandled. LobbySystem.CanStart");
+                            break;
+                    }
+
                     PlayerDetails details = new PlayerDetails(
                         np.NetworkId,
-                        teamId,
-                        teamId == 0 ? teamA++ : teamB++
+                        team,
+                        position
                     );
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);

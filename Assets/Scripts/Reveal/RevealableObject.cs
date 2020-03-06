@@ -31,11 +31,8 @@ public class RevealableObject : MonoBehaviour
     {
         if (m_StealthShader == null)
         {
-            Shader stealthShader = Shader.Find("Shader Graphs/Stealth");
-            if (stealthShader == null)
-                Debug.LogWarning("Stealth Shader was not found");
-
-            m_StealthShader = stealthShader;
+            m_StealthShader = (Shader)Resources.Load("Stealth");
+            Debug.Assert(m_StealthShader != null, "Stealth Shader was not found");
         }
     }
 

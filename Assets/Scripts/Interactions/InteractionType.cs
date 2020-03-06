@@ -1,0 +1,6 @@
+﻿public enum InteractionType
+{
+    INTERACTION_TRIGGER_ENTER,
+    INTERACTION_TRIGGER_EXIT,
+    INTERACTION_SELECT
+}
