@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/*
+ * AI for enemy players
+*/
 public class AiPlayer : AiActor
 {
     //public ThirdPersonCharacter m_ThirdPersonCharacter;
