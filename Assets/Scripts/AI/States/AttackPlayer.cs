@@ -47,6 +47,7 @@ public class AttackPlayer : AiStateBehaviour
         
         if (m_timeCounter > m_stateDuration)
         {
+            //should I use fuzzy logic here?
             if (m_AiActor.DistanceFromSpawnPoint() > m_MaxDistanceFromSpawn)
             {
                 m_StateAnimator.SetTrigger("retreat");

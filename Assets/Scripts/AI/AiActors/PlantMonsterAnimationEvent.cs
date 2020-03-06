@@ -6,6 +6,9 @@ using UnityEngine;
 using Object = System.Object;
 using Random = UnityEngine.Random;
 
+/*
+ * Was originally in javascript, which is why it's so janky
+ */
 public class PlantMonsterAnimationEvent : MonoBehaviour
 {
 	[SerializeField]
@@ -22,26 +25,26 @@ public class PlantMonsterAnimationEvent : MonoBehaviour
 	private float castHitLevel  = 1.0f; // Volume Level
 	private AudioClip[] goToMonster ; // Array of audio available
 	private float goToMonsterLevel = 1.0f; // Volume Level
-	private AudioClip[] death ;									// Array of audio available
-	private float deathLevel						= 1.0f;						// Volume Level
-	private AudioClip folliageLoop	 ;
-	private float folliageLoopLevel			= 1.0f;						// Volume Level
-	private AudioClip[] gotHit				 ;									// Array of audio available
-	private float gotHitLevel				= 1.0f;						// Volume Level
-	private AudioClip[] idleBreak			 ;									// Array of audio available
-	private float idleBreakLevel			= 1.0f;						// Volume Level
-	private AudioClip[] jump				 ;									// Array of audio available
-	private float jumpLevel						= 1.0f;						// Volume Level
-	private AudioClip[] goToPlant			 ;									// Array of audio available
-	private float goToPlantLevel				= 1.0f;						// Volume Level
-	private AudioClip[] skip				 ;									// Array of audio available
-	private float skipLevel						= 1.0f;						// Volume Level
-	private AudioClip[] walkBack			 ;									// Array of audio available
-	private float walkBackLevel				= 1.0f;						// Volume Level
+	private AudioClip[] death;									// Array of audio available
+	private float deathLevel = 1.0f;						// Volume Level
+	private AudioClip folliageLoop;
+	private float folliageLoopLevel	= 1.0f;						// Volume Level
+	private AudioClip[] gotHit;									// Array of audio available
+	private float gotHitLevel	= 1.0f;						// Volume Level
+	private AudioClip[] idleBreak;									// Array of audio available
+	private float idleBreakLevel= 1.0f;						// Volume Level
+	private AudioClip[] jump;									// Array of audio available
+	private float jumpLevel	= 1.0f;						// Volume Level
+	private AudioClip[] goToPlant;									// Array of audio available
+	private float goToPlantLevel	= 1.0f;						// Volume Level
+	private AudioClip[] skip;									// Array of audio available
+	private float skipLevel	= 1.0f;						// Volume Level
+	private AudioClip[] walkBack;									// Array of audio available
+	private float walkBackLevel	= 1.0f;						// Volume Level
 	[SerializeField]
-	private AudioClip[] walkForward			 ;									// Array of audio available
-	private float walkForwardLevel				= 1.0f;						// Volume Level
-	private float startAudioLevel		;
+	private AudioClip[] walkForward;									// Array of audio available
+	private float walkForwardLevel	= 1.0f;						// Volume Level
+	private float startAudioLevel;
 	
 	[SerializeField]
 	private float desiredAudioLevel	= 0.0f;

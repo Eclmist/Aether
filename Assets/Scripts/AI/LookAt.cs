@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 
+/*
+ * Used to control the look at position for a head transform
+ */
 [RequireComponent (typeof (Animator))]
 public class LookAt : MonoBehaviour {
-    public Transform head = null;
-    public Vector3 lookAtTargetPosition;
-    public float lookAtCoolTime = 0.2f;
-    public float lookAtHeatTime = 0.2f;
-    public bool looking = true;
-
+    [SerializeField]
+    private Transform head = null;
+    [SerializeField]
+    private Vector3 lookAtTargetPosition;
+    [SerializeField]
+    private float lookAtCoolTime = 0.2f;
+    [SerializeField]
+    private float lookAtHeatTime = 0.2f;
+    [SerializeField]
+    private bool looking = true;
+    
     private Vector3 lookAtPosition;
     private Animator animator;
     private float lookAtWeight = 0.0f;

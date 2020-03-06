@@ -10,7 +10,7 @@ public class AiActor : MonoBehaviour
     protected NavMeshAgent m_Agent;
     protected Animator m_StateMachineAnim;
     [HideInInspector]
-    public Transform m_NearestPlayer;
+    public Transform m_NearestPlayer; 
     protected Vector3 m_SpawnPos;
 
     public void Awake()

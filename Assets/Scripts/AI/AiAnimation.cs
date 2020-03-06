@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 /*
+ Used for creating ai animation like the player.
 public class AiAnimation : MonoBehaviour
 {
     [SerializeField]

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/*
+ * Retreats to spawn point, will exit state upon reaching spawn point.
+ */
 public class Retreat : AiStateBehaviour
 {
     public override void Init()
