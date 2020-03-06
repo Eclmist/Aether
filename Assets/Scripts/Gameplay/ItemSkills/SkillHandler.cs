@@ -5,67 +5,63 @@ using UnityEngine.InputSystem;
 
 public class SkillHandler : MonoBehaviour
 {
-    
-    public ItemSkill[] m_SkillSlots = new ItemSkill[3];
+
+    private const int m_SkillLimit = 3;
+
+    private Queue<ItemSkill> m_ItemSkillSlots = new Queue<ItemSkill>();
     
     void Start()
     {
         AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
     }
 
+    private void DebugQueue()
+    {
+        string debugString = "";
+        foreach (ItemSkill itemSkill in m_ItemSkillSlots)
+        {
+            debugString += itemSkill.ToString() + "\n";
+        }
+
+        Debug.Log(debugString);
+    }
+
     //key bindings
     public void UseSkillAt(InputAction.CallbackContext ctx)
     {
-        int index = UIManager.Instance.GetSkillsIndex();
-        if (m_SkillSlots[index] == null)
+
+        if (m_ItemSkillSlots.Count == 0)
             return;
 
-        ItemSkill currentSkill = m_SkillSlots[index];
+        ItemSkill currentSkill = m_ItemSkillSlots.Peek();
 
         currentSkill.UseSkill();
         currentSkill.DecrementUses();
+
         if (currentSkill.HasNoMoreUses())
-        {
-            RemoveSkill(index);
-        }
+            RemoveSkill();
+
+        DebugQueue();
     }
 
-    /*
-     * Attempts to add skill to player slots,
-     * returns true if successful
-     */
-    public bool AddSkill(ItemSkill itemSkill)
+    public void AddSkill(ItemSkill itemSkill)
     {
-        if (m_SkillSlots[0] == null)
-        {
-            m_SkillSlots[0] = itemSkill;
-            return true;
-        }
 
-        if (m_SkillSlots[1] == null)
-        {
-            m_SkillSlots[1] = itemSkill;
-            return true;
-        }
-        
-        if (m_SkillSlots[2] == null)
-        {
-            m_SkillSlots[2] = itemSkill;
-                return true;
-        }
+        if (m_ItemSkillSlots.Count >= m_SkillLimit)
+            return;
 
-        return false;
+        m_ItemSkillSlots.Enqueue(itemSkill);
     }
 
-    /*
-     * Attempts to remove skill from player slots,
-     * returns true if successful
-     */
-    public bool RemoveSkill(int index)
+    public void RemoveSkill()
     {
         UIManager.Instance.RemoveSkill();
-        m_SkillSlots[index] = null;
-        return true;
+        m_ItemSkillSlots.Dequeue();
+    }
+
+    public void SwitchSkills()
+    {
+        m_ItemSkillSlots.Enqueue(m_ItemSkillSlots.Dequeue());
     }
     
 }

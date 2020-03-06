@@ -42,7 +42,9 @@ public class SkillsUIHandler : MonoBehaviour
     // As of now, just simply remove the skill icon but plan to add cycle system in the future for player convenience.
     public void RemoveUsedSkill()
     {
-        m_PrimaryIcon.sprite = m_NullSprite;
+        m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;
+        m_SecondaryIcon.sprite = m_TertiaryIcon.sprite; 
+        m_TertiaryIcon.sprite = m_NullSprite;
     }
     public void SavePrimaryIcon(Image image)
     {

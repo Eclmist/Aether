@@ -35,6 +35,8 @@ public class UIManager : Singleton<UIManager>
              m_healthBarHandler.IndicateDamage(percentageChange);
                 
     }
+
+    // To Be Refactored
     
     public void SwitchPlayerSkills(InputAction.CallbackContext ctx)
     {

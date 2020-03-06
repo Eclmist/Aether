@@ -17,4 +17,9 @@ public class PlaceholderSkill : ItemSkill
     {
         Debug.Log("Boots Skill Used");
     }
+
+    public override string ToString()
+   {
+       return "Skill" + " : " + GetNumberOfUses().ToString();
+   }
 }
