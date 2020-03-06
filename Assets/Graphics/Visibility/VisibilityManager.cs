@@ -104,7 +104,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
     {
         int numThreadGroupX = m_TextureSizeX / THREADGROUP_SIZE_X;
         int numThreadGroupY = m_TextureSizeY / THREADGROUP_SIZE_Y;
-        m_VisibilityCS.SetFloat("UpdateSpeed", Time.deltaTime * 0.2f);
+        m_VisibilityCS.SetFloat("UpdateSpeed", Time.deltaTime * 0.75f);
         m_VisibilityCS.SetTexture(UPDATE_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
         m_VisibilityCS.Dispatch(UPDATE_KERNEL, numThreadGroupX, numThreadGroupY, 1);
     }
