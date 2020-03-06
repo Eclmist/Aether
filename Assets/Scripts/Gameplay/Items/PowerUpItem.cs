@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class PowerUpItem : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private PowerUpBase m_PowerUp;
-    public void Interact(ICanInteract interactor)
+    public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (interactor != null && interactor is Player player)
         {
-            PlayPickUpSound();
-            HandlePowerUp(player);
-            Destroy(gameObject);
+            switch (interactionType)
+            {
+                case InteractionType.INTERACTION_TRIGGER_ENTER:
+                    PlayPickUpSound();
+                    HandlePowerUp(player);
+                    Destroy(gameObject);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     

@@ -8,13 +8,20 @@ public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private ItemSkill m_ItemSkill;
-    public void Interact(ICanInteract interactor)
+    public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (interactor != null && interactor is Player player)
         {
-            PlayPickUpSound();
-            HandleItemSkill(player);
-            Destroy(gameObject);
+            switch (interactionType)
+            {
+                case InteractionType.INTERACTION_TRIGGER_ENTER:
+                    PlayPickUpSound();
+                    HandleItemSkill(player);
+                    Destroy(gameObject);
+                    break;
+                default:
+                    break;
+            }
         }
     }
     

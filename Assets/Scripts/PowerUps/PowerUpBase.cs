@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class PowerUpBase : MonoBehaviour
 {

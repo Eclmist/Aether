@@ -5,6 +5,7 @@ using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(ClientServerTogglables))]
+[RequireComponent(typeof(PlayerStance))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
@@ -66,7 +67,12 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void OnTriggerEnter(Collider c)
     {
-        InteractWith(c.GetComponent<IInteractable>());
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_ENTER);
+    }
+
+    private void OnTriggerExit(Collider c)
+    {
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
     }
 
     public PlayerDetails GetPlayerDetails()
@@ -130,10 +136,10 @@ public class Player : PlayerBehavior, ICanInteract
         }
     }
 
-    private void InteractWith(IInteractable interactable)
+    private void InteractWith(IInteractable interactable, InteractionType interactionType)
     {
         if (interactable != null) // null check done here instead. 
-            interactable.Interact(this);
+            interactable.Interact(this, interactionType);
     }
 
     ////////////////////
@@ -159,6 +165,9 @@ public class Player : PlayerBehavior, ICanInteract
     // RPC sent by host to send player details to all clients
     public override void TriggerUpdateDetails(RpcArgs args)
     {
+        // May not be run on main thread for the sake of performance.
+        // Nothing else should be touching player details at this point anyway.
+
         PlayerDetails details = PlayerDetails.FromArray(args.Args);
         if (details == null)
             Debug.LogWarning("Details not received correctly");
