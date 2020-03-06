@@ -2,7 +2,6 @@
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using BeardedManStudios.Forge.Networking;
-using BeardedManStudios.Forge.Networking.Unity;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(ClientServerTogglables))]
@@ -15,7 +14,7 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerAnimation m_PlayerAnimation;
     private PlayerNetworkAnimation m_PlayerNetworkAnimation;
     private ClientServerTogglables m_ClientServerTogglables;
-    private PlayerStance m_PlayerStance;
+    private Transform m_SkillsTransform;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -29,17 +28,28 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
-        m_PlayerStance = GetComponent<PlayerStance>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-
+        
         m_RevealActor.enabled = false;
         m_StealthActor.enabled = false;
+        
+        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
+        m_SkillsTransform = new GameObject("Skills").transform;
+        m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
+        m_SkillsTransform.parent = gameObject.transform;
     }
+
+    public Transform GetSkillsTransform()
+    {
+        return m_SkillsTransform;
+    }
+        
 
     private void Start()
     {
         AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
+
     }
 
     protected override void NetworkStart()
