@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6180390128351282269}
   - component: {fileID: 7476687149490915724}
   - component: {fileID: 3957139599461643}
-  - component: {fileID: 5573428109471443387}
   - component: {fileID: -8575268155625119059}
+  - component: {fileID: 8290739304143744317}
   m_Layer: 10
   m_Name: Speed Boost
   m_TagString: Untagged
@@ -77,19 +77,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5573428109471443387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3957139599461636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc256627d5789934cb3c09a04406b017, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PowerUp: {fileID: -8575268155625119059}
 --- !u!114 &-8575268155625119059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +89,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cbe0597bd093e14c98300bca8a85dee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8290739304143744317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3957139599461636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997e38f6a07a34bd8ab94cb3a3e81bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PowerUp: {fileID: -8575268155625119059}
 --- !u!1 &6594693507741642376
 GameObject:
   m_ObjectHideFlags: 0
