@@ -2,6 +2,7 @@
 {
     Properties
     {
+        [HideInInspector]_AlphaClip("Alpha Clip", Float) = 0.3
         _Hue("Hue", Range(-0.5, 0.5)) = 0
         _Saturation("Saturation", Range(-1, 1)) = 0
         _Lightness("Lightness", Range(-1, 1)) = 0
@@ -3800,6 +3801,7 @@
                     float _DoubleSidedEnable;
                     float _DoubleSidedNormalMode;
                     float4 _DoubleSidedConstants;
+                    float _AlphaClip;
                     CBUFFER_END
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
@@ -4400,7 +4402,7 @@
                         float _SampleTexture2D_FFEA8409_A_7 = _SampleTexture2D_FFEA8409_RGBA_0.a;
                         surface.Normal = (_SampleTexture2D_12F932C1_RGBA_0.xyz);
                         surface.Smoothness = _SampleTexture2D_FFEA8409_A_7;
-                        surface.Alpha = ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition);
+                        surface.Alpha = ATH_Compute_Visibility_G(IN.AbsoluteWorldSpacePosition, _AlphaClip);
                         return surface;
                     }
                     
@@ -5147,6 +5149,7 @@
                     float _DoubleSidedEnable;
                     float _DoubleSidedNormalMode;
                     float4 _DoubleSidedConstants;
+                    float _AlphaClip;
                     CBUFFER_END
                     TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo); float4 _Albedo_TexelSize;
                     TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap); float4 _BumpMap_TexelSize;
@@ -5800,10 +5803,10 @@
                         surface.BentNormal = IN.TangentSpaceNormal;
                         surface.CoatMask = 0;
                         surface.Metallic = _SampleTexture2D_FFEA8409_R_4;
-                        surface.Emission = float3(0, 0, 0);
+                        surface.Emission = ATH_Compute_Emission(IN.AbsoluteWorldSpacePosition, _AlphaClip);
                         surface.Smoothness = _SampleTexture2D_FFEA8409_A_7;
                         surface.Occlusion = _SampleTexture2D_FFEA8409_G_5;
-                        surface.Alpha = ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition);
+                        surface.Alpha = ATH_Compute_Visibility_G(IN.AbsoluteWorldSpacePosition, _AlphaClip);
                         return surface;
                     }
                     
@@ -6110,7 +6113,7 @@
         
                 // Perform alpha test very early to save performance (a killed pixel will not sample textures)
                 // TODO: split graph evaluation to grab just alpha dependencies first? tricky..
-                DoAlphaTest(surfaceDescription.Alpha, 0.3);
+                DoAlphaTest(surfaceDescription.Alpha, _AlphaClip);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPrepass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdDepthPostpass);
                 // DoAlphaTest(surfaceDescription.Alpha, surfaceDescription.AlphaClipThresholdShadow);
