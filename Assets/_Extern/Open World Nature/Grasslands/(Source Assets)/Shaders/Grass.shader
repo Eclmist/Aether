@@ -4829,8 +4829,11 @@
                         surface.Smoothness = _SampleTexture2D_F369DF5C_A_7;
                         surface.Alpha = min(ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition), _SampleTexture2D_F86B9939_A_7);
 
-                        float distToScreen = 2.0 - length(_WorldSpaceCameraPos - IN.AbsoluteWorldSpacePosition);
-                        if (InterleavedGradientNoise(IN.ScreenPosition * 100) < distToScreen)
+                        float3 a = _WorldSpaceCameraPos;
+                        float3 b = IN.AbsoluteWorldSpacePosition;
+                        float3 c = a - b;
+                        float distToScreen = 2.0 - (c.x * c.x + c.y * c.y + c.z * c.z);
+                        if (InterleavedGradientNoise(IN.ScreenPosition * float2(1920, 1080)) < distToScreen)
                             discard;
 
                         //if (length(_WorldSpaceCameraPos - IN.AbsoluteWorldSpacePosition) < 2.5)
