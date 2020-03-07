@@ -20,7 +20,6 @@ public class RevealActor : MonoBehaviour
         m_VisibilityModifier = new VisibilityManager.VisibilityModifier();
         m_VisibilityModifier.m_Position = transform.position;
         m_VisibilityModifier.m_Radius = m_Radius * m_RadiusModifierForVisibilityMgr;
-        m_VisibilityModifier.m_TargetVisibility = 1;
         VisibilityManager.Instance.RegisterPersistentVisibility(m_VisibilityModifier);
     }
 
@@ -42,6 +41,11 @@ public class RevealActor : MonoBehaviour
 
         m_VisibilityModifier.m_Position = transform.position;
         m_VisibilityModifier.m_Radius = m_Radius;
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            m_VisibilityModifier.m_IsUnreveal = !m_VisibilityModifier.m_IsUnreveal;
+        }
     }
 
     private void OnDrawGizmos()

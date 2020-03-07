@@ -15,7 +15,7 @@ public class VisibilityManager : Singleton<VisibilityManager>
     {
         public Vector3 m_Position;
         public float m_Radius = 1;
-        public float m_TargetVisibility = 1;
+        public bool m_IsUnreveal = false;
     }
 
     [SerializeField]
@@ -130,8 +130,8 @@ public class VisibilityManager : Singleton<VisibilityManager>
 
         m_VisibilityCS.SetVector("ModifierPosition", modPosTangentSpace);
         m_VisibilityCS.SetFloat("ModifierRadius", mod.m_Radius);
-        m_VisibilityCS.SetFloat("TargetVisibility", mod.m_TargetVisibility);
         m_VisibilityCS.SetFloat("UpdateSpeed", isInstant ? 1 : Time.deltaTime * 6);
+        m_VisibilityCS.SetBool("IsUnreveal", mod.m_IsUnreveal);
         m_VisibilityCS.SetTexture(COMPUTE_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
 
         m_VisibilityCS.Dispatch(COMPUTE_KERNEL, numThreadGroupX, numThreadGroupY, 1);
