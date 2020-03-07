@@ -16,7 +16,7 @@ void ComputeVisibility(uint2 id : SV_DispatchThreadID)
     uint2 writePos = ModifierPosition + offsetFromCenter;
     float t = saturate(length(offsetFromCenter) / ModifierRadius);
 
-    float4 currentVal = WorldVisibilityResult[writePos].r;
+    float4 currentVal = WorldVisibilityResult[writePos];
 
     if (IsUnreveal)
     {
