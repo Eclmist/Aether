@@ -19,13 +19,20 @@ float ATH_Compute_Visibility_G(float3 absWorldPosition, float alphaClip)
     float remapHeight = saturate(absWorldPosition.y / 50.0f);
     float visibility = visTex.r;
     visibility = min(visibility, smoothstep(visTex.g, visTex.g - alphaClip, remapHeight));
-    visibility -= 0.1f * (snoise(absWorldPosition * 1.5 + _Time.r * 10) + 1) / 2;
+    visibility -= 0.1f * (snoise(absWorldPosition + _Time.r * 5) + 1) / 2;
     return visibility;
 }
 
 float3 ATH_Compute_Emission(float3 absWorldPosition, float alphaClip)
 {
-    float visTex = ATH_Compute_Visibility(absWorldPosition);
-    float glowAmt = 1 - smoothstep(0, alphaClip + 0.1, visTex);
-    return glowAmt * 3000000 * float3(0.6, 0.3, 1.0);
+    float visTex = ATH_Compute_Visibility_G(absWorldPosition, alphaClip);
+    float glowAmt = 1 - smoothstep(0, alphaClip + 0.15, visTex);
+    glowAmt = saturate(glowAmt * glowAmt);
+    return glowAmt * 10000000 * float3(0.6, 0.3, 1.0);
+}
+
+float InterleavedGradientNoise(float2 uv)
+{
+    float3 magic = float3(0.06711056, 0.00583715, 52.9829189);
+    return frac(magic.z * frac(dot(uv, magic.xy)));
 }

@@ -4155,6 +4155,7 @@
                     {
                         float3 TangentSpaceNormal; // optional
                         float3 AbsoluteWorldSpacePosition;
+                        float2 ScreenPosition;
                         float4 uv0; // optional
                     };
                 // Pixel Graph Outputs
@@ -4827,6 +4828,13 @@
                         surface.Normal = (_SampleTexture2D_12F932C1_RGBA_0.xyz);
                         surface.Smoothness = _SampleTexture2D_F369DF5C_A_7;
                         surface.Alpha = min(ATH_Compute_Visibility(IN.AbsoluteWorldSpacePosition), _SampleTexture2D_F86B9939_A_7);
+
+                        float distToScreen = 2.0 - length(_WorldSpaceCameraPos - IN.AbsoluteWorldSpacePosition);
+                        if (InterleavedGradientNoise(IN.ScreenPosition * 100) < distToScreen)
+                            discard;
+
+                        //if (length(_WorldSpaceCameraPos - IN.AbsoluteWorldSpacePosition) < 2.5)
+                        //    surface.Alpha = 0;
                         surface.AlphaClipThreshold = _Property_4CB428E3_Out_0;
                         return surface;
                     }
@@ -4958,7 +4966,7 @@
                     // output.ViewSpacePosition =           TransformWorldToView(input.positionRWS);
                     // output.TangentSpacePosition =        float3(0.0f, 0.0f, 0.0f);
                     output.AbsoluteWorldSpacePosition =  GetAbsolutePositionWS(input.positionRWS);
-                    // output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
+                    output.ScreenPosition =              ComputeScreenPos(TransformWorldToHClip(input.positionRWS), _ProjectionParams.x);
                     output.uv0 =                         input.texCoord0;
                     // output.uv1 =                         input.texCoord1;
                     // output.uv2 =                         input.texCoord2;
