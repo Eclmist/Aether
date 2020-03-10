@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Grass Generic Group
   m_Shader: {fileID: 4800000, guid: d90478ca39843c5429062da3a2d56bdb, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _BAKEDMASK_ON _DOUBLESIDED_ON _MASKMAP _NORMALMAP
+  m_ShaderKeywords: SKMAP _NORMALMAP _NORMALMAP_TANGENT_SPACEON _MASKMAP _NORMALMAP
     _NORMALMAP_TANGENT_SPACE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 081af5c0e04008140b98f70f21251b8d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2d1f2f790ad5cd44280ee47a5889ed88, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -67,7 +67,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 18ecaaa71b2c4644ca8640598f0e03af, type: 3}
+        m_Texture: {fileID: 2800000, guid: ff74d94a9d4b25c4c999d7450a7b6cf1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _CoatMaskMap:
@@ -211,7 +211,7 @@ Material:
     - _AORemapMin: 0
     - _ATDistance: 1
     - _AlbedoAffectEmissive: 0
-    - _AlphaClip: 0.33
+    - _AlphaClip: 0.5
     - _AlphaCutoff: 0.5
     - _AlphaCutoffEnable: 1
     - _AlphaCutoffPostpass: 0.5

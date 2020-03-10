@@ -4,25 +4,117 @@
         <name>VisualDesignCafe.Rendering</name>
     </assembly>
     <members>
-        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.OnWillRenderBatch">
+        <member name="F:VisualDesignCafe.Rendering.InstanceBuffer.Instances">
             <summary>
-            Invoked before rendering a batch. Can be used to modify the batch that
-            will be rendered.
+            Reference to the original instances of the Detail Layer. Should not be modified.
+            Use MergedInstances if the buffer is merged.
             </summary>
         </member>
-        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.OnDispose">
+        <member name="F:VisualDesignCafe.Rendering.InstanceBuffer.Colors">
+            <summary>
+            Reference to the original colors of the Detail Layer. Should not be modified.
+            Use MergedColors if the buffer is merged.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Rendering.InstanceBuffer.OffsetSelf">
+            <summary>
+            The offset in the original array of instances.
+            Should not be used when merged. Use MergedInstances.OffsetOfGroup( IndexInMergedBuffer ).
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Rendering.InstanceBuffer.CountSelf">
+            <summary>
+            The count in the original array of instances.
+            Should not be used when merged. Use MergedInstances.SizeOfGroup( IndexInMergedBuffer ).
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Rendering.InstanceBuffer.Bounds">
+            <summary>
+            The bounds of the original cell or tile.
+            Should not be used when merged.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.MergedBuffer">
+            <summary>
+            The parent of this buffer, if this buffer was merged.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.IndexInMergedBuffer">
+            <summary>
+            The index of this child in the parent.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.IsMerged">
+            <summary>
+            Is this buffer merged into another buffer?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.MergedInstances">
+            <summary>
+            The merged instances if this buffer was merged. 
+            Use IndexInMergedBuffer as group index.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.MergedColors">
+            <summary>
+            The merged colors if this buffer was merged as has colors. 
+            Use IndexInMergedBuffer as group index.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.PropertiesAreDirty">
+            <summary>
+            Should the Material Properties be refreshed?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.Properties">
+            <summary>
+            The material properties for this buffer.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.InstanceBuffer.IsDisposed">
+            <summary>
+            Is this buffer disposed?
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.InstanceBuffer.Merge(VisualDesignCafe.Rendering.InstanceBuffer)">
+            <summary>
+            Merges the current instance buffer into the given destination buffer.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.InstanceBuffer.ConvertToMergedBuffer(System.Boolean)">
+            <summary>
+            Converts the current buffer to a Merged Buffer. 
+            Will allocate an internal array to hold the instances and colors.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.InstanceBuffer.Split">
+            <summary>
+            Splits the current buffer from the merged buffer if it was merged.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.Disposed">
             <summary>
             Invoked when the renderer is disposed.
             </summary>
         </member>
-        <member name="P:VisualDesignCafe.Rendering.InstanceRenderer.BatchCount">
+        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.AddBuffer">
             <summary>
-            Total number of batches.
+            Invoked before adding new instances to the renderer.
             </summary>
         </member>
-        <member name="P:VisualDesignCafe.Rendering.InstanceRenderer.BatchIndex">
+        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.AddedBuffer">
             <summary>
-            Ccurrent batch.
+            Invoked after adding new instances to the renderer.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.RemoveBuffer">
+            <summary>
+            Invoked before removing instances from the renderer.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.InstanceRenderer.RemovedBuffer">
+            <summary>
+            Invoked after removing instances from the renderer.
             </summary>
         </member>
     </members>

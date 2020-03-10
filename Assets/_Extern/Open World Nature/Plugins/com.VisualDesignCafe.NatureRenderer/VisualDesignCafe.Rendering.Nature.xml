@@ -50,31 +50,329 @@
             Gets the next cell in the build queue.
             </summary>
         </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.CellRenderer.AddInstance(UnityEngine.Matrix4x4,UnityEngine.Vector3)">
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.#ctor(VisualDesignCafe.Rendering.Nature.CachedTerrainData)">
+            <summary>
+            Creates a shallow clone of the given TerrainDataCache
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.#ctor(UnityEngine.Terrain,UnityEngine.Material)">
+            <summary>
+            Creates a new Terrain Data Cache for the given Terrain.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.Dispose">
+            <summary>
+            Disposes of the Terrain Data Cache and all the Detail Prototype Caches.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.RefreshPrototypes(UnityEngine.Terrain,UnityEngine.Camera,UnityEngine.Material,System.Boolean@)">
+            <summary>
+            Refreshes the Detail Prototype Caches.
+            </summary>
+            <param name="flushEverything">Should the entire cache be flushed and the terrain rebuilt?</param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.CopyFrom(UnityEngine.Terrain,UnityEngine.Material,System.Boolean@)">
+            <summary>
+            Caches the data for the given Terrain.
+            </summary>
+            <param name="flushEverything">Should the entire cache be flushed and the terrain rebuilt?</param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetModifiedHeightmapRect(System.Boolean)">
+            <summary>
+            Get the Rect of the heightmap that was modified since
+            the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetModifiedDetailMapRect(System.Boolean[],System.Boolean)">
+            <summary>
+            Gets the Rect of the detail map that was modified since 
+            the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetModifiedDetailMapRect(System.Int32,System.Boolean)">
+            <summary>
+            Gets the Rect of the detail map that was modified since 
+            the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetHeight(System.Int32,System.Int32)">
+            <summary>
+            Gets the local height of the terrain at the given pixel.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetInterpolatedHeight(System.Single,System.Single)">
+            <summary>
+            Gets the local interpolated height of the terrain at the given position.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetInterpolatedNormal(System.Single,System.Single)">
+            <summary>
+            Gets the interpolated normal of the terrain surface at the given position.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.GetDirtyLayers">
+            <summary>
+            Gets the detail layers that changed since the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.AreaHasChanged(System.Boolean[],UnityEngine.Rect)">
+            <summary>
+            Returns true if the Rect has changed for the given layers 
+            since the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.AreaHasChanged(System.Int32,UnityEngine.Rect)">
+            <summary>
+            Returns true if the Rect has changed for the given layer
+            since the cache was last refreshed.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.CopyDetailTextureFrom(UnityEngine.TerrainData,System.Int32)">
+            <summary>
+            Copies the detail texture from the Terrain.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.CopyHeightmapFrom(UnityEngine.TerrainData)">
+            <summary>
+            Copies the heightmap from the Terrain.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CachedTerrainData.Hash(System.Int32[0:,0:])">
+            <summary>
+            Creates a hash of the given detail map.
+            </summary>
+        </member>
+        <member name="T:VisualDesignCafe.Rendering.Nature.CpuStream">
+            <summary>
+            The Stream class writes instances from a Detail Layer to the buffer of the renderer.
+            Instances are culled using the provider culler.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.CpuStream.CopyDetailLayerToRenderer(VisualDesignCafe.Rendering.Nature.Cell,VisualDesignCafe.Rendering.Nature.DetailLayer,VisualDesignCafe.Rendering.Nature.CpuStream.RenderSettings)">
+            <summary>
+            Copies all the instances in the detail layer to the renderer.
+            Selects the correct LOD Group and culls the instances.
+            </summary>
+            <param name="detailLayer">The Detail Layer to copy to the renderer.</param>
+            <param name="data">The render settings.</param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailLayer.AddInstance(UnityEngine.Matrix4x4,UnityEngine.Vector3)">
             <summary>
             Adds an instance to the cell. Called duing building.
             </summary>
             <param name="matrix"></param>
             <param name="samplePosition"></param>
         </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.CellRenderer.PostBuild">
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailLayer.PostBuild">
             <summary>
             Calculates the bounds for the tiles. Called after building.
             </summary>
         </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.CellRenderer.CopyBuffersToRenderers(UnityEngine.Vector3,UnityEngine.Vector3,System.Collections.Generic.Dictionary{System.Int32,VisualDesignCafe.Rendering.InstanceRenderer},System.Single,System.Single,VisualDesignCafe.Rendering.FrustumCuller,VisualDesignCafe.Rendering.Nature.CellRenderer.Buffer)">
+        <member name="F:VisualDesignCafe.Rendering.Nature.DetailRenderer._sharedLock">
             <summary>
-            Renders the instances in the cell. 
+            Shared lock between all Detail Renderers
             </summary>
         </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.CellRenderer.CopyWithoutLod(UnityEngine.Vector3,UnityEngine.Vector3,System.Collections.Generic.Dictionary{System.Int32,VisualDesignCafe.Rendering.InstanceRenderer},System.Single,System.Int32,VisualDesignCafe.Rendering.FrustumCuller,VisualDesignCafe.Rendering.Nature.CellRenderer.Buffer)">
+        <member name="F:VisualDesignCafe.Rendering.Nature.DetailRenderer.Camera">
             <summary>
-            Renders the instances without any LOD.
+            The camera that the renderer renders to.
             </summary>
         </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.CellRenderer.SelectWithinRange(UnityEngine.Vector3,UnityEngine.Vector3,System.Single,System.Single,VisualDesignCafe.Rendering.FrustumCuller,VisualDesignCafe.Rendering.Nature.CellRenderer.Buffer)">
+        <member name="F:VisualDesignCafe.Rendering.Nature.DetailRenderer.CameraId">
             <summary>
-            Selects the instances within the given range.
+            Instance ID of the camera.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.DetailRenderer.ReferenceCamera">
+            <summary>
+            Reference camera to use for culling and distance calculations.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Rendering.Nature.DetailRenderer.RendererFactory">
+            <summary>
+            The factory used to create Instance Renderers for each
+            individual detail object.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.DetailRenderer.VisibleCellsChanged">
+            <summary>
+            Did the visible cells on the screen change since the previous frame?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.DetailRenderer.Renderers">
+            <summary>
+            All the renderers used by this DetailRenderer.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.DetailRenderer.Diagnostics">
+            <summary>
+            Render Diagnostics of the last frame.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.DetailRenderer.ThreadCount">
+            <summary>
+            The number of threads used for rendering.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.#ctor(UnityEngine.Camera,VisualDesignCafe.Rendering.Nature.Grid,System.Boolean)">
+            <summary>
+            Creates a new renderer for Terrain Cells.
+            </summary>
+            <param name="camera">The camera to render to.</param>
+            <param name="grid">The terrain cells to render.</param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.Start(System.Int32)">
+            <summary>
+            Starts the renderer in a worker thread.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.Dispose">
+            <summary>
+            Disposes the renderer.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.Lock(System.Action)">
+            <summary>
+            Locks the renderer thread to perform an action.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.Render(System.Boolean,System.Boolean)">
+            <summary>
+            Renders all the instances in the cells.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.PrepareNextFrame(VisualDesignCafe.Rendering.Nature.RenderSettings,System.Boolean)">
+            <summary>
+            Prepares the next frame for rendering. Builds the internal buffers required
+            for GPU Instancing.
+            </summary>
+            <param name="settings"></param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.RemoveDetailLayersFromRenderers(VisualDesignCafe.Rendering.Nature.RenderThread.ThreadInfo,VisualDesignCafe.Rendering.Nature.Cell)">
+            <summary>
+            Removes all the Detail Layers in the cell from the renderers.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.AddDetailLayersToRenderers(VisualDesignCafe.Rendering.Nature.RenderThread.ThreadInfo,VisualDesignCafe.Rendering.Nature.Cell)">
+            <summary>
+            Adds the Detail Layers in the cell to the renderers.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.DetailRenderer.AddCellToRenderers(VisualDesignCafe.Rendering.Nature.RenderThread.ThreadInfo,VisualDesignCafe.Rendering.Nature.Cell)">
+            <summary>
+            Checks the cell visibility and adds all the Detail Layers in the cell 
+            to the renderers if the cell is visible.
+            </summary>
+        </member>
+        <member name="T:VisualDesignCafe.Rendering.Nature.Grid">
+            <summary>
+            Holds the cells for the terrain.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.IsBuiltOrBuilding">
+            <summary>
+            Are the cells built or currently building?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.IsBuilding">
+            <summary>
+            Are the cells currently building?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.CurrentBuildFlags">
+            <summary>
+            The current build flags if the cells are building.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.TerrainData">
+            <summary>
+            The terrain data.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.Bounds">
+            <summary>
+            The bounds for the entire terrain.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.Grid.Cells">
+            <summary>
+            All the cells.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.#ctor(UnityEngine.Terrain,System.Single)">
+            <summary>
+            Creates a new collection of terrain cells for the given terrain.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.Dispose">
+            <summary>
+            Disposes of the cells.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.RefreshPrototypes(UnityEngine.Camera,UnityEngine.Material,System.Boolean@)">
+            <summary>
+            Refreshes the detail prototypes. 
+            Should be called when the prototypes changed or if the camera FOV changed.
+            </summary>
+            <param name="camera"></param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.Rebuild(UnityEngine.TerrainChangedFlags,UnityEngine.Camera,UnityEngine.Material,VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
+            <summary>
+            Rebuilds the buffers. Should be called when the terrain was changed.
+            </summary>
+            <param name="flags"></param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.WaitUntilBuildFinished">
+            <summary>
+            Waits until all cells are built.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.Clear">
+            <summary>
+            Clears the Terrain Buffer.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.OnBuildFinished">
+            <summary>
+            Called when all cells finished building.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.CacheTerrainData(UnityEngine.Material,System.Boolean@)">
+            <summary>
+            Rebuilds the Terrain Data Cache.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.GetCellsInRect(UnityEngine.Rect,System.Boolean[],UnityEngine.TerrainChangedFlags,VisualDesignCafe.Rendering.Nature.CachedTerrainData)">
+            <summary>
+            Finds all the cells within the given rect and creates Build Data
+            for those cells.
+            </summary>
+            <param name="rect"></param>
+            <param name="dirtyLayers"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.ValidateCells(VisualDesignCafe.Rendering.Nature.CachedTerrainData,System.Single)">
+            <summary>
+            Ensures that all cells exist.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.PushAllCellsToBuildQueue(VisualDesignCafe.Rendering.Nature.CachedTerrainData,VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
+            <summary>
+            Pushes all cells to the build queue.
+            Should be called when rebuilding the entire terrain or on startup.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.PushModifiedCellsToBuildQueue(VisualDesignCafe.Rendering.Nature.CachedTerrainData,UnityEngine.TerrainChangedFlags,System.Boolean[],VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
+            <summary>
+            Pushes all modified cells to the rebuild queue based on the given flags.
+            </summary>
+            <param name="flags"></param>
+            <param name="dirtyLayers"></param>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.Grid.GetDirtyLayers(VisualDesignCafe.Rendering.Nature.CachedTerrainData,UnityEngine.TerrainChangedFlags)">
+            <summary>
+            Gets the dirty layers from the Terrain Data Cache.
             </summary>
         </member>
         <member name="F:VisualDesignCafe.Rendering.Nature.NatureRenderer._isInPrefabMode">
@@ -82,10 +380,41 @@
             'IsInPrefabMode' method is injected by an editor script.
             </summary>
         </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.NatureRenderer.Renderers">
+            <summary>
+            All the active Nature Renderers accross all loaded scenes.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.Nature.NatureRenderer.PreRender">
+            <summary>
+            Invoked before rendering a frame.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.Nature.NatureRenderer.PostRender">
+            <summary>
+            Invoked after rendering a frame.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Rendering.Nature.NatureRenderer.RendererCreated">
+            <summary>
+            Invoked when a new renderer is created for a camera.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Rendering.Nature.NatureRenderer.DetailRenderers">
+            <summary>
+            All the active renderers for all cameras.
+            </summary>
+        </member>
         <member name="M:VisualDesignCafe.Rendering.Nature.NatureRenderer.GetVisibleCellBuildProgress">
             <summary>
             Calculates the total build progress for all cells within range of any active cameras.
             Returns a number between 0.0 and 1.0 indicating the progress. Returns 1 if all cells within range finished building.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Rendering.Nature.NatureRenderer.FlushMaterials">
+            <summary>
+            Flushes the materials for all the detail objects and reloads them from the original material.
+            Use this if the properties of the original material changed.
             </summary>
         </member>
         <member name="M:VisualDesignCafe.Rendering.Nature.NatureRenderer.RebuildBuffersDelayed">
@@ -101,247 +430,14 @@
             </summary>
             <param name="flags">The flags to indicate which data changed. Use FlushEverythingImmediately to rebuild all the buffers.</param>
         </member>
-        <member name="T:VisualDesignCafe.Rendering.Nature.TerrainCells">
+        <member name="T:VisualDesignCafe.Rendering.Nature.RendererFactory">
             <summary>
-            Holds the cells for the terrain.
+            Factory that generates Instance Renderers depending on the current platform and device.
             </summary>
         </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.IsBuiltOrBuilding">
-            <summary>
-            Are the cells built or currently building?
-            </summary>
-        </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.IsBuilding">
-            <summary>
-            Are the cells currently building?
-            </summary>
-        </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.CurrentBuildFlags">
-            <summary>
-            The current build flags if the cells are building.
-            </summary>
-        </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.TerrainData">
-            <summary>
-            The terrain data.
-            </summary>
-        </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.Bounds">
-            <summary>
-            The bounds for the entire terrain.
-            </summary>
-        </member>
-        <member name="P:VisualDesignCafe.Rendering.Nature.TerrainCells.Cells">
-            <summary>
-            All the cells.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.#ctor(UnityEngine.Terrain,System.Single,System.Boolean)">
-            <summary>
-            Creates a new collection of terrain cells for the given terrain.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.Dispose">
-            <summary>
-            Disposes of the cells.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.RefreshPrototypes(UnityEngine.Camera,UnityEngine.Material,System.Boolean@)">
-            <summary>
-            Refreshes the detail prototypes. 
-            Should be called when the prototypes changed or if the camera FOV changed.
-            </summary>
-            <param name="camera"></param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.Rebuild(UnityEngine.TerrainChangedFlags,UnityEngine.Camera,UnityEngine.Material,VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
-            <summary>
-            Rebuilds the buffers. Should be called when the terrain was changed.
-            </summary>
-            <param name="flags"></param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.WaitUntilBuildFinished">
-            <summary>
-            Waits until all cells are built.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.Clear">
-            <summary>
-            Clears the Terrain Buffer.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.OnBuildFinished">
-            <summary>
-            Called when all cells finished building.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.CacheTerrainData(UnityEngine.Material,System.Boolean@)">
-            <summary>
-            Rebuilds the Terrain Data Cache.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.GetCellsInRect(UnityEngine.Rect,System.Boolean[],UnityEngine.TerrainChangedFlags,VisualDesignCafe.Rendering.Nature.TerrainDataCache)">
-            <summary>
-            Finds all the cells within the given rect and creates Build Data
-            for those cells.
-            </summary>
-            <param name="rect"></param>
-            <param name="dirtyLayers"></param>
-            <param name="flags"></param>
-            <returns></returns>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.ValidateCells(VisualDesignCafe.Rendering.Nature.TerrainDataCache,System.Single)">
-            <summary>
-            Ensures that all cells exist.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.PushAllCellsToBuildQueue(VisualDesignCafe.Rendering.Nature.TerrainDataCache,VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
-            <summary>
-            Pushes all cells to the build queue.
-            Should be called when rebuilding the entire terrain or on startup.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.PushModifiedCellsToBuildQueue(VisualDesignCafe.Rendering.Nature.TerrainDataCache,UnityEngine.TerrainChangedFlags,System.Boolean[],VisualDesignCafe.Rendering.Nature.CellStreamer.StreamSettings)">
-            <summary>
-            Pushes all modified cells to the rebuild queue based on the given flags.
-            </summary>
-            <param name="flags"></param>
-            <param name="dirtyLayers"></param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCells.GetDirtyLayers(VisualDesignCafe.Rendering.Nature.TerrainDataCache,UnityEngine.TerrainChangedFlags)">
-            <summary>
-            Gets the dirty layers from the Terrain Data Cache.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.#ctor(UnityEngine.Camera,VisualDesignCafe.Rendering.Nature.TerrainCells)">
-            <summary>
-            Creates a new renderer for Terrain Cells.
-            </summary>
-            <param name="camera">The camera to render to.</param>
-            <param name="terrainCells">The terrain cells to render.</param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.Start(System.Int32)">
-            <summary>
-            Starts the renderer in a worker thread.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.Dispose">
-            <summary>
-            Disposes the renderer.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.Lock(System.Action)">
-            <summary>
-            Locks the renderer thread to perform an action.
-            </summary>
-            <param name="action"></param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.Render(System.Boolean)">
-            <summary>
-            Renders all the instances in the cells.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.PrepareNextFrame(VisualDesignCafe.Rendering.Nature.RenderSettings,System.Boolean)">
-            <summary>
-            Prepares the next frame for rendering. Builds the internal buffers required
-            for GPU Instancing.
-            </summary>
-            <param name="settings"></param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainCellsRenderer.RenderLoop(System.Object)">
+        <member name="M:VisualDesignCafe.Rendering.Nature.RenderThread.RenderLoop(System.Object)">
             <summary>
             The main render loop. Fills the render buffers required for GPU Instancing.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.#ctor(VisualDesignCafe.Rendering.Nature.TerrainDataCache)">
-            <summary>
-            Creates a shallow clone of the given TerrainDataCache
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.#ctor(UnityEngine.Terrain,UnityEngine.Material)">
-            <summary>
-            Creates a new Terrain Data Cache for the given Terrain.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.Dispose">
-            <summary>
-            Disposes of the Terrain Data Cache and all the Detail Prototype Caches.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.RefreshPrototypes(UnityEngine.Terrain,UnityEngine.Camera,UnityEngine.Material,System.Boolean@)">
-            <summary>
-            Refreshes the Detail Prototype Caches.
-            </summary>
-            <param name="flushEverything">Should the entire cache be flushed and the terrain rebuilt?</param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.CopyFrom(UnityEngine.Terrain,UnityEngine.Material,System.Boolean@)">
-            <summary>
-            Caches the data for the given Terrain.
-            </summary>
-            <param name="flushEverything">Should the entire cache be flushed and the terrain rebuilt?</param>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetModifiedHeightmapRect(System.Boolean)">
-            <summary>
-            Get the Rect of the heightmap that was modified since
-            the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetModifiedDetailMapRect(System.Boolean[],System.Boolean)">
-            <summary>
-            Gets the Rect of the detail map that was modified since 
-            the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetModifiedDetailMapRect(System.Int32,System.Boolean)">
-            <summary>
-            Gets the Rect of the detail map that was modified since 
-            the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetHeight(System.Int32,System.Int32)">
-            <summary>
-            Gets the local height of the terrain at the given pixel.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetInterpolatedHeight(System.Single,System.Single)">
-            <summary>
-            Gets the local interpolated height of the terrain at the given position.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetInterpolatedNormal(System.Single,System.Single)">
-            <summary>
-            Gets the interpolated normal of the terrain surface at the given position.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.GetDirtyLayers">
-            <summary>
-            Gets the detail layers that changed since the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.AreaHasChanged(System.Boolean[],UnityEngine.Rect)">
-            <summary>
-            Returns true if the Rect has changed for the given layers 
-            since the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.AreaHasChanged(System.Int32,UnityEngine.Rect)">
-            <summary>
-            Returns true if the Rect has changed for the given layer
-            since the cache was last refreshed.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.CopyDetailTextureFrom(UnityEngine.TerrainData,System.Int32)">
-            <summary>
-            Copies the detail texture from the Terrain.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.CopyHeightmapFrom(UnityEngine.TerrainData)">
-            <summary>
-            Copies the heightmap from the Terrain.
-            </summary>
-        </member>
-        <member name="M:VisualDesignCafe.Rendering.Nature.TerrainDataCache.Hash(System.Int32[0:,0:])">
-            <summary>
-            Creates a hash of the given detail map.
             </summary>
         </member>
         <member name="F:VisualDesignCafe.Rendering.FrustumCuller.PlaneCount">
