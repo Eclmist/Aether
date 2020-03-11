@@ -16,7 +16,7 @@ public class UIManager : Singleton<UIManager>
 
     void Start()
     {
-        AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchPlayerSkills;    
+  
     }
 
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
@@ -38,11 +38,11 @@ public class UIManager : Singleton<UIManager>
 
     // To Be Refactored
     
-    public void SwitchPlayerSkills(InputAction.CallbackContext ctx)
+    public void SwitchPlayerSkills()
     {
         if (m_skillsUIHandler != null)
         {
-            m_skillsUIHandler.SwitchSkillsSprites(); 
+            m_skillsUIHandler.SwitchSpriteIcons(); 
         }
     }
 
@@ -51,13 +51,9 @@ public class UIManager : Singleton<UIManager>
         m_skillsUIHandler.HandleSkillPickUp(itemSkill);
     }
 
-    public int GetSkillsIndex()
-    {
-        return m_skillsUIHandler.GetSkillsIndex();
-    }
-
     public void RemoveSkill()
     {
          m_skillsUIHandler.RemoveUsedSkill();
     }
+
 }

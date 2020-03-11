@@ -14,7 +14,7 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerAnimation m_PlayerAnimation;
     private PlayerNetworkAnimation m_PlayerNetworkAnimation;
     private ClientServerTogglables m_ClientServerTogglables;
-    private Transform m_SkillsTransform;
+    private SkillHandler m_SKillsHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -30,6 +30,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
+        m_SKillsHandler = GetComponent<SkillHandler>();
         
         m_RevealActor.enabled = false;
         m_StealthActor.enabled = false;
@@ -37,14 +38,11 @@ public class Player : PlayerBehavior, ICanInteract
         // Better to have a variable to store UseSkills is? 
         
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
-        m_SkillsTransform = new GameObject("Skills").transform;
-        m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
-        m_SkillsTransform.parent = gameObject.transform;
     }
 
-    public Transform GetSkillsTransform()
+    public SkillHandler GetSkillHandler()
     {
-        return m_SkillsTransform;
+        return m_SKillsHandler;
     }
         
 

@@ -27,6 +27,11 @@ public abstract class ItemSkill : MonoBehaviour
         return m_NoOfUses;
     }
 
+    public bool HasBeenUsedBefore()
+    {
+        return GetNumberOfUses() < GetMaxNumberOfUses();
+    }
+
     public void SetMaxNumberOfUses(int uses)
     {
         m_MaxNoOfUses = uses;
@@ -36,7 +41,6 @@ public abstract class ItemSkill : MonoBehaviour
     {
         m_NoOfUses = uses;
     }
-
     
     public void SetUpSkill(int maxMoves, int iconIndex)
     {

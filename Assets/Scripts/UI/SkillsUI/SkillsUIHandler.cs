@@ -14,15 +14,26 @@ public class SkillsUIHandler : MonoBehaviour
     [SerializeField]
     private Image m_TertiaryIcon;
 
-    private Sprite m_NullSprite;
+    private int m_IconCount;
 
-    private int m_SkillsIndex;
+    // Image.sprite = sprite 
 
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        m_NullSprite = m_PrimaryIcon.sprite;
-        m_SkillsIndex = 0;
+        ChangeAlphaValue(m_PrimaryIcon, 0.0f);
+        ChangeAlphaValue(m_SecondaryIcon, 0.0f);
+        ChangeAlphaValue(m_TertiaryIcon, 0.0f);
+        m_IconCount = 0;
+    }
+
+    private void ChangeAlphaValue(Image image, float value)
+    {
+        if (image == null)
+            return;
+
+        var tempColor = image.color;
+        tempColor.a = value;
+        image.color = tempColor;
     }
 
     public void HandleSkillPickUp(ItemSkill itemSkill)
@@ -31,84 +42,84 @@ public class SkillsUIHandler : MonoBehaviour
             return;
 
         Image icon = itemSkill.GetSkillsIcon();
-        if (m_PrimaryIcon.sprite.name == m_NullSprite.name) 
-            SavePrimaryIcon(icon);
-        else if (m_SecondaryIcon.sprite.name == m_NullSprite.name)
-            SaveSecondaryIcon(icon);
-        else if (m_TertiaryIcon.sprite.name == m_NullSprite.name)
-            SaveTertiaryIcon(icon);
+
+        if (icon == null)
+            return;
+
+        Debug.Log(m_IconCount);
+        AssignIcons(icon);
+
+        m_IconCount ++;
     }
 
-    // As of now, just simply remove the skill icon but plan to add cycle system in the future for player convenience.
     public void RemoveUsedSkill()
     {
+        if (m_IconCount == 0 || m_PrimaryIcon == null 
+            || m_SecondaryIcon == null || m_TertiaryIcon == null)
+            return;
+
+        if (m_IconCount == 3)
+            ChangeAlphaValue(m_TertiaryIcon, 0.0f);    
+
+        if (m_IconCount == 2)
+            ChangeAlphaValue(m_SecondaryIcon, 0.0f);    
+
+        if (m_IconCount == 1)
+            ChangeAlphaValue(m_PrimaryIcon, 0.0f);    
+
+        m_IconCount --;
+    }
+
+    public void SwitchSpriteIcons()
+    {
+        if (m_IconCount == 3)
+            SwitchThreeIcons();
+
+        if (m_IconCount == 2)
+            SwitchRwoIcons();
+    }
+
+    private void SwitchThreeIcons()
+    {
+        if(m_PrimaryIcon == null || m_SecondaryIcon == null ||  m_TertiaryIcon == null)
+            return;
+
+        Sprite tempSprite = m_PrimaryIcon.sprite;
         m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;
-        m_SecondaryIcon.sprite = m_TertiaryIcon.sprite; 
-        m_TertiaryIcon.sprite = m_NullSprite;
-    }
-    public void SavePrimaryIcon(Image image)
-    {
-        if (image != null)
-            m_PrimaryIcon.sprite = image.sprite;
-    }
-    public void SaveSecondaryIcon(Image image)
-    {
-        if (image != null)
-            m_SecondaryIcon.sprite = image.sprite;
+        m_SecondaryIcon.sprite = m_TertiaryIcon.sprite;
+        m_TertiaryIcon.sprite = tempSprite;
     }
 
-    public void SaveTertiaryIcon(Image image)
+    private void SwitchRwoIcons()
     {
-        if (image != null)
-            m_TertiaryIcon.sprite = image.sprite;
+        Sprite tempSprite = m_PrimaryIcon.sprite;
+        m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;
+        m_SecondaryIcon.sprite = tempSprite;
     }
 
-    public void SwitchSkillsSprites()
+    private void AssignIcons(Image icon)
     {
-        SwitchSpriteIcons();
-        IncrementIndex();
-    }
-
-    private void SwitchSpriteIcons()
-    {
-        if (m_SkillsIndex == 0)
-        {
-            Sprite temp = m_PrimaryIcon.sprite;
-            Sprite temp2 = m_TertiaryIcon.sprite;
-            m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;            
-            m_TertiaryIcon.sprite = temp;
-            m_SecondaryIcon.sprite = temp2;
+        if (m_IconCount == 3)
             return;
+
+        if (m_IconCount == 0)
+        {
+            m_PrimaryIcon.sprite = icon.sprite;
+            ChangeAlphaValue(m_PrimaryIcon, 1.0f);
         }
 
-        if (m_SkillsIndex == 1)
+        if (m_IconCount == 1)
         {
-            Sprite temp = m_SecondaryIcon.sprite;
-            Sprite temp2 = m_PrimaryIcon.sprite;
-            m_SecondaryIcon.sprite = m_TertiaryIcon.sprite;
-            m_PrimaryIcon.sprite = temp;
-            m_TertiaryIcon.sprite = temp2;
-            return;
+            m_SecondaryIcon.sprite = icon.sprite;
+            ChangeAlphaValue(m_SecondaryIcon, 1.0f);
         }
 
-        if (m_SkillsIndex == 2)
+        if (m_IconCount == 2)
         {
-            Sprite temp = m_TertiaryIcon.sprite;
-            Sprite temp2 = m_SecondaryIcon.sprite;
-            m_TertiaryIcon.sprite = m_PrimaryIcon.sprite;         
-            m_SecondaryIcon.sprite = temp;
-            m_PrimaryIcon.sprite = temp2;
-            return;
+            m_TertiaryIcon.sprite = icon.sprite;
+            ChangeAlphaValue(m_TertiaryIcon, 1.0f);
         }
     }
 
-    public void IncrementIndex()
-    {
-        m_SkillsIndex = (m_SkillsIndex + 1) % 3;
-    }
 
-    public int GetSkillsIndex()
-    {
-        return m_SkillsIndex;
-    }
 }

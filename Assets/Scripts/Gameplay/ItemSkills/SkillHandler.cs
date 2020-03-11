@@ -8,22 +8,14 @@ public class SkillHandler : MonoBehaviour
 
     private const int m_SkillLimit = 3;
 
-    private Queue<ItemSkill> m_ItemSkillSlots = new Queue<ItemSkill>();
+    private Queue<ItemSkill> m_ItemSkillSlots;
     
     void Start()
     {
         AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
-    }
-
-    private void DebugQueue()
-    {
-        string debugString = "";
-        foreach (ItemSkill itemSkill in m_ItemSkillSlots)
-        {
-            debugString += itemSkill.ToString() + "\n";
-        }
-
-        Debug.Log(debugString);
+        AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchSkills;
+        m_ItemSkillSlots = new Queue<ItemSkill>();
+    
     }
 
     //key bindings
@@ -40,8 +32,6 @@ public class SkillHandler : MonoBehaviour
 
         if (currentSkill.HasNoMoreUses())
             RemoveSkill();
-
-        DebugQueue();
     }
 
     public void AddSkill(ItemSkill itemSkill)
@@ -51,6 +41,7 @@ public class SkillHandler : MonoBehaviour
             return;
 
         m_ItemSkillSlots.Enqueue(itemSkill);
+        UIManager.Instance.SaveSkill(itemSkill);
     }
 
     public void RemoveSkill()
@@ -59,8 +50,9 @@ public class SkillHandler : MonoBehaviour
         m_ItemSkillSlots.Dequeue();
     }
 
-    public void SwitchSkills()
+    public void SwitchSkills(InputAction.CallbackContext ctx)
     {
+        UIManager.Instance.SwitchPlayerSkills();
         m_ItemSkillSlots.Enqueue(m_ItemSkillSlots.Dequeue());
     }
     
