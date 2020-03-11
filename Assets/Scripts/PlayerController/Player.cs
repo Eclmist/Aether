@@ -33,6 +33,8 @@ public class Player : PlayerBehavior, ICanInteract
         
         m_RevealActor.enabled = false;
         m_StealthActor.enabled = false;
+
+        // Better to have a variable to store UseSkills is? 
         
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_SkillsTransform = new GameObject("Skills").transform;
