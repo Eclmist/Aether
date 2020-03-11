@@ -46,7 +46,6 @@ public class SkillsUIHandler : MonoBehaviour
         if (icon == null)
             return;
 
-        Debug.Log(m_IconCount);
         AssignIcons(icon);
 
         m_IconCount ++;

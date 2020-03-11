@@ -23,9 +23,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (m_powerUpHandler != null)
         {
-            if (signal != null) 
-                m_powerUpHandler.ActivateIcon(signal);
-
+            m_powerUpHandler.ActivateIcon(signal);
         }
     }
 
