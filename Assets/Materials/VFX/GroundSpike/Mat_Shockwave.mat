@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1884745394146469313
+--- !u!114 &-8043241665795351942
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Crater_SwordCollision
-  m_Shader: {fileID: -6465566751694194690, guid: 4c2a2353350dc254ba5b9169d2e5efb4,
+  m_Name: Mat_Shockwave
+  m_Shader: {fileID: -6465566751694194690, guid: b980689ff8ddf3d44a0295b07aa96650,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -35,8 +35,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_D9F82A3E:
-        m_Texture: {fileID: 2800000, guid: faa41d7320f1d854d8b8a426eab0f4b5, type: 3}
+    - Texture2D_765D2257:
+        m_Texture: {fileID: 2800000, guid: b7aded839f50f574a9ca4a9c62c9db46, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -124,6 +124,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_AAE1F262: 1
+    - Vector1_C494F933: 0.5
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1
@@ -244,7 +246,8 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_11AE9EF7: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 1}
+    - Vector2_28D93199: {r: 0, g: 1, b: 0.36, a: 0}
+    - Vector2_E9B9CE2E: {r: 0.2, g: 0.2, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
