@@ -37,7 +37,11 @@ void VisibilityUpdate(uint2 id : SV_DispatchThreadID)
 {
     uint2 writePos = id;
     float4 currentVal = WorldVisibilityResult[writePos];
-    currentVal.g = lerp(currentVal.g, currentVal.r, UpdateSpeed);
+    if (currentVal.r > 0.0)
+    {
+        currentVal.g = lerp(currentVal.g, 1, UpdateSpeed);
+    }
+
     WorldVisibilityResult[writePos] = currentVal;
 }
 
