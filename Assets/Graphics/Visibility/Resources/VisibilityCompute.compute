@@ -1,37 +1,52 @@
 ﻿#pragma kernel ComputeVisibility
+#pragma kernel VisibilityUpdate
 #pragma kernel ResetVisibility
-#pragma kernel VisibilityDebugger
 
-RWTexture3D<float> WorldVisibilityResult;
-RWTexture2D<float> DebugTexture;
+RWTexture2D<float4> WorldVisibilityResult;
 
-float3 ModifierPosition;
-float TargetVisibility;
+float2 ModifierPosition;
+bool IsUnreveal;
 float ModifierRadius;
 float UpdateSpeed;
 
-[numthreads(8,8,8)]
-void ComputeVisibility(uint3 id : SV_DispatchThreadID)
+[numthreads(8,8,1)]
+void ComputeVisibility(uint2 id : SV_DispatchThreadID)
 {
-    float3 offsetFromCenter = id - ModifierRadius;
-    uint3 writePos = ModifierPosition + offsetFromCenter;
-    float t = 1 - saturate(length(offsetFromCenter) / ModifierRadius);
+    float2 offsetFromCenter = id - ModifierRadius;
+    uint2 writePos = ModifierPosition + offsetFromCenter;
+    float t = saturate(length(offsetFromCenter) / ModifierRadius);
 
-    float currentVal = WorldVisibilityResult[writePos];
-    float targetVal = t * TargetVisibility;
-    float writeVal = max(currentVal, lerp(currentVal, targetVal, UpdateSpeed));
+    float4 currentVal = WorldVisibilityResult[writePos];
 
-    WorldVisibilityResult[writePos] = writeVal;
-}
+    if (IsUnreveal)
+    {
+        t *= 0.8 * t;
+        currentVal.r = min(currentVal.r, lerp(currentVal.r, t, UpdateSpeed));
+    }
+    else
+    {
+        t = 1 - t;
+        currentVal.r = max(currentVal.r, lerp(currentVal.r, t, UpdateSpeed));
+    }
 
-[numthreads(8,8,8)]
-void ResetVisibility(uint3 id : SV_DispatchThreadID)
-{
-    WorldVisibilityResult[id.xyz] = TargetVisibility;
+    WorldVisibilityResult[writePos] = currentVal;
 }
 
 [numthreads(8,8,1)]
-void VisibilityDebugger(uint3 id : SV_DispatchThreadID)
+void VisibilityUpdate(uint2 id : SV_DispatchThreadID)
 {
-    DebugTexture[id.xy] = WorldVisibilityResult[uint3(id.x, 0, id.y)];
+    uint2 writePos = id;
+    float4 currentVal = WorldVisibilityResult[writePos];
+    if (currentVal.r > 0.0)
+    {
+        currentVal.g = lerp(currentVal.g, 1, UpdateSpeed);
+    }
+
+    WorldVisibilityResult[writePos] = currentVal;
+}
+
+[numthreads(8,8,1)]
+void ResetVisibility(uint2 id : SV_DispatchThreadID)
+{
+    WorldVisibilityResult[id].rgba = 0;
 }
