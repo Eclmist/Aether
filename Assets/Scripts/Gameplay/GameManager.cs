@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public event System.Action<GameMode> GameStarted;
+
     [SerializeField]
     private TowerBase[] m_Towers;
 
@@ -59,6 +61,7 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Game started");
         m_GameStarted = true;
+        GameStarted?.Invoke(GameMode.GAMEMODE_KING_OF_THE_HILL);
     }
 
     public void SetGameOver(Team team)

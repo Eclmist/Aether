@@ -23,7 +23,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
             return;
 
         // Check current rate of gauge shift
-        int captureRate = 0;
+        int captureMultiplier = 0;
 
         foreach (Player player in m_PlayersInCaptureZone)
         {
@@ -31,10 +31,10 @@ public class TowerLocal : MonoBehaviour, IInteractable
             switch (team)
             {
                 case Team.TEAM_ONE:
-                    captureRate++;
+                    captureMultiplier++;
                     break;
                 case Team.TEAM_TWO:
-                    captureRate--;
+                    captureMultiplier--;
                     break;
                 default:
                     Debug.Assert(false, "Should not be reached unless a team was unhandled. TowerLocal.Update");
@@ -43,7 +43,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
         }
 
         float captureGauge = m_Tower.GetCaptureGauge();
-        captureGauge += captureRate * m_CapturePerPaxPerSecond * Time.deltaTime;
+        captureGauge += captureMultiplier * m_CapturePerPaxPerSecond * Time.deltaTime;
         m_Tower.UpdateCaptureGauge(captureGauge);
 
         // Update network data
