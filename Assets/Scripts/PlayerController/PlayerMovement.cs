@@ -22,12 +22,13 @@ public class PlayerMovement : MonoBehaviour
     public class GroundingParams
     {
         public Transform m_GroundCheckPosition = null;
+        public float m_GroundCheckRadius = 0.5f;
         public LayerMask m_GroundLayerMask = new LayerMask();
         public bool m_IsGrounded = false;
 
         public void Update()
         {
-            m_IsGrounded = Physics.CheckSphere(m_GroundCheckPosition.position, 0.5f, m_GroundLayerMask);
+            m_IsGrounded = Physics.CheckSphere(m_GroundCheckPosition.position, m_GroundCheckRadius, m_GroundLayerMask);
         }
     }
 
@@ -99,6 +100,11 @@ public class PlayerMovement : MonoBehaviour
             m_Player.networkObject.position = transform.position;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(m_GroundingParams.m_GroundCheckPosition.position, m_GroundingParams.m_GroundCheckRadius);
+    }
+
     private void LateUpdate()
     {
         m_DashParams.m_DashedInCurrentFrame = false;
@@ -108,11 +114,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // Update grounded flag
         m_GroundingParams.m_IsGrounded = Physics.CheckSphere(m_GroundingParams.m_GroundCheckPosition.position,
-            0.05f, m_GroundingParams.m_GroundLayerMask);
+            m_GroundingParams.m_GroundCheckRadius, m_GroundingParams.m_GroundLayerMask);
 
         if (IsGrounded() && m_MovementParams.m_Velocity.y <= 0.0f)
         {
-            m_MovementParams.m_Velocity.y = 0.0f;
+            m_MovementParams.m_Velocity.y = -2.0f;
         }
         else
         {
