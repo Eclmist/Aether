@@ -22,6 +22,14 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerDetails m_PlayerDetails;
     private bool m_IsStealthy;
 
+    // TODO remove this once health system has been merged. 
+    private double m_health = 100;
+    public void DamageHealth(double damage)
+    {
+        m_health -= damage;
+    }
+
+
     private void Awake()
     {
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
