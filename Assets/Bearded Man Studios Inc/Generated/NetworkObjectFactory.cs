@@ -47,9 +47,9 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new NetworkCameraNetworkObject(networker, id, frame);
 						break;
-					case PlayerManagerNetworkObject.IDENTITY:
+					case PlayerNetworkManagerNetworkObject.IDENTITY:
 						availableCallback = true;
-						obj = new PlayerManagerNetworkObject(networker, id, frame);
+						obj = new PlayerNetworkManagerNetworkObject(networker, id, frame);
 						break;
 					case PlayerNetworkObject.IDENTITY:
 						availableCallback = true;
@@ -58,6 +58,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					case TestNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new TestNetworkObject(networker, id, frame);
+						break;
+					case TowerNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new TowerNetworkObject(networker, id, frame);
 						break;
 				}
 

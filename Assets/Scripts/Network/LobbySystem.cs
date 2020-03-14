@@ -46,7 +46,7 @@ public class LobbySystem : LobbySystemBehavior
             Quaternion rotation = m_PlayerPositions[m_PlayerCount].rotation;
             Destroy(m_Loaders[m_PlayerCount]);
 
-            LobbyPlayer player = (LobbyPlayer)NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation);
+            LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation : rotation) as LobbyPlayer;
             player.transform.SetParent(m_PlayerPositions[m_PlayerCount].transform, false);
 
             // Name setup
@@ -54,7 +54,7 @@ public class LobbySystem : LobbySystemBehavior
             player.UpdateName(playerName);
 
             // Team setup
-            player.UpdateTeam(m_PlayerCount % 2);
+            player.UpdateTeam(m_PlayerCount < 1 ? Team.TEAM_ONE : Team.TEAM_TWO);
 
             m_LobbyPlayers.Add(np, player);
             m_PlayerCount++;
@@ -68,16 +68,24 @@ public class LobbySystem : LobbySystemBehavior
             return true;
 
         // TODO: Add ready check
-        if (m_PlayerCount != 4)
+        if (m_PlayerCount != AetherNetworkManager.MAX_PLAYER_COUNT)
             return false;
 
         int balance = 0;
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
         {
-            if (p.GetTeam() == 0)
-                balance++;
-            else
-                balance--;
+            switch (p.GetTeam())
+            {
+                case Team.TEAM_ONE:
+                    balance++;
+                    break;
+                case Team.TEAM_TWO:
+                    balance--;
+                    break;
+                default:
+                    Debug.Assert(false, "Should not be reached unless a team was unhandled. LobbySystem.CanStart");
+                    break;
+            }
         }
 
         return balance == 0;
@@ -86,9 +94,7 @@ public class LobbySystem : LobbySystemBehavior
     private void OnPlayerAccepted(NetworkingPlayer player, NetWorker sender)
     {
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
-        {
             p.UpdateDataFor(player);
-        }
    
         SetupPlayer(player);
     }
@@ -99,13 +105,30 @@ public class LobbySystem : LobbySystemBehavior
         {
             if (CanStart())
             {
-                int left = 0;
-                int right = 0;
+                int teamOne = 0;
+                int teamTwo = 0;
                 foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
                 {
-                    AetherNetworkManager.PlayerDetails details;
-                    details.team = m_LobbyPlayers[np].GetTeam();
-                    details.position = details.team == 0 ? left++ : right++;
+                    Team team = m_LobbyPlayers[np].GetTeam();
+                    int position = 0;
+                    switch (team)
+                    {
+                        case Team.TEAM_ONE:
+                            position = teamOne++;
+                            break;
+                        case Team.TEAM_TWO:
+                            position = teamTwo++;
+                            break;
+                        default:
+                            Debug.Assert(false, "Should not be reached unless a team was unhandled. LobbySystem.CanStart");
+                            break;
+                    }
+
+                    PlayerDetails details = new PlayerDetails(
+                        np.NetworkId,
+                        team,
+                        position
+                    );
 
                     AetherNetworkManager.Instance.AddPlayer(np, details);
                 }

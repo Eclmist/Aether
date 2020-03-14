@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RevealActor : MonoBehaviour
 {
@@ -13,6 +11,8 @@ public class RevealActor : MonoBehaviour
     private bool m_RevealObjectsByDistance = false;
     [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
+
+    private RevealMode m_RevealMode = RevealMode.REVEALMODE_SHOW;
 
     private VisibilityManager.VisibilityModifier m_VisibilityModifier;
 
@@ -30,6 +30,26 @@ public class RevealActor : MonoBehaviour
         m_RadiusModifier = Mathf.Lerp(m_RadiusModifier, m_RadiusModifierTarget, Time.deltaTime);
         // Update Revealable Objects (the ones that fade from bottom to top in one go)
 
+        m_VisibilityModifier.m_Position = transform.position;
+        m_VisibilityModifier.m_Radius = GetRadius();
+
+        switch (m_RevealMode)
+        {
+            case RevealMode.REVEALMODE_SHOW:
+                m_VisibilityModifier.m_IsUnreveal = false;
+                break;
+            case RevealMode.REVEALMODE_HIDE:
+                m_VisibilityModifier.m_IsUnreveal = true;
+                break;
+            default:
+                break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            m_VisibilityModifier.m_IsUnreveal = !m_VisibilityModifier.m_IsUnreveal;
+        }
+
         if (m_RevealObjectsByDistance)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, GetRadius(), m_ObjectLayerMask);
@@ -41,16 +61,11 @@ public class RevealActor : MonoBehaviour
                 if (target == null)
                     continue;
 
-                target.Reveal();
+                if (!m_VisibilityModifier.m_IsUnreveal)
+                    target.Reveal();
+                else
+                    target.Hide();
             }
-        }
-
-        m_VisibilityModifier.m_Position = transform.position;
-        m_VisibilityModifier.m_Radius = GetRadius();
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            m_VisibilityModifier.m_IsUnreveal = !m_VisibilityModifier.m_IsUnreveal;
         }
 
         ResetRadiusModifier();
@@ -71,8 +86,18 @@ public class RevealActor : MonoBehaviour
         m_RadiusModifierTarget = 1;
     }
 
+    public void SetRevealMode(RevealMode revealMode)
+    {
+        m_RevealMode = revealMode;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, m_Radius);
+    }
+
+    public enum RevealMode
+    {
+        REVEALMODE_SHOW, REVEALMODE_HIDE
     }
 }

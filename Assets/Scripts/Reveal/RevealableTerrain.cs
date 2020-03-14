@@ -27,7 +27,7 @@ public class RevealableTerrain : MonoBehaviour
     private bool m_IsUpdating;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         m_MeshFilter = GetComponent<MeshFilter>();
         m_WorldSpaceVertices = m_MeshFilter.mesh.vertices;
@@ -43,12 +43,12 @@ public class RevealableTerrain : MonoBehaviour
         StartCoroutine(Coroutine_UpdateMeshColors());
     }
 
-    public void PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
+    public void PaintAtPosition(RevealActor.RevealMode revealMode, Vector3 position, float radius, AnimationCurve falloff = null)
     {
-        StartCoroutine(Coroutine_PaintAtPosition(position, radius, falloff));
+        StartCoroutine(Coroutine_PaintAtPosition(revealMode, position, radius, falloff));
     }
 
-    IEnumerator Coroutine_PaintAtPosition(Vector3 position, float radius, AnimationCurve falloff = null)
+    IEnumerator Coroutine_PaintAtPosition(RevealActor.RevealMode revealMode, Vector3 position, float radius, AnimationCurve falloff = null)
     {
 
         for (int i = 0; i < m_WorldSpaceVertices.Length; ++i)
@@ -67,10 +67,27 @@ public class RevealableTerrain : MonoBehaviour
                 amount = (1 - Mathf.Pow(distance / radius, 4)) * 255;
 
             // Ignore falloff for now
-            if (amount > currentAmount)
+            switch (revealMode)
             {
-                m_TargetVertexColors[i].r = (byte)amount;
-                m_IsUpdating = true;
+                case RevealActor.RevealMode.REVEALMODE_SHOW:
+                    if (amount > currentAmount)
+                    {
+                        m_TargetVertexColors[i].r = (byte)amount;
+                        m_IsUpdating = true;
+                    }
+
+                    amount = 255 - amount;
+                    break;
+                case RevealActor.RevealMode.REVEALMODE_HIDE:
+                    if (amount < currentAmount)
+                    {
+                        m_TargetVertexColors[i].r = (byte)amount;
+                        m_IsUpdating = true;
+                    }
+                    break;
+                default:
+                    Debug.LogWarning("Should not be entering default case in RevealableTerrain PaintAtPosition");
+                    break;
             }
 
             if (startTime - Time.time >= 0.1f)
