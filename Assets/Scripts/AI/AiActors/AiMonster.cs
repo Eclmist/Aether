@@ -25,7 +25,7 @@ public class AiMonster : AiActor, Attacker
     
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player"))
+        if (other.GetComponent<Player>() != null)
         {
             m_NearestPlayer = other.transform;
             SetNearPlayer();

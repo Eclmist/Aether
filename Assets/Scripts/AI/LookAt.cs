@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
 /*
- * Used to control the look at position for a head transform
+ * Used to control the look at position for a m_head transform
  */
 [RequireComponent (typeof (Animator))]
 public class LookAt : MonoBehaviour {
     [SerializeField]
-    private Transform head = null;
+    private Transform m_head = null;
     [SerializeField]
     private Vector3 lookAtTargetPosition;
     [SerializeField]
@@ -14,7 +14,7 @@ public class LookAt : MonoBehaviour {
     [SerializeField]
     private float lookAtHeatTime = 0.2f;
     [SerializeField]
-    private bool looking = true;
+    private bool m_isLooking = true;
     
     private Vector3 lookAtPosition;
     private Animator animator;
@@ -22,27 +22,27 @@ public class LookAt : MonoBehaviour {
 
     void Start ()
     {
-        if (!head)
+        if (!m_head)
         {
-            Debug.LogError("No head transform - LookAt disabled");
+            Debug.LogError("No m_head transform - LookAt disabled");
             enabled = false;
             return;
         }
         animator = GetComponent<Animator>();
-        lookAtTargetPosition = head.position + transform.forward;
+        lookAtTargetPosition = m_head.position + transform.forward;
         lookAtPosition = lookAtTargetPosition;
     }
 
     void OnAnimatorIK ()
     {
-        lookAtTargetPosition.y = head.position.y;
-        float lookAtTargetWeight = looking ? 1.0f : 0.0f;
+        lookAtTargetPosition.y = m_head.position.y;
+        float lookAtTargetWeight = m_isLooking ? 1.0f : 0.0f;
 
-        Vector3 curDir = lookAtPosition - head.position;
-        Vector3 futDir = lookAtTargetPosition - head.position;
+        Vector3 curDir = lookAtPosition - m_head.position;
+        Vector3 futDir = lookAtTargetPosition - m_head.position;
 
         curDir = Vector3.RotateTowards(curDir, futDir, 6.28f*Time.deltaTime, float.PositiveInfinity);
-        lookAtPosition = head.position + curDir;
+        lookAtPosition = m_head.position + curDir;
 
         float blendTime = lookAtTargetWeight > lookAtWeight ? lookAtHeatTime : lookAtCoolTime;
         lookAtWeight = Mathf.MoveTowards (lookAtWeight, lookAtTargetWeight, Time.deltaTime/blendTime);

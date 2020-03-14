@@ -6,7 +6,7 @@ public class AiRabbit : AiActor
 {
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player"))
+        if (other.GetComponent<Player>() != null)
         {
             //alerts the animator if the player has entered the vicinity.
             m_NearestPlayer = other.transform;

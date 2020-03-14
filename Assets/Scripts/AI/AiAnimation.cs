@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+
  Used for creating ai animation like the player.
 public class AiAnimation : MonoBehaviour
 {
@@ -99,4 +99,3 @@ public class AiAnimation : MonoBehaviour
         m_AiCharacterControl.ResetParalyze();
     }
 }
-*/

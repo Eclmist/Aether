@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-/*
+
  Used for creating a controll system for ai player
 [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
 [RequireComponent(typeof (CharacterController))]
@@ -239,4 +239,4 @@ public class AICharacterControl : MonoBehaviour
         this.target = target;
     }
 }
-*/
+
