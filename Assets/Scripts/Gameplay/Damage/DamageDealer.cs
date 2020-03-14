@@ -1,15 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 // To be attached to any game object with collider that can damage other player/neutral.
-public class DamageSystem : MonoBehaviour
+[RequireComponent(typeof(Collider))]
+public class DamageDealer : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private float m_PureDamage = 20f;
 
-    protected bool m_isActive = true;
+    public delegate void OnHit();
+    private OnHit m_onHit;
+    private bool m_isActive = true;
 
+    public void AddDamageCallback(OnHit callback)
+    {
+        m_onHit += callback;
+    }
+    
     public float GetDamage()
     {
         return m_PureDamage;
@@ -33,6 +40,12 @@ public class DamageSystem : MonoBehaviour
             // Damage calculation.
             // As of now, only pure damage dealt, however each players should have defence stat that can reduce this damage dealt.
             damageable.DamageHealth(m_PureDamage);
+            m_onHit?.Invoke();
         }
+    }
+
+    public void Interact(ICanInteract interactor, InteractionType interactionType)
+    {
+        throw new NotImplementedException();
     }
 }

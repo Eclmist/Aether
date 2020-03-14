@@ -26,6 +26,7 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
     private double m_health = 100;
     public void DamageHealth(float damage)
     {
+        Debug.Log(m_health + " taken damage: " + damage);
         m_health -= damage;
     }
 

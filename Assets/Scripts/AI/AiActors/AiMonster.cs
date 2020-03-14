@@ -3,24 +3,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Collider))]
-public class AiMonster : AiActor, Attacker
+public class AiMonster : AiActor, Attacker, Damageable
 {
     [SerializeField] 
-    private Animator m_PlantMonsterAnimator;
+    private AiAnimation m_MonsterAnimation;
     [SerializeField]
     private float m_farAwayDistance = 10f;
 
-    private enum AnimMovesParam
-    {
-        locomotion,
-        attack1 = 1,
-        attack2 = 2,
-        idleBreak,
-        death,
-        gotHit,
-        goPlant,
-        goAlive
-    }
+    private float m_healthPoints = 100f;
     
     public void OnTriggerEnter(Collider other)
     {
@@ -32,19 +22,19 @@ public class AiMonster : AiActor, Attacker
     }
 
     bool canAttack = true;
-    
+
+
+
     public void Attack(float attackInterval)
     {
         if (canAttack)
         {
-            AnimMovesParam attack = RandomizeAttack();
+            float attack = m_MonsterAnimation.RandomizeAttack();
             
             //logic for damaging the player here
             DamagePlayer();
             
-            
-            m_PlantMonsterAnimator.SetTrigger(attack.ToString());
-            StartCoroutine(SetCanAttack((int) attack));
+            StartCoroutine(SetCanAttack(attack));
             canAttack = false;
         }
 
@@ -54,13 +44,7 @@ public class AiMonster : AiActor, Attacker
             canAttack = true;
         }
     }
-
-    private AnimMovesParam RandomizeAttack()
-    {
-        AnimMovesParam [] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2};
-        return temp[Random.Range(0, temp.Length)];
-    }
-
+    
     private void DamagePlayer()
     {
     }
@@ -69,20 +53,27 @@ public class AiMonster : AiActor, Attacker
     {
         //alerts the animator if the player has entered the vicinity.
         m_StateMachineAnim.SetBool("nearPlayer", true);
-        m_PlantMonsterAnimator.SetTrigger(AnimMovesParam.goAlive.ToString());
+        m_MonsterAnimation.ReactToPlayer();
+
     }
 
     public void Start()
     {
         m_Agent.updatePosition = true;
         m_Agent.updateRotation = true;
+
+        DamageDealer damageDealer = gameObject.GetComponentInChildren<DamageDealer>();
+        if (damageDealer == null)
+        {
+            Debug.LogError("No damage system, won't be able to damage players");
+        }
+
     }
 
     private void RotateTowardsNearestPlayer()
     {
         if (m_NearestPlayer == null)
         {
-            Debug.Log("No Nearest Player");
             return;
         }
         Vector3 direction = (m_NearestPlayer.position - transform.position).normalized;
@@ -92,19 +83,30 @@ public class AiMonster : AiActor, Attacker
 
     public override void SetInactive()
     {
-        m_PlantMonsterAnimator.SetTrigger(AnimMovesParam.goPlant.ToString());
+        m_MonsterAnimation.GoInactive();
         base.SetInactive();
+    }
+
+    protected virtual void MoveMonster(bool toMove)
+    {
+        if (toMove)
+        {
+            m_MonsterAnimation.Move(true);
+        }
+        else
+        {
+            m_MonsterAnimation.Move(false);
+        }
     }
 
     public void Update()
     {
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
         {
-            m_PlantMonsterAnimator.SetFloat("locomotion", 0.55f); //hardcoded value now as it's the most appealing
+            MoveMonster(true);
         }
         else
         {
-            m_PlantMonsterAnimator.SetFloat("locomotion", 0);
             if (canAttack)
             {
                 RotateTowardsNearestPlayer();
@@ -121,5 +123,18 @@ public class AiMonster : AiActor, Attacker
             m_StateMachineAnim.SetBool("nearPlayer", false);
         }
     }
-    
+
+    /*
+    * Called when aiMonster is attacked
+    */
+    public void DamageHealth(float damage)
+    {
+        Debug.Log("Taking Damage Monster");
+        m_MonsterAnimation.TakenDamage();
+        m_healthPoints -= damage;
+        if (m_healthPoints < 0)
+        {
+            m_MonsterAnimation.Death();
+        }
+    }
 }

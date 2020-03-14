@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  * Was originally in javascript, which is why it's so janky
  */
-public class PlantMonsterAnimationEvent : MonoBehaviour
+public class MushroomMonsterAnimationEvent : MonoBehaviour
 {
     [SerializeField] private AudioClip[] attack1; // Array of audio available
 
