@@ -6,18 +6,33 @@ using UnityEngine;
 public class DamageSystem : MonoBehaviour
 {
     [SerializeField]
-    private double m_PureDamage;
+    private float m_PureDamage = 20f;
 
+    protected bool m_isActive = true;
+
+    public float GetDamage()
+    {
+        return m_PureDamage;
+    }
+
+    public void SetDamage(float damage)
+    {
+        m_PureDamage = damage;
+    }
+
+    public void SetIsWeaponActive(bool isActive)
+    {
+        m_isActive = isActive;
+    }
+    
     void OnTriggerEnter(Collider other)
     {
-        // For now will do checks by Tags, probably a better way to handle this. 
-        // Also, only applicable to players for now since neutrals not implemented yet.
-        if (other.GetComponent<Player>() != null)
+        Damageable damageable = other.GetComponent<Damageable>();
+        if (m_isActive &&  damageable != null)
         {
             // Damage calculation.
             // As of now, only pure damage dealt, however each players should have defence stat that can reduce this damage dealt.
-            Player player = other.GetComponent<Player>();
-            player.DamageHealth(m_PureDamage);
+            damageable.DamageHealth(m_PureDamage);
         }
     }
 }
