@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using Debug = System.Diagnostics.Debug;
 
 [RequireComponent(typeof(Collider))]
 public class AiMonster : AiActor, Attacker
@@ -51,7 +50,7 @@ public class AiMonster : AiActor, Attacker
 
         IEnumerator SetCanAttack(float delay)
         {
-            yield return new WaitForSeconds(attackInterval + delay);
+            yield return new WaitForSeconds(attackInterval + delay/2); //Divide by 2 for now
             canAttack = true;
         }
     }
@@ -83,6 +82,7 @@ public class AiMonster : AiActor, Attacker
     {
         if (m_NearestPlayer == null)
         {
+            Debug.Log("No Nearest Player");
             return;
         }
         Vector3 direction = (m_NearestPlayer.position - transform.position).normalized;
