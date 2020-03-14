@@ -5663,6 +5663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LookAtType: 0
+  m_LookatDamping: 0
   m_Weight: 0.63
   m_WeightBody: 0.071
   m_WeightHead: 1
@@ -5697,6 +5698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_PlayerMovement: {fileID: 0}
+  m_PlayerStance: {fileID: 0}
 --- !u!114 &6079326829233561152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5710,16 +5712,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SkeletalRoot: {fileID: 6079326829471151843}
-  m_AccessoryIndex: 0
-  m_CostumeIndex: 0
-  m_FaceIndex: 0
-  m_HairIndex: 0
-  m_EyeIndex: 0
   m_CurrentHair: {fileID: 6079326830758688794}
   m_CurrentAccessory: {fileID: 6079326828740778119}
   m_CurrentCostume: {fileID: 6079326830561486380}
   m_CurrentFace: {fileID: 6079326830445604723}
   m_CurrentEyes: {fileID: 6079326829585843247}
+  m_DemoHairPhysics: 0
 --- !u!1 &6079326829267150788
 GameObject:
   m_ObjectHideFlags: 0
@@ -6701,7 +6699,7 @@ MonoBehaviour:
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   volumeAnchorOverride: {fileID: 0}
   antialiasing: 2
   SMAAQuality: 2

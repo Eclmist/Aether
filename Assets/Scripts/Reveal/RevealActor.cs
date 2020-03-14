@@ -10,6 +10,8 @@ public class RevealActor : MonoBehaviour
     private float m_RadiusModifierTarget = 1;
 
     [SerializeField]
+    private bool m_RevealObjectsByDistance = false;
+    [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
 
     private VisibilityManager.VisibilityModifier m_VisibilityModifier;
@@ -27,16 +29,20 @@ public class RevealActor : MonoBehaviour
     {
         m_RadiusModifier = Mathf.Lerp(m_RadiusModifier, m_RadiusModifierTarget, Time.deltaTime);
         // Update Revealable Objects (the ones that fade from bottom to top in one go)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, GetRadius(), m_ObjectLayerMask);
 
-        foreach (Collider c in colliders)
+        if (m_RevealObjectsByDistance)
         {
-            RevealableObject target = c.GetComponent<RevealableObject>();
-            
-            if (target == null)
-                continue;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, GetRadius(), m_ObjectLayerMask);
 
-            target.Reveal();
+            foreach (Collider c in colliders)
+            {
+                RevealableObject target = c.GetComponent<RevealableObject>();
+
+                if (target == null)
+                    continue;
+
+                target.Reveal();
+            }
         }
 
         m_VisibilityModifier.m_Position = transform.position;
