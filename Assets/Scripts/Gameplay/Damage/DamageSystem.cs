@@ -12,7 +12,7 @@ public class DamageSystem : MonoBehaviour
     {
         // For now will do checks by Tags, probably a better way to handle this. 
         // Also, only applicable to players for now since neutrals not implemented yet.
-        if (other.gameObject.GetComponent<Player> != null)
+        if (other.GetComponent<Player>() != null)
         {
             // Damage calculation.
             // As of now, only pure damage dealt, however each players should have defence stat that can reduce this damage dealt.
