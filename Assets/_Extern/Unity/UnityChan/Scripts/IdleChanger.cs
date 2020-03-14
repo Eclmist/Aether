@@ -43,7 +43,7 @@ namespace UnityChan
 		void  Update ()
 		{
 			// ↑キー/スペースが押されたら、ステートを次に送る処理
-			if (Input.GetKeyDown ("up") || Input.GetButton ("Jump")) {
+			if (Input.GetKeyDown ("up")) {
 				// ブーリアンNextをtrueにする
 				anim.SetBool ("Next", true);
 			}

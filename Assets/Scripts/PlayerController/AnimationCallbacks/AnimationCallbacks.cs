@@ -27,6 +27,11 @@ public class AnimationCallbacks : MonoBehaviour
 
     }
 
+    public void DashForward(float distance)
+    {
+
+    }
+
     public void SetWeaponActive()
     {
         if (m_PlayerStance != null)

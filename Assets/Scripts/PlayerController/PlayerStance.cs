@@ -32,26 +32,26 @@ public class PlayerStance : MonoBehaviour
     [System.Flags]
     public enum Action
     {
-        ACTION_UNSET    = 0,
-        ACTION_IDLE     = 1,
-        ACTION_WALK     = 2,
-        ACTION_SPRINT   = 4,
-        ACTION_JUMP     = 8,
-        ACTION_DASH     = 16,
-        ACTION_DASHBACK = 32,
-        ACTION_ATTACK   = 64,
-        ACTION_BLOCK    = 128,
-        ACTION_SHEATHE  = 256,
+        ACTION_UNSET        = 0,
+        ACTION_IDLE         = 1,
+        ACTION_WALK         = 2,
+        ACTION_SPRINT       = 4,
+        ACTION_JUMP         = 8,
+        ACTION_DODGE        = 16,
+        ACTION_DODGEBACK    = 32,
+        ACTION_ATTACK       = 64,
+        ACTION_BLOCK        = 128,
+        ACTION_SHEATHE      = 256,
         // More actions to be added here (e.g., ACTION_CAPTURE, ACTION_DEATH, etc)
-        ACTION_ALL      = int.MaxValue
+        ACTION_ALL          = int.MaxValue
     }
 
     // Action masks
-    private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DASH);
+    private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DODGE);
     private Action m_CanSprintMask = Action.ACTION_WALK;
-    private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DASH;
-    private Action m_CanDashMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
-    private Action m_CanDashbackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
+    private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DODGE;
+    private Action m_CanDodgeMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
+    private Action m_CanDodgebackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
     private Action m_CanAttackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
     private Action m_CanBlockMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_BLOCK;
     private Action m_CanSheatheMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
@@ -88,11 +88,11 @@ public class PlayerStance : MonoBehaviour
         if (m_PlayerMovement.GetVelocity().y > 0 || !m_PlayerMovement.IsGrounded())
             m_CurrentActions |= Action.ACTION_JUMP;
 
-        if (m_PlayerMovement.IsDashing())
-            m_CurrentActions |= Action.ACTION_DASH;
+        if (m_PlayerMovement.IsDodging())
+            m_CurrentActions |= Action.ACTION_DODGE;
 
-        if (m_PlayerMovement.IsDashing() && m_PlayerMovement.IsDashingBackwards())
-            m_CurrentActions |= Action.ACTION_DASHBACK;
+        if (m_PlayerMovement.IsDodging() && m_PlayerMovement.IsDodgingBackwards())
+            m_CurrentActions |= Action.ACTION_DODGEBACK;
 
         if (m_PlayerAnimation.IsPlayingAttackAnimation())
             m_CurrentActions |= Action.ACTION_ATTACK;
@@ -155,10 +155,10 @@ public class PlayerStance : MonoBehaviour
                 return false;
             case Action.ACTION_JUMP:
                 return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanJumpMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanJumpMask);
-            case Action.ACTION_DASH:
-                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanDashMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanDashMask);
-            case Action.ACTION_DASHBACK:
-                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanDashbackMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanDashbackMask);
+            case Action.ACTION_DODGE:
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanDodgeMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanDodgeMask);
+            case Action.ACTION_DODGEBACK:
+                return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanDodgebackMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanDodgebackMask);
             case Action.ACTION_ATTACK:
                 return BitmaskHelper.AnyBitSet(m_CurrentActions, m_CanAttackMask) && BitmaskHelper.NoBitSet(m_CurrentActions, ~m_CanAttackMask);
             case Action.ACTION_BLOCK:

@@ -59,7 +59,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""Roll"",
+                    ""name"": ""Dodge"",
                     ""type"": ""Button"",
                     ""id"": ""c6e2dde3-a04d-4406-8dbf-bd33f529ab32"",
                     ""expectedControlType"": """",
@@ -336,7 +336,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Roll"",
+                    ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -883,7 +883,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sheathe = m_Player.FindAction("Sheathe", throwIfNotFound: true);
-        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
+        m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -952,7 +952,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sheathe;
-    private readonly InputAction m_Player_Roll;
+    private readonly InputAction m_Player_Dodge;
     private readonly InputAction m_Player_Block;
     public struct PlayerActions
     {
@@ -963,7 +963,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sheathe => m_Wrapper.m_Player_Sheathe;
-        public InputAction @Roll => m_Wrapper.m_Player_Roll;
+        public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -989,9 +989,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Sheathe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
                 @Sheathe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
                 @Sheathe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
-                @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
-                @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
-                @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Dodge.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
                 @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
@@ -1014,9 +1014,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Sheathe.started += instance.OnSheathe;
                 @Sheathe.performed += instance.OnSheathe;
                 @Sheathe.canceled += instance.OnSheathe;
-                @Roll.started += instance.OnRoll;
-                @Roll.performed += instance.OnRoll;
-                @Roll.canceled += instance.OnRoll;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
@@ -1189,7 +1189,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSheathe(InputAction.CallbackContext context);
-        void OnRoll(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
     }
     public interface IUIActions

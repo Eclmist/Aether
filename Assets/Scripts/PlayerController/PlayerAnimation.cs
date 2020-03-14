@@ -80,15 +80,15 @@ public class PlayerAnimation : MonoBehaviour
             return;
         }
 
-        if (m_PlayerMovement.DashedBackwardsInCurrentFrame())
+        if (m_PlayerMovement.DodgedBackwardsInCurrentFrame())
         {
             m_Animator.SetTrigger("Backstep");
             return;
         }
 
-        if (m_PlayerMovement.DashedInCurrentFrame())
+        if (m_PlayerMovement.DodgedInCurrentFrame())
         {
-            m_Animator.SetTrigger("Dash");
+            m_Animator.SetTrigger("Roll");
             return;
         }
 

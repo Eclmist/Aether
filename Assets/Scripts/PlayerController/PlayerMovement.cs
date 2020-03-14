@@ -49,18 +49,18 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [System.Serializable]
-    public class DashParams
+    public class DodgeParams
     {
-        public bool m_IsDashing;
-        public bool m_DashedInCurrentFrame;
-        public bool m_IsBackwardsDash;
-        public float m_DashTimeTotal = 0.5f;
-        public float m_BackDashTimeTotal = 0.3f;
-        public float m_DashDelay = 0.3f;
-        public float m_DashSpeed = 9;
-        public float m_DashCooldown = 0.5f;
-        public float m_LastCompletedDashTime;
-        public Vector3 m_DashDirection;
+        public bool m_IsDodging;
+        public bool m_DodgedInCurrentFrame;
+        public bool m_IsBackwardsDodge;
+        public float m_DodgeTimeTotal = 0.65f;
+        public float m_BackDodgeTimeTotal = 0.2f;
+        public float m_DodgeDelay = 0.15f;
+        public float m_DodgeSpeed = 10;
+        public float m_DodgeCooldown = 0.5f;
+        public float m_LastCompletedDodgeTime;
+        public Vector3 m_DodgeDirection;
     }
 
     #region References
@@ -75,13 +75,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GroundingParams m_GroundingParams;
     [SerializeField] private GravityParams m_GravityParams;
     [SerializeField] private JumpParams m_JumpParams;
-    [SerializeField] private DashParams m_DashParams;
+    [SerializeField] private DodgeParams m_DodgeParams;
     #endregion
 
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += JumpInputCallback;
-        AetherInput.GetPlayerActions().Roll.performed += DashInputCallback;
+        AetherInput.GetPlayerActions().Dodge.performed += DodgeInputCallback;
         m_CharacterController = GetComponent<CharacterController>();
         m_Player = GetComponent<Player>();
         m_PlayerStance = GetComponent<PlayerStance>();
@@ -107,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        m_DashParams.m_DashedInCurrentFrame = false;
+        m_DodgeParams.m_DodgedInCurrentFrame = false;
     }
 
     private void ComputeYAxisVelocity()
@@ -175,10 +175,10 @@ public class PlayerMovement : MonoBehaviour
     private void RotatePlayer()
     {
         // Overrides
-        if (IsDashing())
+        if (IsDodging())
         {
-            if (!m_DashParams.m_IsBackwardsDash)
-                RotateTowardsDirection(m_DashParams.m_DashDirection);
+            if (!m_DodgeParams.m_IsBackwardsDodge)
+                RotateTowardsDirection(m_DodgeParams.m_DodgeDirection);
             else
             {
                 // Don't rotate
@@ -233,7 +233,7 @@ public class PlayerMovement : MonoBehaviour
         m_JumpParams.m_JumpedInCurrentFrame = false;
     }
 
-    public void DashInputCallback(InputAction.CallbackContext ctx)
+    public void DodgeInputCallback(InputAction.CallbackContext ctx)
     {
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
@@ -242,13 +242,13 @@ public class PlayerMovement : MonoBehaviour
         if (!m_PlayerStance.IsCombatStance())
             return;
 
-        if (Time.time - m_DashParams.m_LastCompletedDashTime < m_DashParams.m_DashCooldown)
+        if (Time.time - m_DodgeParams.m_LastCompletedDodgeTime < m_DodgeParams.m_DodgeCooldown)
             return;
 
-        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASH) && IsMovingForward())
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGE) && IsMovingForward())
             return;
 
-        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DASHBACK) && !IsMovingForward())
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGEBACK) && !IsMovingForward())
             return;
 
         if (IsMovingForward() && GetInputAxis().magnitude < 0.5f)
@@ -257,23 +257,23 @@ public class PlayerMovement : MonoBehaviour
         if (!IsMovingForward() && Mathf.Abs(GetInputAxis().x) > 0.5f)
             return;
 
-        StartCoroutine(Dash());
+        StartCoroutine(Dodge());
     }
 
-    IEnumerator Dash()
+    IEnumerator Dodge()
     {
-        m_DashParams.m_IsDashing = true;
-        m_DashParams.m_IsBackwardsDash = false;
-        m_DashParams.m_DashedInCurrentFrame = true;
+        m_DodgeParams.m_IsDodging = true;
+        m_DodgeParams.m_IsBackwardsDodge = false;
+        m_DodgeParams.m_DodgedInCurrentFrame = true;
 
         // Is a backwards dash
         if (GetInputAxis()[1] <= 0)
         {
-            m_DashParams.m_IsBackwardsDash = true;
-            yield return new WaitForSeconds(m_DashParams.m_BackDashTimeTotal);
-            m_DashParams.m_IsDashing = false;
-            m_DashParams.m_IsBackwardsDash = false;
-            m_DashParams.m_LastCompletedDashTime = Time.time;
+            m_DodgeParams.m_IsBackwardsDodge = true;
+            yield return new WaitForSeconds(m_DodgeParams.m_BackDodgeTimeTotal);
+            m_DodgeParams.m_IsDodging = false;
+            m_DodgeParams.m_IsBackwardsDodge = false;
+            m_DodgeParams.m_LastCompletedDodgeTime = Time.time;
             yield break;
         }
 
@@ -288,21 +288,21 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Assert(dashDirection != Vector3.zero);
-        m_DashParams.m_DashDirection = dashDirection;
+        m_DodgeParams.m_DodgeDirection = dashDirection;
 
         // Let the wind up animation play (this should really be an animation callback @TODO)
-        yield return new WaitForSeconds(m_DashParams.m_DashDelay);
+        yield return new WaitForSeconds(m_DodgeParams.m_DodgeDelay);
 
         float startTime = Time.time;
-        while (Time.time - startTime < m_DashParams.m_DashTimeTotal)
+        while (Time.time - startTime < m_DodgeParams.m_DodgeTimeTotal)
         {
             // Send the player flying
-            m_CharacterController.Move(dashDirection * m_DashParams.m_DashSpeed * Time.deltaTime);
+            m_CharacterController.Move(dashDirection * m_DodgeParams.m_DodgeSpeed * Time.deltaTime);
             yield return null;
         }
 
-        m_DashParams.m_LastCompletedDashTime = Time.time;
-        m_DashParams.m_IsDashing = false;
+        m_DodgeParams.m_LastCompletedDodgeTime = Time.time;
+        m_DodgeParams.m_IsDodging = false;
     }
 
     public Vector2 GetInputAxis()
@@ -345,24 +345,24 @@ public class PlayerMovement : MonoBehaviour
         return m_JumpParams.m_JumpedInCurrentFrame;
     }
 
-    public bool IsDashing()
+    public bool IsDodging()
     {
-        return m_DashParams.m_IsDashing;
+        return m_DodgeParams.m_IsDodging;
     }
 
-    public bool IsDashingBackwards()
+    public bool IsDodgingBackwards()
     {
-        return m_DashParams.m_IsBackwardsDash;
+        return m_DodgeParams.m_IsBackwardsDodge;
     }
 
-    public bool DashedBackwardsInCurrentFrame()
+    public bool DodgedBackwardsInCurrentFrame()
     {
-        return m_DashParams.m_IsBackwardsDash && m_DashParams.m_DashedInCurrentFrame;
+        return m_DodgeParams.m_IsBackwardsDodge && m_DodgeParams.m_DodgedInCurrentFrame;
     }
 
-    public bool DashedInCurrentFrame()
+    public bool DodgedInCurrentFrame()
     {
-        return m_DashParams.m_DashedInCurrentFrame;
+        return m_DodgeParams.m_DodgedInCurrentFrame;
     }
 
     public bool IsMovingForward()
