@@ -239,47 +239,60 @@ public class PlayerMovement : MonoBehaviour
         if (!button.wasPressedThisFrame)
             return;
 
-        if (!m_PlayerStance.IsCombatStance())
+        if (!CanDodge())
             return;
 
-        if (Time.time - m_DodgeParams.m_LastCompletedDodgeTime < m_DodgeParams.m_DodgeCooldown)
-            return;
-
-        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGE) && IsMovingForward())
-            return;
-
-        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGEBACK) && !IsMovingForward())
-            return;
-
-        if (IsMovingForward() && GetInputAxis().magnitude < 0.5f)
-            return;
-
-        if (!IsMovingForward() && Mathf.Abs(GetInputAxis().x) > 0.5f)
-            return;
-
-        StartCoroutine(Dodge());
-    }
-
-    IEnumerator Dodge()
-    {
+        // Is a backwards dash (driven by root motion)
         m_DodgeParams.m_IsDodging = true;
-        m_DodgeParams.m_IsBackwardsDodge = false;
         m_DodgeParams.m_DodgedInCurrentFrame = true;
-
-        // Is a backwards dash
-        if (GetInputAxis()[1] <= 0)
+        System.Action onCompleteDodge = () =>
         {
-            m_DodgeParams.m_IsBackwardsDodge = true;
-            yield return new WaitForSeconds(m_DodgeParams.m_BackDodgeTimeTotal);
+            m_DodgeParams.m_LastCompletedDodgeTime = Time.time;
             m_DodgeParams.m_IsDodging = false;
             m_DodgeParams.m_IsBackwardsDodge = false;
-            m_DodgeParams.m_LastCompletedDodgeTime = Time.time;
-            yield break;
-        }
+        };
 
+        if (GetInputAxis()[1] <= 0)
+            DoBackwardDodge(onCompleteDodge);
+        else
+            DoForwardDodge(onCompleteDodge);
+    }
+
+    private bool CanDodge()
+    {
+        if (!m_PlayerStance.IsCombatStance())
+            return false;
+
+        if (Time.time - m_DodgeParams.m_LastCompletedDodgeTime < m_DodgeParams.m_DodgeCooldown)
+            return false;
+
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGE) && IsMovingForward())
+            return false;
+
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_DODGEBACK) && !IsMovingForward())
+            return false;
+
+        // Forward speed condition for dodging forward
+        if (IsMovingForward() && GetInputAxis().magnitude < 0.5f)
+            return false;
+
+        // Backward direction condition for dodging backward
+        if (!IsMovingForward() && Mathf.Abs(GetInputAxis().x) > 0.5f)
+            return false;
+
+        return true;
+    }
+
+    private void DoForwardDodge(System.Action onCompleteDodge)
+    {
+        // Set dodge params
+        m_DodgeParams.m_IsBackwardsDodge = false;
+
+        // Not a backwards dash, then its a forward dodge/roll
         Vector3 dashDirection = GetXZVelocity().normalized;
 
-        // TODO: "Velocity" is technically 0 immediately after a backwards dash
+        // TODO: "Velocity" is technically 0 immediately after a backwards dash, so it is hard to 
+        // a backward + forward dash right after for style points
         // Possible fixes are: delay repeated dashes (done), read only controller input for dash (but must
         // convert to actual direction)
         if (dashDirection.magnitude == 0)
@@ -288,21 +301,40 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Assert(dashDirection != Vector3.zero);
+        // This value is used by animation systems to rotate the player in the right direction
         m_DodgeParams.m_DodgeDirection = dashDirection;
 
+        StartCoroutine(Dash(dashDirection, m_DodgeParams.m_DodgeDelay, m_DodgeParams.m_DodgeTimeTotal,
+            m_DodgeParams.m_DodgeSpeed, onCompleteDodge));
+    }
+
+    private void DoBackwardDodge(System.Action onCompleteDodge)
+    {
+        // Set dodge params
+        m_DodgeParams.m_IsBackwardsDodge = true;
+        StartCoroutine(Wait(m_DodgeParams.m_BackDodgeTimeTotal, onCompleteDodge));
+    }
+
+    public IEnumerator Dash(Vector3 direction, float delay, float duration, float speed, System.Action onComplete)
+    {
         // Let the wind up animation play (this should really be an animation callback @TODO)
-        yield return new WaitForSeconds(m_DodgeParams.m_DodgeDelay);
+        yield return new WaitForSeconds(delay);
 
         float startTime = Time.time;
-        while (Time.time - startTime < m_DodgeParams.m_DodgeTimeTotal)
+        while (Time.time - startTime < duration)
         {
             // Send the player flying
-            m_CharacterController.Move(dashDirection * m_DodgeParams.m_DodgeSpeed * Time.deltaTime);
+            m_CharacterController.Move(direction * speed * Time.deltaTime);
             yield return null;
         }
 
-        m_DodgeParams.m_LastCompletedDodgeTime = Time.time;
-        m_DodgeParams.m_IsDodging = false;
+        onComplete?.Invoke();
+    }
+
+    IEnumerator Wait(float duration, System.Action onComplete)
+    {
+        yield return new WaitForSeconds(duration);
+        onComplete?.Invoke();
     }
 
     public Vector2 GetInputAxis()

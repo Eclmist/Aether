@@ -50,8 +50,8 @@ public class PlayerStance : MonoBehaviour
     private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DODGE);
     private Action m_CanSprintMask = Action.ACTION_WALK;
     private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DODGE;
-    private Action m_CanDodgeMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
-    private Action m_CanDodgebackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
+    private Action m_CanDodgeMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
+    private Action m_CanDodgebackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
     private Action m_CanAttackMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_ATTACK;
     private Action m_CanBlockMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_BLOCK;
     private Action m_CanSheatheMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
