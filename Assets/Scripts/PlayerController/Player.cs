@@ -23,10 +23,10 @@ public class Player : PlayerBehavior, ICanInteract
     private bool m_IsStealthy;
 
     // TODO remove this once health system has been merged. 
-    public double health = 100;
+    private double m_health = 100;
     public void DamageHealth(double damage)
     {
-        health -= damage;
+        m_health -= damage;
     }
 
 
