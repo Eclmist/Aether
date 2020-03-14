@@ -6,7 +6,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
-    public System.Action PlayersReady;
+    public event System.Action PlayersReady;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;

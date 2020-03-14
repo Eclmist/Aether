@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    public System.Action PlayerListPopulated;
+    public event System.Action PlayerListPopulated;
 
     private Player m_LocalPlayer;
 

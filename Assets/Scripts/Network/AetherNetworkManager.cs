@@ -9,7 +9,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
     public static int MAX_PLAYER_COUNT = 4;
 
     // Events for networking interaction
-    public System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneChanged;
+    public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneChanged;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
