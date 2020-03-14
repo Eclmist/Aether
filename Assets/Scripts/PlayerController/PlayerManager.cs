@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    public System.Action PlayersLoaded;
+    public System.Action PlayerListPopulated;
 
     private Player m_LocalPlayer;
 
@@ -38,7 +38,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
-            PlayersLoaded();
+            PlayerListPopulated();
     }
 
     public void SetLocalPlayer(Player player)

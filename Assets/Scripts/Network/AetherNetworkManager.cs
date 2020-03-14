@@ -57,4 +57,10 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
             SceneChanged(m_PlayerDetails);
         }
     }
+
+    private void OnDestroy()
+    {
+        if (NetworkManager.Instance != null)
+            NetworkManager.Instance.playerLoadedScene -= OnPlayerLoadScene;
+    }
 }
