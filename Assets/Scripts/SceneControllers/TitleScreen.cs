@@ -35,7 +35,7 @@ public class TitleScreen : MonoBehaviour
     {
         m_isMultiplayerDropdownActivated = false;
         m_EventSystem = EventSystem.current;
-        AetherInput.GetUIActions().Cancel.performed += SwitchMultiplayMenuBarsCallbacl;
+        AetherInput.GetUIActions().Cancel.performed += SwitchMultiplayMenuBarsCallback;
 
     }
 
@@ -63,7 +63,7 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
-    public void SwitchMultiplayMenuBarsCallbacl(InputAction.CallbackContext ctx)
+    public void SwitchMultiplayMenuBarsCallback(InputAction.CallbackContext ctx)
     {
         SwitchMultiplayerMenuBars();
     }
