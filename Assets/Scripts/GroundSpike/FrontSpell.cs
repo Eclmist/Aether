@@ -34,14 +34,14 @@ public class FrontSpell : MonoBehaviour
      */
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 forwardCam = Camera.main.transform.forward;
-            forwardCam.y = 0;
-            transform.position = m_LaunchPoint.position;
-            Vector3 targetPosition = transform.position + forwardCam * 4;
-            CastGroundSpell(targetPosition);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Vector3 forwardCam = Camera.main.transform.forward;
+        //    forwardCam.y = 0;
+        //    transform.position = m_LaunchPoint.position;
+        //    Vector3 targetPosition = transform.position + forwardCam * 4;
+        //    CastGroundSpell(targetPosition);
+        //}
     }
 
     private void CastGroundSpell(Vector3 targetPoint)
