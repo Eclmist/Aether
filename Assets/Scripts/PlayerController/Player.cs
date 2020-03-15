@@ -22,6 +22,14 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerDetails m_PlayerDetails;
     private bool m_IsStealthy;
 
+    // TODO remove this once health system has been merged. 
+    private double m_health = 100;
+    public void DamageHealth(double damage)
+    {
+        m_health -= damage;
+    }
+
+
     private void Awake()
     {
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
@@ -31,11 +39,6 @@ public class Player : PlayerBehavior, ICanInteract
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
         m_SKillsHandler = GetComponent<SkillHandler>();
-        
-        m_RevealActor.enabled = false;
-        m_StealthActor.enabled = false;
-
-        // Better to have a variable to store UseSkills is? 
         
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
     }
@@ -49,7 +52,6 @@ public class Player : PlayerBehavior, ICanInteract
     private void Start()
     {
         AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
-
     }
 
     protected override void NetworkStart()
