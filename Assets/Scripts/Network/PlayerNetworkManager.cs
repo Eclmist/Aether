@@ -6,7 +6,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
-    public System.Action PlayersReady;
+    public event System.Action PlayersReady;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;
@@ -18,11 +18,11 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void Awake()
     {
-        AetherNetworkManager.Instance.SceneChanged += OnSceneLoaded;
-        PlayerManager.Instance.PlayersLoaded += OnPlayersLoaded;
+        AetherNetworkManager.Instance.SceneChanged += OnGameSceneLoaded;
+        PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }
 
-    private void OnPlayersLoaded()
+    private void OnClientReady()
     {
         // Run on main thread to lock data and send rpc
         MainThreadManager.Run(() => {
@@ -52,8 +52,10 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             }
 
             networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.Server);
-        });
 
+            // Unsubscribe from playersloaded
+            PlayerManager.Instance.PlayerListPopulated -= OnClientReady;
+        });
     }
 
     public override void SetPlayerCount(RpcArgs args)
@@ -76,7 +78,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     ////////////////////
 
     // Callback for when scene has loaded for all players
-    public void OnSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
+    public void OnGameSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
     {
         if (!networkObject.IsServer)
             return;
@@ -93,6 +95,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         {
             SpawnPlayer(np, detailsMap[np]);
         });
+
+        AetherNetworkManager.Instance.SceneChanged -= OnGameSceneLoaded;
     }
 
     // Called by host to spawn every client's player
@@ -131,6 +135,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         NetworkingPlayer np = networkObject.Networker.GetPlayerById(details.GetNetworkId());
         player.networkObject.AssignOwnership(np);
         player.networkObject.SendRpc(Player.RPC_TRIGGER_UPDATE_DETAILS, Receivers.All, details.ToArray());
+
+        player.networkStarted -= OnPlayerNetworked;
     }
 
     // RPC sent to host when a client is ready
