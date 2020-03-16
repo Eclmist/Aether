@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -64,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
 
     #region References
     private CharacterController m_CharacterController;
-    private Player m_Player;
     private PlayerStance m_PlayerStance;
     private PlayerCombatHandler m_PlayerCombatHandler;
     #endregion
@@ -82,7 +80,6 @@ public class PlayerMovement : MonoBehaviour
         AetherInput.GetPlayerActions().Jump.performed += JumpInputCallback;
         AetherInput.GetPlayerActions().Roll.performed += DashInputCallback;
         m_CharacterController = GetComponent<CharacterController>();
-        m_Player = GetComponent<Player>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
     }
@@ -94,9 +91,6 @@ public class PlayerMovement : MonoBehaviour
         ComputeYAxisVelocity();
         ComputeXZAxisVelocity();
         m_CharacterController.Move(ComputeMovementDelta());
-
-        if (m_Player.networkObject != null)
-            m_Player.networkObject.position = transform.position;
     }
 
     private void LateUpdate()

@@ -1,28 +1,28 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(ClientServerTogglables))]
+[RequireComponent(typeof(LocalNetworkTogglables))]
 public class TowerBase : TowerBehavior
 {
     public const float MAXIMUM_CAPTURE_GAUGE = 100;
 
     public System.Action<TowerBase> TowerCaptured;
 
-    private ClientServerTogglables m_ClientServerTogglables;
+    private LocalNetworkTogglables m_LocalNetworkTogglables;
 
     private float m_CaptureGauge = 0;
     private bool m_IsCaptured = false;
 
     private void Awake()
     {
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
+        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
     }
 
     protected override void NetworkStart()
     {
         base.NetworkStart();
 
-        m_ClientServerTogglables.UpdateOwner(networkObject.IsServer);
+        m_LocalNetworkTogglables.UpdateOwner(networkObject.IsServer);
     }
 
     public float GetCaptureGauge()

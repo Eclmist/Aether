@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 
-[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerStance))]
 public class PlayerAnimation : MonoBehaviour
@@ -11,13 +10,11 @@ public class PlayerAnimation : MonoBehaviour
     private PlayerMovement m_PlayerMovement;
     private PlayerStance m_PlayerStance;
     private PlayerCombatHandler m_PlayerCombatHandler;
-    private Player m_Player;
 
     private Vector2 m_AxisDelta;
 
     void Start()
     {
-        m_Player = GetComponent<Player>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
@@ -59,17 +56,6 @@ public class PlayerAnimation : MonoBehaviour
 
         // Set combat states
         HandleCombatAnimations();
-
-        if (m_Player.networkObject != null)
-        {
-            m_Player.networkObject.axisDeltaMagnitude = m_AxisDelta.magnitude;
-            m_Player.networkObject.vertVelocity = velocity.y;
-            m_Player.networkObject.rotation = transform.rotation;
-            m_Player.networkObject.grounded = isGrounded;
-
-            if (hasJumped)
-                m_Player.networkObject.SendRpc(Player.RPC_TRIGGER_JUMP, Receivers.All);
-        }
     }
 
     private void HandleCombatAnimations()

@@ -4,16 +4,13 @@ using UnityEngine.InputSystem.Controls;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(ClientServerTogglables))]
-[RequireComponent(typeof(PlayerStance))]
+[RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
 {
-    private PlayerMovement m_PlayerMovement;
-    private PlayerAnimation m_PlayerAnimation;
-    private PlayerNetworkAnimation m_PlayerNetworkAnimation;
-    private ClientServerTogglables m_ClientServerTogglables;
+    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private LocalNetworkTogglables m_LocalNetworkTogglables;
     private Transform m_SkillsTransform;
 
     private RevealActor m_RevealActor;
@@ -31,14 +28,12 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void Awake()
     {
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
-        m_PlayerMovement = GetComponent<PlayerMovement>();
-        m_PlayerAnimation = GetComponent<PlayerAnimation>();
-        m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
+        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
+        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
         
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
+        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
         m_SkillsTransform = new GameObject("Skills").transform;
         m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
         m_SkillsTransform.parent = gameObject.transform;
@@ -90,16 +85,6 @@ public class Player : PlayerBehavior, ICanInteract
 
         m_PlayerDetails = details;
     }
-    
-    public PlayerMovement GetPlayerMovement()
-    {
-        return m_PlayerMovement;
-    }
-
-    public void SetPlayerMovement(PlayerMovement playerMovement)
-    {
-        m_PlayerMovement = playerMovement;
-    }
 
     public RevealActor GetRevealActor()
     {
@@ -108,7 +93,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     public void UpdateToggleables()
     {
-        m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
+        m_LocalNetworkTogglables.UpdateOwner(networkObject.IsOwner);
     }
 
     // Toggles between stealth and reveal modes upon pressing stealth button.
@@ -160,11 +145,6 @@ public class Player : PlayerBehavior, ICanInteract
         networkObject.positionInterpolation.target = networkObject.position;
     }
 
-    public override void TriggerJump(RpcArgs args)
-    {
-        m_PlayerNetworkAnimation?.TriggerJump();
-    }
-
     // RPC sent by host to send player details to all clients
     public override void TriggerUpdateDetails(RpcArgs args)
     {
@@ -181,5 +161,10 @@ public class Player : PlayerBehavior, ICanInteract
             PlayerManager.Instance.SetLocalPlayer(this);
 
         PlayerManager.Instance.AddPlayer(this);
+    }
+
+    public override void TriggerJump(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerJump();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(ClientServerTogglables))]
+[RequireComponent(typeof(LocalNetworkTogglables))]
 public class TowerNetwork : MonoBehaviour
 {
     [SerializeField]
