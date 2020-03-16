@@ -61,6 +61,11 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_LocalPlayer;
     }
 
+    public Player GetPlayerById(uint networkId)
+    {
+        return m_Players.Find(player => player.GetPlayerDetails().GetNetworkId() == networkId);
+    }
+
     public List<Player> GetAllPlayers()
     {
         return m_Players;
@@ -69,5 +74,15 @@ public class PlayerManager : Singleton<PlayerManager>
     public List<Player> GetPlayersByTeam(Team team)
     {
         return m_TeamIndices[team].ConvertAll(index => m_Players[index]);
+    }
+
+    public List<Player> GetTeamMembers()
+    {
+        List<Player> teamPlayers = GetPlayersByTeam(m_LocalPlayer.GetPlayerDetails().GetTeam());
+
+        if (!teamPlayers.Remove(m_LocalPlayer))
+            Debug.Log("Local player not found in his team's list");
+
+        return teamPlayers;
     }
 }

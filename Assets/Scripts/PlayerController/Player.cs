@@ -29,7 +29,6 @@ public class Player : PlayerBehavior, ICanInteract
         m_health -= damage;
     }
 
-
     private void Awake()
     {
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
@@ -91,7 +90,7 @@ public class Player : PlayerBehavior, ICanInteract
 
         m_PlayerDetails = details;
     }
-      
+    
     public PlayerMovement GetPlayerMovement()
     {
         return m_PlayerMovement;
@@ -163,7 +162,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     public override void TriggerJump(RpcArgs args)
     {
-        m_PlayerNetworkAnimation.TriggerJump();
+        m_PlayerNetworkAnimation?.TriggerJump();
     }
 
     // RPC sent by host to send player details to all clients

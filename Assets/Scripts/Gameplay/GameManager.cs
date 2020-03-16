@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        m_PlayerNetworkManager.PlayersReady += StartGame;
+        m_PlayerNetworkManager.AllPlayersReady += StartGame;
         m_TeamCaptureCounts = new Dictionary<Team, int>();
 
         foreach (TowerBase tower in m_Towers)

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
@@ -11,14 +10,15 @@ public class CinemachineTargetting : MonoBehaviour
 
     private bool m_FirstRun = true;
 
-    void Awake()
+    private void Awake()
     {
         m_PlayerManager = FindObjectOfType<PlayerManager>();
         m_VirtualCam = GetComponent<CinemachineVirtualCameraBase>();
     }
 
-    void Update()
+    private void Update()
     {
+        // Switch this to event based. Should subscribe to either game start... or when players loaded
         if (m_FirstRun)
         {
             if (m_PlayerManager.GetLocalPlayer() == null)
@@ -29,5 +29,16 @@ public class CinemachineTargetting : MonoBehaviour
             m_VirtualCam.LookAt = playerTransform;
             m_FirstRun = false;
         }
+    }
+
+    private void OnPlayerDeath()
+    {
+        List<Player> players = PlayerManager.Instance.GetTeamMembers();
+
+        if (players.Count == 0)
+            return;
+
+        m_VirtualCam.Follow = players[0].transform;
+        m_VirtualCam.LookAt = players[0].transform;
     }
 }

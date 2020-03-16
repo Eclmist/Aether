@@ -6,7 +6,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
-    public event System.Action PlayersReady;
+    public event System.Action AllPlayersReady;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;
@@ -25,7 +25,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     private void OnClientReady()
     {
         // Run on main thread to lock data and send rpc
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             List<Player> players = PlayerManager.Instance.GetAllPlayers();
 
             Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
@@ -58,17 +59,32 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         });
     }
 
+    private void OnLocalPlayerDeath()
+    {
+        MainThreadManager.Run(() =>
+        {
+            // networkObject.SendRpc(RPC_TRIGGER_DEATH, Receivers.All, networkObject.MyPlayerId);
+        });
+    }
+
     public override void SetPlayerCount(RpcArgs args)
     {
         // Run on main thread to lock player count
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
         });
     }
 
     public override void SetAllReady(RpcArgs args)
     {
-        PlayersReady();
+        AllPlayersReady();
+    }
+
+    public /*override*/ void TriggerDeath(RpcArgs args)
+    {
+        Player deadPlayer = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
+        // deadPlayer.SetDead();
     }
 
     ////////////////////
@@ -103,7 +119,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     private void SpawnPlayer(NetworkingPlayer np, PlayerDetails details)
     {
         // Run on main thread for unity to be able to grab transform data and instantiate player etc
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             Transform spawnPoint = null;
             switch(details.GetTeam())
             {
@@ -146,7 +163,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             return;
 
         // Run on main thread to ensure client count is locked and rpc can be sent
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             m_ReadyClientCount++;
             if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
             {
