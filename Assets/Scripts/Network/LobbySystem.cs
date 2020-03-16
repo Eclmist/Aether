@@ -137,4 +137,10 @@ public class LobbySystem : LobbySystemBehavior
             }
         }
     }
+
+    private void OnDestroy()
+    {
+        if (NetworkManager.Instance != null)
+            NetworkManager.Instance.Networker.playerAccepted -= OnPlayerAccepted;
+    }
 }
