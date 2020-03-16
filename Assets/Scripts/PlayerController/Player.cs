@@ -39,9 +39,6 @@ public class Player : PlayerBehavior, ICanInteract
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
         
-        m_RevealActor.enabled = false;
-        m_StealthActor.enabled = false;
-        
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
         m_SkillsTransform = new GameObject("Skills").transform;
         m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
@@ -57,7 +54,6 @@ public class Player : PlayerBehavior, ICanInteract
     private void Start()
     {
         AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
-
     }
 
     protected override void NetworkStart()
