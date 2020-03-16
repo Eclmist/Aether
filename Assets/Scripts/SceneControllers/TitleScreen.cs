@@ -1,7 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -17,7 +19,25 @@ public class TitleScreen : MonoBehaviour
     [SerializeField]
     private MultiplayerMenu m_ForgeMultiplayerMenu;
 
+    private bool m_isMultiplayerDropdownActivated;
+
     private bool m_AnyKeyPressed;
+
+    private EventSystem m_EventSystem;
+
+    [SerializeField]
+    private GameObject m_MainMultiplayerButton;
+
+    [SerializeField]
+    private GameObject m_SideMultiplayerButton;
+
+    void Start() 
+    {
+        m_isMultiplayerDropdownActivated = false;
+        m_EventSystem = EventSystem.current;
+        AetherInput.GetUIActions().Cancel.performed += SwitchMultiplayMenuBarsCallback;
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -43,7 +63,35 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
-    public void GoToMultiplayLobby()
+    public void SwitchMultiplayMenuBarsCallback(InputAction.CallbackContext ctx)
+    {
+        SwitchMultiplayerMenuBars();
+    }
+
+    public void SwitchMultiplayerMenuBars()
+    {
+        AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
+
+        if (m_EventSystem == null) 
+            return;
+
+        if (m_MainMultiplayerButton == null || m_SideMultiplayerButton == null)
+            return;
+
+        if (m_isMultiplayerDropdownActivated) 
+        {
+            m_EventSystem.SetSelectedGameObject(m_MainMultiplayerButton);
+            m_MainCanvasAnimator.SetTrigger("ReverseMultiplayer");
+        } 
+        else {
+            m_EventSystem.SetSelectedGameObject(m_SideMultiplayerButton);
+            m_MainCanvasAnimator.SetTrigger("EnterMultiplayer");
+        }
+
+        m_isMultiplayerDropdownActivated = !(m_isMultiplayerDropdownActivated);
+    }
+
+    public void GoToCharacterCustomization()
     {
         AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
         m_ScreenFadeAnimator.SetTrigger("ToBlack");
