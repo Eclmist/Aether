@@ -1,43 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SkillHandler : MonoBehaviour
 {
-    //Requires UI
+
+    private const int m_SkillLimit = 3;
+
+    private Queue<ItemSkill> m_ItemSkillSlots;
     
-    //Max 3
-    private int m_MaxSkillsNum = 3;
-    public List<ItemSkill> m_SkillSlots = new List<ItemSkill>();
+    void Start()
+    {
+        AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
+        AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchSkills;
+        m_ItemSkillSlots = new Queue<ItemSkill>();
     
+    }
+
     //key bindings
-    public void UseSkillAt(int index)
+    public void UseSkillAt(InputAction.CallbackContext ctx)
     {
-        m_SkillSlots[index].UseSkill();
+
+        if (m_ItemSkillSlots.Count == 0)
+            return;
+
+        ItemSkill currentSkill = m_ItemSkillSlots.Peek();
+
+        currentSkill.UseSkill();
+        currentSkill.DecrementUses();
+
+        if (currentSkill.HasNoMoreUses())
+            RemoveSkill();
     }
 
-    /*
-     * Attempts to add skill to player slots,
-     * returns true if successful
-     */
-    public bool AddSkill(ItemSkill itemSkill)
+    public void AddSkill(ItemSkill itemSkill)
     {
-        if (m_SkillSlots.Count >= 3)
-        {
-            return false;
-        }
-        
-        m_SkillSlots.Add(itemSkill);
-        return true;
+
+        if (m_ItemSkillSlots.Count >= m_SkillLimit)
+            return;
+
+        m_ItemSkillSlots.Enqueue(itemSkill);
+        UIManager.Instance.SaveSkill(itemSkill);
     }
 
-    /*
-     * Attempts to remove skill from player slots,
-     * returns true if successful
-     */
-    public bool RemoveSkill(ItemSkill itemSkill)
+    public void RemoveSkill()
     {
-        return m_SkillSlots.Remove(itemSkill);
+        UIManager.Instance.RemoveSkill();
+        m_ItemSkillSlots.Dequeue();
+    }
+
+    public void SwitchSkills(InputAction.CallbackContext ctx)
+    {
+        UIManager.Instance.SwitchPlayerSkills();
+        m_ItemSkillSlots.Enqueue(m_ItemSkillSlots.Dequeue());
     }
     
 }
