@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 6027739192333006672}
   - {fileID: 3761666692622128180}
-  - {fileID: 8713440275024242211}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -108,36 +107,6 @@ MonoBehaviour:
     m_Bits: 3072
   m_MeteorPrefab: {fileID: 7983100099294320389, guid: 8465f4d4188ee2947b897e13f1be2144,
     type: 3}
---- !u!1 &2025357625510718009
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8713440275024242211}
-  m_Layer: 0
-  m_Name: Skill
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8713440275024242211
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2025357625510718009}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7444055781577561079}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6244423188470487560
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +198,7 @@ GameObject:
   - component: {fileID: 2834839494018312347}
   - component: {fileID: 6161298547587663132}
   m_Layer: 10
-  m_Name: Crystal
+  m_Name: Asteroid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 7807267891761461997}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.589864, y: 9.179728, z: 9.179728}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8499165754428967309}
   m_Father: {fileID: 7444055781577561079}
@@ -268,7 +237,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0b54624cdf3988742bf326aa0277d974, type: 2}
+  - {fileID: 2100000, guid: 5990abb688937ef428527db6023ddff0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -296,7 +265,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807267891761461997}
-  m_Mesh: {fileID: -6219196766696309925, guid: 2b91ad9dbd3374c4badb2e523179ca9e, type: 3}
+  m_Mesh: {fileID: -1365823602920824337, guid: 17501430637aeca4bb78593ef60af4af, type: 3}
 --- !u!1 &8499165754428966514
 GameObject:
   m_ObjectHideFlags: 0
