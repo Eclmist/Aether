@@ -6,9 +6,17 @@ using UnityEngine.InputSystem.Controls;
 
 public class MultiplayerLobby : MonoBehaviour
 {
-    public Animator m_UIAnimator;
-    public Animator m_ScreenFadeAnimator;
-    public LobbySystem m_LobbySystem;
+    [SerializeField]
+    private Animator m_UIAnimator;
+
+    [SerializeField]
+    private Animator m_ScreenFadeAnimator;
+
+    [SerializeField]
+    private Animator m_FooterAnimator;
+
+    [SerializeField]
+    private LobbySystem m_LobbySystem;
 
     private bool m_IsInCustomization = false;
     private bool tempButtonSouthDelay = false; // E3 Hack: Fix starting game when exiting customization
@@ -45,6 +53,23 @@ public class MultiplayerLobby : MonoBehaviour
             if (gamePad.buttonNorth.wasPressedThisFrame && !m_IsInCustomization)
             {
                 ToggleCustomization();
+            }
+        }
+
+        
+        if (Input.anyKeyDown)
+        {
+            string inputButtonType = AetherInput.GetInputTypeAsString();
+
+            switch(inputButtonType)
+            {
+                case "Button": 
+                    m_FooterAnimator.SetTrigger("ToPS4");
+                    break;
+                
+                default: 
+                    m_FooterAnimator.SetTrigger("ToKeyboard");
+                    break;
             }
         }
     }
