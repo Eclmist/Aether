@@ -23,11 +23,14 @@ public class MultiplayerLobby : MonoBehaviour
 
     private void Start()
     {
+
+        // Keyboard Bindings
+        AetherInput.GetUIActions().KeyboardAction.performed += SwitchIconsCallback;
+
+        // Button Bindings
         AetherInput.GetUIActions().Submit.performed += SubmitInputCallback;
         AetherInput.GetUIActions().Navigate.performed += SwitchIconsCallback;
         AetherInput.GetUIActions().Cancel.performed += SwitchIconsCallback;
-        AetherInput.GetUIActions().MiddleClick.performed += SwitchIconsCallback;
-        AetherInput.GetUIActions().Click.performed += SwitchIconsCallback;
     }
 
     private void SwitchIconsCallback(InputAction.CallbackContext ctx)

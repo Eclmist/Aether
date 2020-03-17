@@ -521,6 +521,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "KeyboardAction",
+                    "type": "Button",
+                    "id": "2e713500-f523-43be-83b0-3dea33be0968",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -884,6 +892,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16d28ff7-7287-44bd-8e72-7730d02a9a3a",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "KeyboardAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
