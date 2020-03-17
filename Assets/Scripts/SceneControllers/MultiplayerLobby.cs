@@ -24,7 +24,28 @@ public class MultiplayerLobby : MonoBehaviour
     private void Start()
     {
         AetherInput.GetUIActions().Submit.performed += SubmitInputCallback;
+        AetherInput.GetUIActions().Navigate.performed += SwitchIconsCallback;
+        AetherInput.GetUIActions().Cancel.performed += SwitchIconsCallback;
+        AetherInput.GetUIActions().MiddleClick.performed += SwitchIconsCallback;
+        AetherInput.GetUIActions().Click.performed += SwitchIconsCallback;
     }
+
+    private void SwitchIconsCallback(InputAction.CallbackContext ctx)
+    {
+        string inputButtonType = ctx.control.device.name;
+
+        switch(inputButtonType)
+        {
+            case "Button": 
+                m_FooterAnimator.SetTrigger("ToPS4");
+                break;
+            
+            default: 
+                m_FooterAnimator.SetTrigger("ToKeyboard");
+                break;
+        }
+    }
+
 
     public void ToggleCustomization()
     {
@@ -53,23 +74,6 @@ public class MultiplayerLobby : MonoBehaviour
             if (gamePad.buttonNorth.wasPressedThisFrame && !m_IsInCustomization)
             {
                 ToggleCustomization();
-            }
-        }
-
-        
-        if (Input.anyKeyDown)
-        {
-            string inputButtonType = AetherInput.GetInputTypeAsString();
-
-            switch(inputButtonType)
-            {
-                case "Button": 
-                    m_FooterAnimator.SetTrigger("ToPS4");
-                    break;
-                
-                default: 
-                    m_FooterAnimator.SetTrigger("ToKeyboard");
-                    break;
             }
         }
     }
