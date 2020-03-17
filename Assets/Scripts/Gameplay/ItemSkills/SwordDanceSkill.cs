@@ -13,19 +13,18 @@ public class SwordDanceSkill : ItemSkill
     [SerializeField]
     private GameObject m_SwordDanceEnd;
 
-    //[SerializeField]
-    //private Transform m_PlayerTransform;
+    [SerializeField]
+    private Transform m_PlayerTransform;
 
     private const int m_ICON_INDEX = 1;
 
     private const int m_MAX_MOVES = 1;
 
-    private Transform m_PlayerTransform;
 
     public override void InitializeSkill()
     {
         SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
-        m_PlayerTransform = PlayerManager.Instance.GetLocalPlayer().transform;
+        // m_PlayerTransform = PlayerManager.Instance.GetLocalPlayer().transform;
     }
     public override void UseSkill()
     {
