@@ -46,6 +46,6 @@ public class DamageDealer : MonoBehaviour, IInteractable
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
-        throw new NotImplementedException();
+
     }
 }

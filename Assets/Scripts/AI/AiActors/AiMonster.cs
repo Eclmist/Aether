@@ -40,7 +40,7 @@ public class AiMonster : AiActor, Attacker, Damageable
 
         IEnumerator SetCanAttack(float delay)
         {
-            yield return new WaitForSeconds(attackInterval + delay/2); //Divide by 2 for now
+            yield return new WaitForSeconds(attackInterval + delay); //Divide by 2 for now
             canAttack = true;
         }
     }
@@ -54,7 +54,6 @@ public class AiMonster : AiActor, Attacker, Damageable
         //alerts the animator if the player has entered the vicinity.
         m_StateMachineAnim.SetBool("nearPlayer", true);
         m_MonsterAnimation.ReactToPlayer();
-
     }
 
     public void Start()
@@ -87,10 +86,12 @@ public class AiMonster : AiActor, Attacker, Damageable
         base.SetInactive();
     }
 
+    //todo: make this take in a float to adjust movement
     protected virtual void MoveMonster(bool toMove)
     {
         if (toMove)
         {
+            
             m_MonsterAnimation.Move(true);
         }
         else
@@ -107,10 +108,8 @@ public class AiMonster : AiActor, Attacker, Damageable
         }
         else
         {
-            if (canAttack)
-            {
-                RotateTowardsNearestPlayer();
-            }
+            MoveMonster(false);
+            RotateTowardsNearestPlayer();
         }
         
         if (m_NearestPlayer == null)

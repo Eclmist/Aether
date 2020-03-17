@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  * Was originally in javascript, which is why it's so janky
  */
-public class MushroomMonsterAnimationEvent : MonoBehaviour
+public class PlantMonsterAnimationEvent : MonoBehaviour
 {
     [SerializeField] private AudioClip[] attack1; // Array of audio available
 
@@ -76,14 +76,14 @@ public class MushroomMonsterAnimationEvent : MonoBehaviour
                 Play(GetRandom(attack1));
                 break;
             case "Attack2":
-                Play(attack2[0]);
+                Play(GetRandom(attack2));
                 break;
             default:
                 var split = Regex.Split(audio, "[0-9]");
                 switch (split[0])
                 {
                     case "Walk":
-                        Play(walkForward[0]);
+                        Play(GetRandom(walkForward));
                         break;
                 }
 
