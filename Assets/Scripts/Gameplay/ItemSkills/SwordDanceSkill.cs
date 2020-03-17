@@ -13,16 +13,19 @@ public class SwordDanceSkill : ItemSkill
     [SerializeField]
     private GameObject m_SwordDanceEnd;
 
-    [SerializeField]
-    private Transform m_CharacterTransform;
+    //[SerializeField]
+    //private Transform m_PlayerTransform;
 
     private const int m_ICON_INDEX = 1;
 
     private const int m_MAX_MOVES = 1;
 
+    private Transform m_PlayerTransform;
+
     public override void InitializeSkill()
     {
         SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
+        m_PlayerTransform = PlayerManager.Instance.GetLocalPlayer().transform;
     }
     public override void UseSkill()
     {
@@ -33,8 +36,8 @@ public class SwordDanceSkill : ItemSkill
 
         if (Physics.Raycast(ray, out hit, m_LayerMask))
         {
-            Debug.Log(hit.transform.position);
-            GameObject swordDanceStart = Instantiate(m_SwordDanceStart, m_CharacterTransform.position, Quaternion.identity);
+            //Debug.Log(hit.transform.position);
+            GameObject swordDanceStart = Instantiate(m_SwordDanceStart, m_PlayerTransform.position, Quaternion.identity);
             GameObject swordDanceEnd = Instantiate(m_SwordDanceEnd, hit.point, Quaternion.identity);
             Destroy(swordDanceStart, 4.0f);
             Destroy(swordDanceEnd, 6.0f);
