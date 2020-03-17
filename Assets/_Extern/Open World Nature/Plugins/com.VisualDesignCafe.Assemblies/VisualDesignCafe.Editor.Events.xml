@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VisualDesignCafe.Editor.Events</name>
+    </assembly>
+    <members>
+        <member name="E:VisualDesignCafe.Editor.Events.EditorEventDispatcher.OnFirstEditorStartup">
+            <summary>
+            Invoked during the first Editor startup of the day.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Editor.Events.EditorEventDispatcher.OnEditorCrashed">
+            <summary>
+            Invoked on Editor startup if the Editor crashed or did not close properly.
+            </summary>
+        </member>
+        <member name="E:VisualDesignCafe.Editor.Events.EditorEventDispatcher.OnEditorUpdate">
+            <summary>
+            Called every frame.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.Events.EditorEventDispatcher.IsFirstStartupOfTheDay(System.DateTime@)">
+            <summary>
+            Returns true if the current day changed compared to the day that the editor was
+            previously started and if more than 4 hours have passed as well.
+            </summary>
+            <param name="timeOfLastStartup"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

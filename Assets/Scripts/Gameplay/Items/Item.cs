@@ -32,9 +32,9 @@ public class Item : MonoBehaviour, IInteractable
 
     public void HandleItemSkill(Player player)
     {
-        ItemSkill itemSkill = player.GetSkillsTransform().gameObject.AddComponent(m_ItemSkill.GetType()) as ItemSkill; //adds child type
-        itemSkill.InitializeSkill();
-        player.GetComponentInChildren<SkillHandler>().AddSkill(itemSkill); //must be after or else will be deleted
+
+        m_ItemSkill.InitializeSkill();
+        player.GetSkillHandler().AddSkill(m_ItemSkill); //must be after or else will be deleted
 
     }
 }

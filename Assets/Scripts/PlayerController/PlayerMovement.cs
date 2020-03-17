@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Update grounded flag
         m_GroundingParams.m_IsGrounded = Physics.CheckSphere(m_GroundingParams.m_GroundCheckPosition.position,
-            0.001f, m_GroundingParams.m_GroundLayerMask);
+            0.05f, m_GroundingParams.m_GroundLayerMask);
 
         if (IsGrounded() && m_MovementParams.m_Velocity.y <= 0.0f)
         {

@@ -104,7 +104,7 @@ public class RevealableObject : MonoBehaviour
         VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
         mod.m_Radius = m_TerrainRevealRadius;
         mod.m_Position = transform.position;
-        mod.m_TargetVisibility = 1;
+        mod.m_IsUnreveal = true;
         VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();
@@ -122,7 +122,7 @@ public class RevealableObject : MonoBehaviour
         VisibilityManager.VisibilityModifier mod = new VisibilityManager.VisibilityModifier();
         mod.m_Radius = m_TerrainRevealRadius;
         mod.m_Position = transform.position;
-        mod.m_TargetVisibility = 0;
+        mod.m_IsUnreveal = true;
         VisibilityManager.Instance.RegisterVisibilityOneShot(mod);
 
         PlayAudioFx();

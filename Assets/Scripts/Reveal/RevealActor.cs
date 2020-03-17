@@ -4,10 +4,11 @@ public class RevealActor : MonoBehaviour
 {
     [SerializeField]
     private float m_Radius = 5;
+    private float m_RadiusModifier = 1;
+    private float m_RadiusModifierTarget = 1;
 
     [SerializeField]
-    private float m_RadiusModifierForVisibilityMgr = 0.5f;
-
+    private bool m_RevealObjectsByDistance = false;
     [SerializeField]
     private LayerMask m_ObjectLayerMask = new LayerMask();
 
@@ -19,50 +20,70 @@ public class RevealActor : MonoBehaviour
     {
         m_VisibilityModifier = new VisibilityManager.VisibilityModifier();
         m_VisibilityModifier.m_Position = transform.position;
-        m_VisibilityModifier.m_Radius = m_Radius * m_RadiusModifierForVisibilityMgr;
-        m_VisibilityModifier.m_TargetVisibility = 1;
+        m_VisibilityModifier.m_Radius = GetRadius();
         VisibilityManager.Instance.RegisterPersistentVisibility(m_VisibilityModifier);
     }
 
     // Update the terrain per vertex. 
     private void Update()
     {
+        m_RadiusModifier = Mathf.Lerp(m_RadiusModifier, m_RadiusModifierTarget, Time.deltaTime);
         // Update Revealable Objects (the ones that fade from bottom to top in one go)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, m_Radius, m_ObjectLayerMask);
 
         m_VisibilityModifier.m_Position = transform.position;
-        m_VisibilityModifier.m_Radius = m_Radius;
+        m_VisibilityModifier.m_Radius = GetRadius();
 
         switch (m_RevealMode)
         {
             case RevealMode.REVEALMODE_SHOW:
-                m_VisibilityModifier.m_TargetVisibility = 1;
-
-                foreach (Collider c in colliders)
-                {
-                    RevealableObject target = c.GetComponent<RevealableObject>();
-                    if (target == null)
-                        continue;
-
-                    target.Reveal();
-                }
+                m_VisibilityModifier.m_IsUnreveal = false;
                 break;
             case RevealMode.REVEALMODE_HIDE:
-                m_VisibilityModifier.m_TargetVisibility = 0;
-
-                foreach (Collider c in colliders)
-                {
-                    RevealableObject target = c.GetComponent<RevealableObject>();
-                    if (target == null)
-                        continue;
-
-                    target.Hide();
-                }
+                m_VisibilityModifier.m_IsUnreveal = true;
                 break;
             default:
-                Debug.LogWarning("Should not be entering default case in RevealActor Update");
                 break;
         }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            m_VisibilityModifier.m_IsUnreveal = !m_VisibilityModifier.m_IsUnreveal;
+        }
+
+        if (m_RevealObjectsByDistance)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, GetRadius(), m_ObjectLayerMask);
+
+            foreach (Collider c in colliders)
+            {
+                RevealableObject target = c.GetComponent<RevealableObject>();
+
+                if (target == null)
+                    continue;
+
+                if (!m_VisibilityModifier.m_IsUnreveal)
+                    target.Reveal();
+                else
+                    target.Hide();
+            }
+        }
+
+        ResetRadiusModifier();
+    }
+
+    private float GetRadius()
+    {
+        return m_Radius * m_RadiusModifier;
+    }
+
+    public void SetRadiusModifier(float mod)
+    {
+        m_RadiusModifierTarget = Mathf.Max(mod, m_RadiusModifierTarget);
+    }
+
+    public void ResetRadiusModifier()
+    {
+        m_RadiusModifierTarget = 1;
     }
 
     public void SetRevealMode(RevealMode revealMode)
