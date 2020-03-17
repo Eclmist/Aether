@@ -28,6 +28,33 @@ public class AetherInput : MonoBehaviour
         m_ControlSystem.Disable();
     }
 
+    public static string GetInputTypeAsString()
+    {
+        System.Array values = System.Enum.GetValues(typeof(KeyCode));
+        foreach(KeyCode code in values){
+            if(Input.GetKeyDown(code))
+            { 
+                string input = System.Enum.GetName(typeof(KeyCode), code); 
+
+                if (input.StartsWith("JoystickButton"))
+                {
+                    return "Gamepad";
+                }
+                else if (input.StartsWith("Mouse"))
+                {
+                    return "Mouse";
+                }
+                else 
+                {
+                    return "Keyboard";
+                }
+            }                    
+
+        }
+
+        return "";
+    }
+
     public static AetherControlSystem.PlayerActions GetPlayerActions()
     {
         return Instance.m_ControlSystem.Player;
