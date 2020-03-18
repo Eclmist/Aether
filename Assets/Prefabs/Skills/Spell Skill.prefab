@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3662099475596139814}
   - component: {fileID: 6133601100697704865}
   - component: {fileID: 1749692562317770001}
-  - component: {fileID: 2760974079451596600}
+  - component: {fileID: 1901628001}
   m_Layer: 10
   m_Name: Spell Skill
   m_TagString: Untagged
@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9687c27ecd88947c889b2a3c3c7f8c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemSkill: {fileID: 2760974079451596600}
---- !u!114 &2760974079451596600
+  m_ItemSkill: {fileID: 1901628001}
+--- !u!114 &1901628001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,17 +178,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6133601100697704878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e4b8822c06989c42928508f1534de1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c725973e88acba44beaf2b6d17f9bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 3072
-  m_SwordDanceStart: {fileID: 6246391195375422483, guid: 06acf9d00adcd8043af2d4634192d223,
+  m_SpellPrefab: {fileID: 3017488977368028548, guid: 8e1d8f7600f5478408b1ba73fc843629,
     type: 3}
-  m_SwordDanceEnd: {fileID: 3512541939639496737, guid: d1ebf095280c25f48bdf248ec240074e,
-    type: 3}
-  m_CharacterTransform: {fileID: 0}
+  m_PlayerTransform: {fileID: 0}
 --- !u!1001 &1146547196159375707
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +194,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4572227845787333597}
     m_Modifications:
+    - target: {fileID: 6727637513812547488, guid: 128e8a037b25bd044a45ebb5ce478845,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6727637513812547490, guid: 128e8a037b25bd044a45ebb5ce478845,
         type: 3}
       propertyPath: m_Name
