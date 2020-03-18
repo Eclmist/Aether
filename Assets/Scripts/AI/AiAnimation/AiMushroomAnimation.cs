@@ -41,7 +41,7 @@ public class AiMushroomAnimation : AiAnimation
     public override void Move(bool toMove)
     {
         if (toMove)
-            m_Animator.SetFloat("locomotion", 0.85f); //hardcoded
+            m_Animator.SetFloat("locomotion", 0.80f); //hardcoded
         else
             m_Animator.SetFloat("locomotion", 0);
     }

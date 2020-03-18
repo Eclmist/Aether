@@ -7,8 +7,6 @@ public class AiMonster : AiActor, Attacker, Damageable
 {
     [SerializeField] 
     private AiAnimation m_MonsterAnimation;
-    [SerializeField]
-    private float m_farAwayDistance = 10f;
 
     private float m_healthPoints = 100f;
     
@@ -18,6 +16,14 @@ public class AiMonster : AiActor, Attacker, Damageable
         {
             m_NearestPlayer = other.transform;
             SetNearPlayer();
+        }
+    }
+    
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Player>() != null)
+        { 
+            m_StateMachineAnim.SetBool("nearPlayer", false);
         }
     }
 
@@ -116,11 +122,7 @@ public class AiMonster : AiActor, Attacker, Damageable
         {
             return;
         }
-
-        if (Vector3.Distance(m_NearestPlayer.position, transform.position) > m_farAwayDistance)
-        {
-            m_StateMachineAnim.SetBool("nearPlayer", false);
-        }
+        
     }
 
     /*

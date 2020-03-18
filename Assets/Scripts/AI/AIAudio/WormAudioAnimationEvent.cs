@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  * Was originally in javascript, which is why it's so janky
  */
-public class PlantAudioAnimationEvent : MonoBehaviour
+public class WormAudioAnimationEvent : MonoBehaviour
 {
     [SerializeField] private AudioClip[] attack1; // Array of audio available
 
@@ -22,8 +22,9 @@ public class PlantAudioAnimationEvent : MonoBehaviour
     private float castWarmupLevel = 1.0f; // Volume Level
     private AudioClip[] death; // Array of audio available
     private float deathLevel = 1.0f; // Volume Level
-        
-    [SerializeField] 
+
+    [SerializeField] private float desiredAudioLevel;
+
     private AudioClip folliageLoop;
     private float folliageLoopLevel = 1.0f; // Volume Level
     private float folliageTimer = 0.0f;
@@ -61,7 +62,7 @@ public class PlantAudioAnimationEvent : MonoBehaviour
 
     private AudioClip GetRandom(AudioClip[] clips)
     {
-        return clips.Length != 0?clips[Random.Range(0, clips.Length)]: null;
+        return clips?[Random.Range(0, clips.Length)];
     }
 
     /*
@@ -74,7 +75,7 @@ public class PlantAudioAnimationEvent : MonoBehaviour
             case "Attack1":
                 Play(GetRandom(attack1));
                 break;
-            case "Attack2":
+            case "Attack03":
                 Play(GetRandom(attack2));
                 break;
             default:
@@ -90,11 +91,23 @@ public class PlantAudioAnimationEvent : MonoBehaviour
         }
     }
 
+    public void StartGround(string audio)
+    {
+        PlayAudio(audio);
+    }
+    
+    public void StopGround(string audio)
+    {
+        PlayAudio(audio);
+    }
+    
     public void StartLoop(string audio)
     {
+        PlayAudio(audio);
     }
 
     public void StopLoop(string audio)
     {
+        PlayAudio(audio);
     }
 }
