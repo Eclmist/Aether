@@ -25,9 +25,9 @@ public class SpellSkill : ItemSkill
     }
     public override void UseSkill()
     {
-        //Vector3 forwardDirection = Camera.main.transform.forward;
-        //forwardDirection.y = 0;
-        GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.identity);
+        Vector3 forwardDirection = Camera.main.transform.forward;
+        forwardDirection.y = 0;
+        GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.LookRotation(forwardDirection.normalized));
         Debug.Log(m_PlayerTransform.position);
         Debug.Log(spell.transform.position);
         Destroy(spell, 6.0f);
