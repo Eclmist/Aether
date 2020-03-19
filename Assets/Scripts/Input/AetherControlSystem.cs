@@ -534,14 +534,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""KeyboardAction"",
-                    ""type"": ""Button"",
-                    ""id"": ""2e713500-f523-43be-83b0-3dea33be0968"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -789,17 +781,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ff0f87e4-7447-4fff-a0e6-a1e3aac9afcb"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c52c8e0b-8179-41d3-b8a1-d149033bbe86"",
                     ""path"": ""<Pointer>/position"",
                     ""interactions"": """",
@@ -918,17 +899,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""TrackedDeviceSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""16d28ff7-7287-44bd-8e72-7730d02a9a3a"",
-                    ""path"": ""<Keyboard>/anyKey"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""KeyboardAction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1021,7 +991,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_TrackedDeviceSelect = m_UI.FindAction("TrackedDeviceSelect", throwIfNotFound: true);
-        m_UI_KeyboardAction = m_UI.FindAction("KeyboardAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1187,7 +1156,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_TrackedDeviceSelect;
-    private readonly InputAction m_UI_KeyboardAction;
     public struct UIActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -1203,7 +1171,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @TrackedDeviceSelect => m_Wrapper.m_UI_TrackedDeviceSelect;
-        public InputAction @KeyboardAction => m_Wrapper.m_UI_KeyboardAction;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1246,9 +1213,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
-                @KeyboardAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
-                @KeyboardAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
-                @KeyboardAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1286,9 +1250,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled += instance.OnTrackedDeviceSelect;
-                @KeyboardAction.started += instance.OnKeyboardAction;
-                @KeyboardAction.performed += instance.OnKeyboardAction;
-                @KeyboardAction.canceled += instance.OnKeyboardAction;
             }
         }
     }
@@ -1364,6 +1325,5 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnTrackedDeviceSelect(InputAction.CallbackContext context);
-        void OnKeyboardAction(InputAction.CallbackContext context);
     }
 }

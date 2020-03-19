@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillsUIHandler : MonoBehaviour
+public class UISkillsHandler : MonoBehaviour
 {
     [SerializeField]
     private Image m_PrimaryIcon;
@@ -75,7 +75,7 @@ public class SkillsUIHandler : MonoBehaviour
             SwitchThreeIcons();
 
         if (m_IconCount == 2)
-            SwitchRwoIcons();
+            SwitchTwoIcons();
     }
 
     private void SwitchThreeIcons()
@@ -89,7 +89,7 @@ public class SkillsUIHandler : MonoBehaviour
         m_TertiaryIcon.sprite = tempSprite;
     }
 
-    private void SwitchRwoIcons()
+    private void SwitchTwoIcons()
     {
         Sprite tempSprite = m_PrimaryIcon.sprite;
         m_PrimaryIcon.sprite = m_SecondaryIcon.sprite;

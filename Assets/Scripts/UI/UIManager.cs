@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -14,10 +11,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
-    private SkillsUIHandler m_SkillsUIHandler;
-    
+    private UISkillsHandler m_UISkillsHandler;
     [SerializeField]
-    private HealthBarHandler m_HealthBarHandler;
+    private UIHealthBarHandler m_UIHealthBarHandler;
 
     private void Awake()
     {
@@ -55,35 +51,39 @@ public class UIManager : Singleton<UIManager>
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
         if (m_UIPowerUpHandler != null)
-        {
             m_UIPowerUpHandler.ActivateIcon(signal);
-        }
     }
 
-    public void ModifyHealthBar(float percentageChange)
+    public void Damage(float damageAmount)
     {
-        if (m_HealthBarHandler != null)
-             m_HealthBarHandler.IndicateDamage(percentageChange);
+        if (m_UIHealthBarHandler != null)
+             m_UIHealthBarHandler.ModifyHealth(-damageAmount);
+    }
+
+    public void Heal(float healAmount)
+    {
+        if (m_UIHealthBarHandler != null)
+            m_UIHealthBarHandler.ModifyHealth(healAmount);
     }
 
     // To Be Refactored
-    
+
     public void SwitchPlayerSkills()
     {
-        if (m_SkillsUIHandler != null)
-        {
-            m_SkillsUIHandler.SwitchSpriteIcons(); 
-        }
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.SwitchSpriteIcons();
     }
 
-    public void SaveSkill(ItemSkill itemSkill) 
+    public void SaveSkill(ItemSkill itemSkill)
     {
-        m_SkillsUIHandler.HandleSkillPickUp(itemSkill);
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.HandleSkillPickUp(itemSkill);
     }
 
     public void RemoveSkill()
     {
-         m_SkillsUIHandler.RemoveUsedSkill();
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.RemoveUsedSkill();
     }
 
     private void OnDestroy()

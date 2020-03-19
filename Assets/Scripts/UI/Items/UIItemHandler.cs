@@ -10,17 +10,6 @@ public class UIItemHandler : MonoBehaviour
 
     [SerializeField] 
     private int m_UsageInstances;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private bool CanSignal()
     {
@@ -35,9 +24,7 @@ public class UIItemHandler : MonoBehaviour
     public void ReduceInstances()
     {
         if (CanSignal())
-        {
             SetColoredIcon(m_Icon.color.a - (1.0f / m_UsageInstances));
-        }
     }
     
 }
