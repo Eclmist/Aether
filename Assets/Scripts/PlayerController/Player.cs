@@ -8,7 +8,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(PlayerStance))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
-public class Player : PlayerBehavior, ICanInteract
+public class Player : PlayerBehavior, ICanInteract, Damageable
 {
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
@@ -24,11 +24,11 @@ public class Player : PlayerBehavior, ICanInteract
 
     // TODO remove this once health system has been merged. 
     private double m_health = 100;
-    public void DamageHealth(double damage)
+    public void DamageHealth(float damage)
     {
+        Debug.Log(m_health + " taken damage: " + damage);
         m_health -= damage;
     }
-
 
     private void Awake()
     {

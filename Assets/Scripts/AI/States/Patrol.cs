@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
+/*
+ * TODO: change this to Ai state behaviour
+ * Patrols around waypoints
+ */
 public class Patrol : StateMachineBehaviour
 {
-    public Transform[] waypoints;
+    [FormerlySerializedAs("waypoints")] [SerializeField]
+    private Transform[] m_waypoints;
     private NavMeshAgent m_agent;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -32,14 +38,13 @@ public class Patrol : StateMachineBehaviour
     {
         CheckForAgent(animator);
         
-        if (!m_agent.pathPending && m_agent.remainingDistance < 0.1f)
+        if (!m_agent.pathPending && m_agent.remainingDistance < m_agent.stoppingDistance)
             GotoNextPoint();
     }
 
     private void GotoNextPoint()
     {
-        Transform destination = waypoints[Random.Range(0, waypoints.Length)];
-        Debug.Log(destination.position);
+        Transform destination = m_waypoints[Random.Range(0, m_waypoints.Length)];
         m_agent.SetDestination(destination.position);
     }
 
