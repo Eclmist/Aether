@@ -55,6 +55,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new PlayerNetworkObject(networker, id, frame);
 						break;
+					case SkillsNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new SkillsNetworkObject(networker, id, frame);
+						break;
 					case TestNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new TestNetworkObject(networker, id, frame);
@@ -62,10 +66,6 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					case TowerNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new TowerNetworkObject(networker, id, frame);
-						break;
-					case SkillsNetworkObject.IDENTITY:
-						availableCallback = true;
-						obj = new SkillsNetworkObject(networker, id, frame);
 						break;
 				}
 
