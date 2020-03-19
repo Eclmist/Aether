@@ -21,6 +21,9 @@ public class PlayerNetworkAnimation : MonoBehaviour
         if (m_Player.networkObject == null)
             return;
 
+        if (m_Animator == null)
+            return;
+
         float axisDeltaMagnitude = m_Player.networkObject.axisDeltaMagnitude;
         transform.rotation = m_Player.networkObject.rotation;
         m_Animator.SetFloat("Velocity-XZ-Normalized-01", axisDeltaMagnitude);
@@ -30,6 +33,9 @@ public class PlayerNetworkAnimation : MonoBehaviour
 
     public void TriggerJump()
     {
+        if (m_Animator == null)
+            return; 
+            
         m_Animator.SetTrigger("Jump");
     }
 }
