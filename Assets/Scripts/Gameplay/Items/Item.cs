@@ -16,6 +16,8 @@ public class Item : MonoBehaviour, IInteractable
             {
                 case InteractionType.INTERACTION_TRIGGER_ENTER:
                     PlayPickUpSound();
+                    // Debug.Log("Current transform of Items: " + transform.position);
+                    // Debug.Log("Current player transform: " + PlayerManager.Instance.GetLocalPlayer().transform.position);
                     HandleItemSkill(player);
                     Destroy(gameObject);
                     break;

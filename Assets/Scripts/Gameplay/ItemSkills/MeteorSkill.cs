@@ -32,7 +32,11 @@ public class MeteorSkill : ItemSkill
         {
             NetworkManager.Instance.InstantiateSkills(index: 0, position: hit.point, rotation: Quaternion.identity);
 
+            ///////////////////////////////////////////////////////////
             // Code below is for instantiation of game prefabs locally
+            //////////////////////////////////////////////////////////
+            
+
             //Debug.Log(hit.transform.position);
             //GameObject meteor = Instantiate(m_MeteorPrefab, hit.point, Quaternion.identity);
             //Destroy(meteor, 7.0f);
