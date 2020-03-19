@@ -81,6 +81,22 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchSkills"",
+                    ""type"": ""Button"",
+                    ""id"": ""67dbebb4-83eb-4811-8307-df84c971253b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UseSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""509dc814-6aaf-4650-8d03-ba7d97a1cb97"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -380,6 +396,50 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""Stealth"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bbf0318-60c1-41df-bfea-b2381faf567b"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5449088f-d1f4-4cdf-8316-52abdec0bf9f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbccf7ff-7165-4dbb-a616-525cbdd777ff"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UseSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68edd2e4-44b9-4a9a-ae6c-01099afe5cff"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""UseSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -472,6 +532,14 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""191d6fd4-90cd-43ab-af38-fbb8a788f42d"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""KeyboardAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e713500-f523-43be-83b0-3dea33be0968"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -721,6 +789,17 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ff0f87e4-7447-4fff-a0e6-a1e3aac9afcb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c52c8e0b-8179-41d3-b8a1-d149033bbe86"",
                     ""path"": ""<Pointer>/position"",
                     ""interactions"": """",
@@ -839,6 +918,17 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""TrackedDeviceSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16d28ff7-7287-44bd-8e72-7730d02a9a3a"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""KeyboardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -916,6 +1006,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         m_Player_Stealth = m_Player.FindAction("Stealth", throwIfNotFound: true);
+        m_Player_SwitchSkills = m_Player.FindAction("SwitchSkills", throwIfNotFound: true);
+        m_Player_UseSkill = m_Player.FindAction("UseSkill", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -929,6 +1021,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_TrackedDeviceSelect = m_UI.FindAction("TrackedDeviceSelect", throwIfNotFound: true);
+        m_UI_KeyboardAction = m_UI.FindAction("KeyboardAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -986,6 +1079,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Roll;
     private readonly InputAction m_Player_Block;
     private readonly InputAction m_Player_Stealth;
+    private readonly InputAction m_Player_SwitchSkills;
+    private readonly InputAction m_Player_UseSkill;
     public struct PlayerActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -998,6 +1093,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputAction @Stealth => m_Wrapper.m_Player_Stealth;
+        public InputAction @SwitchSkills => m_Wrapper.m_Player_SwitchSkills;
+        public InputAction @UseSkill => m_Wrapper.m_Player_UseSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1031,6 +1128,12 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Stealth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
                 @Stealth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
                 @Stealth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
+                @SwitchSkills.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @UseSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
+                @UseSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
+                @UseSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1059,6 +1162,12 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Stealth.started += instance.OnStealth;
                 @Stealth.performed += instance.OnStealth;
                 @Stealth.canceled += instance.OnStealth;
+                @SwitchSkills.started += instance.OnSwitchSkills;
+                @SwitchSkills.performed += instance.OnSwitchSkills;
+                @SwitchSkills.canceled += instance.OnSwitchSkills;
+                @UseSkill.started += instance.OnUseSkill;
+                @UseSkill.performed += instance.OnUseSkill;
+                @UseSkill.canceled += instance.OnUseSkill;
             }
         }
     }
@@ -1078,6 +1187,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_TrackedDeviceSelect;
+    private readonly InputAction m_UI_KeyboardAction;
     public struct UIActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -1093,6 +1203,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @TrackedDeviceSelect => m_Wrapper.m_UI_TrackedDeviceSelect;
+        public InputAction @KeyboardAction => m_Wrapper.m_UI_KeyboardAction;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1135,6 +1246,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
+                @KeyboardAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
+                @KeyboardAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
+                @KeyboardAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1172,6 +1286,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled += instance.OnTrackedDeviceSelect;
+                @KeyboardAction.started += instance.OnKeyboardAction;
+                @KeyboardAction.performed += instance.OnKeyboardAction;
+                @KeyboardAction.canceled += instance.OnKeyboardAction;
             }
         }
     }
@@ -1231,6 +1348,8 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnStealth(InputAction.CallbackContext context);
+        void OnSwitchSkills(InputAction.CallbackContext context);
+        void OnUseSkill(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1245,5 +1364,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnTrackedDeviceSelect(InputAction.CallbackContext context);
+        void OnKeyboardAction(InputAction.CallbackContext context);
     }
 }

@@ -7,11 +7,11 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
-public class Player : PlayerBehavior, ICanInteract
+public class Player : PlayerBehavior, ICanInteract, Damageable
 {
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
-    private Transform m_SkillsTransform;
+    private SkillHandler m_SKillsHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -21,8 +21,9 @@ public class Player : PlayerBehavior, ICanInteract
 
     // TODO remove this once health system has been merged. 
     private double m_health = 100;
-    public void DamageHealth(double damage)
+    public void DamageHealth(float damage)
     {
+        Debug.Log(m_health + " taken damage: " + damage);
         m_health -= damage;
     }
 
@@ -32,16 +33,12 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-        
-        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
-        m_SkillsTransform = new GameObject("Skills").transform;
-        m_SkillsTransform.gameObject.AddComponent<SkillHandler>();
-        m_SkillsTransform.parent = gameObject.transform;
+        m_SKillsHandler = GetComponent<SkillHandler>();
     }
 
-    public Transform GetSkillsTransform()
+    public SkillHandler GetSkillHandler()
     {
-        return m_SkillsTransform;
+        return m_SKillsHandler;
     }
         
 

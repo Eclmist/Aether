@@ -65,7 +65,11 @@ public class TitleScreen : MonoBehaviour
 
     public void SwitchMultiplayMenuBarsCallback(InputAction.CallbackContext ctx)
     {
-        SwitchMultiplayerMenuBars();
+        if (m_isMultiplayerDropdownActivated)
+        {
+            
+            SwitchMultiplayerMenuBars();
+        }
     }
 
     public void SwitchMultiplayerMenuBars()
@@ -89,6 +93,8 @@ public class TitleScreen : MonoBehaviour
         }
 
         m_isMultiplayerDropdownActivated = !(m_isMultiplayerDropdownActivated);
+
+        Debug.Log(m_isMultiplayerDropdownActivated);
     }
 
     public void GoToCharacterCustomization()

@@ -1,181 +1,486 @@
 fileFormatVersion: 2
 guid: 1a7db67085cf54b038dcdcd8d9628a2a
-timeCreated: 1471401604
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Bone030
-    100002: Bone031
-    100004: Bone032
-    100006: Bone033
-    100008: Bone034
-    100010: Bone035
-    100012: Bone037
-    100014: Bone038
-    100016: Bone039
-    100018: Bone040
-    100020: Bone041
-    100022: Bone042
-    100024: Bone043
-    100026: Bone044
-    100028: Bone045
-    100030: Bone046
-    100032: Bone047
-    100034: Bone048
-    100036: Bone051
-    100038: Bone052
-    100040: Bone053
-    100042: Bone054
-    100044: Bone055
-    100046: Bone056
-    100048: Bone057
-    100050: Bone058
-    100052: Bone059
-    100054: Bone060
-    100056: Bone061
-    100058: PelvisPoint
-    100060: Point005
-    100062: Point006
-    100064: Point007
-    100066: Point008
-    100068: Point009
-    100070: Point010
-    100072: Point011
-    100074: Point012
-    100076: RM_Root
-    100078: RMArmL1
-    100080: RMArmL2
-    100082: RMArmR1
-    100084: RMArmR2
-    100086: RMHead
-    100088: RMLegL1
-    100090: RMLegL2
-    100092: RMLegL3
-    100094: RMLegR1
-    100096: RMLegR2
-    100098: RMLegR3
-    100100: RMPelvis
-    100102: RMShoulderL
-    100104: RMShoulderR
-    100106: RMSpine01
-    100108: RMSpine02
-    100110: RMSpine03
-    100112: Rock_Creature
-    100114: //RootNode
-    100116: RockCreatureMesh
-    100118: RockCreatureSpikesMesh
-    400000: Bone030
-    400002: Bone031
-    400004: Bone032
-    400006: Bone033
-    400008: Bone034
-    400010: Bone035
-    400012: Bone037
-    400014: Bone038
-    400016: Bone039
-    400018: Bone040
-    400020: Bone041
-    400022: Bone042
-    400024: Bone043
-    400026: Bone044
-    400028: Bone045
-    400030: Bone046
-    400032: Bone047
-    400034: Bone048
-    400036: Bone051
-    400038: Bone052
-    400040: Bone053
-    400042: Bone054
-    400044: Bone055
-    400046: Bone056
-    400048: Bone057
-    400050: Bone058
-    400052: Bone059
-    400054: Bone060
-    400056: Bone061
-    400058: PelvisPoint
-    400060: Point005
-    400062: Point006
-    400064: Point007
-    400066: Point008
-    400068: Point009
-    400070: Point010
-    400072: Point011
-    400074: Point012
-    400076: RM_Root
-    400078: RMArmL1
-    400080: RMArmL2
-    400082: RMArmR1
-    400084: RMArmR2
-    400086: RMHead
-    400088: RMLegL1
-    400090: RMLegL2
-    400092: RMLegL3
-    400094: RMLegR1
-    400096: RMLegR2
-    400098: RMLegR3
-    400100: RMPelvis
-    400102: RMShoulderL
-    400104: RMShoulderR
-    400106: RMSpine01
-    400108: RMSpine02
-    400110: RMSpine03
-    400112: Rock_Creature
-    400114: //RootNode
-    400116: RockCreatureMesh
-    400118: RockCreatureSpikesMesh
-    4300000: Rock_Creature
-    4300002: RockCreatureMesh
-    4300004: RockCreatureSpikesMesh
-    7400000: Tpose
-    7400002: Idle
-    7400004: IdleBreak
-    7400006: Walk
-    7400008: WalkBackward
-    7400010: Block01
-    7400012: Block02
-    7400014: Block03
-    7400016: GotHit
-    7400018: LookLeft
-    7400020: LookRight
-    7400022: Attack01a
-    7400024: Attack01b
-    7400026: Attack02
-    7400028: Jump
-    7400030: Magic
-    7400032: Death
-    7400034: RubbleToIdle
-    7400036: IdleToRubble
-    7400038: RubblePose
-    9500000: //RootNode
-    13700000: Rock_Creature
-    13700002: RockCreatureMesh
-    13700004: RockCreatureSpikesMesh
+  serializedVersion: 19300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Bone030
+  - first:
+      1: 100002
+    second: Bone031
+  - first:
+      1: 100004
+    second: Bone032
+  - first:
+      1: 100006
+    second: Bone033
+  - first:
+      1: 100008
+    second: Bone034
+  - first:
+      1: 100010
+    second: Bone035
+  - first:
+      1: 100012
+    second: Bone037
+  - first:
+      1: 100014
+    second: Bone038
+  - first:
+      1: 100016
+    second: Bone039
+  - first:
+      1: 100018
+    second: Bone040
+  - first:
+      1: 100020
+    second: Bone041
+  - first:
+      1: 100022
+    second: Bone042
+  - first:
+      1: 100024
+    second: Bone043
+  - first:
+      1: 100026
+    second: Bone044
+  - first:
+      1: 100028
+    second: Bone045
+  - first:
+      1: 100030
+    second: Bone046
+  - first:
+      1: 100032
+    second: Bone047
+  - first:
+      1: 100034
+    second: Bone048
+  - first:
+      1: 100036
+    second: Bone051
+  - first:
+      1: 100038
+    second: Bone052
+  - first:
+      1: 100040
+    second: Bone053
+  - first:
+      1: 100042
+    second: Bone054
+  - first:
+      1: 100044
+    second: Bone055
+  - first:
+      1: 100046
+    second: Bone056
+  - first:
+      1: 100048
+    second: Bone057
+  - first:
+      1: 100050
+    second: Bone058
+  - first:
+      1: 100052
+    second: Bone059
+  - first:
+      1: 100054
+    second: Bone060
+  - first:
+      1: 100056
+    second: Bone061
+  - first:
+      1: 100058
+    second: PelvisPoint
+  - first:
+      1: 100060
+    second: Point005
+  - first:
+      1: 100062
+    second: Point006
+  - first:
+      1: 100064
+    second: Point007
+  - first:
+      1: 100066
+    second: Point008
+  - first:
+      1: 100068
+    second: Point009
+  - first:
+      1: 100070
+    second: Point010
+  - first:
+      1: 100072
+    second: Point011
+  - first:
+      1: 100074
+    second: Point012
+  - first:
+      1: 100076
+    second: RM_Root
+  - first:
+      1: 100078
+    second: RMArmL1
+  - first:
+      1: 100080
+    second: RMArmL2
+  - first:
+      1: 100082
+    second: RMArmR1
+  - first:
+      1: 100084
+    second: RMArmR2
+  - first:
+      1: 100086
+    second: RMHead
+  - first:
+      1: 100088
+    second: RMLegL1
+  - first:
+      1: 100090
+    second: RMLegL2
+  - first:
+      1: 100092
+    second: RMLegL3
+  - first:
+      1: 100094
+    second: RMLegR1
+  - first:
+      1: 100096
+    second: RMLegR2
+  - first:
+      1: 100098
+    second: RMLegR3
+  - first:
+      1: 100100
+    second: RMPelvis
+  - first:
+      1: 100102
+    second: RMShoulderL
+  - first:
+      1: 100104
+    second: RMShoulderR
+  - first:
+      1: 100106
+    second: RMSpine01
+  - first:
+      1: 100108
+    second: RMSpine02
+  - first:
+      1: 100110
+    second: RMSpine03
+  - first:
+      1: 100112
+    second: Rock_Creature
+  - first:
+      1: 100114
+    second: //RootNode
+  - first:
+      1: 100116
+    second: RockCreatureMesh
+  - first:
+      1: 100118
+    second: RockCreatureSpikesMesh
+  - first:
+      4: 400000
+    second: Bone030
+  - first:
+      4: 400002
+    second: Bone031
+  - first:
+      4: 400004
+    second: Bone032
+  - first:
+      4: 400006
+    second: Bone033
+  - first:
+      4: 400008
+    second: Bone034
+  - first:
+      4: 400010
+    second: Bone035
+  - first:
+      4: 400012
+    second: Bone037
+  - first:
+      4: 400014
+    second: Bone038
+  - first:
+      4: 400016
+    second: Bone039
+  - first:
+      4: 400018
+    second: Bone040
+  - first:
+      4: 400020
+    second: Bone041
+  - first:
+      4: 400022
+    second: Bone042
+  - first:
+      4: 400024
+    second: Bone043
+  - first:
+      4: 400026
+    second: Bone044
+  - first:
+      4: 400028
+    second: Bone045
+  - first:
+      4: 400030
+    second: Bone046
+  - first:
+      4: 400032
+    second: Bone047
+  - first:
+      4: 400034
+    second: Bone048
+  - first:
+      4: 400036
+    second: Bone051
+  - first:
+      4: 400038
+    second: Bone052
+  - first:
+      4: 400040
+    second: Bone053
+  - first:
+      4: 400042
+    second: Bone054
+  - first:
+      4: 400044
+    second: Bone055
+  - first:
+      4: 400046
+    second: Bone056
+  - first:
+      4: 400048
+    second: Bone057
+  - first:
+      4: 400050
+    second: Bone058
+  - first:
+      4: 400052
+    second: Bone059
+  - first:
+      4: 400054
+    second: Bone060
+  - first:
+      4: 400056
+    second: Bone061
+  - first:
+      4: 400058
+    second: PelvisPoint
+  - first:
+      4: 400060
+    second: Point005
+  - first:
+      4: 400062
+    second: Point006
+  - first:
+      4: 400064
+    second: Point007
+  - first:
+      4: 400066
+    second: Point008
+  - first:
+      4: 400068
+    second: Point009
+  - first:
+      4: 400070
+    second: Point010
+  - first:
+      4: 400072
+    second: Point011
+  - first:
+      4: 400074
+    second: Point012
+  - first:
+      4: 400076
+    second: RM_Root
+  - first:
+      4: 400078
+    second: RMArmL1
+  - first:
+      4: 400080
+    second: RMArmL2
+  - first:
+      4: 400082
+    second: RMArmR1
+  - first:
+      4: 400084
+    second: RMArmR2
+  - first:
+      4: 400086
+    second: RMHead
+  - first:
+      4: 400088
+    second: RMLegL1
+  - first:
+      4: 400090
+    second: RMLegL2
+  - first:
+      4: 400092
+    second: RMLegL3
+  - first:
+      4: 400094
+    second: RMLegR1
+  - first:
+      4: 400096
+    second: RMLegR2
+  - first:
+      4: 400098
+    second: RMLegR3
+  - first:
+      4: 400100
+    second: RMPelvis
+  - first:
+      4: 400102
+    second: RMShoulderL
+  - first:
+      4: 400104
+    second: RMShoulderR
+  - first:
+      4: 400106
+    second: RMSpine01
+  - first:
+      4: 400108
+    second: RMSpine02
+  - first:
+      4: 400110
+    second: RMSpine03
+  - first:
+      4: 400112
+    second: Rock_Creature
+  - first:
+      4: 400114
+    second: //RootNode
+  - first:
+      4: 400116
+    second: RockCreatureMesh
+  - first:
+      4: 400118
+    second: RockCreatureSpikesMesh
+  - first:
+      43: 4300000
+    second: Rock_Creature
+  - first:
+      43: 4300002
+    second: RockCreatureMesh
+  - first:
+      43: 4300004
+    second: RockCreatureSpikesMesh
+  - first:
+      74: 7400000
+    second: Tpose
+  - first:
+      74: 7400002
+    second: Idle
+  - first:
+      74: 7400004
+    second: IdleBreak
+  - first:
+      74: 7400006
+    second: Walk
+  - first:
+      74: 7400008
+    second: WalkBackward
+  - first:
+      74: 7400010
+    second: Block01
+  - first:
+      74: 7400012
+    second: Block02
+  - first:
+      74: 7400014
+    second: Block03
+  - first:
+      74: 7400016
+    second: GotHit
+  - first:
+      74: 7400018
+    second: LookLeft
+  - first:
+      74: 7400020
+    second: LookRight
+  - first:
+      74: 7400022
+    second: Attack01a
+  - first:
+      74: 7400024
+    second: Attack01b
+  - first:
+      74: 7400026
+    second: Attack02
+  - first:
+      74: 7400028
+    second: Jump
+  - first:
+      74: 7400030
+    second: Magic
+  - first:
+      74: 7400032
+    second: Death
+  - first:
+      74: 7400034
+    second: RubbleToIdle
+  - first:
+      74: 7400036
+    second: IdleToRubble
+  - first:
+      74: 7400038
+    second: RubblePose
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Rock_Creature
+  - first:
+      137: 13700002
+    second: RockCreatureMesh
+  - first:
+      137: 13700004
+    second: RockCreatureSpikesMesh
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LittleDude
+    second: {fileID: 2100000, guid: acf53ca1822c44c7fac6fc86a0cf129c, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Tpose
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 10
       wrapMode: 0
@@ -322,6 +627,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Idle
       takeName: Take 001
+      internalID: 0
       firstFrame: 20
       lastFrame: 110
       wrapMode: 0
@@ -468,6 +774,7 @@ ModelImporter:
     - serializedVersion: 16
       name: IdleBreak
       takeName: Take 001
+      internalID: 0
       firstFrame: 120
       lastFrame: 290
       wrapMode: 0
@@ -635,6 +942,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Walk
       takeName: Take 001
+      internalID: 0
       firstFrame: 330
       lastFrame: 375
       wrapMode: 0
@@ -809,6 +1117,7 @@ ModelImporter:
     - serializedVersion: 16
       name: WalkBackward
       takeName: Take 001
+      internalID: 0
       firstFrame: 400
       lastFrame: 460
       wrapMode: 0
@@ -983,6 +1292,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Block01
       takeName: Take 001
+      internalID: 0
       firstFrame: 490
       lastFrame: 520
       wrapMode: 0
@@ -1143,6 +1453,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Block02
       takeName: Take 001
+      internalID: 0
       firstFrame: 520
       lastFrame: 570
       wrapMode: 0
@@ -1289,6 +1600,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Block03
       takeName: Take 001
+      internalID: 0
       firstFrame: 570
       lastFrame: 600
       wrapMode: 0
@@ -1449,6 +1761,7 @@ ModelImporter:
     - serializedVersion: 16
       name: GotHit
       takeName: Take 001
+      internalID: 0
       firstFrame: 620
       lastFrame: 680
       wrapMode: 0
@@ -1630,6 +1943,7 @@ ModelImporter:
     - serializedVersion: 16
       name: LookLeft
       takeName: Take 001
+      internalID: 0
       firstFrame: 700
       lastFrame: 760
       wrapMode: 0
@@ -1790,6 +2104,7 @@ ModelImporter:
     - serializedVersion: 16
       name: LookRight
       takeName: Take 001
+      internalID: 0
       firstFrame: 800
       lastFrame: 860
       wrapMode: 0
@@ -1950,6 +2265,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack01a
       takeName: Take 001
+      internalID: 0
       firstFrame: 940
       lastFrame: 1000
       wrapMode: 0
@@ -1973,7 +2289,7 @@ ModelImporter:
       events:
       - time: 0.043702167
         functionName: PlayAudio
-        data: Attack 1
+        data: Attack1
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
@@ -2124,6 +2440,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack01b
       takeName: Take 001
+      internalID: 0
       firstFrame: 1020
       lastFrame: 1080
       wrapMode: 0
@@ -2147,7 +2464,7 @@ ModelImporter:
       events:
       - time: 0.046272278
         functionName: PlayAudio
-        data: Attack 1
+        data: Attack1
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
@@ -2298,6 +2615,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Attack02
       takeName: Take 001
+      internalID: 0
       firstFrame: 1130
       lastFrame: 1203
       wrapMode: 0
@@ -2321,14 +2639,14 @@ ModelImporter:
       events:
       - time: 0
         functionName: PlayAudio
-        data: Attack 2
+        data: Attack2
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.57840544
         functionName: RightFoot
-        data: 
+        data: Walk
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
@@ -2472,6 +2790,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Jump
       takeName: Take 001
+      internalID: 0
       firstFrame: 1250
       lastFrame: 1310
       wrapMode: 0
@@ -2632,6 +2951,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Magic
       takeName: Take 001
+      internalID: 0
       firstFrame: 1380
       lastFrame: 1495
       wrapMode: 0
@@ -2799,6 +3119,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Death
       takeName: Take 001
+      internalID: 0
       firstFrame: 1950
       lastFrame: 2120
       wrapMode: 0
@@ -2994,6 +3315,7 @@ ModelImporter:
     - serializedVersion: 16
       name: RubbleToIdle
       takeName: Take 001
+      internalID: 0
       firstFrame: 2313
       lastFrame: 2460
       wrapMode: 0
@@ -3147,6 +3469,7 @@ ModelImporter:
     - serializedVersion: 16
       name: IdleToRubble
       takeName: Take 001
+      internalID: 0
       firstFrame: 2500
       lastFrame: 2650
       wrapMode: 0
@@ -3300,6 +3623,7 @@ ModelImporter:
     - serializedVersion: 16
       name: RubblePose
       takeName: Take 001
+      internalID: 0
       firstFrame: 2650
       lastFrame: 2651
       wrapMode: 0
@@ -3449,13 +3773,23 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -3465,9 +3799,14 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -3477,11 +3816,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: RM_Root
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

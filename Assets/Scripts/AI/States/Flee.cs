@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 /*
  * Requires "isSafe" parameter in the animator. Will flee from player when nearby.
+ * TODO: Change this to AIstateBehaviour
  */
 public class Flee : StateMachineBehaviour
 {
@@ -14,8 +16,14 @@ public class Flee : StateMachineBehaviour
 
     private AiActor m_aiActor;
 
-    public float distanceFlee, safeDistance, speedBoost;
-    private float runningSpeed; 
+    [SerializeField]
+    private float m_distanceFlee = 50f;
+    [SerializeField]
+    private float m_safeDistance; 
+    [SerializeField]
+    private float m_speedBoost;
+    [SerializeField]
+    private float m_runningSpeed; 
     private Boolean isDelay;
     
     private void GetReference(Animator animator)
@@ -30,10 +38,11 @@ public class Flee : StateMachineBehaviour
         }
     }
 
+    //To update to new enter and update methods.
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, Int32 layerIndex)
     {
         GetReference(animator);
-        runningSpeed = m_agent.speed + speedBoost;
+        m_runningSpeed = m_agent.speed + m_speedBoost;
     }
 
 
@@ -41,17 +50,17 @@ public class Flee : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Vector3 aiLocation = animator.transform.position;
-        Vector3 playerLocation = m_aiActor.player.position;
+        Vector3 playerLocation = m_aiActor.m_NearestPlayer.position;
         float distanceBetween = Vector3.Distance(playerLocation, aiLocation);
         
         
-        if (distanceFlee > distanceBetween && !isDelay)
+        if (m_distanceFlee > distanceBetween && !isDelay)
         {
             RunAway(playerLocation, aiLocation);
         }
-        else if (distanceBetween > safeDistance)
+        else if (distanceBetween > m_safeDistance)
         {
-            m_agent.speed = runningSpeed - speedBoost;
+            m_agent.speed = m_runningSpeed - m_speedBoost;
             //terminates this state
             animator.SetBool("isSafe", true);
         }
@@ -59,7 +68,7 @@ public class Flee : StateMachineBehaviour
 
     private void RunAway(Vector3 playerLocation, Vector3 aiLocation)
     {
-        m_agent.speed = runningSpeed;
+        m_agent.speed = m_runningSpeed;
         m_agent.SetDestination(aiLocation + aiLocation - playerLocation);
         m_aiActor.StartCoroutine(SetDelay());
     }
