@@ -13,42 +13,15 @@ public class MultiplayerLobby : MonoBehaviour
     private Animator m_ScreenFadeAnimator;
 
     [SerializeField]
-    private Animator m_FooterAnimator;
-
-    [SerializeField]
     private LobbySystem m_LobbySystem;
 
     private bool m_IsInCustomization = false;
     private bool tempButtonSouthDelay = false; // E3 Hack: Fix starting game when exiting customization
 
-    private void Start()
+    public void Start()
     {
-
-        // Keyboard Bindings
-        AetherInput.GetUIActions().KeyboardAction.performed += SwitchIconsCallback;
-
-        // Button Bindings
         AetherInput.GetUIActions().Submit.performed += SubmitInputCallback;
-        AetherInput.GetUIActions().Navigate.performed += SwitchIconsCallback;
-        AetherInput.GetUIActions().Cancel.performed += SwitchIconsCallback;
     }
-
-    private void SwitchIconsCallback(InputAction.CallbackContext ctx)
-    {
-        string inputButtonType = ctx.control.device.name;
-
-        switch(inputButtonType)
-        {
-            case "Button": 
-                m_FooterAnimator.SetTrigger("ToPS4");
-                break;
-            
-            default: 
-                m_FooterAnimator.SetTrigger("ToKeyboard");
-                break;
-        }
-    }
-
 
     public void ToggleCustomization()
     {
