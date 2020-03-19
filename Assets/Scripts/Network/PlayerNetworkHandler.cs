@@ -20,6 +20,9 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_PlayerNetworkObject = GetComponent<Player>().networkObject;
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
+
+        // Make sure animator exists
+        Debug.Assert(m_Animator != null, "Animator should not be null");
     }
 
     private void Update()
@@ -37,11 +40,11 @@ public class PlayerNetworkHandler : MonoBehaviour
 
             // Send movement state
             m_PlayerNetworkObject.position = transform.position;
+            m_PlayerNetworkObject.rotation = transform.rotation;
 
             // Send animation state
             m_PlayerNetworkObject.axisDeltaMagnitude = m_PlayerMovement.GetInputAxis().magnitude;
             m_PlayerNetworkObject.vertVelocity = m_PlayerMovement.GetVelocity().y;
-            m_PlayerNetworkObject.rotation = transform.rotation;
             m_PlayerNetworkObject.grounded = m_PlayerMovement.IsGrounded();
 
             if (m_PlayerMovement.JumpedInCurrentFrame())
@@ -51,9 +54,14 @@ public class PlayerNetworkHandler : MonoBehaviour
         {
             // Receive movement state
             transform.position = m_PlayerNetworkObject.position;
+            transform.rotation = m_PlayerNetworkObject.rotation;
 
             // Receive animation state
-            transform.rotation = m_PlayerNetworkObject.rotation;
+            if (m_Animator == null)
+            {
+                Debug.LogWarning("Animator does not exist on player");
+                return;
+            }
             m_Animator.SetFloat("Velocity-XZ-Normalized-01", m_PlayerNetworkObject.axisDeltaMagnitude);
             m_Animator.SetFloat("Velocity-Y-Normalized", m_PlayerNetworkObject.vertVelocity);
             m_Animator.SetBool("Grounded", m_PlayerNetworkObject.grounded);
@@ -62,6 +70,12 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     public void TriggerJump()
     {
+        if (m_Animator == null)
+        {
+            Debug.LogWarning("Animator does not exist on player");
+            return;
+        }
+
         m_Animator.SetTrigger("Jump");
     }
 }
