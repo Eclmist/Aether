@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UIHealthBarHandler : MonoBehaviour
 {
     [SerializeField]
-    private float m_MaxHealth = 100f; // Should always be greater than 
+    private float m_MaxHealth = 100f;
     [SerializeField]
     private float m_DeltaMultiplier = 5f;
     [SerializeField]
