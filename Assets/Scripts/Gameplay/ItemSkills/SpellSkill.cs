@@ -35,12 +35,19 @@ public class SpellSkill : ItemSkill
         //forwardDirection.y = 0;
         //GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.LookRotation(forwardDirection.normalized));
         //Destroy(spell, 6.0f);
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
 
-       
-        Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
-        startSpawnPosition += m_Spellcast_Offset;
-        Vector3 startSpawnDirection = PlayerManager.Instance.GetLocalPlayer().transform.forward;
-        NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(startSpawnDirection));
+        if (Physics.Raycast(ray, out hit))
+        {
+            Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
+            startSpawnPosition += m_Spellcast_Offset;
+            Vector3 startSpawnDirection = hit.point - startSpawnPosition;
+
+            //Vector3 startSpawnDirection = PlayerManager.Instance.GetLocalPlayer().transform.forward;
+
+            NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(startSpawnDirection.normalized));
+        }
 
     }
 }
