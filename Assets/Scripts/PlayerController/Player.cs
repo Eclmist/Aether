@@ -7,11 +7,11 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
-public class Player : PlayerBehavior, ICanInteract, Damageable
+public class Player : PlayerBehavior, ICanInteract
 {
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
-    private SkillHandler m_SKillsHandler;
+    private SkillHandler m_SkillHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -19,28 +19,19 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
     private PlayerDetails m_PlayerDetails;
     private bool m_IsStealthy;
 
-    // TODO remove this once health system has been merged. 
-    private double m_health = 100;
-    public void DamageHealth(float damage)
-    {
-        Debug.Log(m_health + " taken damage: " + damage);
-        m_health -= damage;
-    }
-
     private void Awake()
     {
         m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
         m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-        m_SKillsHandler = GetComponent<SkillHandler>();
+        m_SkillHandler = GetComponent<SkillHandler>();
     }
 
     public SkillHandler GetSkillHandler()
     {
-        return m_SKillsHandler;
-    }
-        
+        return m_SkillHandler;
+    } 
 
     private void Start()
     {
