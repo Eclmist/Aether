@@ -92,15 +92,21 @@ public class TitleScreen : MonoBehaviour
         if (m_OptionsConnectButton == null || m_SideMultiplayerButton == null )
             return;
 
+        MenusManager.Instance.TriggerAnimator(0);
+
         if (triggerBoolean)
         {
-             m_EventSystem.SetSelectedGameObject(m_SideMultiplayerButton);
+             StartCoroutine(DelaySelection(m_SideMultiplayerButton));
         } 
         else {
              m_EventSystem.SetSelectedGameObject(m_OptionsConnectButton);
         }
+    }
 
-        MenusManager.Instance.TriggerAnimator(0);
+    private IEnumerator DelaySelection(GameObject button)
+    {   
+        yield return new WaitForSeconds(1.0f);
+         m_EventSystem.SetSelectedGameObject(button);
     }
 
     public void SwitchMultiplayerMenuBars()
