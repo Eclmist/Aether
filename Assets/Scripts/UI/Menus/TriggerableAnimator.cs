@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class TriggerableAnimator : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class TriggerableAnimator : MonoBehaviour
 
     [SerializeField]
     private string m_OffTrigger;
-    // Start is called before the first frame update
+
     public void TriggerAnimation()
     {
         if (m_Animator == null)
