@@ -15,18 +15,23 @@ public class MultiplayerLobby : MonoBehaviour
     [SerializeField]
     private LobbySystem m_LobbySystem;
 
-    private bool m_IsInCustomization = false;
-    private bool tempButtonSouthDelay = false; // E3 Hack: Fix starting game when exiting customization
+    private bool m_IsInCustomization;
 
     public void Start()
     {
+        AetherInput.GetUIActions().Customize.performed += ToggleCustomizationCallback;
         AetherInput.GetUIActions().Submit.performed += SubmitInputCallback;
+    }
+
+    public void ToggleCustomizationCallback(InputAction.CallbackContext ctx)
+    {
+        ToggleCustomization();
     }
 
     public void ToggleCustomization()
     {
-        tempButtonSouthDelay = !m_IsInCustomization;
-        m_UIAnimator.SetBool("ShowCustomization", tempButtonSouthDelay);
+        m_IsInCustomization = !m_IsInCustomization;
+        m_UIAnimator.SetBool("ShowCustomization", m_IsInCustomization);
     }
 
     private void SubmitInputCallback(InputAction.CallbackContext ctx)
@@ -36,30 +41,8 @@ public class MultiplayerLobby : MonoBehaviour
             return;
 
         if (!m_IsInCustomization)
-        {
             StartGame();
-        }
     }
-
-    private void Update()
-    {
-        Gamepad gamePad = Gamepad.current;
-
-        if (gamePad != null && !m_IsInCustomization)
-        {
-            if (gamePad.buttonNorth.wasPressedThisFrame && !m_IsInCustomization)
-            {
-                ToggleCustomization();
-            }
-        }
-    }
-
-    public void LateUpdate()
-    {
-        // E3 Hack
-        m_IsInCustomization = tempButtonSouthDelay;
-    }
-
     public void StartGame()
     {
         AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
