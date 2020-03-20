@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd2036efdf5f0d46b0010140500331b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFlee: 27
-  safeDistance: 152.97
-  speedBoost: 2
+  m_distanceFlee: 50
+  m_safeDistance: 0
+  m_speedBoost: 0
+  m_runningSpeed: 0
 --- !u!114 &-3520456843705248076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -27,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ce8fce132d30541b34e1ba8d665f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
+  m_waypoints:
   - {fileID: 8026796642974976430, guid: 96074753f9a83d04e85b50c3da9c781e, type: 3}
   - {fileID: 1615991437845628686, guid: 557e5a07fcfc25f4d9349c35050992ab, type: 3}
   - {fileID: 7570556675655793505, guid: 75a3c4ad4d4f5f14186bbd12ab016175, type: 3}
@@ -103,14 +104,14 @@ AnimatorStateMachine:
     m_Position: {x: 270, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3340749194327155095}
-    m_Position: {x: 250, y: 270, z: 0}
+    m_Position: {x: 270, y: 260, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_AnyStatePosition: {x: 120, y: -60, z: 0}
+  m_EntryPosition: {x: 50, y: 80, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 3093888062129322505}
