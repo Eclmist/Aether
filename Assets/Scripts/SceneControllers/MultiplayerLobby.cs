@@ -14,8 +14,6 @@ public class MultiplayerLobby : MonoBehaviour
     [SerializeField]
     private LobbySystem m_LobbySystem;
 
-    private bool m_IsLoading;
-
     private bool m_IsInCustomization;
 
     public void Start()
@@ -32,7 +30,10 @@ public class MultiplayerLobby : MonoBehaviour
     public void ToggleCustomization()
     {
         m_IsInCustomization = !m_IsInCustomization;
+        AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
         m_UIAnimator.SetBool("ShowCustomization", m_IsInCustomization);
+        
+        Debug.Log(m_IsInCustomization);
     }
 
     private void SubmitInputCallback(InputAction.CallbackContext ctx)
@@ -46,11 +47,7 @@ public class MultiplayerLobby : MonoBehaviour
 
     public void InitiateGame()
     {
-        if (m_IsLoading)
-            return;
-
         if (!m_IsInCustomization)
-            m_IsLoading = true;
             StartGame();
     }
     private void StartGame()
