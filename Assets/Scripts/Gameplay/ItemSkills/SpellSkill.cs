@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BeardedManStudios.Forge.Networking.Unity;
 
+
 public class SpellSkill : ItemSkill
 {
     //[SerializeField]
@@ -20,10 +21,11 @@ public class SpellSkill : ItemSkill
 
     private const int m_MAX_MOVES = 1;
 
+    private const bool m_IS_GROUND_SPELL = true;
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
     }
     public override void UseSkill()
     {
@@ -35,7 +37,8 @@ public class SpellSkill : ItemSkill
         //forwardDirection.y = 0;
         //GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.LookRotation(forwardDirection.normalized));
         //Destroy(spell, 6.0f);
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
+        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
@@ -43,8 +46,6 @@ public class SpellSkill : ItemSkill
             Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
             startSpawnPosition += m_Spellcast_Offset;
             Vector3 startSpawnDirection = hit.point - startSpawnPosition;
-
-            //Vector3 startSpawnDirection = PlayerManager.Instance.GetLocalPlayer().transform.forward;
 
             NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(startSpawnDirection.normalized));
         }

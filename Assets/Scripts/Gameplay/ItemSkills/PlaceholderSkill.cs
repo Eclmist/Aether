@@ -10,7 +10,7 @@ public class PlaceholderSkill : ItemSkill
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, false);
     }
     public override void UseSkill()
     {

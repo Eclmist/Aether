@@ -20,10 +20,11 @@ public class SwordDanceSkill : ItemSkill
 
     private const int m_MAX_MOVES = 1;
 
+    private const bool m_IS_GROUND_SPELL = true;
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
     }
     public override void UseSkill()
     {

@@ -8,6 +8,8 @@ public abstract class ItemSkill : MonoBehaviour
     private int m_MaxNoOfUses;
 
     private Image m_SkillIcon;
+
+    private bool m_GroundedSpellCast;
     
     public abstract void UseSkill();
     public abstract void InitializeSkill();
@@ -32,6 +34,11 @@ public abstract class ItemSkill : MonoBehaviour
         return GetNumberOfUses() < GetMaxNumberOfUses();
     }
 
+    public bool IsGroundOnlySpell()
+    {
+        return m_GroundedSpellCast;
+    }
+
     public void SetMaxNumberOfUses(int uses)
     {
         m_MaxNoOfUses = uses;
@@ -41,9 +48,16 @@ public abstract class ItemSkill : MonoBehaviour
     {
         m_NoOfUses = uses;
     }
-    
-    public void SetUpSkill(int maxMoves, int iconIndex)
+
+    // Check if spell requires player to be grounded
+    public void SetIsGroundOnlySpellBool(bool isGroundOnlySpell)
     {
+        m_GroundedSpellCast = isGroundOnlySpell;
+    }
+    
+    public void SetUpSkill(int maxMoves, int iconIndex, bool isGroundOnlySpell)
+    {
+        SetIsGroundOnlySpellBool(isGroundOnlySpell);
         SetMaxNumberOfUses(maxMoves);
         SetNumberOfUses(maxMoves);
         SetSkillsIcon(IconsManager.Instance.GetIcon(iconIndex));
