@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -14,6 +13,8 @@ public class MultiplayerLobby : MonoBehaviour
 
     [SerializeField]
     private LobbySystem m_LobbySystem;
+
+    private bool m_IsLoading;
 
     private bool m_IsInCustomization;
 
@@ -40,10 +41,19 @@ public class MultiplayerLobby : MonoBehaviour
         if (!button.wasPressedThisFrame)
             return;
 
+        InitiateGame();
+    }
+
+    public void InitiateGame()
+    {
+        if (m_IsLoading)
+            return;
+
         if (!m_IsInCustomization)
+            m_IsLoading = true;
             StartGame();
     }
-    public void StartGame()
+    private void StartGame()
     {
         AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
         m_ScreenFadeAnimator.SetTrigger("ToBlack");

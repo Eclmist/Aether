@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlatformIconChanger : MonoBehaviour
 {
+    private bool m_IsMouseFriendly;
     [SerializeField]
     private Image m_Icon;
 
@@ -13,6 +13,9 @@ public class PlatformIconChanger : MonoBehaviour
 
     [SerializeField]
     private Sprite m_PS4ControllerIcon;
+
+    [SerializeField]
+    private Button m_Button;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,14 @@ public class PlatformIconChanger : MonoBehaviour
     void Update()
     {
         SwitchPlatformIcon();
+    }
+
+    private void SetMouseFriendly(bool flag)
+    {
+        if (m_Button == null)
+            return;
+
+        m_Button.interactable = flag;
     }
 
     private void SwitchPlatformIcon()
@@ -36,9 +47,11 @@ public class PlatformIconChanger : MonoBehaviour
         {
             case PlatformType.PS4_CONTROLLER:
                 ChangeIcon(m_PS4ControllerIcon);
+                SetMouseFriendly(false);
                 break;
             case PlatformType.KEYBOARD_MOUSE:
                 ChangeIcon(m_KeyboardMouseIcon);
+                SetMouseFriendly(true);
                 break;
             default: 
                 break;
