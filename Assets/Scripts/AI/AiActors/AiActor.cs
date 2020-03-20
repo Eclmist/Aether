@@ -13,7 +13,7 @@ public class AiActor : MonoBehaviour
     public Transform m_NearestPlayer; 
     protected Vector3 m_SpawnPos;
 
-    public void Awake()
+    private void Awake()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_StateMachineAnim = GetComponent<Animator>();

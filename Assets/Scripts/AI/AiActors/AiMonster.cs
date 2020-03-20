@@ -3,13 +3,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Collider))]
-public class AiMonster : AiActor, Attacker, Damageable
+public class AiMonster : AiActor, Attacker
 {
     [SerializeField] 
     private AiAnimation m_MonsterAnimation;
 
-    private float m_healthPoints = 100f;
-    
+    private HealthHandler m_HealthHandler;
+
+    private bool m_CanAttack = true;
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Player>() != null)
@@ -27,13 +29,9 @@ public class AiMonster : AiActor, Attacker, Damageable
         }
     }
 
-    bool canAttack = true;
-
-
-
     public void Attack(float attackInterval)
     {
-        if (canAttack)
+        if (m_CanAttack)
         {
             float attack = m_MonsterAnimation.RandomizeAttack();
             
@@ -41,13 +39,13 @@ public class AiMonster : AiActor, Attacker, Damageable
             DamagePlayer();
             
             StartCoroutine(SetCanAttack(attack));
-            canAttack = false;
+            m_CanAttack = false;
         }
 
         IEnumerator SetCanAttack(float delay)
         {
             yield return new WaitForSeconds(attackInterval + delay); //Divide by 2 for now
-            canAttack = true;
+            m_CanAttack = true;
         }
     }
     
@@ -62,17 +60,18 @@ public class AiMonster : AiActor, Attacker, Damageable
         m_MonsterAnimation.ReactToPlayer();
     }
 
-    public void Start()
+    private void Start()
     {
         m_Agent.updatePosition = true;
         m_Agent.updateRotation = true;
 
-        DamageDealer damageDealer = gameObject.GetComponentInChildren<DamageDealer>();
-        if (damageDealer == null)
+        m_HealthHandler = GetComponent<HealthHandler>();
+        if (m_HealthHandler == null)
         {
             Debug.LogError("No damage system, won't be able to damage players");
         }
-
+        m_HealthHandler.HealthChanged += OnHealthChanged;
+        m_HealthHandler.HealthDepleted += m_MonsterAnimation.Death;
     }
 
     private void RotateTowardsNearestPlayer()
@@ -125,17 +124,20 @@ public class AiMonster : AiActor, Attacker, Damageable
         
     }
 
-    /*
-    * Called when aiMonster is attacked
-    */
-    public void DamageHealth(float damage)
+    private void OnHealthChanged(float deltaHealth)
     {
-        Debug.Log("Taking Damage Monster");
-        m_MonsterAnimation.TakenDamage();
-        m_healthPoints -= damage;
-        if (m_healthPoints < 0)
+        if (deltaHealth < 0)
+            m_MonsterAnimation.TakenDamage();
+    }
+
+    private void OnDestroy()
+    {
+        if (m_HealthHandler != null)
         {
-            m_MonsterAnimation.Death();
+            m_HealthHandler.HealthChanged -= OnHealthChanged;
+
+            if (m_MonsterAnimation != null)
+                m_HealthHandler.HealthDepleted -= m_MonsterAnimation.Death;
         }
     }
 }

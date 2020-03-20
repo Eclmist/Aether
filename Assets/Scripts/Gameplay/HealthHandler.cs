@@ -2,10 +2,10 @@
 
 public class HealthHandler : MonoBehaviour
 {
+    private const float MAX_HEALTH = 100f;
+
     public event System.Action<float> HealthChanged;
     public event System.Action HealthDepleted;
-
-    public const float MAX_HEALTH = 100f;
 
     [SerializeField]
     private float m_Health = MAX_HEALTH;

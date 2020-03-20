@@ -4,7 +4,7 @@ using UnityEngine;
 public class DamageContinuous : DamageDealerBase
 {
     private HashSet<HealthHandler> m_Targets;
-    private float m_DamageFrequency = 0.1f;
+    private float m_DamageInterval = 0.1f;
 
     private float m_TimeLastDamaged;
 
@@ -15,7 +15,7 @@ public class DamageContinuous : DamageDealerBase
 
     private void Update()
     {
-        if (Time.time >= m_TimeLastDamaged + m_DamageFrequency)
+        if (Time.time >= m_TimeLastDamaged + m_DamageInterval)
         {
             foreach (HealthHandler target in m_Targets)
             {
@@ -26,10 +26,10 @@ public class DamageContinuous : DamageDealerBase
         }
     }
 
-    public void InitializeDamageDealer(float damage, float radius, float duration, float hitFrequency)
+    public void InitializeDamageDealer(float damage, float radius, float duration, float damageInterval)
     {
-        base.InitializeDamageDealer(damage, radius, duration);
-        m_DamageFrequency = hitFrequency;
+        InitializeDamageDealer(damage, radius, duration);
+        m_DamageInterval = damageInterval;
     }
 
     public override void DealDamage(HealthHandler healthHandler, InteractionType interactionType)
