@@ -12,6 +12,7 @@ public class Player : PlayerBehavior, ICanInteract
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
     private SkillHandler m_SkillHandler;
+    private HealthHandler m_HealthHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -26,12 +27,8 @@ public class Player : PlayerBehavior, ICanInteract
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
         m_SkillHandler = GetComponent<SkillHandler>();
+        m_HealthHandler = GetComponent<HealthHandler>();
     }
-
-    public SkillHandler GetSkillHandler()
-    {
-        return m_SkillHandler;
-    } 
 
     private void Start()
     {
@@ -59,6 +56,16 @@ public class Player : PlayerBehavior, ICanInteract
     private void OnTriggerExit(Collider c)
     {
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
+    }
+
+    public SkillHandler GetSkillHandler()
+    {
+        return m_SkillHandler;
+    }
+
+    public HealthHandler GetHealthHandler()
+    {
+        return m_HealthHandler;
     }
 
     public PlayerDetails GetPlayerDetails()

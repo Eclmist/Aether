@@ -33,6 +33,8 @@ public class UIManager : Singleton<UIManager>
         }
 
         UINotifyHeader(message);
+
+        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
     }
 
     public void UINotifyHeader(string message)
@@ -52,18 +54,6 @@ public class UIManager : Singleton<UIManager>
     {
         if (m_UIPowerUpHandler != null)
             m_UIPowerUpHandler.ActivateIcon(signal);
-    }
-
-    public void Damage(float damageAmount)
-    {
-        if (m_UIHealthBarHandler != null)
-             m_UIHealthBarHandler.ModifyHealth(-damageAmount);
-    }
-
-    public void Heal(float healAmount)
-    {
-        if (m_UIHealthBarHandler != null)
-            m_UIHealthBarHandler.ModifyHealth(healAmount);
     }
 
     // To Be Refactored

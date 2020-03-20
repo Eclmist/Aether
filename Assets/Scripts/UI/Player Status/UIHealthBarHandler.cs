@@ -4,11 +4,9 @@ using UnityEngine.UI;
 public class UIHealthBarHandler : MonoBehaviour
 {
     [SerializeField]
-    private float m_MaxHealth = 100f;
+    private float m_DeltaMultiplier = 0.05f;
     [SerializeField]
-    private float m_DeltaMultiplier = 5f;
-    [SerializeField]
-    private float m_CriticalValue = 20f;
+    private float m_CriticalValue = 0.2f;
 
     [SerializeField]
     private Image m_HealthBar;
@@ -16,30 +14,39 @@ public class UIHealthBarHandler : MonoBehaviour
     [SerializeField]
     private Animator m_Animator;
 
+    private HealthHandler m_PlayerHealth;
+
     private float m_HealthDelta = 0.0f;
-    private float m_InvMaxHealth = 0.0f;
 
     void Update()
     {
-        // Get inverse of max health if positive
-        if (m_MaxHealth > 0.0f)
-            m_InvMaxHealth = 1.0f / m_MaxHealth;
+        if (m_HealthBar != null && m_HealthDelta != 0.0f)
+            UpdateHealthPercentage();
 
-        if(m_Animator != null)
+        if (m_Animator != null)
         {
             if (IsInCriticalHealth())
                 m_Animator.SetBool("isCriticalHealth", true);
             else
                 m_Animator.SetBool("isCriticalHealth", false);
         }
-
-        if (m_HealthBar != null && m_HealthDelta >= 0.0f)
-            UpdateHealthPercentage();
     }
 
-    public void ModifyHealth(float deltaAmount) 
+    public void SetPlayerAttachment(Player player)
     {
-        m_HealthDelta += deltaAmount * m_InvMaxHealth;
+        HealthHandler healthHandler = player.GetHealthHandler();
+        if (healthHandler == null)
+        {
+            Debug.LogWarning("Health Handler not found on local player");
+            return;
+        }
+        m_PlayerHealth = healthHandler;
+        m_PlayerHealth.HealthChanged += OnHealthChanged;
+    }
+
+    public void OnHealthChanged(float deltaPercentage) 
+    {
+        m_HealthDelta += deltaPercentage;
     }
 
     private void UpdateHealthPercentage()
@@ -70,6 +77,12 @@ public class UIHealthBarHandler : MonoBehaviour
 
     private bool IsInCriticalHealth()
     {
-        return m_HealthBar.fillAmount <= m_CriticalValue * m_InvMaxHealth;
+        return m_HealthBar.fillAmount <= m_CriticalValue;
+    }
+
+    private void OnDestroy()
+    {
+        if (m_PlayerHealth != null)
+            m_PlayerHealth.HealthChanged -= OnHealthChanged;
     }
 }

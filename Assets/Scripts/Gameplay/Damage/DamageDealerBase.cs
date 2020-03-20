@@ -10,7 +10,7 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 
     private bool m_IsActivated = false;
 
-    public abstract void DealDamage(Health health, InteractionType interactionType);
+    public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
 
     public void ActivateDamage()
     {
@@ -33,9 +33,9 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
         // Implementer's fault if error is thrown
         MonoBehaviour mb = interactor as MonoBehaviour;
 
-        Health health = mb.GetComponent<Health>();
-        if (health != null)
-            DealDamage(health, interactionType);
+        HealthHandler healthHandler = mb.GetComponent<HealthHandler>();
+        if (healthHandler != null)
+            DealDamage(healthHandler, interactionType);
     }
 
     private IEnumerator DestroyDamageDealer()
