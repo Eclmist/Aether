@@ -58,6 +58,8 @@ public class PlayerNetworkHandler : MonoBehaviour
             // Send health state
             if (m_HealthHandler.DamagedInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
+            if (m_HealthHandler.DeadInCurrentFrame())
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DEATH, Receivers.All);
         }
         else
         {

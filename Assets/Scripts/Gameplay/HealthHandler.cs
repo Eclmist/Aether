@@ -12,6 +12,7 @@ public class HealthHandler : MonoBehaviour
     private float m_Health = MAX_HEALTH;
 
     private bool m_DamagedInCurrentFrame = false;
+    private bool m_DeadInCurrentFrame = false;
     private bool m_IsDead = false;
 
     public void Damage(float amount)
@@ -26,7 +27,10 @@ public class HealthHandler : MonoBehaviour
         StartCoroutine(SetDamaged());
 
         if (m_Health == 0.0f)
+        {
             HealthDepleted?.Invoke();
+            StartCoroutine(SetDead());
+        }
     }
 
     public bool DamagedInCurrentFrame()
@@ -39,5 +43,18 @@ public class HealthHandler : MonoBehaviour
         m_DamagedInCurrentFrame = true;
         yield return new WaitForEndOfFrame();
         m_DamagedInCurrentFrame = false;
+    }
+
+    public bool DeadInCurrentFrame()
+    {
+        return m_DeadInCurrentFrame;
+    }
+
+    private IEnumerator SetDead()
+    {
+        m_IsDead = true;
+        m_DeadInCurrentFrame = true;
+        yield return new WaitForEndOfFrame();
+        m_DeadInCurrentFrame = false;
     }
 }
