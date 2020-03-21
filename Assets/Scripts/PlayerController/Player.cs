@@ -9,6 +9,8 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(StealthActor))]
 public class Player : PlayerBehavior, ICanInteract
 {
+    public event System.Action PlayerDead;
+
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
     private SkillHandler m_SkillHandler;
@@ -161,6 +163,7 @@ public class Player : PlayerBehavior, ICanInteract
     public override void TriggerDeath(RpcArgs args)
     {
         m_PlayerNetworkHandler?.TriggerDeath();
+        PlayerDead();
     }
 
     public override void TriggerDamaged(RpcArgs args)
