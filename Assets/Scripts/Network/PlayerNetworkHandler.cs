@@ -14,12 +14,17 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
+    private HealthHandler m_HealthHandler;
 
     private void Start()
     {
         m_PlayerNetworkObject = GetComponent<Player>().networkObject;
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
+        m_HealthHandler = GetComponent<HealthHandler>();
+
+        if (m_HealthHandler != null)
+            m_HealthHandler.HealthChanged += OnHealthChanged;
 
         // Make sure animator exists
         Debug.Assert(m_Animator != null, "Animator should not be null");
@@ -66,6 +71,20 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_Animator.SetFloat("Velocity-Y-Normalized", m_PlayerNetworkObject.vertVelocity);
             m_Animator.SetBool("Grounded", m_PlayerNetworkObject.grounded);
         }
+    }
+
+    private void OnHealthChanged(float deltaHealth)
+    {
+        if (m_PlayerNetworkObject == null)
+            return;
+
+        if (m_PlayerNetworkObject.IsOwner)
+            m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
+    }
+
+    public void TriggerDamaged()
+    {
+        // Animate damage received here
     }
 
     public void TriggerJump()

@@ -10,15 +10,18 @@ public class HealthHandler : MonoBehaviour
     [SerializeField]
     private float m_Health = MAX_HEALTH;
 
+    private bool m_IsDead = false;
+
     public void Damage(float amount)
     {
-        float newHealth = Mathf.Max(0.0f, m_Health - amount);
-        if (newHealth != m_Health)
-        {
-            HealthChanged?.Invoke((m_Health - newHealth) / MAX_HEALTH);
-            m_Health = newHealth;
-        }
+        if (m_IsDead)
+            return;
 
-        // Trigger animation events here perhaps for getting hit
+        float newHealth = Mathf.Max(0.0f, m_Health - amount);
+        HealthChanged?.Invoke((m_Health - newHealth) / MAX_HEALTH);
+        m_Health = newHealth;
+
+        if (m_Health == 0.0f)
+            HealthDepleted?.Invoke();
     }
 }

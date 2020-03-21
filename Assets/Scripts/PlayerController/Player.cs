@@ -158,6 +158,11 @@ public class Player : PlayerBehavior, ICanInteract
         PlayerManager.Instance.AddPlayer(this);
     }
 
+    public override void TriggerDamaged(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerDamaged();
+    }
+
     public override void TriggerJump(RpcArgs args)
     {
         m_PlayerNetworkHandler?.TriggerJump();
