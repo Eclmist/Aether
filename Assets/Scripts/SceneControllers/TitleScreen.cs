@@ -70,6 +70,8 @@ public class TitleScreen : MonoBehaviour
     public void SwitchOptionsMenuCallback(InputAction.CallbackContext ctx)
     {
         bool triggerBoolean = MenusManager.Instance.GetTriggerBool(0);
+
+        Debug.Log(triggerBoolean);
         if (triggerBoolean)
         {
             TriggerOptionsAnimator();
@@ -136,6 +138,8 @@ public class TitleScreen : MonoBehaviour
         }
 
         m_isMultiplayerDropdownActivated = !(m_isMultiplayerDropdownActivated);
+
+        Debug.Log(m_isMultiplayerDropdownActivated);
     }
 
     public void GoToCharacterCustomization()

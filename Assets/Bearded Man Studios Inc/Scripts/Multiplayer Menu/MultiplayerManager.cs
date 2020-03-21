@@ -9,21 +9,21 @@ public class MultiplayerManager : Singleton<MultiplayerManager>
 
     public void SaveIPAddress(string ipAddress)
     {
-        m_Menu.ipAddress = ipAddress;
+        m_Menu.ipAddress.text = ipAddress;
     }
 
     public string GetIPAddress()
     {
-        return m_Menu.ipAddress;
+        return m_Menu.ipAddress.text;
     }
 
     public void SavePortNumber(string portNumber)
     {
-        m_Menu.portNumber = portNumber;
+        m_Menu.portNumber.text = portNumber;
     }
 
     public string GetPortNumber()
     {
-        return m_Menu.portNumber;
+        return m_Menu.portNumber.text;
     }
 }
