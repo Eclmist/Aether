@@ -5,8 +5,6 @@ using BeardedManStudios.Forge.Networking.Unity;
 
 public class TornadoSkill : ItemSkill
 {
-    [SerializeField]
-    private LayerMask m_LayerMask = new LayerMask();
 
     //[SerializeField]
     //private GameObject m_SpellPrefab;
@@ -22,20 +20,12 @@ public class TornadoSkill : ItemSkill
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL, ItemSkill.Skill.SKILL_TORNADO);
     }
     public override void UseSkill()
     {
-        
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
+        Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
 
-        if (Physics.Raycast(ray, out hit, m_LayerMask))
-        {
-            Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
-
-            NetworkManager.Instance.InstantiateSkills(index: 4, position: startSpawnPosition, rotation: Quaternion.identity);
-        }
-
+        NetworkManager.Instance.InstantiateSkills(index: 4, position: startSpawnPosition, rotation: Quaternion.identity);
     }
 }

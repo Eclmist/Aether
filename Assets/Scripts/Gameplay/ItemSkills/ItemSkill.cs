@@ -3,6 +3,18 @@ using UnityEngine.UI;
 
 public abstract class ItemSkill : MonoBehaviour
 {
+    public enum Skill
+    {
+        SKILL_NONE = 0,
+        SKILL_METEOR = 1,
+        SKILL_SWORD = 2,
+        SKILL_LASER = 3,
+        SKILL_TORNADO = 4
+    }
+
+    // TODO: Set up private Skill to identify which animation to play
+    private int m_SkillIdentity;
+
     private int m_NoOfUses;
 
     private int m_MaxNoOfUses;
@@ -54,10 +66,16 @@ public abstract class ItemSkill : MonoBehaviour
     {
         m_GroundedSpellCast = isGroundOnlySpell;
     }
+
+    public void SetSkillIdentity(Skill skill)
+    {
+        m_SkillIdentity = (int) skill;
+    }
     
-    public void SetUpSkill(int maxMoves, int iconIndex, bool isGroundOnlySpell)
+    public void SetUpSkill(int maxMoves, int iconIndex, bool isGroundOnlySpell, Skill skillIdentity)
     {
         SetIsGroundOnlySpellBool(isGroundOnlySpell);
+        SetSkillIdentity(skillIdentity);
         SetMaxNumberOfUses(maxMoves);
         SetNumberOfUses(maxMoves);
         SetSkillsIcon(IconsManager.Instance.GetIcon(iconIndex));
@@ -66,6 +84,11 @@ public abstract class ItemSkill : MonoBehaviour
     public void DecrementUses() {
         if (m_NoOfUses > 0)
             m_NoOfUses--;
+    }
+
+    public int GetSkillIdentity()
+    {
+        return m_SkillIdentity;
     }
 
     public Image GetSkillsIcon() 

@@ -38,7 +38,7 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
         m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-        m_SKillsHandler = GetComponent<SkillHandler>();
+        m_SKillsHandler = GetComponentInChildren<SkillHandler>();
         
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
     }

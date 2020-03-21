@@ -19,7 +19,7 @@ public class MeteorSkill : ItemSkill
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL, ItemSkill.Skill.SKILL_METEOR);
     }
     public override void UseSkill()
     {

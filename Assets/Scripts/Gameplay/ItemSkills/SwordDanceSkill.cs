@@ -24,7 +24,7 @@ public class SwordDanceSkill : ItemSkill
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL, ItemSkill.Skill.SKILL_SWORD);
     }
     public override void UseSkill()
     {

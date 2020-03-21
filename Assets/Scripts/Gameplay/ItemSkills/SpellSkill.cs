@@ -15,7 +15,7 @@ public class SpellSkill : ItemSkill
     //[SerializeField]
     //private Transform m_PlayerTransform;
 
-    private Vector3 m_Spellcast_Offset = new Vector3(0f, 1.2f, 0f);
+    // private Vector3 m_Spellcast_Offset = new Vector3(0.1f, 1.2f, 0.5f);
 
     private const int m_ICON_INDEX = 1;
 
@@ -25,7 +25,7 @@ public class SpellSkill : ItemSkill
 
     public override void InitializeSkill()
     {
-        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL);
+        SetUpSkill(m_MAX_MOVES, m_ICON_INDEX, m_IS_GROUND_SPELL, ItemSkill.Skill.SKILL_LASER);
     }
     public override void UseSkill()
     {
@@ -38,17 +38,19 @@ public class SpellSkill : ItemSkill
         //GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.LookRotation(forwardDirection.normalized));
         //Destroy(spell, 6.0f);
 
-        Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        RaycastHit hit;
+        //Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+        //RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
-            startSpawnPosition += m_Spellcast_Offset;
-            Vector3 startSpawnDirection = hit.point - startSpawnPosition;
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
+        Vector3 playerForward = PlayerManager.Instance.GetLocalPlayer().transform.forward.normalized;
+        Vector3 spellOffset = playerForward * 2 + new Vector3(0f, 1.2f, 0f);
+        startSpawnPosition += spellOffset;
+        //Vector3 startSpawnDirection = hit.point - startSpawnPosition;
 
-            NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(startSpawnDirection.normalized));
-        }
+        NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
+        //}
 
     }
 }

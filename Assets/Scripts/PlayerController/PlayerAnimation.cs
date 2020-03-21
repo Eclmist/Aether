@@ -11,6 +11,7 @@ public class PlayerAnimation : MonoBehaviour
     private PlayerMovement m_PlayerMovement;
     private PlayerStance m_PlayerStance;
     private PlayerCombatHandler m_PlayerCombatHandler;
+    private SkillHandler m_SkillHandler;
     private Player m_Player;
 
     private Vector2 m_AxisDelta;
@@ -21,6 +22,7 @@ public class PlayerAnimation : MonoBehaviour
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
+        m_SkillHandler = GetComponentInChildren<SkillHandler>();
     }
 
     void Update()
@@ -60,6 +62,9 @@ public class PlayerAnimation : MonoBehaviour
         // Set combat states
         HandleCombatAnimations();
 
+        // Set skill states
+        HandleSkillsAnimations();
+
         if (m_Player.networkObject != null)
         {
             m_Player.networkObject.axisDeltaMagnitude = m_AxisDelta.magnitude;
@@ -96,6 +101,38 @@ public class PlayerAnimation : MonoBehaviour
         }
 
         m_Animator.SetBool("Block", m_PlayerCombatHandler.IsBlocking());
+    }
+
+    private void HandleSkillsAnimations()
+    {
+        if (m_SkillHandler == null)
+        {
+            return;
+        }
+
+        if (m_SkillHandler.GetCastInCurrentFrame())
+        {
+            Debug.Log("CASTING CASTING");
+            if (m_SkillHandler.GetCurrentItemSkill() != (int) ItemSkill.Skill.SKILL_NONE)
+            {
+                Debug.Log(m_SkillHandler.GetCurrentItemSkill());
+                m_Animator.SetInteger("SkillsIndex", m_SkillHandler.GetCurrentItemSkill());
+            }
+        }
+
+        if (!m_SkillHandler.GetCastInCurrentFrame())
+        {
+            m_Animator.SetInteger("SkillsIndex", (int) ItemSkill.Skill.SKILL_NONE);
+        }
+    }
+
+    public bool IsPlayingCastingAnimation()
+    {
+        for (int i = 0; i < m_Animator.layerCount; ++i)
+            if (m_Animator.GetCurrentAnimatorStateInfo(i).IsTag("IsCasting"))
+                return true;
+
+        return false;
     }
 
     public bool IsPlayingAttackAnimation()
