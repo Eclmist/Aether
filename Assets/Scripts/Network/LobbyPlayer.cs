@@ -11,7 +11,32 @@ public class LobbyPlayer : LobbyPlayerBehavior
     [SerializeField]
     private Text m_PlayerTeam;
 
+    [SerializeField]
+    private Image m_ReadyStatus;
+
     private Team m_Team;
+
+    private bool m_IsReady;
+
+    public void ToggleReady()
+    {
+        m_IsReady = !(m_IsReady);
+        IndicateReady();
+    }
+
+    private void IndicateReady()
+    {
+        if (m_ReadyStatus == null)
+            return;
+
+        var originalColor = m_ReadyStatus.color;
+
+        if (m_IsReady)
+            m_ReadyStatus.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1.0f);
+        else 
+            m_ReadyStatus.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.0f);
+
+    }
 
     public string GetName()
     {
