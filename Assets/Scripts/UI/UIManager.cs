@@ -22,6 +22,9 @@ public class UIManager : Singleton<UIManager>
 
     private void OnGameStarted(GameMode gameMode)
     {
+        // Attach Player Health to Health Bar
+        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
+
         string message = "";
         switch (gameMode)
         {
@@ -34,7 +37,6 @@ public class UIManager : Singleton<UIManager>
 
         UINotifyHeader(message);
 
-        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
     }
 
     public void UINotifyHeader(string message)

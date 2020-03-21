@@ -2,11 +2,11 @@
 
 public class DamageOneShot : DamageDealerBase
 {
-    public HashSet<HealthHandler> m_PreviousInteractions;
+    public HashSet<HealthHandler> m_PreviousInteractors;
 
     private void Awake()
     {
-        m_PreviousInteractions = new HashSet<HealthHandler>();
+        m_PreviousInteractors = new HashSet<HealthHandler>();
     }
 
     public override void DealDamage(HealthHandler healthHandler, InteractionType interactionType)
@@ -14,10 +14,10 @@ public class DamageOneShot : DamageDealerBase
         switch (interactionType)
         {
             case InteractionType.INTERACTION_TRIGGER_ENTER:
-                if (!m_PreviousInteractions.Contains(healthHandler))
+                if (!m_PreviousInteractors.Contains(healthHandler))
                 {
-                    m_PreviousInteractions.Add(healthHandler);
-                    healthHandler.Reduce(m_DamageAmount);
+                    m_PreviousInteractors.Add(healthHandler);
+                    healthHandler.Damage(m_DamageAmount);
                 }
                 break;
             default:

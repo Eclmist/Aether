@@ -34,7 +34,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 Debug.LogError("Local player not set");
 
             PlayerDetails localPlayerDetails = localPlayer.GetPlayerDetails();
-
             foreach (Player player in players)
             {
                 // Remove unnecessary objects/components

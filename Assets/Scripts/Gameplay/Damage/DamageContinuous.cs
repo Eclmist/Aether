@@ -19,16 +19,16 @@ public class DamageContinuous : DamageDealerBase
         {
             foreach (HealthHandler target in m_Targets)
             {
-                target.Reduce(m_DamageAmount);
+                target.Damage(m_DamageAmount);
             }
 
             m_TimeLastDamaged = Time.time;
         }
     }
 
-    public void InitializeDamageDealer(float damage, float radius, float duration, float damageInterval)
+    public void InitializeDamageDealer(MonoBehaviour mb, float damage, float radius, float duration, float damageInterval)
     {
-        InitializeDamageDealer(damage, radius, duration);
+        InitializeDamageDealer(mb, damage, radius, duration);
         m_DamageInterval = damageInterval;
     }
 
