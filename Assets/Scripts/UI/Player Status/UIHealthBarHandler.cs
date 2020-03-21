@@ -44,9 +44,9 @@ public class UIHealthBarHandler : MonoBehaviour
         m_PlayerHealth.HealthChanged += OnHealthChanged;
     }
 
-    public void OnHealthChanged(float deltaPercentage) 
+    public void OnHealthChanged(float deltaHealth) 
     {
-        m_HealthDelta += deltaPercentage;
+        m_HealthDelta += deltaHealth / HealthHandler.MAX_HEALTH;
     }
 
     private void UpdateHealthPercentage()

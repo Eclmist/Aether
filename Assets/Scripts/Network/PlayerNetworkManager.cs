@@ -58,14 +58,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         });
     }
 
-    private void OnLocalPlayerDeath()
-    {
-        MainThreadManager.Run(() =>
-        {
-            // networkObject.SendRpc(RPC_TRIGGER_DEATH, Receivers.All, networkObject.MyPlayerId);
-        });
-    }
-
     public override void SetPlayerCount(RpcArgs args)
     {
         // Run on main thread to lock player count
@@ -78,12 +70,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     public override void SetAllReady(RpcArgs args)
     {
         AllPlayersReady();
-    }
-
-    public /*override*/ void TriggerDeath(RpcArgs args)
-    {
-        Player deadPlayer = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
-        // deadPlayer.SetDead();
     }
 
     ////////////////////

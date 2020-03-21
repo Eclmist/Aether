@@ -4,16 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"int\"][][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"team\", \"position\"][][]]")]
-	public abstract partial class PlayerBehavior : NetworkBehavior
+	[GeneratedRPC("{\"types\":[]")]
+	[GeneratedRPCVariableNames("{\"types\":[]")]
+	public abstract partial class DamageBehavior : NetworkBehavior
 	{
-		public const byte RPC_TRIGGER_JUMP = 0 + 5;
-		public const byte RPC_TRIGGER_UPDATE_DETAILS = 1 + 5;
-		public const byte RPC_TRIGGER_DAMAGED = 2 + 5;
-		public const byte RPC_TRIGGER_DEATH = 3 + 5;
 
-		public PlayerNetworkObject networkObject = null;
+		public DamageNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
 		{
@@ -21,14 +17,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
 
-			networkObject = (PlayerNetworkObject)obj;
+			networkObject = (DamageNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("TriggerJump", TriggerJump);
-			networkObject.RegisterRpc("TriggerUpdateDetails", TriggerUpdateDetails, typeof(uint), typeof(int), typeof(int));
-			networkObject.RegisterRpc("TriggerDamaged", TriggerDamaged);
-			networkObject.RegisterRpc("TriggerDeath", TriggerDeath);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -83,7 +75,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override void Initialize(NetWorker networker, byte[] metadata = null)
 		{
-			Initialize(new PlayerNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
+			Initialize(new DamageNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
 		}
 
 		private void DestroyGameObject(NetWorker sender)
@@ -94,7 +86,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override NetworkObject CreateNetworkObject(NetWorker networker, int createCode, byte[] metadata = null)
 		{
-			return new PlayerNetworkObject(networker, this, createCode, metadata);
+			return new DamageNetworkObject(networker, this, createCode, metadata);
 		}
 
 		protected override void InitializedTransform()
@@ -102,22 +94,6 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void TriggerJump(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void TriggerUpdateDetails(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void TriggerDamaged(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void TriggerDeath(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

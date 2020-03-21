@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
+using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(Collider))]
-public abstract class DamageDealerBase : MonoBehaviour, IInteractable
+public abstract class DamageDealerBase : DamageBehavior, IInteractable
 {
+    [SerializeField]
     protected float m_DamageAmount = 0.0f;
+    [SerializeField]
     protected float m_Radius = 0.0f;
+    [SerializeField]
     private float m_Duration = 0.0f;
     private MonoBehaviour m_Owner;
 

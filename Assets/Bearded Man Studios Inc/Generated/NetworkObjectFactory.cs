@@ -63,6 +63,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new TowerNetworkObject(networker, id, frame);
 						break;
+					case DamageNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new DamageNetworkObject(networker, id, frame);
+						break;
 				}
 
 				if (!availableCallback)

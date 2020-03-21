@@ -7,14 +7,17 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(Player))]
 public class PlayerNetworkHandler : MonoBehaviour
 {
+    public event System.Action<Player> PlayerDied;
+
     private PlayerNetworkObject m_PlayerNetworkObject;
 
     [SerializeField]
     private Animator m_Animator;
+    private HealthHandler m_HealthHandler;
 
+    // Local player only scripts
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
-    private HealthHandler m_HealthHandler;
 
     private void Start()
     {
@@ -22,9 +25,6 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_HealthHandler = GetComponent<HealthHandler>();
-
-        if (m_HealthHandler != null)
-            m_HealthHandler.HealthChanged += OnHealthChanged;
 
         // Make sure animator exists
         Debug.Assert(m_Animator != null, "Animator should not be null");
@@ -37,9 +37,9 @@ public class PlayerNetworkHandler : MonoBehaviour
 
         if (m_PlayerNetworkObject.IsOwner)
         {
-            if (m_PlayerMovement == null || m_PlayerAnimation == null)
+            if (m_PlayerMovement == null || m_PlayerAnimation == null || m_HealthHandler == null)
             {
-                Debug.LogWarning("Movement/Animation script not found on local player");
+                Debug.LogWarning("Movement/Animation/Health script not found on local player");
                 return;
             }
 
@@ -54,6 +54,10 @@ public class PlayerNetworkHandler : MonoBehaviour
 
             if (m_PlayerMovement.JumpedInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_JUMP, Receivers.All);
+
+            // Send health state
+            if (m_HealthHandler.DamagedInCurrentFrame())
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
         }
         else
         {
@@ -73,13 +77,9 @@ public class PlayerNetworkHandler : MonoBehaviour
         }
     }
 
-    private void OnHealthChanged(float deltaHealth)
+    public void TriggerDeath()
     {
-        if (m_PlayerNetworkObject == null)
-            return;
-
-        if (m_PlayerNetworkObject.IsOwner)
-            m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
+        // Animate death here
     }
 
     public void TriggerDamaged()
