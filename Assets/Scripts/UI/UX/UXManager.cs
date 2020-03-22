@@ -18,7 +18,7 @@ public class UXManager : Singleton<UXManager>
         StartCoroutine(TriggerTextChange());
     } 
 
-    public IEnumerator TriggerTextChange()
+    private IEnumerator TriggerTextChange()
     {
         for (int i = 0; i < m_Iterations; i++)
         {

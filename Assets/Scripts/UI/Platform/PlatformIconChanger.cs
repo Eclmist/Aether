@@ -25,7 +25,7 @@ public class PlatformIconChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SwitchPlatformIcon();
+
     }
 
     private void SetMouseFriendly(bool flag)
@@ -36,7 +36,7 @@ public class PlatformIconChanger : MonoBehaviour
         m_Button.interactable = flag;
     }
 
-    private void SwitchPlatformIcon()
+    public void SwitchPlatformIcon()
     {
         PlatformType platformType = PlatformManager.Instance.GetPlatformType();
 

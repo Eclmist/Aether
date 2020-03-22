@@ -32,8 +32,6 @@ public class MultiplayerLobby : MonoBehaviour
         m_IsInCustomization = !m_IsInCustomization;
         AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
         m_UIAnimator.SetBool("ShowCustomization", m_IsInCustomization);
-        
-        Debug.Log(m_IsInCustomization);
     }
 
     private void SubmitInputCallback(InputAction.CallbackContext ctx)

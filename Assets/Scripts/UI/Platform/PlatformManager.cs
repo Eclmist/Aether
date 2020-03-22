@@ -7,10 +7,15 @@ using UnityEngine.InputSystem.Controls;
 public class PlatformManager : Singleton<PlatformManager>
 {
     private PlatformType m_platformType;
+
+    [SerializeField]
+    private PlatformIconChanger[] m_iconChangers;
     // Start is called before the first frame update
     void Start()
     {
         m_platformType = PlatformType.PS4_CONTROLLER;
+
+        SwitchIcons();
 
         AetherInput.GetUIActions().KeyboardAction.performed += RetrievePlatformTypeCallback;
         AetherInput.GetUIActions().Cancel.performed += RetrievePlatformTypeCallback;
@@ -40,7 +45,16 @@ public class PlatformManager : Singleton<PlatformManager>
             default: 
                 m_platformType = PlatformType.PS4_CONTROLLER;
                 break;
+        }
 
+        SwitchIcons();
+    }
+
+    private void SwitchIcons()
+    {
+        foreach (PlatformIconChanger iconChanger in m_iconChangers)
+        {
+            iconChanger.SwitchPlatformIcon();
         }
     }
 }
