@@ -19,7 +19,7 @@ public class PlatformIconChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_Icon.sprite = m_KeyboardMouseIcon;
+        PlatformManager.Instance.PlatformChanged += OnPlatformChanged;
     }
 
     // Update is called once per frame
@@ -36,10 +36,8 @@ public class PlatformIconChanger : MonoBehaviour
         m_Button.interactable = flag;
     }
 
-    public void SwitchPlatformIcon()
+    private void OnPlatformChanged(PlatformType platformType)
     {
-        PlatformType platformType = PlatformManager.Instance.GetPlatformType();
-
         if (m_Icon == null || m_KeyboardMouseIcon == null || m_PS4ControllerIcon == null)
             return;
 
@@ -58,7 +56,6 @@ public class PlatformIconChanger : MonoBehaviour
 
         }
     }
-
     private void ChangeIcon(Sprite sprite)
     {
         if (m_Icon == null || sprite == null)

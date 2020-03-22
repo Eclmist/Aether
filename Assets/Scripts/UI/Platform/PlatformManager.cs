@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.Controls;
 
 public class PlatformManager : Singleton<PlatformManager>
 {
+    public event System.Action<PlatformType> PlatformChanged;
     private PlatformType m_platformType;
 
     [SerializeField]
@@ -14,8 +15,6 @@ public class PlatformManager : Singleton<PlatformManager>
     void Start()
     {
         m_platformType = PlatformType.PS4_CONTROLLER;
-
-        SwitchIcons();
 
         AetherInput.GetUIActions().KeyboardAction.performed += RetrievePlatformTypeCallback;
         AetherInput.GetUIActions().Cancel.performed += RetrievePlatformTypeCallback;
@@ -34,6 +33,8 @@ public class PlatformManager : Singleton<PlatformManager>
     {
         string inputButtonType = ctx.control.device.name;
 
+        PlatformType previousPlatformType = m_platformType;
+
         switch(inputButtonType)
         {
             case "Keyboard":
@@ -47,14 +48,10 @@ public class PlatformManager : Singleton<PlatformManager>
                 break;
         }
 
-        SwitchIcons();
-    }
-
-    private void SwitchIcons()
-    {
-        foreach (PlatformIconChanger iconChanger in m_iconChangers)
+        if (m_platformType != previousPlatformType)
         {
-            iconChanger.SwitchPlatformIcon();
+            PlatformChanged?.Invoke(m_platformType);
         }
+
     }
 }
