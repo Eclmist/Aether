@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BeardedManStudios.Forge.Networking;
@@ -14,6 +15,8 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
     private int m_PlayersLoadedScene;
+
+    private const int m_LoadingSceneIndex = 2;
 
     void Awake()
     {
@@ -36,9 +39,34 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
         return true;
     }
 
-    public void LoadScene(int sceneId)
+    public void LoadGame(int sceneId)
+    {
+        LoadLoadingScene();
+        StartCoroutine(PrepareFade());
+        StartCoroutine(LoadScene(sceneId));
+    }
+
+    public IEnumerator PrepareFade()
+    {
+        yield return new WaitForSeconds(1.5f);
+        UXManager.Instance.StartFade();
+    }
+
+    public void LoadLoadingScene()
+    {
+        SceneManager.LoadScene(m_LoadingSceneIndex);
+    }
+
+    public IEnumerator LoadScene(int sceneId)
+    {
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(DelayStart(sceneId));
+    }
+
+    public IEnumerator DelayStart(int sceneId)
     {
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(sceneId);
+        loadAsync.allowSceneActivation = false;
 
         loadAsync.completed += asyncOp =>
         {
@@ -46,6 +74,10 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
             // When host finishes loading scene
             OnPlayerLoadScene(sender.Me, sender);
         };
+
+        yield return new WaitForSeconds(2.0f);
+        loadAsync.allowSceneActivation = true;
+
     }
 
     public void OnPlayerLoadScene(NetworkingPlayer player, NetWorker sender)
