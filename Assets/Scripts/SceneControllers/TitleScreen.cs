@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -23,6 +22,8 @@ public class TitleScreen : MonoBehaviour
 
     private bool m_AnyKeyPressed;
 
+    private bool m_IsLoading;
+
     private EventSystem m_EventSystem;
 
     [SerializeField]
@@ -31,12 +32,15 @@ public class TitleScreen : MonoBehaviour
     [SerializeField]
     private GameObject m_SideMultiplayerButton;
 
+    [SerializeField]
+
+    private GameObject m_OptionsConnectButton;
+
     void Start() 
     {
-        m_isMultiplayerDropdownActivated = false;
         m_EventSystem = EventSystem.current;
         AetherInput.GetUIActions().Cancel.performed += SwitchMultiplayMenuBarsCallback;
-
+        AetherInput.GetUIActions().Cancel.performed += SwitchOptionsMenuCallback;
     }
 
     // Update is called once per frame
@@ -63,18 +67,57 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    public void SwitchOptionsMenuCallback(InputAction.CallbackContext ctx)
+    {
+        bool triggerBoolean = MenusManager.Instance.GetTriggerBool(0);
+
+        Debug.Log(triggerBoolean);
+        if (triggerBoolean)
+        {
+            TriggerOptionsAnimator();
+        }
+    }
+
     public void SwitchMultiplayMenuBarsCallback(InputAction.CallbackContext ctx)
     {
         if (m_isMultiplayerDropdownActivated)
-        {
-            
             SwitchMultiplayerMenuBars();
+    }
+
+    public void TriggerOptionsAnimator()
+    {
+        if (m_IsLoading)
+            return;
+
+        bool triggerBoolean = MenusManager.Instance.GetTriggerBool(0);
+
+        if (m_OptionsConnectButton == null || m_SideMultiplayerButton == null )
+            return;
+
+        MenusManager.Instance.TriggerAnimator(0);
+
+        if (triggerBoolean)
+        {
+             StartCoroutine(DelaySelection(m_SideMultiplayerButton));
+        } 
+        else {
+             m_EventSystem.SetSelectedGameObject(m_OptionsConnectButton);
         }
+    }
+
+    private IEnumerator DelaySelection(GameObject button)
+    {   
+        yield return new WaitForSeconds(1.0f);
+         m_EventSystem.SetSelectedGameObject(button);
     }
 
     public void SwitchMultiplayerMenuBars()
     {
-        AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
+        if (m_IsLoading)
+            return;
+
+        if (MenusManager.Instance.GetTriggerBool(0))
+            return;
 
         if (m_EventSystem == null) 
             return;
@@ -84,10 +127,12 @@ public class TitleScreen : MonoBehaviour
 
         if (m_isMultiplayerDropdownActivated) 
         {
+            AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
             m_EventSystem.SetSelectedGameObject(m_MainMultiplayerButton);
             m_MainCanvasAnimator.SetTrigger("ReverseMultiplayer");
         } 
         else {
+            AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
             m_EventSystem.SetSelectedGameObject(m_SideMultiplayerButton);
             m_MainCanvasAnimator.SetTrigger("EnterMultiplayer");
         }
@@ -99,6 +144,10 @@ public class TitleScreen : MonoBehaviour
 
     public void GoToCharacterCustomization()
     {
+        if (m_IsLoading)
+            return;
+
+        m_IsLoading = true;
         AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
         m_ScreenFadeAnimator.SetTrigger("ToBlack");
         StartCoroutine("HostLobby");
