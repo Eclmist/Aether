@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using BeardedManStudios.Forge.Networking;
@@ -133,7 +134,7 @@ public class LobbySystem : LobbySystemBehavior
                     AetherNetworkManager.Instance.AddPlayer(np, details);
                 }
 
-                AetherNetworkManager.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                AetherNetworkManager.Instance.LoadGame(3);
             }
         }
     }
