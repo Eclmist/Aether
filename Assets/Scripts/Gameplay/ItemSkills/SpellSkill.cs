@@ -6,7 +6,7 @@ public class SpellSkill : ItemSkill
     // Height offset of character for spell cast
     private Vector3 m_HeightOffset = new Vector3(0f, 1.2f, 0f);
 
-    public override void UseSkill()
+    public override void UseSkill(Transform playerTransform)
     {
         ///////////////////////////////////////////////////////////
         // Code below is for instantiation of game prefabs locally
@@ -17,8 +17,8 @@ public class SpellSkill : ItemSkill
         //GameObject spell = Instantiate(m_SpellPrefab, m_PlayerTransform.position + new Vector3(0, 1.2f, 0), Quaternion.LookRotation(forwardDirection.normalized));
         //Destroy(spell, 6.0f);
 
-        Vector3 startSpawnPosition = PlayerManager.Instance.GetLocalPlayer().transform.position;
-        Vector3 playerForward = PlayerManager.Instance.GetLocalPlayer().transform.forward.normalized;
+        Vector3 startSpawnPosition = playerTransform.position;
+        Vector3 playerForward = playerTransform.forward.normalized;
         Vector3 spellOffset = playerForward + m_HeightOffset;
         startSpawnPosition += spellOffset;
 

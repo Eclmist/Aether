@@ -31,14 +31,13 @@ public class SkillHandler : MonoBehaviour
 
         ItemSkill currentSkill = m_ItemSkillSlots.Peek();
 
-        // if the skill is ground only, must check grounded
         if (currentSkill.IsGroundOnlySpell())
         {
             if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_CASTSPELL))
                 return;
         }
 
-        currentSkill.UseSkill();
+        currentSkill.UseSkill(this.transform);
         currentSkill.DecrementUses();
 
         if (currentSkill.HasNoMoreUses())

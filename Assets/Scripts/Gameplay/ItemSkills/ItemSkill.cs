@@ -15,7 +15,7 @@ public abstract class ItemSkill : MonoBehaviour
     [SerializeField]
     protected bool m_IsGroundedSpellCast;
     
-    public abstract void UseSkill();
+    public abstract void UseSkill(Transform playerTransform);
 
     public bool HasNoMoreUses() 
     {

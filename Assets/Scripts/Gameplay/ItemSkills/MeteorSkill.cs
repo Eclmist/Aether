@@ -5,7 +5,7 @@ public class MeteorSkill : ItemSkill
 {
     [SerializeField]
     private LayerMask m_LayerMask = new LayerMask();
-    public override void UseSkill()
+    public override void UseSkill(Transform playerTransform)
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;

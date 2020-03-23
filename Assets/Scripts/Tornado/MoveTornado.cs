@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 
+/**
+ * Role of class is to move the tornado spell forward
+ * with each frame.
+ */
 public class MoveTornado : SkillsBehavior
 {
     [SerializeField]
