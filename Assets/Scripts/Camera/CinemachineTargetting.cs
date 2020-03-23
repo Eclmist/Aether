@@ -35,4 +35,14 @@ public class CinemachineTargetting : MonoBehaviour
         m_VirtualCam.Follow = players[0].transform;
         m_VirtualCam.LookAt = players[0].transform;
     }
+
+    private void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
+            if (localPlayer != null)
+                localPlayer.PlayerDead -= OnPlayerDeath;
+        }
+    }
 }

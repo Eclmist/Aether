@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerNetworkManager))]
 public class PlayerManager : Singleton<PlayerManager>
 {
     public event System.Action PlayerListPopulated;
 
-    private Player m_LocalPlayer;
+    [SerializeField]
+    private PlayerNetworkManager m_PlayerNetworkManager;
 
+    private Player m_LocalPlayer;
     private List<Player> m_Players;
     private Dictionary<Team, List<int>> m_TeamIndices;
-
     private int m_TotalPlayerCount;
 
     private void Awake()
@@ -84,5 +86,10 @@ public class PlayerManager : Singleton<PlayerManager>
             Debug.Log("Local player not found in his team's list");
 
         return teamPlayers;
+    }
+
+    public PlayerNetworkManager GetPlayerNetworkManager()
+    {
+        return m_PlayerNetworkManager;
     }
 }
