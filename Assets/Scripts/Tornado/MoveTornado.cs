@@ -16,15 +16,18 @@ public class MoveTornado : SkillsBehavior
     // Update is called once per frame
     void Update()
     {
-        if (networkObject != null && !networkObject.IsOwner)
+        if (networkObject != null)
         {
-            transform.position = networkObject.position;
-            return;
-        }
+            if (!networkObject.IsOwner)
+            {
+                transform.position = networkObject.position;
+                return;
+            }
 
-        // Called by owner of tornado spell
-        transform.position += m_CurrentDirection * Time.deltaTime * m_Speed;
-        networkObject.position = transform.position;
+            // Called by owner of tornado spell
+            transform.position += m_CurrentDirection * Time.deltaTime * m_Speed;
+            networkObject.position = transform.position;
+        }
     }
 
 }
