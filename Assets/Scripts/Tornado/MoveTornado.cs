@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 
 public class MoveTornado : SkillsBehavior
@@ -18,7 +16,7 @@ public class MoveTornado : SkillsBehavior
     // Update is called once per frame
     void Update()
     {
-        if (!networkObject.IsOwner)
+        if (networkObject != null && !networkObject.IsOwner)
         {
             transform.position = networkObject.position;
             return;

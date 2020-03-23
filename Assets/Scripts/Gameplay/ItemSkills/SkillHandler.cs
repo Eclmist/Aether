@@ -22,9 +22,9 @@ public class SkillHandler : MonoBehaviour
     //key bindings
     public void UseSkillAt(InputAction.CallbackContext ctx)
     {
-        //ButtonControl button = ctx.control as ButtonControl;
-        //if (!button.wasPressedThisFrame)
-        //    return;
+        ButtonControl button = ctx.control as ButtonControl;
+        if (!button.wasPressedThisFrame)
+            return;
 
         if (m_ItemSkillSlots.Count == 0)
             return;

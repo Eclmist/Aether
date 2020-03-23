@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4644724514163645755}
   - component: {fileID: 946782863198140805}
   m_Layer: 10
-  m_Name: Asteroid Skill
+  m_Name: Asteroid_Skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,11 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa1dd723b16dda4d89ccb96659e776a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_NoOfUses: 3
+  m_MaxNoOfUses: 3
+  m_SkillIcon: {fileID: 0}
+  m_IsGroundedSpellCast: 0
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 2048
-  m_MeteorPrefab: {fileID: 7983100099294320389, guid: 8465f4d4188ee2947b897e13f1be2144,
-    type: 3}
 --- !u!1 &6244423188470487560
 GameObject:
   m_ObjectHideFlags: 0

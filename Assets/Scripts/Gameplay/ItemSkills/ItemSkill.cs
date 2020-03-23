@@ -3,16 +3,19 @@ using UnityEngine.UI;
 
 public abstract class ItemSkill : MonoBehaviour
 {
-    private int m_NoOfUses;
+    [SerializeField]
+    protected int m_NoOfUses;
 
-    private int m_MaxNoOfUses;
+    [SerializeField]
+    protected int m_MaxNoOfUses;
 
-    private Image m_SkillIcon;
+    [SerializeField]
+    protected Image m_SkillIcon;
 
-    private bool m_GroundedSpellCast;
+    [SerializeField]
+    protected bool m_IsGroundedSpellCast;
     
     public abstract void UseSkill();
-    public abstract void InitializeSkill();
 
     public bool HasNoMoreUses() 
     {
@@ -36,32 +39,32 @@ public abstract class ItemSkill : MonoBehaviour
 
     public bool IsGroundOnlySpell()
     {
-        return m_GroundedSpellCast;
+        return m_IsGroundedSpellCast;
     }
 
-    public void SetMaxNumberOfUses(int uses)
-    {
-        m_MaxNoOfUses = uses;
-    }
+    //public void SetMaxNumberOfUses(int uses)
+    //{
+    //    m_MaxNoOfUses = uses;
+    //}
 
-    public void SetNumberOfUses(int uses) 
-    {
-        m_NoOfUses = uses;
-    }
+    //public void SetNumberOfUses(int uses) 
+    //{
+    //    m_NoOfUses = uses;
+    //}
 
     // Check if spell requires player to be grounded
-    public void SetIsGroundOnlySpellBool(bool isGroundOnlySpell)
-    {
-        m_GroundedSpellCast = isGroundOnlySpell;
-    }
+    //public void SetIsGroundOnlySpellBool(bool isGroundOnlySpell)
+    //{
+    //    m_IsGroundedSpellCast = isGroundOnlySpell;
+    //}
     
-    public void SetUpSkill(int maxMoves, int iconIndex, bool isGroundOnlySpell)
-    {
-        SetIsGroundOnlySpellBool(isGroundOnlySpell);
-        SetMaxNumberOfUses(maxMoves);
-        SetNumberOfUses(maxMoves);
-        SetSkillsIcon(IconsManager.Instance.GetIcon(iconIndex));
-    }
+    //public void SetUpSkill(int maxMoves, int iconIndex, bool isGroundOnlySpell)
+    //{
+    //    SetIsGroundOnlySpellBool(isGroundOnlySpell);
+    //    SetMaxNumberOfUses(maxMoves);
+    //    SetNumberOfUses(maxMoves);
+    //    SetSkillsIcon(IconsManager.Instance.GetIcon(iconIndex));
+    //}
  
     public void DecrementUses() {
         if (m_NoOfUses > 0)
@@ -73,8 +76,8 @@ public abstract class ItemSkill : MonoBehaviour
         return m_SkillIcon;
     }
 
-    public void SetSkillsIcon(Image icon)
-    {
-        m_SkillIcon = icon;
-    }
+    //public void SetSkillsIcon(Image icon)
+    //{
+    //    m_SkillIcon = icon;
+    //}
 }
