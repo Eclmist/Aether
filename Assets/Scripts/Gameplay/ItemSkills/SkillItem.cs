@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ItemSkill : MonoBehaviour
+/**
+ * An abstract class for all Skill Item
+ * pick ups. 
+ */
+public abstract class SkillItem : MonoBehaviour
 {
     [SerializeField]
     protected int m_NoOfUses;
@@ -14,7 +18,8 @@ public abstract class ItemSkill : MonoBehaviour
 
     [SerializeField]
     protected bool m_IsGroundedSpellCast;
-    
+
+
     public abstract void UseSkill(Transform playerTransform);
 
     public bool HasNoMoreUses() 

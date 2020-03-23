@@ -2,7 +2,7 @@
 using BeardedManStudios.Forge.Networking.Generated;
 
 /**
- * Role of class is to move the tornado spell forward
+ * Class facilitates tornado spell forward movement
  * with each frame.
  */
 public class MoveTornado : SkillsBehavior

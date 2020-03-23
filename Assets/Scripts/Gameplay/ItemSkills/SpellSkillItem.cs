@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Unity;
 
-public class SpellSkill : ItemSkill
+public class SpellSkillItem : SkillItem
 {
     // Height offset of character for spell cast
     private Vector3 m_HeightOffset = new Vector3(0f, 1.2f, 0f);
@@ -23,6 +23,5 @@ public class SpellSkill : ItemSkill
         startSpawnPosition += spellOffset;
 
         NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
-
     }
 }

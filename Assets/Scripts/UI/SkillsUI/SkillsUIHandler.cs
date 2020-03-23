@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillsUIHandler : MonoBehaviour
@@ -36,7 +34,7 @@ public class SkillsUIHandler : MonoBehaviour
         image.color = tempColor;
     }
 
-    public void HandleSkillPickUp(ItemSkill itemSkill)
+    public void HandleSkillPickUp(SkillItem itemSkill)
     {
         if (itemSkill == null)
             return;

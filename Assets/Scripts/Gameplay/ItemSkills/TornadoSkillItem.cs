@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Unity;
 
-public class TornadoSkill : ItemSkill
+public class TornadoSkillItem : SkillItem
 {
     public override void UseSkill(Transform playerTransform)
     {

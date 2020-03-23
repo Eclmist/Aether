@@ -4,7 +4,7 @@
 public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    private ItemSkill m_ItemSkill;
+    private SkillItem m_ItemSkill;
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {

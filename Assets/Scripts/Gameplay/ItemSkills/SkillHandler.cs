@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -9,14 +8,14 @@ public class SkillHandler : MonoBehaviour
 {
     private PlayerStance m_PlayerStance;
     private const int m_SkillLimit = 3;
-    private Queue<ItemSkill> m_ItemSkillSlots;
+    private Queue<SkillItem> m_ItemSkillSlots;
     
     void Start()
     {
         m_PlayerStance = GetComponentInParent<PlayerStance>();
         AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
         AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchSkills;
-        m_ItemSkillSlots = new Queue<ItemSkill>();
+        m_ItemSkillSlots = new Queue<SkillItem>();
     }
 
     //key bindings
@@ -29,7 +28,7 @@ public class SkillHandler : MonoBehaviour
         if (m_ItemSkillSlots.Count == 0)
             return;
 
-        ItemSkill currentSkill = m_ItemSkillSlots.Peek();
+        SkillItem currentSkill = m_ItemSkillSlots.Peek();
 
         if (currentSkill.IsGroundOnlySpell())
         {
@@ -44,14 +43,14 @@ public class SkillHandler : MonoBehaviour
             RemoveSkill();
     }
 
-    public void AddSkill(ItemSkill itemSkill)
+    public void AddSkill(SkillItem skillItem)
     {
 
         if (m_ItemSkillSlots.Count >= m_SkillLimit)
             return;
 
-        m_ItemSkillSlots.Enqueue(itemSkill);
-        UIManager.Instance.SaveSkill(itemSkill);
+        m_ItemSkillSlots.Enqueue(skillItem);
+        UIManager.Instance.SaveSkill(skillItem);
     }
 
     public void RemoveSkill()

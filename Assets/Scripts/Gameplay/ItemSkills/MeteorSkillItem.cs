@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Unity;
 
-public class MeteorSkill : ItemSkill
+public class MeteorSkillItem : SkillItem
 {
     [SerializeField]
     private LayerMask m_LayerMask = new LayerMask();
+
     public override void UseSkill(Transform playerTransform)
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));

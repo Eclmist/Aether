@@ -2,10 +2,11 @@
 using BeardedManStudios.Forge.Networking.Unity;
 
 
-public class SwordDanceSkill : ItemSkill
+public class SwordDanceSkillItem : SkillItem
 {
     [SerializeField]
     private LayerMask m_LayerMask = new LayerMask();
+
 
     public override void UseSkill(Transform playerTransform)
     {
