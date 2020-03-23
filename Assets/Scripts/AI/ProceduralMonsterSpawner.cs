@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityScript.Lang;
 
-public class ProceduralMonsterSpawner : MonoBehaviour
+public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 {
     [System.Serializable]
     public class MonsterMat
