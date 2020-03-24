@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3539631057950247276}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.74, y: 0.37, z: -58.02}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
@@ -102,8 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NearestPlayer: {fileID: 0}
-  m_PlantMonsterAnimator: {fileID: 3539631059905406886}
-  m_farAwayDistance: 20
+  m_MonsterAnimation: {fileID: 630678169}
 --- !u!1 &3539631059895943196
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +605,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3539631059896273994}
   - component: {fileID: 3539631059909586282}
+  - component: {fileID: 630587045}
+  - component: {fileID: 630587044}
   m_Layer: 0
   m_Name: Teeth
   m_TagString: Untagged
@@ -690,6 +691,33 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.10243885, y: 0.36193717, z: 0.0041060597}
     m_Extent: {x: 0.4477368, y: 0.4459396, z: 0.42922843}
   m_DirtyAABB: 0
+--- !u!64 &630587045
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539631059895954780}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300010, guid: ad7b7bca9d51f4863ad5b09afbcb0982, type: 3}
+--- !u!114 &630587044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539631059895954780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2e7a0e9066772408778107ac82b9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PureDamage: 20
 --- !u!1 &3539631059895954798
 GameObject:
   m_ObjectHideFlags: 0
@@ -8142,8 +8170,9 @@ GameObject:
   - component: {fileID: 3539631059896287158}
   - component: {fileID: 3539631059905406886}
   - component: {fileID: 3539631059896054119}
-  - component: {fileID: 3539631059896054120}
   - component: {fileID: 3539631059896054121}
+  - component: {fileID: 630678167}
+  - component: {fileID: 630678169}
   m_Layer: 0
   m_Name: PlantMonster
   m_TagString: Untagged
@@ -8206,41 +8235,6 @@ CapsuleCollider:
   m_Height: 1.8817577
   m_Direction: 1
   m_Center: {x: 0, y: 0.67656684, z: 0}
---- !u!114 &3539631059896054120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539631059896054122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b680294db1a734fae8bc5e740747fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attack1:
-  - {fileID: 8300000, guid: 1ebbbc8a5b7de4790913fa9dfceee155, type: 3}
-  - {fileID: 8300000, guid: 5e6ac3fc5c2b94ea4b99389ec34bd7cc, type: 3}
-  - {fileID: 8300000, guid: bc8ec4814d01d473786073d2b02f02e0, type: 3}
-  - {fileID: 8300000, guid: 9e81871e8b5da48f485497506431119e, type: 3}
-  attack2:
-  - {fileID: 8300000, guid: bedbe37a039604887bae346c5dca2cdb, type: 3}
-  - {fileID: 8300000, guid: 534a01c4a2d624736aa526bdcb0ed6ea, type: 3}
-  - {fileID: 8300000, guid: 2f0387d0dd7da437c98cf1a87032d7a8, type: 3}
-  - {fileID: 8300000, guid: b946247b223814a999744fafce840acf, type: 3}
-  - {fileID: 8300000, guid: fbbb485f3361f49a985e8927c80524bd, type: 3}
-  walkForward:
-  - {fileID: 8300000, guid: 0342df4e42d464841bcb01d162a5bb53, type: 3}
-  - {fileID: 8300000, guid: 6a0d5dc898f57447ebded08f5a29122b, type: 3}
-  - {fileID: 8300000, guid: d2af3d7b89c04481bbea2b911c2afb36, type: 3}
-  - {fileID: 8300000, guid: eaf5525470cc04daf98f4c7ef845da40, type: 3}
-  - {fileID: 8300000, guid: c8abeb0ead0454ba585f53299549d1ea, type: 3}
-  - {fileID: 8300000, guid: fab427ffa19ed487bb026c5497c7f1ca, type: 3}
-  - {fileID: 8300000, guid: 2b8b063900e534ff9a1c3ac55430388d, type: 3}
-  - {fileID: 8300000, guid: c13cc836c6db24de6b663f48a3ee5db2, type: 3}
-  - {fileID: 8300000, guid: 4b81cd00887e745c1857dd949da413bb, type: 3}
-  - {fileID: 8300000, guid: de6faafc15142431fb750474fd9243aa, type: 3}
-  desiredAudioLevel: 1
 --- !u!82 &3539631059896054121
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8259,7 +8253,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 105
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -8337,6 +8331,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &630678167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539631059896054122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b680294db1a734fae8bc5e740747fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack1: []
+  attack2: []
+  folliageLoop: {fileID: 0}
+  walkForward: []
+--- !u!114 &630678169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539631059896054122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a3747937f24c87beb715f31c2f89ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3539631059896055922
 GameObject:
   m_ObjectHideFlags: 0
