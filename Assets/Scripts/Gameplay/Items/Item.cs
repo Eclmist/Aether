@@ -22,7 +22,6 @@ public class Item : MonoBehaviour, IInteractable
             }
         }
     }
-    
     private void PlayPickUpSound()
     {
         AudioManager.m_Instance.PlaySound("MAGIC_Powerup", 1.0f, 1.2f);
