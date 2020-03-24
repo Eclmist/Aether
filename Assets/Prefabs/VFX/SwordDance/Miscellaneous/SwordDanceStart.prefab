@@ -43803,7 +43803,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0.33333334, w: 0.33333334}
+  m_BoundingSphereOverride: {x: 7.243619e+22, y: 0, z: 0, w: 3.5e-44}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -48746,6 +48746,8 @@ GameObject:
   - component: {fileID: 6058646995859147035}
   - component: {fileID: 6082229594762981677}
   - component: {fileID: 6309186359666605475}
+  - component: {fileID: 6252913886463988930}
+  - component: {fileID: 2523363066676101020}
   m_Layer: 0
   m_Name: SwordDanceStart
   m_TagString: Untagged
@@ -48761,7 +48763,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6246391195375422483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3059361, y: 0, z: 0.9815936}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6243486389423168391}
@@ -53730,3 +53732,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6252913886463988930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6246391195375422483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea17549c90368a43a42202198af91bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2523363066676101020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6246391195375422483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffadc4527121ccc48aada68e78b818c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimeOfDestruction: 5

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -13,11 +10,6 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField]
     private SkillsUIHandler m_skillsUIHandler;
-
-    void Start()
-    {
-  
-    }
 
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
@@ -44,9 +36,9 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void SaveSkill(ItemSkill itemSkill) 
+    public void SaveSkill(SkillItem skillItem) 
     {
-        m_skillsUIHandler.HandleSkillPickUp(itemSkill);
+        m_skillsUIHandler.HandleSkillPickUp(skillItem);
     }
 
     public void RemoveSkill()
