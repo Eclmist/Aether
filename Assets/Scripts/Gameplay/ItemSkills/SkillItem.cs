@@ -7,6 +7,15 @@ using UnityEngine.UI;
  */
 public abstract class SkillItem : MonoBehaviour
 {
+    public enum SkillType
+    {
+        NONE = 0,
+        METEOR = 1,
+        SWORD = 2,
+        LASER = 3,
+        TORNADO = 4
+    }
+
     [SerializeField]
     protected int m_NoOfUses;
 
@@ -19,6 +28,8 @@ public abstract class SkillItem : MonoBehaviour
     [SerializeField]
     protected bool m_IsGroundedSpellCast;
 
+    [SerializeField]
+    protected SkillType m_SkillType;
 
     public abstract void UseSkill(Transform playerTransform);
 
@@ -55,5 +66,10 @@ public abstract class SkillItem : MonoBehaviour
     public Image GetSkillsIcon() 
     {
         return m_SkillIcon;
+    }
+
+    public int GetSkillType()
+    {
+        return (int)m_SkillType;
     }
 }

@@ -98,7 +98,8 @@ public class PlayerStance : MonoBehaviour
         if (m_PlayerAnimation.IsPlayingAttackAnimation())
             m_CurrentActions |= Action.ACTION_ATTACK;
 
-        // Include Spell Cast Animation
+        if (m_PlayerAnimation.IsPlayingCastingAnimation())
+            m_CurrentActions |= Action.ACTION_CASTSPELL;
 
         if (m_PlayerCombatHandler.IsBlocking())
             m_CurrentActions |= Action.ACTION_BLOCK;

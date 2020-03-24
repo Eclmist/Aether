@@ -8,13 +8,14 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(PlayerStance))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
+[RequireComponent(typeof(SkillHandler))]
 public class Player : PlayerBehavior, ICanInteract, Damageable
 {
     private PlayerMovement m_PlayerMovement;
     private PlayerAnimation m_PlayerAnimation;
     private PlayerNetworkAnimation m_PlayerNetworkAnimation;
     private ClientServerTogglables m_ClientServerTogglables;
-    private SkillHandler m_SKillsHandler;
+    private SkillHandler m_SkillsHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -38,14 +39,14 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
         m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-        m_SKillsHandler = GetComponent<SkillHandler>();
+        m_SkillsHandler = GetComponent<SkillHandler>();
         
         m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
     }
 
     public SkillHandler GetSkillHandler()
     {
-        return m_SKillsHandler;
+        return m_SkillsHandler;
     }
         
 

@@ -9,6 +9,8 @@ public class SkillHandler : MonoBehaviour
     private PlayerStance m_PlayerStance;
     private const int m_SkillLimit = 3;
     private Queue<SkillItem> m_ItemSkillSlots;
+    private int m_CurrentActiveSkill = (int)SkillItem.SkillType.NONE;
+    private bool m_CastInCurrentFrame = false;
     
     void Start()
     {
@@ -16,6 +18,13 @@ public class SkillHandler : MonoBehaviour
         AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
         AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchSkills;
         m_ItemSkillSlots = new Queue<SkillItem>();
+    }
+
+    private void LateUpdate()
+    {
+        // Reset current active skill
+        m_CastInCurrentFrame = false;
+        m_CurrentActiveSkill = (int)SkillItem.SkillType.NONE;
     }
 
     //key bindings
@@ -37,6 +46,8 @@ public class SkillHandler : MonoBehaviour
         }
 
         currentSkill.UseSkill(this.transform);
+        m_CurrentActiveSkill = currentSkill.GetSkillType();
+        m_CastInCurrentFrame = true;
         currentSkill.DecrementUses();
 
         if (currentSkill.HasNoMoreUses())
@@ -64,5 +75,14 @@ public class SkillHandler : MonoBehaviour
         UIManager.Instance.SwitchPlayerSkills();
         m_ItemSkillSlots.Enqueue(m_ItemSkillSlots.Dequeue());
     }
-    
+
+    public bool GetCastInCurrentFrame()
+    {
+        return m_CastInCurrentFrame;
+    }
+
+    public int GetCurrentActiveSkill()
+    {
+        return m_CurrentActiveSkill;
+    }
 }

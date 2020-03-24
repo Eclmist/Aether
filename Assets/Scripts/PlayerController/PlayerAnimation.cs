@@ -4,6 +4,7 @@ using BeardedManStudios.Forge.Networking;
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerStance))]
+[RequireComponent(typeof(SkillHandler))]
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField]
@@ -12,6 +13,7 @@ public class PlayerAnimation : MonoBehaviour
     private PlayerStance m_PlayerStance;
     private PlayerCombatHandler m_PlayerCombatHandler;
     private Player m_Player;
+    private SkillHandler m_SkillHandler;
 
     private Vector2 m_AxisDelta;
 
@@ -21,6 +23,7 @@ public class PlayerAnimation : MonoBehaviour
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
+        m_SkillHandler = GetComponent<SkillHandler>();
     }
 
     void Update()
@@ -59,6 +62,9 @@ public class PlayerAnimation : MonoBehaviour
 
         // Set combat states
         HandleCombatAnimations();
+
+        // Set skill states
+        HandleSkillAnimations();
 
         if (m_Player.networkObject != null)
         {
@@ -103,6 +109,32 @@ public class PlayerAnimation : MonoBehaviour
         // TODO: Find a more elegant way to do this (animation callbacks?)
         for (int i = 0; i < m_Animator.layerCount; ++i)
             if (m_Animator.GetCurrentAnimatorStateInfo(i).IsTag("IsAttack"))
+                return true;
+
+        return false;
+    }
+
+    private void HandleSkillAnimations()
+    {
+        if (m_SkillHandler == null)
+            return;
+
+        if (!m_SkillHandler.GetCastInCurrentFrame())
+        {
+            m_Animator.SetInteger("SkillsIndex", (int)SkillItem.SkillType.NONE);
+        }
+        else
+        {
+            int currentActiveSkill = m_SkillHandler.GetCurrentActiveSkill();
+            if (currentActiveSkill != (int)SkillItem.SkillType.NONE)
+                m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
+        }
+    }
+    
+    public bool IsPlayingCastingAnimation()
+    {
+        for (int i = 0; i < m_Animator.layerCount; i++)
+            if (m_Animator.GetCurrentAnimatorStateInfo(i).IsTag("IsCasting"))
                 return true;
 
         return false;

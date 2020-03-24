@@ -3,6 +3,7 @@ using BeardedManStudios.Forge.Networking.Unity;
 
 public class SpellSkillItem : SkillItem
 {
+
     // Height offset of character for spell cast
     private Vector3 m_HeightOffset = new Vector3(0f, 1.2f, 0f);
 
@@ -19,7 +20,9 @@ public class SpellSkillItem : SkillItem
 
         Vector3 startSpawnPosition = playerTransform.position;
         Vector3 playerForward = playerTransform.forward.normalized;
-        Vector3 spellOffset = playerForward + m_HeightOffset;
+
+        // Shift spell to instantiate in front of player and at player's chest area
+        Vector3 spellOffset = playerForward * 2 + m_HeightOffset;
         startSpawnPosition += spellOffset;
 
         NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
