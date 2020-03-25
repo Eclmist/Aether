@@ -48,6 +48,11 @@ public class PlayerManager : Singleton<PlayerManager>
         m_LocalPlayer = player;
     }
 
+    public Player GetLocalPlayer()
+    {
+        return m_LocalPlayer;
+    }
+
     public void SetPlayerCount(int count)
     {
         m_TotalPlayerCount = count;
@@ -56,11 +61,6 @@ public class PlayerManager : Singleton<PlayerManager>
     public int GetPlayerCount()
     {
         return m_TotalPlayerCount;
-    }
-
-    public Player GetLocalPlayer()
-    {
-        return m_LocalPlayer;
     }
 
     public Player GetPlayerById(uint networkId)

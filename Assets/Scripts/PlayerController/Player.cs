@@ -163,7 +163,7 @@ public class Player : PlayerBehavior, ICanInteract
     public override void TriggerDeath(RpcArgs args)
     {
         m_PlayerNetworkHandler?.TriggerDeath();
-        PlayerDead();
+        PlayerDead?.Invoke();
     }
 
     public override void TriggerDamaged(RpcArgs args)

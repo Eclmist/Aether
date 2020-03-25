@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using BeardedManStudios.Forge.Networking;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerStance))]
