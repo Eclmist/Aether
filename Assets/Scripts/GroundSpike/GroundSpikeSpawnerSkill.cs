@@ -2,9 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BeardedManStudios.Forge.Networking.Generated;
 
-public class GroundSpikeSkill : SkillsBehavior
+/**
+ * Ground spike local spawn script
+ * 
+ * For local testing without network integration
+ */
+public class GroundSpikeSpawnerSkill : MonoBehaviour
 {
     [SerializeField]
     private GameObject m_GroundSpike;
@@ -21,13 +25,13 @@ public class GroundSpikeSkill : SkillsBehavior
     {
         StartCoroutine(SpawnSpike(playerTransform));
     }
+
     private IEnumerator SpawnSpike(Transform playerTransform)
     {
         while (m_SpikesCounter <= m_MAX_SPIKES)
         {
             if (m_Timer * m_Speed >= m_SpawnDistance)
             {
-
                 // Spawn a spike
                 Vector3 spawnPosition = playerTransform.position + playerTransform.forward.normalized * (m_SpawnDistance * m_SpikesCounter);
                 GameObject spike = Instantiate(m_GroundSpike, spawnPosition, Quaternion.identity);
