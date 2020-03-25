@@ -36,6 +36,10 @@ public class TitleScreen : MonoBehaviour
 
     private GameObject m_OptionsConnectButton;
 
+    [SerializeField]
+
+    private TriggerableAnimator m_OptionsAnimator;
+
     void Start() 
     {
         m_EventSystem = EventSystem.current;
@@ -67,11 +71,18 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    public void CallbackOne(InputAction.CallbackContext ctx)
+    {
+        Debug.Log("Jere");
+    }
+
     public void SwitchOptionsMenuCallback(InputAction.CallbackContext ctx)
     {
-        bool triggerBoolean = MenusManager.Instance.GetTriggerBool(0);
+        if (m_OptionsAnimator == null)
+            return;
 
-        Debug.Log(triggerBoolean);
+        bool triggerBoolean = m_OptionsAnimator.GetTriggerBool();
+
         if (triggerBoolean)
         {
             TriggerOptionsAnimator();
@@ -89,12 +100,12 @@ public class TitleScreen : MonoBehaviour
         if (m_IsLoading)
             return;
 
-        bool triggerBoolean = MenusManager.Instance.GetTriggerBool(0);
+        bool triggerBoolean = m_OptionsAnimator.GetTriggerBool();
 
         if (m_OptionsConnectButton == null || m_SideMultiplayerButton == null )
             return;
 
-        MenusManager.Instance.TriggerAnimator(0);
+        m_OptionsAnimator.TriggerAnimation();
 
         if (triggerBoolean)
         {
@@ -116,7 +127,7 @@ public class TitleScreen : MonoBehaviour
         if (m_IsLoading)
             return;
 
-        if (MenusManager.Instance.GetTriggerBool(0))
+        if (m_OptionsAnimator.GetTriggerBool())
             return;
 
         if (m_EventSystem == null) 
@@ -138,8 +149,6 @@ public class TitleScreen : MonoBehaviour
         }
 
         m_isMultiplayerDropdownActivated = !(m_isMultiplayerDropdownActivated);
-
-        Debug.Log(m_isMultiplayerDropdownActivated);
     }
 
     public void GoToCharacterCustomization()

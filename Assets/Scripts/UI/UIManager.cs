@@ -66,10 +66,10 @@ public class UIManager : Singleton<UIManager>
             m_UISkillsHandler.SwitchSpriteIcons();
     }
 
-    public void SaveSkill(ItemSkill itemSkill)
+    public void SaveSkill(SkillItem skillItem)
     {
         if (m_UISkillsHandler != null)
-            m_UISkillsHandler.HandleSkillPickUp(itemSkill);
+            m_UISkillsHandler.HandleSkillPickUp(skillItem);
     }
 
     public void RemoveSkill()

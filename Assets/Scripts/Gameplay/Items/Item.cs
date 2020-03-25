@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Item : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    private ItemSkill m_ItemSkill;
+    private SkillItem m_ItemSkill;
+
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (interactor != null && interactor is Player player)
@@ -32,9 +30,6 @@ public class Item : MonoBehaviour, IInteractable
 
     public void HandleItemSkill(Player player)
     {
-
-        m_ItemSkill.InitializeSkill();
         player.GetSkillHandler().AddSkill(m_ItemSkill); //must be after or else will be deleted
-
     }
 }
