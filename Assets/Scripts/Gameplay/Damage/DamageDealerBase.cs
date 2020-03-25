@@ -10,7 +10,7 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
     [SerializeField]
     protected float m_Radius = 0.0f;
     [SerializeField]
-    private float m_Duration = 0.0f;
+    protected float m_Duration = 0.0f;
 
     private bool m_IsActivated = false;
 

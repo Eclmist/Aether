@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class DamageContinuous : DamageDealerBase
 {
-    private HashSet<HealthHandler> m_Targets;
+    [SerializeField]
     private float m_DamageInterval = 0.1f;
+
+    private HashSet<HealthHandler> m_Targets;
 
     private float m_TimeLastDamaged;
 
@@ -24,12 +26,6 @@ public class DamageContinuous : DamageDealerBase
 
             m_TimeLastDamaged = Time.time;
         }
-    }
-
-    public void InitializeDamageDealer(MonoBehaviour mb, float damage, float radius, float duration, float damageInterval)
-    {
-        InitializeDamageDealer(mb, damage, radius, duration);
-        m_DamageInterval = damageInterval;
     }
 
     public override void DealDamage(HealthHandler healthHandler, InteractionType interactionType)
