@@ -11,25 +11,18 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
     protected float m_Radius = 0.0f;
     [SerializeField]
     private float m_Duration = 0.0f;
-    private MonoBehaviour m_Owner;
 
     private bool m_IsActivated = false;
 
-    public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
-
-    public void ActivateDamage()
+    protected override void NetworkStart()
     {
+        base.NetworkStart();
+
         m_IsActivated = true;
         StartCoroutine(DestroyDamageDealer());
     }
 
-    public void InitializeDamageDealer(MonoBehaviour owner, float damage, float radius, float duration)
-    {
-        m_Owner = owner;
-        m_DamageAmount = damage;
-        m_Radius = radius;
-        m_Duration = duration;
-    }
+    public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
@@ -49,16 +42,17 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
 
     private bool ShouldAvoidDamage(MonoBehaviour mb)
     {
-        // Should not be able to damage self
-        if (mb == m_Owner)
+        if (networkObject == null)
             return true;
 
+        Player owner = PlayerManager.Instance.GetPlayerById(networkObject.Owner.NetworkId);
+
         // Non-players should not damage each other, may need to have specific cases
-        if (!(m_Owner is Player) && !(mb is Player))
+        if (owner == null && !(mb is Player))
             return true;
 
         // Both are players, check teams
-        if (m_Owner is Player owner && mb is Player player)
+        if (owner != null && mb is Player player)
         {
             Team ownerTeam = owner.GetPlayerDetails().GetTeam();
             Team playerTeam = player.GetPlayerDetails().GetTeam();
