@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityScript.Lang;
 
+
 public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 {
     [System.Serializable]
@@ -9,7 +10,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         public string m_matColor;
         public Material[] m_materials;
     }
-    
+
 
     [SerializeField] private GameObject[] m_monster_prefabs;
     [SerializeField] private int m_monsterIndex;
@@ -39,7 +40,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         foreach (var skinnedMeshRenderer in monster.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             skinnedMeshRenderer.material = Instantiate<Material>(FindMaterialOrRandom(mats, skinnedMeshRenderer.gameObject.name));
-            if(mutation)
+            if (mutation)
                 skinnedMeshRenderer.material.color = randomMutateColor;
 
             for (var i = 0; i < skinnedMeshRenderer.sharedMesh.blendShapeCount; i++)
@@ -55,7 +56,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
     {
         bool CheckArray(Array arr)
         {
-            if (arr != null ||arr.Count != 0)
+            if (arr != null || arr.Count != 0)
             {
                 return true;
             }
@@ -82,8 +83,8 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         }
 
         return materials[Random.Range(0, materials.Length)];
-    } 
-    
+    }
+
     private Material[] GetMaterials(GameObject monsterPrefab)
     {
         var strings = monsterPrefab.ToString().Split('_');
