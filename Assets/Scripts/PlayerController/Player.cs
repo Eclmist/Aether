@@ -55,6 +55,11 @@ public class Player : PlayerBehavior, ICanInteract
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_ENTER);
     }
 
+    private void OnTriggerStay(Collider c)
+    {
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_STAY);
+    }
+
     private void OnTriggerExit(Collider c)
     {
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);

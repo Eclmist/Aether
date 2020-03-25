@@ -13,7 +13,7 @@ public class DamageOneShot : DamageDealerBase
     {
         switch (interactionType)
         {
-            case InteractionType.INTERACTION_TRIGGER_ENTER:
+            case InteractionType.INTERACTION_TRIGGER_STAY:
                 if (!m_PreviousInteractors.Contains(healthHandler))
                 {
                     m_PreviousInteractors.Add(healthHandler);
