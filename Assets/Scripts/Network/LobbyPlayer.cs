@@ -13,6 +13,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     private Team m_Team;
 
+    private bool m_IsReady = false;
+
     public string GetName()
     {
         return m_PlayerName.text;
@@ -21,6 +23,18 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public Team GetTeam()
     {
         return m_Team;
+    }
+
+    public bool GetIsReady()
+    {
+        return m_IsReady;
+    }
+
+    public void ToggleReadyStatus()
+    {
+        m_IsReady = !m_IsReady;
+
+        // Send RPC to update ready status
     }
 
     public void UpdateName(string name)

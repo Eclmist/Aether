@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[]")]
-	[GeneratedRPCVariableNames("{\"types\":[]")]
+	[GeneratedRPC("{\"types\":[[][]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[][]]")]
 	public abstract partial class LobbySystemBehavior : NetworkBehavior
 	{
+		public const byte RPC_TOGGLE_READY = 0 + 5;
+		public const byte RPC_SET_PLAYER_ENTERED = 1 + 5;
 
 		public LobbySystemNetworkObject networkObject = null;
 
@@ -21,6 +23,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
+			networkObject.RegisterRpc("ToggleReady", ToggleReady);
+			networkObject.RegisterRpc("SetPlayerEntered", SetPlayerEntered);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -94,6 +98,14 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void ToggleReady(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void SetPlayerEntered(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

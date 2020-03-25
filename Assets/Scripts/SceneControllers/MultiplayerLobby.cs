@@ -22,12 +22,7 @@ public class MultiplayerLobby : MonoBehaviour
         AetherInput.GetUIActions().Submit.performed += SubmitInputCallback;
     }
 
-    public void ToggleCustomizationCallback(InputAction.CallbackContext ctx)
-    {
-        ToggleCustomization();
-    }
-
-    public void ToggleCustomization()
+    private void ToggleCustomizationCallback(InputAction.CallbackContext ctx)
     {
         m_IsInCustomization = !m_IsInCustomization;
         AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
@@ -48,6 +43,7 @@ public class MultiplayerLobby : MonoBehaviour
         if (!m_IsInCustomization)
             StartGame();
     }
+
     private void StartGame()
     {
         AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);

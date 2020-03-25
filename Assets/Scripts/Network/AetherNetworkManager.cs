@@ -86,7 +86,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
         if (m_PlayersLoadedScene == m_PlayerDetails.Count)
         {
             m_PlayersLoadedScene = 0;
-            SceneChanged(m_PlayerDetails);
+            SceneChanged?.Invoke(m_PlayerDetails);
         }
     }
 

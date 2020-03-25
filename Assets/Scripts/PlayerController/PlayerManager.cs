@@ -40,7 +40,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
-            PlayerListPopulated();
+            PlayerListPopulated?.Invoke();
     }
 
     public void SetLocalPlayer(Player player)
