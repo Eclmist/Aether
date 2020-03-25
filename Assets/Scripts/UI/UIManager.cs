@@ -80,6 +80,7 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDestroy()
     {
-        GameManager.Instance.GameStarted -= OnGameStarted;
+        if (GameManager.Instance != null)
+            GameManager.Instance.GameStarted -= OnGameStarted;
     }
 }

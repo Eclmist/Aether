@@ -18,7 +18,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void Awake()
     {
-        AetherNetworkManager.Instance.SceneChanged += OnGameSceneLoaded;
+        AetherNetworkManager.Instance.SceneLoaded += OnSceneLoaded;
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }
 
@@ -79,7 +79,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     ////////////////////
 
     // Callback for when scene has loaded for all players
-    public void OnGameSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
+    public void OnSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
     {
         if (!networkObject.IsServer)
             return;
@@ -97,7 +97,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             SpawnPlayer(np, detailsMap[np]);
         });
 
-        AetherNetworkManager.Instance.SceneChanged -= OnGameSceneLoaded;
+        AetherNetworkManager.Instance.SceneLoaded -= OnSceneLoaded;
     }
 
     // Called by host to spawn every client's player
