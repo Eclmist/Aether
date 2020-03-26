@@ -1,61 +1,50 @@
 ﻿using System.Collections;
 using UnityEngine;
-using BeardedManStudios.Forge.Networking.Generated;
+using BeardedManStudios.Forge.Networking;
 
-[RequireComponent(typeof(Collider))]
-public abstract class DamageDealerBase : DamageBehavior, IInteractable
+public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 {
+    protected NetworkObject m_NetworkObject;
+
     [SerializeField]
     protected float m_DamageAmount = 0.0f;
-    [SerializeField]
-    protected float m_Radius = 0.0f;
     [SerializeField]
     protected float m_Duration = 0.0f;
 
     private bool m_IsActivated = false;
 
-    protected override void NetworkStart()
+    public void Activate(NetworkObject networkObject)
     {
-        base.NetworkStart();
-
-        m_IsActivated = true;
-        StartCoroutine(DestroyDamageDealer());
+        m_NetworkObject = networkObject;
+        StartCoroutine(StartupDamageDealer());
     }
 
     public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
-
-    public void SetDamageValues(float damageAmount, float radius, float duration)
-    {
-        m_DamageAmount = damageAmount;
-        m_Radius = radius;
-        m_Duration = duration;
-        m_IsActivated = true;
-        StartCoroutine(DestroyDamageDealer());
-    }
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (!m_IsActivated)
             return;
+
         // Interactor should be a monobehavior
         // Implementer's fault if error is thrown
         MonoBehaviour mb = interactor as MonoBehaviour;
+        HealthHandler healthHandler = mb.GetComponent<HealthHandler>();
 
-        if (ShouldAvoidDamage(mb))
+        if (healthHandler == null || ShouldAvoidDamage(mb))
             return;
 
-        HealthHandler healthHandler = mb.GetComponent<HealthHandler>();
-        if (healthHandler != null)
-            DealDamage(healthHandler, interactionType);
+        DealDamage(healthHandler, interactionType);
     }
 
     private bool ShouldAvoidDamage(MonoBehaviour mb)
     {
-        if (networkObject == null)
+        if (m_NetworkObject == null)
             return true;
 
-        Player owner = PlayerManager.Instance.GetPlayerById(networkObject.Owner.NetworkId);
+        Player owner = PlayerManager.Instance.GetPlayerById(m_NetworkObject.Owner.NetworkId);
 
+        Debug.Log("Check if Player " + mb);
         // Non-players should not damage each other, may need to have specific cases
         if (owner == null && !(mb is Player))
             return true;
@@ -63,6 +52,7 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
         // Both are players, check teams
         if (owner != null && mb is Player player)
         {
+            Debug.Log("Check teams");
             Team ownerTeam = owner.GetPlayerDetails().GetTeam();
             Team playerTeam = player.GetPlayerDetails().GetTeam();
 
@@ -72,9 +62,10 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
         return false;
     }
 
-    private IEnumerator DestroyDamageDealer()
+    private IEnumerator StartupDamageDealer()
     {
+        m_IsActivated = true;
         yield return new WaitForSeconds(m_Duration);
-        Destroy(gameObject);
+        m_IsActivated = false;
     }
 }
