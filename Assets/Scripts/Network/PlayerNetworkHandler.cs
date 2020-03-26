@@ -62,6 +62,16 @@ public class PlayerNetworkHandler : MonoBehaviour
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
             if (m_HealthHandler.DeadInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DEATH, Receivers.All);
+
+            // Send skill state
+            if (m_SkillHandler.GetCastInCurrentFrame())
+            {
+                Debug.Log("SENT SENT SENT SENT");
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, m_SkillHandler.GetCurrentActiveSkill());
+            }
+
+            else
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, (int)SkillItem.SkillType.NONE);
         }
         else
         {
@@ -98,11 +108,10 @@ public class PlayerNetworkHandler : MonoBehaviour
             Debug.LogWarning("Animator does not exist on player");
             return;
         }
-
         m_Animator.SetTrigger("Jump");
     }
 
-    public void TriggerSkills()
+    public void TriggerSkills(int currentActiveSkill)
     {
         if (m_Animator == null)
         {
@@ -110,6 +119,6 @@ public class PlayerNetworkHandler : MonoBehaviour
             return;
         }
 
-        m_Animator.SetInteger("SkillsIndex", 3);
+        m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
     }
 }

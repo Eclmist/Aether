@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"int\"][][][\"uint\"]]")]
+	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"int\"][][][\"int\"]]")]
 	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"team\", \"position\"][][][\"SkillIndex\"]]")]
 	public abstract partial class PlayerBehavior : NetworkBehavior
 	{
@@ -30,7 +30,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.RegisterRpc("TriggerUpdateDetails", TriggerUpdateDetails, typeof(uint), typeof(int), typeof(int));
 			networkObject.RegisterRpc("TriggerDamaged", TriggerDamaged);
 			networkObject.RegisterRpc("TriggerDeath", TriggerDeath);
-			networkObject.RegisterRpc("TriggerSkill", TriggerSkill, typeof(uint));
+			networkObject.RegisterRpc("TriggerSkill", TriggerSkill, typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
