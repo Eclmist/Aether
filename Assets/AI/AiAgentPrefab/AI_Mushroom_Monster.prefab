@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 444455643}
   - component: {fileID: 444455645}
   - component: {fileID: 9110477248540820145}
+  - component: {fileID: 1959707030263548454}
   m_Layer: 15
   m_Name: Image
   m_TagString: Untagged
@@ -218,6 +219,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1959707030263548454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444455641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686554b991182734ba46f3b75e87fb16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HealthHandler: {fileID: 0}
+  m_HealthText: {fileID: 0}
 --- !u!1 &544925046
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +245,7 @@ GameObject:
   - component: {fileID: 544925050}
   - component: {fileID: 544925049}
   - component: {fileID: 544925048}
+  - component: {fileID: 7601883973714319365}
   m_Layer: 15
   m_Name: HealthDecrement
   m_TagString: Untagged
@@ -305,6 +321,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &7601883973714319365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544925046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686554b991182734ba46f3b75e87fb16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HealthHandler: {fileID: 1056623341}
+  m_HealthText: {fileID: 702140408}
 --- !u!1 &702140404
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,20 +878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5939f5216c6d4618a768a67faad1bfcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!64 &5564611183511426999
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5564611183672645287}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 1e1b63975e4308742b139692c644b54f, type: 3}
 --- !u!1 &5564611184946383430
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,6 +1002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bd4b829b85a4624a0e4806877dadb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MaxHealth: 100
   m_Health: 100
 --- !u!114 &1056623342
 MonoBehaviour:
@@ -1297,12 +1314,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 229979da46d964325a0f6e9bb695cdcf, type: 3}
---- !u!1 &5564611183672645287 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100030, guid: 229979da46d964325a0f6e9bb695cdcf,
-    type: 3}
-  m_PrefabInstance: {fileID: 5564611183672610841}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5564611183673002629 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400028, guid: 229979da46d964325a0f6e9bb695cdcf,

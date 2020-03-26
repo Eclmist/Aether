@@ -317,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4bd4b829b85a4624a0e4806877dadb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MaxHealth: 100
   m_Health: 100
 --- !u!114 &1486325248406296032
 MonoBehaviour:
@@ -8895,7 +8896,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8037042474528051421}
-  m_LocalRotation: {x: 0.084271565, y: -0.14903994, z: 0.012749167, w: 0.98515123}
+  m_LocalRotation: {x: 0.084271565, y: -0.14903991, z: 0.012749163, w: 0.98515123}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0150000015, y: 0.015, z: 0.015000001}
   m_Children:
@@ -8976,6 +8977,7 @@ GameObject:
   - component: {fileID: 5366644570965088500}
   - component: {fileID: 511814164448458167}
   - component: {fileID: 5593961028342901778}
+  - component: {fileID: 7428129269891435168}
   m_Layer: 15
   m_Name: HealthDecrement
   m_TagString: Untagged
@@ -9051,6 +9053,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &7428129269891435168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8315396103804352638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686554b991182734ba46f3b75e87fb16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HealthHandler: {fileID: 437460316}
+  m_HealthText: {fileID: 3680248404585628554}
 --- !u!1 &8500455609480299332
 GameObject:
   m_ObjectHideFlags: 0

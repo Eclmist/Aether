@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.GameStarted += OnGameStarted;
     }
 
+
     private void Update()
     {
         // E4 hack
