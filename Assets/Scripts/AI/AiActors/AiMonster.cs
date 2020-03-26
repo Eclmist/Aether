@@ -27,22 +27,35 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private bool m_CanAttack = true;
     
-
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider c)
     {
-        if (other.GetComponent<Player>() != null)
+        if (c.GetComponent<Player>() != null)
         {
-            m_NearestPlayer = other.transform;
+            m_NearestPlayer = c.transform;
             SetNearPlayer();
         }
+
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_ENTER);
     }
-    
-    public void OnTriggerExit(Collider other)
+
+    private void OnTriggerStay(Collider c)
     {
-        if (other.GetComponent<Player>() != null)
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_STAY);
+    }
+
+    private void OnTriggerExit(Collider c)
+    {
+        if (c.GetComponent<Player>() != null)
         { 
             m_StateMachineAnim.SetBool("nearPlayer", false);
         }
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
+    }
+
+    private void InteractWith(IInteractable interactable, InteractionType interactionType)
+    {
+        if (interactable != null) // null check done here instead. 
+            interactable.Interact(this, interactionType);
     }
 
     public void Attack(float attackInterval)

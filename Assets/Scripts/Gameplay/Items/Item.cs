@@ -15,7 +15,9 @@ public class Item : MonoBehaviour, IInteractable
                 case InteractionType.INTERACTION_TRIGGER_ENTER:
                     PlayPickUpSound();
                     HandleItemSkill(player);
-                    Destroy(gameObject);
+                    // E4 Hack
+                    gameObject.SetActive(false);
+                    // Destroy(gameObject);
                     break;
                 default:
                     break;
