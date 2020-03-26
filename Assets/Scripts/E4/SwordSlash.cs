@@ -23,6 +23,6 @@ public class SwordSlash : SwordSlashBehavior
 
     protected void OnTriggerEnter(Collider other)
     {
-        AudioManager.m_Instance.PlaySoundAtPosition("MAGIC_Chime", transform.position);
+        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
     }
 }
