@@ -180,4 +180,9 @@ public class Player : PlayerBehavior, ICanInteract
     {
         m_PlayerNetworkHandler?.TriggerJump();
     }
+
+    public override void TriggerSkill(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerSkills();
+    }
 }
