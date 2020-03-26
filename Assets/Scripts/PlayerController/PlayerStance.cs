@@ -136,7 +136,8 @@ public class PlayerStance : MonoBehaviour
 
     public void SetWeaponActive()
     {
-        m_Weapon.SetActive(IsCombatStance());
+        if (m_Weapon)
+            m_Weapon.SetActive(IsCombatStance());
     }
 
     IEnumerator ToggleCombatStanceFlag()
