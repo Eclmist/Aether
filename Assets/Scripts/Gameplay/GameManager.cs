@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -8,6 +9,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private TowerBase[] m_Towers;
 
+    [SerializeField]
+    private GameObject m_Managers;
+
     private Dictionary<Team, int> m_TeamCaptureCounts;
 
     private int m_TotalCaptureCount = 0;
@@ -16,6 +20,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
+        AetherNetworkManager.Instance.CleanUpCurrentScene += CleanUpScene;
         PlayerManager.Instance.GetPlayerNetworkManager().AllPlayersReady += StartGame;
         m_TeamCaptureCounts = new Dictionary<Team, int>();
 
@@ -59,6 +64,14 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Game started");
         m_GameStarted = true;
         GameStarted?.Invoke(GameMode.GAMEMODE_KING_OF_THE_HILL);
+
+        StartCoroutine(Test());
+    }
+
+    IEnumerator Test()
+    {
+        yield return new WaitForSeconds(5f);
+        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
     }
 
     public void SetGameOver(Team team)
@@ -69,6 +82,12 @@ public class GameManager : Singleton<GameManager>
         // Provides game stats to UIManager to show game over stats
         // for maybe 10 seconds (can be skipped if host presses a button?)
         // then return to lobby
+    }
+
+    private void CleanUpScene()
+    {
+        // Destroy all non-persisting singletons (Managers)
+        Destroy(m_Managers);
     }
 
     private void OnDestroy()

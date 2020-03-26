@@ -5,30 +5,47 @@ using UnityEngine.SceneManagement;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Unity;
 
+/*
+ * Manager that is only used by host to manage connections and scene changes
+ */
 public class AetherNetworkManager : Singleton<AetherNetworkManager>
 {
     public const int MAX_PLAYER_COUNT = 4;
 
-    private const int m_LoadingSceneIndex = 2;
+    public const int LOBBY_SCENE_INDEX = 1;
+    public const int LOADING_SCENE_INDEX = 2;
+    public const int KOTH_SCENE_INDEX = 3;
 
-    // Event for networking interaction
+    // Event for pre-scene switch clean up
+    public event System.Action CleanUpCurrentScene;
+
+    // Events for networking interaction
+    public event System.Action<NetworkingPlayer> PlayerDisconnected;
     public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneLoaded;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
     // Scene loading
-    private int m_PlayersLoadedScene;
+    private HashSet<NetworkingPlayer> m_PlayersLoadedNextScene;
 
     void Awake()
     {
         m_PlayerDetails = new Dictionary<NetworkingPlayer, PlayerDetails>();
+        m_PlayersLoadedNextScene = new HashSet<NetworkingPlayer>();
     }
 
     void Start()
     {
-        // Event triggers on host when clients finish loading scene
         if (NetworkManager.Instance != null)
-            NetworkManager.Instance.playerLoadedScene += OnPlayerLoadGameScene;
+        {
+            // Event triggers on host when clients finish loading scene
+            NetworkManager.Instance.playerLoadedScene += (np, sender) =>
+            {
+                m_PlayersLoadedNextScene.Add(np);
+            };
+
+            NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnect;
+        }
     }
 
     public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
@@ -40,45 +57,54 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
         return true;
     }
 
-    public void LoadGame(int sceneId)
+    public void LoadScene(int sceneId)
     {
+        CleanUpCurrentScene?.Invoke();
         LoadLoadingScene();
-        StartCoroutine(LoadGameScene(sceneId));
+        StartCoroutine(LoadNextScene(sceneId));
     }
 
     private void LoadLoadingScene()
     {
-        SceneManager.LoadScene(m_LoadingSceneIndex);
+        SceneManager.LoadScene(LOADING_SCENE_INDEX);
     }
 
-    private IEnumerator LoadGameScene(int sceneId)
+    public IEnumerator LoadNextScene(int sceneId)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
         AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneId);
         asyncOp.allowSceneActivation = false;
 
         // Triggered by host when own scene is loaded
         asyncOp.completed += op =>
         {
-            NetWorker host = NetworkManager.Instance.Networker;
-            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneId));
-            OnPlayerLoadGameScene(host.Me, host);
+            NetworkingPlayer host = NetworkManager.Instance.Networker.Me;
+            m_PlayersLoadedNextScene.Add(host);
+            StartCoroutine(CheckAllLoadedScene());
         };
 
-        while (asyncOp.progress != 0.9f)
+        while (asyncOp.progress < 0.9f)
             yield return null;
 
         FadeOut();
         asyncOp.allowSceneActivation = true;
     }
 
-    private void OnPlayerLoadGameScene(NetworkingPlayer np, NetWorker sender)
+    private IEnumerator CheckAllLoadedScene()
     {
-        m_PlayersLoadedScene++;
-        if (m_PlayersLoadedScene == m_PlayerDetails.Count)
+        while (!m_PlayersLoadedNextScene.IsSupersetOf(m_PlayerDetails.Keys))
+            yield return null;
+
+        m_PlayersLoadedNextScene.Clear();
+        SceneLoaded?.Invoke(m_PlayerDetails);
+    }
+
+    private void OnPlayerDisconnect(NetworkingPlayer np, NetWorker sender)
+    {
+        if (m_PlayerDetails.ContainsKey(np))
         {
-            m_PlayersLoadedScene = 0;
-            SceneLoaded?.Invoke(m_PlayerDetails);
+            m_PlayerDetails.Remove(np);
+            PlayerDisconnected?.Invoke(np);
         }
     }
 
@@ -90,6 +116,8 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
     private void OnDestroy()
     {
         if (NetworkManager.Instance != null)
-            NetworkManager.Instance.playerLoadedScene -= OnPlayerLoadGameScene;
+        {
+            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnect;
+        }
     }
 }
