@@ -76,9 +76,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private DodgeParams m_DodgeParams;
     #endregion
 
-    // e4 temp measures
-    private bool m_canMove;
-
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += JumpInputCallback;
@@ -86,8 +83,6 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterController = GetComponent<CharacterController>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
-
-        m_canMove = false;
     }
 
     // Update is called once per frame
@@ -95,17 +90,9 @@ public class PlayerMovement : MonoBehaviour
     {
         RotatePlayer();
 
-        if (!m_canMove)
-            return; 
-            
         ComputeYAxisVelocity();
         ComputeXZAxisVelocity();
         m_CharacterController.Move(ComputeMovementDelta());
-    }
-
-    public void SetMove() 
-    {
-        m_canMove = !(m_canMove);
     }
 
     private void OnDrawGizmos()
