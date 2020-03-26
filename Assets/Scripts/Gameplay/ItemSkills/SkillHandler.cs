@@ -39,6 +39,7 @@ public class SkillHandler : MonoBehaviour
 
         SkillItem currentSkill = m_ItemSkillSlots.Peek();
 
+   
         if (currentSkill.IsGroundOnlySpell())
         {
             if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_CASTSPELL))
@@ -49,7 +50,8 @@ public class SkillHandler : MonoBehaviour
         m_CurrentActiveSkill = currentSkill.GetSkillType();
         m_CastInCurrentFrame = true;
         currentSkill.DecrementUses();
-
+        
+        
         if (currentSkill.HasNoMoreUses())
             RemoveSkill();
     }

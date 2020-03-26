@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 8523069457400030216}
   - component: {fileID: 332718133614545295}
   m_Layer: 10
-  m_Name: Sword
+  m_Name: GroundSpike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -329,7 +329,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 86ea25630292c6746b061d25f5effcab, type: 2}
+  - {fileID: 2100000, guid: 5990abb688937ef428527db6023ddff0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -357,7 +357,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4415680254358320766}
-  m_Mesh: {fileID: 4300000, guid: 20945e98d90c002409b3ee0933cd5d66, type: 3}
+  m_Mesh: {fileID: -7460904911105965004, guid: ea9ee4a928cb20d4dac64f054ef7bd49, type: 3}
 --- !u!1 &6646465312845788439
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,9 +370,9 @@ GameObject:
   - component: {fileID: 4319081075917042079}
   - component: {fileID: 6646465312845788440}
   - component: {fileID: 1254878485998932392}
-  - component: {fileID: 3462558489323088133}
+  - component: {fileID: 4546392952943652319}
   m_Layer: 10
-  m_Name: TornadoSkillItemPickUp
+  m_Name: GroundSpikeSkillItemPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,8 +438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9687c27ecd88947c889b2a3c3c7f8c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ItemSkill: {fileID: 3462558489323088133}
---- !u!114 &3462558489323088133
+  m_ItemSkill: {fileID: 4546392952943652319}
+--- !u!114 &4546392952943652319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -448,11 +448,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6646465312845788439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf412400048bebc4f90076de1b42cf96, type: 3}
+  m_Script: {fileID: 11500000, guid: 09aefa26c3f9d8b45aa9661ce3024d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NoOfUses: 1
-  m_MaxNoOfUses: 1
+  m_NoOfUses: 8
+  m_MaxNoOfUses: 8
   m_SkillIcon: {fileID: 0}
   m_IsGroundedSpellCast: 1
-  m_SkillType: 0
+  m_SkillType: 3

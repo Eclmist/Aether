@@ -13,7 +13,8 @@ public abstract class SkillItem : MonoBehaviour
         METEOR = 1,
         SWORD = 2,
         LASER = 3,
-        TORNADO = 4
+        TORNADO = 4,
+        GROUNDSPIKE = 5
     }
 
     [SerializeField]
