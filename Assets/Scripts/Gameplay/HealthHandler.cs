@@ -21,7 +21,7 @@ public class HealthHandler : MonoBehaviour
             return;
 
         float newHealth = Mathf.Max(0.0f, m_Health - amount);
-        HealthChanged?.Invoke(m_Health - newHealth);
+        HealthChanged?.Invoke(newHealth - m_Health);
 
         m_Health = newHealth;
         StartCoroutine(SetDamaged());

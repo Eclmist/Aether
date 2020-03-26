@@ -11,5 +11,13 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class Skills : SkillsBehavior
 {
-    
+    [SerializeField]
+    private DamageDealerBase m_DamageDealerBase;
+
+    protected override void NetworkStart()
+    {
+        base.NetworkStart();
+
+        m_DamageDealerBase.Activate(networkObject);
+    }
 }

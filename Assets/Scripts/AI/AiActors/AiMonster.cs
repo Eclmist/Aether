@@ -72,7 +72,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             foreach (var source in m_AttackSource)
             {
                 var damage = Instantiate(m_DamageOneShot, source.position, Quaternion.identity); 
-                damage.GetComponent<DamageOneShot>().SetDamageValues(m_DamageAmount, m_DamageRadius, m_DamageDuration);
             }
         }
     }
