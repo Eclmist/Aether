@@ -75,14 +75,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Stealth"",
-                    ""type"": ""Button"",
-                    ""id"": ""07560309-cdfc-4543-b66b-a6a42f66ab90"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
                     ""name"": ""SwitchSkills"",
                     ""type"": ""Button"",
                     ""id"": ""67dbebb4-83eb-4811-8307-df84c971253b"",
@@ -355,11 +347,33 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""2683c426-5b7e-478f-bd53-d48e80446307"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Sheathe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ad4e8112-7553-497e-a29d-6b9e2308da15"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8aa3b9a-f916-40cc-aa36-2936b9b8257b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -377,23 +391,12 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e07524e5-f20f-4e8d-a886-2df209480c57"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""id"": ""86155681-f07a-4576-98f4-9e0ba70bb7b1"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Stealth"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""853a3098-42db-4eec-8c5d-289b240937e1"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Stealth"",
+                    ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -411,7 +414,18 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5449088f-d1f4-4cdf-8316-52abdec0bf9f"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d05661ea-e936-48cc-a71d-85f49a182d34"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -433,7 +447,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""68edd2e4-44b9-4a9a-ae6c-01099afe5cff"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -1076,7 +1090,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Sheathe = m_Player.FindAction("Sheathe", throwIfNotFound: true);
         m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
-        m_Player_Stealth = m_Player.FindAction("Stealth", throwIfNotFound: true);
         m_Player_SwitchSkills = m_Player.FindAction("SwitchSkills", throwIfNotFound: true);
         m_Player_UseSkill = m_Player.FindAction("UseSkill", throwIfNotFound: true);
         // UI
@@ -1151,7 +1164,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Sheathe;
     private readonly InputAction m_Player_Dodge;
     private readonly InputAction m_Player_Block;
-    private readonly InputAction m_Player_Stealth;
     private readonly InputAction m_Player_SwitchSkills;
     private readonly InputAction m_Player_UseSkill;
     public struct PlayerActions
@@ -1165,7 +1177,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Sheathe => m_Wrapper.m_Player_Sheathe;
         public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
         public InputAction @Block => m_Wrapper.m_Player_Block;
-        public InputAction @Stealth => m_Wrapper.m_Player_Stealth;
         public InputAction @SwitchSkills => m_Wrapper.m_Player_SwitchSkills;
         public InputAction @UseSkill => m_Wrapper.m_Player_UseSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1198,9 +1209,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
                 @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
-                @Stealth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
-                @Stealth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
-                @Stealth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStealth;
                 @SwitchSkills.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
                 @SwitchSkills.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
                 @SwitchSkills.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
@@ -1232,9 +1240,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Block.started += instance.OnBlock;
                 @Block.performed += instance.OnBlock;
                 @Block.canceled += instance.OnBlock;
-                @Stealth.started += instance.OnStealth;
-                @Stealth.performed += instance.OnStealth;
-                @Stealth.canceled += instance.OnStealth;
                 @SwitchSkills.started += instance.OnSwitchSkills;
                 @SwitchSkills.performed += instance.OnSwitchSkills;
                 @SwitchSkills.canceled += instance.OnSwitchSkills;
@@ -1436,7 +1441,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnSheathe(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
-        void OnStealth(InputAction.CallbackContext context);
         void OnSwitchSkills(InputAction.CallbackContext context);
         void OnUseSkill(InputAction.CallbackContext context);
     }
