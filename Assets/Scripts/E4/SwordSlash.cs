@@ -18,10 +18,10 @@ public class SwordSlash : SwordSlashBehavior
     {
         base.NetworkStart();
 
-        m_DamageDealerBase.Activate(networkObject);
+        m_DamageDealerBase.Activate(networkObject, OnDamageDealt);
     }
 
-    protected void OnTriggerEnter(Collider other)
+    private void OnDamageDealt()
     {
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
     }

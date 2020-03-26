@@ -180,7 +180,6 @@ public class Player : PlayerBehavior, ICanInteract
     public override void TriggerJump(RpcArgs args)
     {
         m_PlayerNetworkHandler?.TriggerJump();
-        Debug.Log("WHO AM I : " + networkObject.IsOwner);
     }
 
     public override void TriggerSkill(RpcArgs args)
