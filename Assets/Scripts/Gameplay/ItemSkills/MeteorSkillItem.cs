@@ -11,7 +11,7 @@ public class MeteorSkillItem : SkillItem
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, m_LayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
             NetworkManager.Instance.InstantiateSkills(index: 0, position: hit.point, rotation: Quaternion.identity);
 
