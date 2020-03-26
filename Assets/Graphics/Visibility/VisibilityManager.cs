@@ -34,6 +34,12 @@ public class VisibilityManager : Singleton<VisibilityManager>
     private List<VisibilityModifier> m_PersistentModifierList = new List<VisibilityModifier>();
     private Queue<VisibilityModifier> m_OneShotModifierQueue = new Queue<VisibilityModifier>();
 
+    private void Awake()
+    {
+        if (HasInstance)
+            Destroy(this);
+    }
+
     private void Start()
     {
         LoadCS();
