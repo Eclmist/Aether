@@ -29,6 +29,9 @@ public class AnimationCallbacks : MonoBehaviour
 
     public void DashForward(float distance)
     {
+        // E4 Hack: This DashForward function is gonna temporarily be the place to trigger actual
+        // attack code. This should be moved into a different event callback
+        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Swing_1", transform.position);
         StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
     }
 

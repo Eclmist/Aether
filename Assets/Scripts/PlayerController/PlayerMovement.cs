@@ -76,6 +76,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private DodgeParams m_DodgeParams;
     #endregion
 
+    // TODO: Move this into Player
+    private bool m_IsDead;
+
+    private bool m_IsDamaged;
+
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += JumpInputCallback;
@@ -89,10 +94,30 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         RotatePlayer();
-
+            
         ComputeYAxisVelocity();
         ComputeXZAxisVelocity();
         m_CharacterController.Move(ComputeMovementDelta());
+    }
+
+    public void ToggleDead() 
+    {
+        m_IsDead = !(m_IsDead);
+    }
+
+    public void ToggleDamaged() 
+    {
+        m_IsDamaged = !(m_IsDamaged);
+    }
+
+    public bool IsDead()
+    {
+        return m_IsDead;
+    }
+
+    public bool IsDamaged()
+    {
+        return m_IsDamaged;
     }
 
     private void OnDrawGizmos()
