@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using BeardedManStudios.Forge.Networking.Generated;
 
 /**
@@ -20,18 +21,24 @@ public class TornadoSkill : SkillsBehavior
     // Update is called once per frame
     void Update()
     {
+        StartCoroutine(MoveTornado());
+    }
+
+    private IEnumerator MoveTornado()
+    {
+        yield return new WaitForSeconds(0.9f);
         if (networkObject != null)
         {
             if (!networkObject.IsOwner)
             {
                 transform.position = networkObject.position;
-                return;
+                yield return null;
             }
 
             // Called by owner of tornado spell
             transform.position += m_CurrentDirection * Time.deltaTime * m_Speed;
             networkObject.position = transform.position;
+            yield return null;
         }
     }
-
 }
