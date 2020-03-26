@@ -93,12 +93,12 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     public void TriggerDeath()
     {
-        // Animate death here
+        StartCoroutine(ReviveSequence());
     }
 
     public void TriggerDamaged()
     {
-        // Animate damage received here
+        StartCoroutine(DamagedSequence());
     }
 
     public void TriggerJump()
@@ -120,5 +120,27 @@ public class PlayerNetworkHandler : MonoBehaviour
         }
 
         m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
+    }
+
+    private IEnumerator ReviveSequence()
+    {
+        TriggerJump(); // Really Hacky... 
+        m_PlayerMovement.SetMove();
+
+        yield return new WaitForSeconds(3.0f);
+        
+        m_HealthHandler.Revive();
+        m_PlayerMovement.SetMove();
+    }
+
+    private IEnumerator DamagedSequence()
+    {
+        TriggerJump(); // Really Hacky... 
+        m_PlayerMovement.SetMove();
+
+        yield return new WaitForSeconds(3.0f);
+        
+
+        m_PlayerMovement.SetMove();
     }
 }
