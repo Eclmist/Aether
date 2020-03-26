@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedInterpol("{\"inter\":[0.15,0.15,0,0.15,0]")]
+	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 8;
+		public const int IDENTITY = 9;
 
 		private byte[] _dirtyFields = new byte[1];
 
@@ -80,7 +80,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		[ForgeGeneratedField]
 		private float _axisDeltaMagnitude;
 		public event FieldEvent<float> axisDeltaMagnitudeChanged;
-		public InterpolateFloat axisDeltaMagnitudeInterpolation = new InterpolateFloat() { LerpT = 0f, Enabled = false };
+		public InterpolateFloat axisDeltaMagnitudeInterpolation = new InterpolateFloat() { LerpT = 0.05f, Enabled = true };
 		public float axisDeltaMagnitude
 		{
 			get { return _axisDeltaMagnitude; }

@@ -7,16 +7,17 @@ using BeardedManStudios.Forge.Networking.Unity;
 
 public class AetherNetworkManager : Singleton<AetherNetworkManager>
 {
-    public static int MAX_PLAYER_COUNT = 4;
+    public const int MAX_PLAYER_COUNT = 4;
 
-    // Events for networking interaction
-    public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneChanged;
+    private const int m_LoadingSceneIndex = 2;
+
+    // Event for networking interaction
+    public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneLoaded;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
 
+    // Scene loading
     private int m_PlayersLoadedScene;
-
-    private const int m_LoadingSceneIndex = 2;
 
     void Awake()
     {
@@ -27,7 +28,7 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
     {
         // Event triggers on host when clients finish loading scene
         if (NetworkManager.Instance != null)
-            NetworkManager.Instance.playerLoadedScene += OnPlayerLoadScene;
+            NetworkManager.Instance.playerLoadedScene += OnPlayerLoadGameScene;
     }
 
     public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
@@ -42,57 +43,53 @@ public class AetherNetworkManager : Singleton<AetherNetworkManager>
     public void LoadGame(int sceneId)
     {
         LoadLoadingScene();
-        StartCoroutine(PrepareFade());
-        StartCoroutine(LoadScene(sceneId));
+        StartCoroutine(LoadGameScene(sceneId));
     }
 
-    public IEnumerator PrepareFade()
-    {
-        yield return new WaitForSeconds(1.5f);
-        UXManager.Instance.StartFade();
-    }
-
-    public void LoadLoadingScene()
+    private void LoadLoadingScene()
     {
         SceneManager.LoadScene(m_LoadingSceneIndex);
     }
 
-    public IEnumerator LoadScene(int sceneId)
+    private IEnumerator LoadGameScene(int sceneId)
     {
         yield return new WaitForSeconds(1.0f);
-        StartCoroutine(DelayStart(sceneId));
-    }
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneId);
+        asyncOp.allowSceneActivation = false;
 
-    public IEnumerator DelayStart(int sceneId)
-    {
-        AsyncOperation loadAsync = SceneManager.LoadSceneAsync(sceneId);
-        loadAsync.allowSceneActivation = false;
-
-        loadAsync.completed += asyncOp =>
+        // Triggered by host when own scene is loaded
+        asyncOp.completed += op =>
         {
-            NetWorker sender = NetworkManager.Instance.Networker;
-            // When host finishes loading scene
-            OnPlayerLoadScene(sender.Me, sender);
+            NetWorker host = NetworkManager.Instance.Networker;
+            SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneId));
+            OnPlayerLoadGameScene(host.Me, host);
         };
 
-        yield return new WaitForSeconds(2.0f);
-        loadAsync.allowSceneActivation = true;
+        while (asyncOp.progress != 0.9f)
+            yield return null;
 
+        FadeOut();
+        asyncOp.allowSceneActivation = true;
     }
 
-    public void OnPlayerLoadScene(NetworkingPlayer player, NetWorker sender)
+    private void OnPlayerLoadGameScene(NetworkingPlayer np, NetWorker sender)
     {
         m_PlayersLoadedScene++;
         if (m_PlayersLoadedScene == m_PlayerDetails.Count)
         {
             m_PlayersLoadedScene = 0;
-            SceneChanged(m_PlayerDetails);
+            SceneLoaded?.Invoke(m_PlayerDetails);
         }
+    }
+
+    private void FadeOut()
+    {
+        UXManager.Instance.StartFade();
     }
 
     private void OnDestroy()
     {
         if (NetworkManager.Instance != null)
-            NetworkManager.Instance.playerLoadedScene -= OnPlayerLoadScene;
+            NetworkManager.Instance.playerLoadedScene -= OnPlayerLoadGameScene;
     }
 }

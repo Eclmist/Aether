@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityScript.Lang;
 
 public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 {
@@ -53,14 +52,9 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 
     private bool CheckReferences()
     {
-        bool CheckArray(Array arr)
+        bool CheckArray(object[] arr)
         {
-            if (arr != null ||arr.Count != 0)
-            {
-                return true;
-            }
-
-            return false;
+            return arr != null || arr.Length != 0;
         }
 
         if (CheckArray(m_monster_prefabs) || CheckArray(m_mushroomMonsterMaterials) ||

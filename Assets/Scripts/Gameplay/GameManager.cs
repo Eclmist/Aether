@@ -3,11 +3,10 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField]
-    private TowerBase[] m_Towers;
+    public event System.Action<GameMode> GameStarted;
 
     [SerializeField]
-    private PlayerNetworkManager m_PlayerNetworkManager;
+    private TowerBase[] m_Towers;
 
     private Dictionary<Team, int> m_TeamCaptureCounts;
 
@@ -17,7 +16,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        m_PlayerNetworkManager.PlayersReady += StartGame;
+        PlayerManager.Instance.GetPlayerNetworkManager().AllPlayersReady += StartGame;
         m_TeamCaptureCounts = new Dictionary<Team, int>();
 
         foreach (TowerBase tower in m_Towers)
@@ -59,10 +58,26 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Game started");
         m_GameStarted = true;
+        GameStarted?.Invoke(GameMode.GAMEMODE_KING_OF_THE_HILL);
     }
 
     public void SetGameOver(Team team)
     {
         Debug.Log("Team " + (int)team + " wins");
+
+        // Calls UIManager
+        // Provides game stats to UIManager to show game over stats
+        // for maybe 10 seconds (can be skipped if host presses a button?)
+        // then return to lobby
+    }
+
+    private void OnDestroy()
+    {
+        if (PlayerManager.Instance != null)
+        {
+            PlayerNetworkManager playerNetworkManager = PlayerManager.Instance.GetPlayerNetworkManager();
+            if (playerNetworkManager != null)
+                playerNetworkManager.AllPlayersReady -= StartGame;
+        }
     }
 }

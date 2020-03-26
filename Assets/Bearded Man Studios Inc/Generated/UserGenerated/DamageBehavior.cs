@@ -4,14 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][]]")]
-	public abstract partial class LobbySystemBehavior : NetworkBehavior
+	[GeneratedRPC("{\"types\":[]")]
+	[GeneratedRPCVariableNames("{\"types\":[]")]
+	public abstract partial class DamageBehavior : NetworkBehavior
 	{
-		public const byte RPC_TOGGLE_READY = 0 + 5;
-		public const byte RPC_SET_PLAYER_ENTERED = 1 + 5;
 
-		public LobbySystemNetworkObject networkObject = null;
+		public DamageNetworkObject networkObject = null;
 
 		public override void Initialize(NetworkObject obj)
 		{
@@ -19,12 +17,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (networkObject != null && networkObject.AttachedBehavior != null)
 				return;
 
-			networkObject = (LobbySystemNetworkObject)obj;
+			networkObject = (DamageNetworkObject)obj;
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("ToggleReady", ToggleReady);
-			networkObject.RegisterRpc("SetPlayerEntered", SetPlayerEntered);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -79,7 +75,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override void Initialize(NetWorker networker, byte[] metadata = null)
 		{
-			Initialize(new LobbySystemNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
+			Initialize(new DamageNetworkObject(networker, createCode: TempAttachCode, metadata: metadata));
 		}
 
 		private void DestroyGameObject(NetWorker sender)
@@ -90,7 +86,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public override NetworkObject CreateNetworkObject(NetWorker networker, int createCode, byte[] metadata = null)
 		{
-			return new LobbySystemNetworkObject(networker, this, createCode, metadata);
+			return new DamageNetworkObject(networker, this, createCode, metadata);
 		}
 
 		protected override void InitializedTransform()
@@ -98,14 +94,6 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void ToggleReady(RpcArgs args);
-		/// <summary>
-		/// Arguments:
-		/// </summary>
-		public abstract void SetPlayerEntered(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

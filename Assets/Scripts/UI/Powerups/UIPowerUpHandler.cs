@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUpUIHandler : MonoBehaviour
+public class UIPowerUpHandler : MonoBehaviour
 {
     [SerializeField]
     private GameObject m_JumpPowerUpIconPrefab;

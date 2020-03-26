@@ -14,7 +14,7 @@ public class SkillHandler : MonoBehaviour
     
     void Start()
     {
-        m_PlayerStance = GetComponentInParent<PlayerStance>();
+        m_PlayerStance = GetComponent<PlayerStance>();
         AetherInput.GetPlayerActions().UseSkill.performed += UseSkillAt;
         AetherInput.GetPlayerActions().SwitchSkills.performed += SwitchSkills;
         m_ItemSkillSlots = new Queue<SkillItem>();

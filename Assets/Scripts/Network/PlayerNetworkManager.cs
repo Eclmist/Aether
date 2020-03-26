@@ -6,7 +6,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 
 public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 {
-    public event System.Action PlayersReady;
+    public event System.Action AllPlayersReady;
 
     [SerializeField]
     private Transform[] m_SpawnPositionsRed;
@@ -18,14 +18,15 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void Awake()
     {
-        AetherNetworkManager.Instance.SceneChanged += OnGameSceneLoaded;
+        AetherNetworkManager.Instance.SceneLoaded += OnSceneLoaded;
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }
 
     private void OnClientReady()
     {
         // Run on main thread to lock data and send rpc
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             List<Player> players = PlayerManager.Instance.GetAllPlayers();
 
             Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
@@ -33,7 +34,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 Debug.LogError("Local player not set");
 
             PlayerDetails localPlayerDetails = localPlayer.GetPlayerDetails();
-
             foreach (Player player in players)
             {
                 // Remove unnecessary objects/components
@@ -61,14 +61,15 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     public override void SetPlayerCount(RpcArgs args)
     {
         // Run on main thread to lock player count
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             PlayerManager.Instance.SetPlayerCount(args.GetNext<int>());
         });
     }
 
     public override void SetAllReady(RpcArgs args)
     {
-        PlayersReady();
+        AllPlayersReady();
     }
 
     ////////////////////
@@ -78,7 +79,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     ////////////////////
 
     // Callback for when scene has loaded for all players
-    public void OnGameSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
+    public void OnSceneLoaded(Dictionary<NetworkingPlayer, PlayerDetails> detailsMap)
     {
         if (!networkObject.IsServer)
             return;
@@ -96,14 +97,15 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             SpawnPlayer(np, detailsMap[np]);
         });
 
-        AetherNetworkManager.Instance.SceneChanged -= OnGameSceneLoaded;
+        AetherNetworkManager.Instance.SceneLoaded -= OnSceneLoaded;
     }
 
     // Called by host to spawn every client's player
     private void SpawnPlayer(NetworkingPlayer np, PlayerDetails details)
     {
         // Run on main thread for unity to be able to grab transform data and instantiate player etc
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             Transform spawnPoint = null;
             switch(details.GetTeam())
             {
@@ -146,7 +148,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             return;
 
         // Run on main thread to ensure client count is locked and rpc can be sent
-        MainThreadManager.Run(() => {
+        MainThreadManager.Run(() =>
+        {
             m_ReadyClientCount++;
             if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
             {

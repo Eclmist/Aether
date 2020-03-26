@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerNetworkManager))]
 public class PlayerManager : Singleton<PlayerManager>
 {
     public event System.Action PlayerListPopulated;
 
-    private Player m_LocalPlayer;
+    [SerializeField]
+    private PlayerNetworkManager m_PlayerNetworkManager;
 
+    private Player m_LocalPlayer;
     private List<Player> m_Players;
     private Dictionary<Team, List<int>> m_TeamIndices;
-
     private int m_TotalPlayerCount;
 
     private void Awake()
@@ -38,12 +40,17 @@ public class PlayerManager : Singleton<PlayerManager>
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
-            PlayerListPopulated();
+            PlayerListPopulated?.Invoke();
     }
 
     public void SetLocalPlayer(Player player)
     {
         m_LocalPlayer = player;
+    }
+
+    public Player GetLocalPlayer()
+    {
+        return m_LocalPlayer;
     }
 
     public void SetPlayerCount(int count)
@@ -56,9 +63,9 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_TotalPlayerCount;
     }
 
-    public Player GetLocalPlayer()
+    public Player GetPlayerById(uint networkId)
     {
-        return m_LocalPlayer;
+        return m_Players.Find(player => player.GetPlayerDetails().GetNetworkId() == networkId);
     }
 
     public List<Player> GetAllPlayers()
@@ -69,5 +76,20 @@ public class PlayerManager : Singleton<PlayerManager>
     public List<Player> GetPlayersByTeam(Team team)
     {
         return m_TeamIndices[team].ConvertAll(index => m_Players[index]);
+    }
+
+    public List<Player> GetTeamMembers()
+    {
+        List<Player> teamPlayers = GetPlayersByTeam(m_LocalPlayer.GetPlayerDetails().GetTeam());
+
+        if (!teamPlayers.Remove(m_LocalPlayer))
+            Debug.Log("Local player not found in his team's list");
+
+        return teamPlayers;
+    }
+
+    public PlayerNetworkManager GetPlayerNetworkManager()
+    {
+        return m_PlayerNetworkManager;
     }
 }

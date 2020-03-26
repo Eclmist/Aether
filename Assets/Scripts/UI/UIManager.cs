@@ -1,49 +1,86 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private PowerUpUIHandler m_powerUpHandler;
+    private Animator m_NotificationAnimator;
+    [SerializeField]
+    private Text m_NotificationText;
 
     [SerializeField]
-    private HealthBarHandler m_healthBarHandler;
-
+    private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
-    private SkillsUIHandler m_skillsUIHandler;
+    private UISkillsHandler m_UISkillsHandler;
+    [SerializeField]
+    private UIHealthBarHandler m_UIHealthBarHandler;
+
+    private void Awake()
+    {
+        GameManager.Instance.GameStarted += OnGameStarted;
+    }
+
+    private void OnGameStarted(GameMode gameMode)
+    {
+        // Attach Player Health to Health Bar
+        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
+
+        string message = "";
+        switch (gameMode)
+        {
+            case GameMode.GAMEMODE_KING_OF_THE_HILL:
+                message = "King of the Hill";
+                break;
+            default:
+                break;
+        }
+
+        UINotifyHeader(message);
+
+    }
+
+    public void UINotifyHeader(string message)
+    {
+        if (m_NotificationText != null)
+            m_NotificationText.text = message;
+        if (m_NotificationAnimator != null)
+            m_NotificationAnimator.SetTrigger("Open");
+    }
+
+    public void UINotifyPanel(string message)
+    {
+        // push new notifications to side panel
+    }
 
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
-        if (m_powerUpHandler != null)
-        {
-            m_powerUpHandler.ActivateIcon(signal);
-        }
-    }
-
-    public void ModifyHealthBar(float percentageChange)
-    {
-        if (m_healthBarHandler != null)
-             m_healthBarHandler.IndicateDamage(percentageChange);
-                
+        if (m_UIPowerUpHandler != null)
+            m_UIPowerUpHandler.ActivateIcon(signal);
     }
 
     // To Be Refactored
-    
+
     public void SwitchPlayerSkills()
     {
-        if (m_skillsUIHandler != null)
-        {
-            m_skillsUIHandler.SwitchSpriteIcons(); 
-        }
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.SwitchSpriteIcons();
     }
 
-    public void SaveSkill(SkillItem skillItem) 
+    public void SaveSkill(SkillItem skillItem)
     {
-        m_skillsUIHandler.HandleSkillPickUp(skillItem);
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.HandleSkillPickUp(skillItem);
     }
 
     public void RemoveSkill()
     {
-         m_skillsUIHandler.RemoveUsedSkill();
+        if (m_UISkillsHandler != null)
+            m_UISkillsHandler.RemoveUsedSkill();
     }
 
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.GameStarted -= OnGameStarted;
+    }
 }

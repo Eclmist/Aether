@@ -31,6 +31,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new CubeForgeGameNetworkObject(networker, id, frame);
 						break;
+					case DamageNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new DamageNetworkObject(networker, id, frame);
+						break;
 					case ExampleProximityPlayerNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new ExampleProximityPlayerNetworkObject(networker, id, frame);

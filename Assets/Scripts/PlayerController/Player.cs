@@ -4,18 +4,17 @@ using UnityEngine.InputSystem.Controls;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(ClientServerTogglables))]
-[RequireComponent(typeof(PlayerStance))]
+[RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
-[RequireComponent(typeof(SkillHandler))]
-public class Player : PlayerBehavior, ICanInteract, Damageable
+public class Player : PlayerBehavior, ICanInteract
 {
-    private PlayerMovement m_PlayerMovement;
-    private PlayerAnimation m_PlayerAnimation;
-    private PlayerNetworkAnimation m_PlayerNetworkAnimation;
-    private ClientServerTogglables m_ClientServerTogglables;
-    private SkillHandler m_SkillsHandler;
+    public event System.Action PlayerDead;
+
+    private PlayerNetworkHandler m_PlayerNetworkHandler;
+    private LocalNetworkTogglables m_LocalNetworkTogglables;
+    private SkillHandler m_SkillHandler;
+    private HealthHandler m_HealthHandler;
 
     private RevealActor m_RevealActor;
     private StealthActor m_StealthActor;
@@ -23,32 +22,15 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
     private PlayerDetails m_PlayerDetails;
     private bool m_IsStealthy;
 
-    // TODO remove this once health system has been merged. 
-    private double m_health = 100;
-    public void DamageHealth(float damage)
-    {
-        Debug.Log(m_health + " taken damage: " + damage);
-        m_health -= damage;
-    }
-
     private void Awake()
     {
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
-        m_PlayerMovement = GetComponent<PlayerMovement>();
-        m_PlayerAnimation = GetComponent<PlayerAnimation>();
-        m_PlayerNetworkAnimation = GetComponent<PlayerNetworkAnimation>();
+        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
+        m_PlayerNetworkHandler = GetComponent<PlayerNetworkHandler>();
         m_RevealActor = GetComponent<RevealActor>();
         m_StealthActor = GetComponent<StealthActor>();
-        m_SkillsHandler = GetComponent<SkillHandler>();
-        
-        m_ClientServerTogglables = GetComponent<ClientServerTogglables>();
+        m_SkillHandler = GetComponent<SkillHandler>();
+        m_HealthHandler = GetComponent<HealthHandler>();
     }
-
-    public SkillHandler GetSkillHandler()
-    {
-        return m_SkillsHandler;
-    }
-        
 
     private void Start()
     {
@@ -73,9 +55,24 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_ENTER);
     }
 
+    private void OnTriggerStay(Collider c)
+    {
+        InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_STAY);
+    }
+
     private void OnTriggerExit(Collider c)
     {
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
+    }
+
+    public SkillHandler GetSkillHandler()
+    {
+        return m_SkillHandler;
+    }
+
+    public HealthHandler GetHealthHandler()
+    {
+        return m_HealthHandler;
     }
 
     public PlayerDetails GetPlayerDetails()
@@ -90,16 +87,6 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
 
         m_PlayerDetails = details;
     }
-      
-    public PlayerMovement GetPlayerMovement()
-    {
-        return m_PlayerMovement;
-    }
-
-    public void SetPlayerMovement(PlayerMovement playerMovement)
-    {
-        m_PlayerMovement = playerMovement;
-    }
 
     public RevealActor GetRevealActor()
     {
@@ -108,7 +95,7 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
 
     public void UpdateToggleables()
     {
-        m_ClientServerTogglables.UpdateOwner(networkObject.IsOwner);
+        m_LocalNetworkTogglables.UpdateOwner(networkObject.IsOwner);
     }
 
     // Toggles between stealth and reveal modes upon pressing stealth button.
@@ -123,7 +110,7 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
         if (!button.wasPressedThisFrame)
             return;
 
-        
+
         m_IsStealthy = !m_IsStealthy;
         if (m_IsStealthy)
         {
@@ -160,11 +147,6 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
         networkObject.positionInterpolation.target = networkObject.position;
     }
 
-    public override void TriggerJump(RpcArgs args)
-    {
-        m_PlayerNetworkAnimation.TriggerJump();
-    }
-
     // RPC sent by host to send player details to all clients
     public override void TriggerUpdateDetails(RpcArgs args)
     {
@@ -181,5 +163,21 @@ public class Player : PlayerBehavior, ICanInteract, Damageable
             PlayerManager.Instance.SetLocalPlayer(this);
 
         PlayerManager.Instance.AddPlayer(this);
+    }
+
+    public override void TriggerDeath(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerDeath();
+        PlayerDead?.Invoke();
+    }
+
+    public override void TriggerDamaged(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerDamaged();
+    }
+
+    public override void TriggerJump(RpcArgs args)
+    {
+        m_PlayerNetworkHandler?.TriggerJump();
     }
 }
