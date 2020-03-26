@@ -469,7 +469,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""id"": ""7ee94bc3-6a7b-4307-b634-8f29cf8add15"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Point"",
@@ -798,7 +798,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""path"": ""<DualShockGamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -817,7 +817,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d4405205-0cd6-4d23-bcfd-17d2b8dcfd75"",
-                    ""path"": ""<Keyboard>/b"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",

@@ -10,6 +10,9 @@ public class TitleScreen : MonoBehaviour
     private Animator m_MainCanvasAnimator;
 
     [SerializeField]
+    private Animator m_MainMenuAnimator;
+
+    [SerializeField]
     private GameObject[] m_DebugObjects;
 
     [SerializeField]
@@ -140,15 +143,15 @@ public class TitleScreen : MonoBehaviour
         {
             AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
             m_EventSystem.SetSelectedGameObject(m_MainMultiplayerButton);
-            m_MainCanvasAnimator.SetTrigger("ReverseMultiplayer");
         } 
-        else {
+        else
+        {
             AudioManager.m_Instance.PlaySound("GEN_Success_1", 1.0f, 1.0f);
             m_EventSystem.SetSelectedGameObject(m_SideMultiplayerButton);
-            m_MainCanvasAnimator.SetTrigger("EnterMultiplayer");
         }
 
         m_isMultiplayerDropdownActivated = !(m_isMultiplayerDropdownActivated);
+        m_MainMenuAnimator.SetBool("Open Submenu", m_isMultiplayerDropdownActivated);
     }
 
     public void GoToCharacterCustomization()
