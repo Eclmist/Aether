@@ -10,7 +10,7 @@ Material:
   m_Name: UI_Allpha
   m_Shader: {fileID: -6465566751694194690, guid: a1dfed88d8158514fb4062a0a4ccd743,
     type: 3}
-  m_ShaderKeywords: _BLENDMODE_ADD _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
+  m_ShaderKeywords: _BLENDMODE_ALPHA _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -141,10 +141,10 @@ Material:
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
     - _AlphaCutoffShadow: 0.5
-    - _AlphaDstBlend: 1
+    - _AlphaDstBlend: 10
     - _AlphaSrcBlend: 1
     - _Anisotropy: 0
-    - _BlendMode: 1
+    - _BlendMode: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 0
@@ -186,7 +186,7 @@ Material:
     - _DistortionVectorScale: 2
     - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
-    - _DstBlend: 1
+    - _DstBlend: 10
     - _EmissionEnabled: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 1
@@ -269,10 +269,10 @@ Material:
     - _UVEmissive: 0
     - _UseEmissiveIntensity: 0
     - _UseShadowThreshold: 0
-    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestDepthEqualForOpaque: 8
     - _ZTestGBuffer: 4
     - _ZTestModeDistortion: 4
-    - _ZTestTransparent: 4
+    - _ZTestTransparent: 8
     - _ZWrite: 1
     m_Colors:
     - Color_5B0ACD4A: {r: 1024, g: 1024, b: 1024, a: 1}
