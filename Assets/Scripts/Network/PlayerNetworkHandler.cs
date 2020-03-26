@@ -14,6 +14,7 @@ public class PlayerNetworkHandler : MonoBehaviour
     [SerializeField]
     private Animator m_Animator;
     private HealthHandler m_HealthHandler;
+    private SkillHandler m_SkillHandler;
 
     // Local player only scripts
     private PlayerMovement m_PlayerMovement;
@@ -25,6 +26,7 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_PlayerMovement = GetComponent<PlayerMovement>();
         m_PlayerAnimation = GetComponent<PlayerAnimation>();
         m_HealthHandler = GetComponent<HealthHandler>();
+        m_SkillHandler = GetComponent<SkillHandler>();
 
         // Make sure animator exists
         Debug.Assert(m_Animator != null, "Animator should not be null");
@@ -98,5 +100,16 @@ public class PlayerNetworkHandler : MonoBehaviour
         }
 
         m_Animator.SetTrigger("Jump");
+    }
+
+    public void TriggerSkills()
+    {
+        if (m_Animator == null)
+        {
+            Debug.LogWarning("Animator does not exist on player");
+            return;
+        }
+
+        m_Animator.SetInteger("SkillsIndex", 3);
     }
 }
