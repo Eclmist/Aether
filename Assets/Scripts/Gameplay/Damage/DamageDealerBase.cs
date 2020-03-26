@@ -44,7 +44,6 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 
         Player owner = PlayerManager.Instance.GetPlayerById(m_NetworkObject.Owner.NetworkId);
 
-        Debug.Log("Check if Player " + mb);
         // Non-players should not damage each other, may need to have specific cases
         if (owner == null && !(mb is Player))
             return true;
@@ -52,7 +51,6 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
         // Both are players, check teams
         if (owner != null && mb is Player player)
         {
-            Debug.Log("Check teams");
             Team ownerTeam = owner.GetPlayerDetails().GetTeam();
             Team playerTeam = player.GetPlayerDetails().GetTeam();
 
