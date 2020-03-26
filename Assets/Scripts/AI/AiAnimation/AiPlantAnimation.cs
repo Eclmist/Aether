@@ -8,14 +8,16 @@ public class AiPlantAnimation : AiAnimation
         attack1 = 1,
         attack2 = 2,
         idleBreak,
-        death,
+        death = 3,
         gotHit,
         goPlant,
         goAlive
     }
-    public override void Death()
+
+    public override float Death()
     {
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
+        return (float) AnimMovesParam.death;
     }
     public override void TakenDamage()
     {

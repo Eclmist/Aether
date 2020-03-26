@@ -20,5 +20,5 @@ public abstract class AiAnimation : MonoBehaviour
     public abstract float RandomizeAttack();
 
     public abstract void TakenDamage();
-    public abstract void Death();
+    public abstract float Death();
 }

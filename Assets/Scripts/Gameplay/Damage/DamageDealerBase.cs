@@ -24,6 +24,15 @@ public abstract class DamageDealerBase : DamageBehavior, IInteractable
 
     public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
 
+    public void SetDamageValues(float damageAmount, float radius, float duration)
+    {
+        m_DamageAmount = damageAmount;
+        m_Radius = radius;
+        m_Duration = duration;
+        m_IsActivated = true;
+        StartCoroutine(DestroyDamageDealer());
+    }
+
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (!m_IsActivated)
