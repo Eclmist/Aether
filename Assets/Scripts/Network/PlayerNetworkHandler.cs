@@ -124,23 +124,16 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     private IEnumerator ReviveSequence()
     {
-        TriggerJump(); // Really Hacky... 
-        //m_PlayerMovement.SetMove();
-
-        yield return new WaitForSeconds(3.0f);
-        
+        m_PlayerMovement.ToggleDead();
+        yield return new WaitForSeconds(1.0f);
         m_HealthHandler.Revive();
-        //m_PlayerMovement.SetMove();
+        m_PlayerMovement.ToggleDead();
     }
 
     private IEnumerator DamagedSequence()
     {
-        TriggerJump(); // Really Hacky... 
-        //m_PlayerMovement.SetMove();
-
+        m_PlayerMovement.ToggleDamaged();
         yield return new WaitForSeconds(3.0f);
-        
-
-        //m_PlayerMovement.SetMove();
+        m_PlayerMovement.ToggleDamaged();
     }
 }
