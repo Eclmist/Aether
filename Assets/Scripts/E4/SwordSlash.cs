@@ -23,6 +23,8 @@ public class SwordSlash : SwordSlashBehavior
 
     protected void OnTriggerEnter(Collider other)
     {
-        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
+        // E4 HACK
+        if (other.GetComponent<AiMonster>())
+            AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
     }
 }
