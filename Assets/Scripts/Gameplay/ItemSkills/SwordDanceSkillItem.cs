@@ -13,7 +13,7 @@ public class SwordDanceSkillItem : SkillItem
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, m_LayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
             // Instantiate SwordDanceStart at the player's current position
             NetworkManager.Instance.InstantiateSkills(index: 1, position: playerTransform.position, rotation: Quaternion.identity);
