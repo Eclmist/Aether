@@ -110,6 +110,7 @@ public class PlayerAnimation : MonoBehaviour
         else
         {
             int currentActiveSkill = m_SkillHandler.GetCurrentActiveSkill();
+            Debug.Log("SKILL INDEX: " + currentActiveSkill);
             if (currentActiveSkill != (int)SkillItem.SkillType.NONE)
                 m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
         }
