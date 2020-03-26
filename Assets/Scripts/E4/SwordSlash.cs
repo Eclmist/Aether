@@ -23,6 +23,7 @@ public class SwordSlash : SwordSlashBehavior
 
     private void OnDamageDealt()
     {
+        // E4 HACK
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
     }
 }
