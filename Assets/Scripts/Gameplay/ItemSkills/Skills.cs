@@ -18,6 +18,6 @@ public class Skills : SkillsBehavior
     {
         base.NetworkStart();
 
-        m_DamageDealerBase.Activate(networkObject);
+        m_DamageDealerBase.Activate(networkObject, null);
     }
 }
