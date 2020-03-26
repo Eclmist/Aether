@@ -91,12 +91,15 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         m_Agent.updateRotation = true;
 
         m_HealthHandler = GetComponent<HealthHandler>();
-        if (m_HealthHandler == null)
+        if (m_HealthHandler != null)
+        {
+            m_HealthHandler.HealthChanged += OnHealthChanged;
+            m_HealthHandler.HealthDepleted += OnDeath;
+        }
+        else
         {
             Debug.LogError("No damage system, won't be able to damage players");
         }
-        m_HealthHandler.HealthChanged += OnHealthChanged;
-        m_HealthHandler.HealthDepleted += OnDeath;
     }
 
     private void OnDeath()
