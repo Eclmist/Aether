@@ -71,6 +71,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new TowerNetworkObject(networker, id, frame);
 						break;
+					case SwordSlashNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new SwordSlashNetworkObject(networker, id, frame);
+						break;
 				}
 
 				if (!availableCallback)
