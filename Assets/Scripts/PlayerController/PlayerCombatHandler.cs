@@ -41,6 +41,7 @@ public class PlayerCombatHandler : MonoBehaviour
 
         if (!m_PlayerStance.IsCombatStance())
         {
+            AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
             m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_TWOHANDED);
             return;
         }
@@ -79,6 +80,9 @@ public class PlayerCombatHandler : MonoBehaviour
     public void SheatheInputCallback(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
+        {
             m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);
+            AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
+        }
     }
 }
