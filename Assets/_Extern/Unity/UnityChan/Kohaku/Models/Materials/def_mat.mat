@@ -10,19 +10,24 @@ Material:
   m_Name: def_mat
   m_Shader: {fileID: -6465566751694194690, guid: a117ce1876670f148aec986a29573ee3,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentBackface
   - MOTIONVECTORS
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_CA803EBD:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,7 +85,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AlphaCutoffEnable: 0
+    - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _BlendMode: 0
@@ -121,7 +126,7 @@ Material:
     - _UVSec: 0
     - _UseShadowThreshold: 0
     - _ZTestDepthEqualForOpaque: 3
-    - _ZTestGBuffer: 4
+    - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
@@ -129,6 +134,7 @@ Material:
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.8, g: 0.8, b: 1, a: 1}
+    - _WorldSpaceLightPos0: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1819913657596663772
 MonoBehaviour:
   m_ObjectHideFlags: 11
