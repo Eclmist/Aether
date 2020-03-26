@@ -69,7 +69,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     public override void SetAllReady(RpcArgs args)
     {
-        AllPlayersReady();
+        AllPlayersReady?.Invoke();
     }
 
     ////////////////////
