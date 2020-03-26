@@ -76,8 +76,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private DodgeParams m_DodgeParams;
     #endregion
 
-    // e4 temp measures
-    private bool m_canMove;
+    // TODO: Move this into Player
+    private bool m_IsDead;
+
+    private bool m_IsDamaged;
 
     void Start()
     {
@@ -86,26 +88,36 @@ public class PlayerMovement : MonoBehaviour
         m_CharacterController = GetComponent<CharacterController>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
-
-        m_canMove = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         RotatePlayer();
-
-        if (!m_canMove)
-            return; 
             
         ComputeYAxisVelocity();
         ComputeXZAxisVelocity();
         m_CharacterController.Move(ComputeMovementDelta());
     }
 
-    public void SetMove() 
+    public void ToggleDead() 
     {
-        m_canMove = !(m_canMove);
+        m_IsDead = !(m_IsDead);
+    }
+
+    public void ToggleDamaged() 
+    {
+        m_IsDamaged = !(m_IsDamaged);
+    }
+
+    public bool IsDead()
+    {
+        return m_IsDead;
+    }
+
+    public bool IsDamaged()
+    {
+        return m_IsDamaged;
     }
 
     private void OnDrawGizmos()

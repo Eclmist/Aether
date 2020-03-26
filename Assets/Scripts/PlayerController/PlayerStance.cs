@@ -42,12 +42,16 @@ public class PlayerStance : MonoBehaviour
         ACTION_BLOCK            = 128,
         ACTION_SHEATHE          = 256,
         ACTION_CASTSPELL        = 512,
+        ACTION_DAMAGED          = 1024, 
+        ACTION_DEAD             = 2048, 
+
         // More actions to be added here (e.g., ACTION_CAPTURE, ACTION_DEATH, etc)
         ACTION_ALL              = int.MaxValue
     }
 
     // Action masks
-    private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DODGE) & (~Action.ACTION_CASTSPELL);
+    private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DODGE) & (~Action.ACTION_CASTSPELL) 
+        & (~Action.ACTION_DAMAGED) & (~Action.ACTION_DEAD);
     private Action m_CanSprintMask = Action.ACTION_WALK;
     private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DODGE;
     private Action m_CanDodgeMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
@@ -85,6 +89,14 @@ public class PlayerStance : MonoBehaviour
             m_CurrentActions |= Action.ACTION_WALK;
 
         // TODO: Set Sprint action
+
+        // TODO: Shift Bool Checks into Player
+
+        if (m_PlayerMovement.IsDead())
+            m_CurrentActions = Action.ACTION_DEAD;
+
+        if (m_PlayerMovement.IsDamaged())
+            m_CurrentActions = Action.ACTION_DAMAGED;
 
         if (m_PlayerMovement.GetVelocity().y > 0 || !m_PlayerMovement.IsGrounded())
             m_CurrentActions |= Action.ACTION_JUMP;
