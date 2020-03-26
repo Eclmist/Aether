@@ -11,15 +11,16 @@ public class AiWormAnimation : AiAnimation
         attack4Start,
         attack4End,
         idleBreak,
-        death,
+        death =3,
         gotHit,
         appear,
         disappear,
     }
 
-    public override void Death()
+    public override float Death()
     {
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
+        return (float) AnimMovesParam.death;
     }
     
     public override void TakenDamage()

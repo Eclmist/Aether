@@ -6469,7 +6469,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 92d7dee07f6aa954689f1e9d840a7fdf, type: 3}
   m_Controller: {fileID: 9100000, guid: dd83a705adbf7b74eb19dcf5268cd2ec, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
@@ -7264,17 +7264,17 @@ MonoBehaviour:
     m_JumpHeight: 3.5
     m_ExternalJumpHeightModifier: 1
     m_JumpedInCurrentFrame: 0
-  m_DashParams:
-    m_IsDashing: 0
-    m_DashedInCurrentFrame: 0
-    m_IsBackwardsDash: 0
-    m_DashTimeTotal: 0.65
-    m_BackDashTimeTotal: 0.2
-    m_DashDelay: 0.15
-    m_DashSpeed: 10
-    m_DashCooldown: 0.5
-    m_LastCompletedDashTime: 0
-    m_DashDirection: {x: 0, y: 0, z: 0}
+  m_DodgeParams:
+    m_IsDodging: 0
+    m_DodgedInCurrentFrame: 0
+    m_IsBackwardsDodge: 0
+    m_DodgeTimeTotal: 0.65
+    m_BackDodgeTimeTotal: 0.2
+    m_DodgeDelay: 0.15
+    m_DodgeSpeed: 10
+    m_DodgeCooldown: 0.5
+    m_LastCompletedDodgeTime: 0
+    m_DodgeDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &4526435887570521013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7313,7 +7313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681456a8506268d4f95f79a1b9d62997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Dealer: {fileID: 8832162312607728747, guid: 20041d56b7fe046d78477d2b42b23c96, type: 3}
 --- !u!114 &381850364086531946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7346,7 +7345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4526435887570521012}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9024e234e9022a468ebc232398215de, type: 3}
   m_Name: 

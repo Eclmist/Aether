@@ -3,14 +3,30 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(Collider))]
-public class AiMonster : AiActor, Attacker
+public class AiMonster : AiActor, Attacker, ICanInteract
 {
     [SerializeField] 
     private AiAnimation m_MonsterAnimation;
 
+    [SerializeField] 
+    private GameObject m_DamageOneShot;
+
+    [SerializeField] 
+    private Transform[] m_AttackSource;
+
+    [SerializeField] 
+    private float m_DamageAmount = 10f;
+
+    [SerializeField] 
+    private float m_DamageRadius = 5f;
+
+    [SerializeField] 
+    private float m_DamageDuration = 0.2f;
+    
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
+    
 
     public void OnTriggerEnter(Collider other)
     {
@@ -36,7 +52,7 @@ public class AiMonster : AiActor, Attacker
             float attack = m_MonsterAnimation.RandomizeAttack();
             
             //logic for damaging the player here
-            DamagePlayer();
+            DamageEntities();
             
             StartCoroutine(SetCanAttack(attack));
             m_CanAttack = false;
@@ -49,9 +65,18 @@ public class AiMonster : AiActor, Attacker
         }
     }
     
-    private void DamagePlayer()
+    private void DamageEntities()
     {
+        if (m_AttackSource != null && m_DamageOneShot != null)
+        {
+            foreach (var source in m_AttackSource)
+            {
+                var damage = Instantiate(m_DamageOneShot, source.position, Quaternion.identity); 
+                damage.GetComponent<DamageOneShot>().SetDamageValues(m_DamageAmount, m_DamageRadius, m_DamageDuration);
+            }
+        }
     }
+    
 
     private void SetNearPlayer()
     {
@@ -71,7 +96,20 @@ public class AiMonster : AiActor, Attacker
             Debug.LogError("No damage system, won't be able to damage players");
         }
         m_HealthHandler.HealthChanged += OnHealthChanged;
-        m_HealthHandler.HealthDepleted += m_MonsterAnimation.Death;
+        m_HealthHandler.HealthDepleted += OnDeath;
+    }
+
+    private void OnDeath()
+    {
+        float death_anim_time = m_MonsterAnimation.Death();
+        StartCoroutine(DestroyMonster(death_anim_time));
+        m_StateMachineAnim.SetBool("dead", true);
+    }
+
+    IEnumerator DestroyMonster(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
     }
 
     private void RotateTowardsNearestPlayer()
@@ -137,7 +175,7 @@ public class AiMonster : AiActor, Attacker
             m_HealthHandler.HealthChanged -= OnHealthChanged;
 
             if (m_MonsterAnimation != null)
-                m_HealthHandler.HealthDepleted -= m_MonsterAnimation.Death;
+                m_HealthHandler.HealthDepleted -= OnDeath;
         }
     }
 }
