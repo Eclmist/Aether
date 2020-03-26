@@ -23,13 +23,14 @@ Material:
   m_Name: Akaza_face
   m_Shader: {fileID: -6465566751694194690, guid: a117ce1876670f148aec986a29573ee3,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - TransparentBackface
   - MOTIONVECTORS
@@ -152,7 +153,7 @@ Material:
     - _2nd_ShadeColor_Feather: 0.0001
     - _2nd_ShadeColor_Step: 0
     - _Add_Antipodean_RimLight: 0
-    - _AlphaCutoffEnable: 0
+    - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
     - _Ap_RimLight_FeatherOff: 0
@@ -260,7 +261,7 @@ Material:
     - _Use_1stAs2nd: 0
     - _Use_BaseAs1st: 1
     - _ZTestDepthEqualForOpaque: 3
-    - _ZTestGBuffer: 4
+    - _ZTestGBuffer: 3
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _simpleUI: 0
