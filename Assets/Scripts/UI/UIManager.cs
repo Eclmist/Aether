@@ -20,6 +20,18 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.GameStarted += OnGameStarted;
     }
 
+    private void Update()
+    {
+        // E4 hack
+        // Look for a monster and toggle their health UI
+        Ray screenRay = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
+        RaycastHit hit;
+        if (Physics.Raycast(screenRay, out hit, 20))
+        {
+            hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
+        }
+    }
+
     private void OnGameStarted(GameMode gameMode)
     {
         // Attach Player Health to Health Bar

@@ -22,7 +22,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     [SerializeField] 
     private float m_DamageDuration = 0.2f;
-    
+
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
@@ -72,7 +72,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             foreach (var source in m_AttackSource)
             {
                 var damage = Instantiate(m_DamageOneShot, source.position, Quaternion.identity); 
-                damage.GetComponent<DamageOneShot>().SetDamageValues(m_DamageAmount, m_DamageRadius, m_DamageDuration);
             }
         }
     }
@@ -162,7 +161,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         {
             return;
         }
-        
     }
 
     private void OnHealthChanged(float deltaHealth)
