@@ -27,6 +27,11 @@ public class AnimationCallbacks : MonoBehaviour
 
     }
 
+    public void DashForward(float distance)
+    {
+        StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
+    }
+
     public void SetWeaponActive()
     {
         if (m_PlayerStance != null)
@@ -38,9 +43,9 @@ public class AnimationCallbacks : MonoBehaviour
         if (!m_Animator)
             return;
 
-        if (!m_Animator.GetCurrentAnimatorStateInfo(4).IsTag("ApplyRootMotion"))
-            return;
+        //if (!m_Animator.GetCurrentAnimatorStateInfo(4).IsTag("ApplyRootMotion"))
+        //    return;
 
-        m_PlayerMovement.RootMotionMoveTo(m_Animator.rootPosition, m_Animator.rootRotation);
+       // m_PlayerMovement.RootMotionMoveTo(m_Animator.rootPosition, m_Animator.rootRotation);
     }
 }
