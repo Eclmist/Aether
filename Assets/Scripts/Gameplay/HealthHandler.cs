@@ -38,6 +38,12 @@ public class HealthHandler : MonoBehaviour
         return m_DamagedInCurrentFrame;
     }
 
+    public void Revive() 
+    {
+        m_Health = MAX_HEALTH;
+        m_IsDead = false;
+    }
+
     private IEnumerator SetDamaged()
     {
         m_DamagedInCurrentFrame = true;
