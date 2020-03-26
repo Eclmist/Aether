@@ -9,7 +9,7 @@ using BeardedManStudios.Forge.Networking.Generated;
  * when a specific ItemSkill is called
  */
 
-public class Skills : SkillsBehavior
+public class SwordSlash : SwordSlashBehavior
 {
     [SerializeField]
     private DamageDealerBase m_DamageDealerBase;
@@ -18,6 +18,12 @@ public class Skills : SkillsBehavior
     {
         base.NetworkStart();
 
-        m_DamageDealerBase.Activate(networkObject, null);
+        m_DamageDealerBase.Activate(networkObject, OnDamageDealt);
+    }
+
+    private void OnDamageDealt()
+    {
+        // E4 HACK
+        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
     }
 }

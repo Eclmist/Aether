@@ -4,6 +4,9 @@ using BeardedManStudios.Forge.Networking;
 
 public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 {
+    // event keyword omitted to allow subclass to call
+    public System.Action PlayDamageSound;
+
     protected NetworkObject m_NetworkObject;
 
     [SerializeField]
@@ -13,10 +16,11 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 
     private bool m_IsActivated = false;
 
-    public void Activate(NetworkObject networkObject)
+    public void Activate(NetworkObject networkObject, System.Action soundCallback)
     {
         m_NetworkObject = networkObject;
         StartCoroutine(StartupDamageDealer());
+        PlayDamageSound += soundCallback;
     }
 
     public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
@@ -65,5 +69,6 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
         m_IsActivated = true;
         yield return new WaitForSeconds(m_Duration);
         m_IsActivated = false;
+        Destroy(gameObject);
     }
 }

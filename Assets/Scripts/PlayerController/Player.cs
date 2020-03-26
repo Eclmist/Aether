@@ -35,7 +35,7 @@ public class Player : PlayerBehavior, ICanInteract
 
     private void Start()
     {
-        AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
+        //AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
     }
 
     protected override void NetworkStart()
@@ -101,31 +101,31 @@ public class Player : PlayerBehavior, ICanInteract
 
     // Toggles between stealth and reveal modes upon pressing stealth button.
     // Only the local player should be able to activate this.
-    private void StealthInputCallback(InputAction.CallbackContext ctx)
-    {
-        // Ensure that only local player can call this
-        if (networkObject == null || !networkObject.IsOwner)
-            return;
+    //private void StealthInputCallback(InputAction.CallbackContext ctx)
+    //{
+    //    // Ensure that only local player can call this
+    //    if (networkObject == null || !networkObject.IsOwner)
+    //        return;
 
-        ButtonControl button = ctx.control as ButtonControl;
-        if (!button.wasPressedThisFrame)
-            return;
+    //    ButtonControl button = ctx.control as ButtonControl;
+    //    if (!button.wasPressedThisFrame)
+    //        return;
 
 
-        m_IsStealthy = !m_IsStealthy;
-        if (m_IsStealthy)
-        {
-            Debug.Log("Now in Stealth");
-            m_RevealActor.enabled = false;
-            m_StealthActor.enabled = true;
-        }
-        else
-        {
-            Debug.Log("Now revealing");
-            m_RevealActor.enabled = true;
-            m_StealthActor.enabled = false;
-        }
-    }
+    //    m_IsStealthy = !m_IsStealthy;
+    //    if (m_IsStealthy)
+    //    {
+    //        Debug.Log("Now in Stealth");
+    //        m_RevealActor.enabled = false;
+    //        m_StealthActor.enabled = true;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Now revealing");
+    //        m_RevealActor.enabled = true;
+    //        m_StealthActor.enabled = false;
+    //    }
+    //}
 
     private void InteractWith(IInteractable interactable, InteractionType interactionType)
     {
@@ -180,7 +180,6 @@ public class Player : PlayerBehavior, ICanInteract
     public override void TriggerJump(RpcArgs args)
     {
         m_PlayerNetworkHandler?.TriggerJump();
-        Debug.Log("WHO AM I : " + networkObject.IsOwner);
     }
 
     public override void TriggerSkill(RpcArgs args)

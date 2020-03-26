@@ -17,6 +17,7 @@ public class DamageContinuous : DamageDealerBase
                 {
                     healthHandler.Damage(m_DamageAmount);
                     m_TimeLastDamaged = Time.time;
+                    PlayDamageSound?.Invoke();
                 }
                 break;
             default:

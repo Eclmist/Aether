@@ -18,6 +18,7 @@ public class DamageOneShot : DamageDealerBase
                 {
                     m_PreviousInteractors.Add(healthHandler);
                     healthHandler.Damage(m_DamageAmount);
+                    PlayDamageSound?.Invoke();
                 }
                 break;
             default:
