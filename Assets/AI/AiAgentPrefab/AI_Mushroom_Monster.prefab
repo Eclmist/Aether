@@ -660,7 +660,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934064025}
-  m_LocalRotation: {x: 0.084271565, y: -0.14903994, z: 0.0127491625, w: 0.98515123}
+  m_LocalRotation: {x: 0.08377387, y: -0.18342507, z: 0.015690526, w: 0.9793319}
   m_LocalPosition: {x: 0, y: 0, z: 0.173}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_Children:
@@ -755,7 +755,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.507
+  m_Volume: 0.13
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -764,7 +764,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 25
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -855,7 +855,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 237339200706b4a388b5d8865a919cb6, type: 3}
   attack2:
   - {fileID: 8300000, guid: 2ee3cb3b5fe824585a074e77bc838ea7, type: 3}
-  desiredAudioLevel: 0
+  death:
+  - {fileID: 8300000, guid: 1977b52a39b384ab78245c844c79e13f, type: 3}
+  - {fileID: 8300000, guid: 8407004d496a54b3095b25df75d832a0, type: 3}
+  - {fileID: 8300000, guid: 1b053a776144846d1bc5688d21b57236, type: 3}
+  - {fileID: 8300000, guid: 912926ed5a8864582a6b566f4147b7f7, type: 3}
+  folliageLoop: {fileID: 0}
+  gotHit:
+  - {fileID: 8300000, guid: 895f0250d4f0d4feeb7de3c414b099b1, type: 3}
   walkForward:
   - {fileID: 8300000, guid: e7f3c3c6efd7647bf84c6537fa7478cf, type: 3}
   - {fileID: 8300000, guid: d5131316313214016812129351349ed2, type: 3}
@@ -931,7 +938,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
