@@ -8,10 +8,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 {
     [SerializeField] 
     private AiAnimation m_MonsterAnimation;
-
-    [SerializeField] 
-    private GameObject m_DamageOneShot;
-
+    
     [SerializeField] 
     private Transform[] m_AttackSource;
 
