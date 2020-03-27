@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(LocalNetworkTogglables))]
+[RequireComponent(typeof(TowerBase))]
 public class TowerNetwork : MonoBehaviour
 {
-    [SerializeField]
     private TowerBase m_Tower;
+
+    private void Start()
+    {
+        m_Tower = GetComponent<TowerBase>();
+    }
 
     private void Update()
     {

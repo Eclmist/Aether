@@ -2,19 +2,24 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(TowerBase))]
 public class TowerLocal : MonoBehaviour, IInteractable
 {
     [SerializeField]
-    private TowerBase m_Tower;
-
-    [SerializeField]
     private float m_CapturePerPaxPerSecond = 2;
+
+    private TowerBase m_Tower;
 
     private List<Player> m_PlayersInCaptureZone;
 
     private void Awake()
     {
         m_PlayersInCaptureZone = new List<Player>();
+    }
+
+    private void Start()
+    {
+        m_Tower = GetComponent<TowerBase>();
     }
 
     private void Update()

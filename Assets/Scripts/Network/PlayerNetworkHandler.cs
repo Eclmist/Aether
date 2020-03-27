@@ -65,11 +65,7 @@ public class PlayerNetworkHandler : MonoBehaviour
 
             // Send skill state
             if (m_SkillHandler.GetCastInCurrentFrame())
-            {
-                Debug.Log("SENT SENT SENT SENT");
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, m_SkillHandler.GetCurrentActiveSkill());
-            }
-
             else
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, (int)SkillItem.SkillType.NONE);
         }
