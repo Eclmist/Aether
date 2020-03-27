@@ -17,13 +17,18 @@ public class SwordSlash : SwordSlashBehavior
     protected override void NetworkStart()
     {
         base.NetworkStart();
-
-        m_DamageDealerBase.Activate(networkObject, OnDamageDealt);
+        if (m_DamageDealerBase != null)
+        {
+            m_DamageDealerBase.Activate(networkObject, OnDamageDealt);
+        }
+        
     }
 
     private void OnDamageDealt()
     {
         // E4 HACK
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
+
+
     }
 }
