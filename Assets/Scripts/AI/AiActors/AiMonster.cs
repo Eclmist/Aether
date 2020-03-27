@@ -1,4 +1,5 @@
 using System.Collections;
+using BeardedManStudios.Forge.Networking.Unity;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -84,7 +85,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         {
             foreach (var source in m_AttackSource)
             {
-                var damage = Instantiate(m_DamageOneShot, source.position, Quaternion.identity); 
+                var damage = NetworkManager.Instance.InstantiateMonsterAttack(0, source.position);
             }
         }
     }
