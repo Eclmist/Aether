@@ -2896,6 +2896,7 @@ GameObject:
   - component: {fileID: 6086377699144959841}
   - component: {fileID: 964340061740163257}
   - component: {fileID: 3164725599028316473}
+  - component: {fileID: 4524978262277115363}
   m_Layer: 0
   m_Name: Capture Bar
   m_TagString: Untagged
@@ -2995,6 +2996,20 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
   m_EffectDistance: {x: -0.5, y: 0.49}
   m_UseGraphicAlpha: 1
+--- !u!114 &4524978262277115363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4508719502110542982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb2fe4c484fda6409fbf3ec19bf1543, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_redTeamBar: {fileID: 78498223794473397}
+  m_blueTeamBar: {fileID: 1418624672742372334}
 --- !u!1 &4744396237212577413
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,15 +4508,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8795314e8ba52842abc7b032aa35d09, type: 3}
---- !u!1 &7124017157056696480 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5634842196354063243, guid: c8795314e8ba52842abc7b032aa35d09,
-    type: 3}
-  m_PrefabInstance: {fileID: 3237926243541699371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7124017157056696487 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5634842196354063244, guid: c8795314e8ba52842abc7b032aa35d09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3237926243541699371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7124017157056696480 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5634842196354063243, guid: c8795314e8ba52842abc7b032aa35d09,
     type: 3}
   m_PrefabInstance: {fileID: 3237926243541699371}
   m_PrefabAsset: {fileID: 0}
