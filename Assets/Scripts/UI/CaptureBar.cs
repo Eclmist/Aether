@@ -11,15 +11,24 @@ public class CaptureBar : MonoBehaviour
     [SerializeField]
     private Image m_blueTeamBar;
 
+    private CanvasGroup m_CanvasGroup;
+
     private float m_redCaptureAmount;
 
     private float m_blueCaptureAmount;
 
     private const float m_maximumCaptureAmount = 300.0f;
 
-    // Update is called once per frame
+    void Start()
+    {
+        m_CanvasGroup = GetComponent<CanvasGroup>();
+    }
+
     void Update()
     {
+        m_redCaptureAmount = 0.0f;
+        m_blueCaptureAmount = 0.0f;
+
         TowerBase[] towers = GameManager.Instance.GetTowers();
 
         foreach (TowerBase tower in towers)
@@ -33,5 +42,28 @@ public class CaptureBar : MonoBehaviour
 
         m_redTeamBar.fillAmount = (m_redCaptureAmount / m_maximumCaptureAmount);
         m_blueTeamBar.fillAmount = (m_blueCaptureAmount / m_maximumCaptureAmount);
+
+        foreach (TowerBase tower in towers)
+        {
+            if (tower.GetBeingCaptured())
+            {
+                ActivateBar();
+                return;
+            }
+        }
+
+        DeactivateBar();
+    }
+
+    public void ActivateBar()
+    {
+        if (m_CanvasGroup != null)
+            m_CanvasGroup.alpha = 1.0f;
+    }
+
+    public void DeactivateBar()
+    {
+        if (m_CanvasGroup != null)
+            m_CanvasGroup.alpha = 0.2f;
     }
 }

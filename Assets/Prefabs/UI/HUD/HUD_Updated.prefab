@@ -2397,7 +2397,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 25.7}
+  m_SizeDelta: {x: 15, y: 35.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5682196279141750580
 CanvasRenderer:
@@ -2425,7 +2425,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 73c4acccac18d454c941b3af8051099f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9134e8a49e9c3f14cb174d38e086ea51, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2897,6 +2897,7 @@ GameObject:
   - component: {fileID: 964340061740163257}
   - component: {fileID: 3164725599028316473}
   - component: {fileID: 4524978262277115363}
+  - component: {fileID: 6546224070716069411}
   m_Layer: 0
   m_Name: Capture Bar
   m_TagString: Untagged
@@ -3010,6 +3011,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_redTeamBar: {fileID: 78498223794473397}
   m_blueTeamBar: {fileID: 1418624672742372334}
+--- !u!225 &6546224070716069411
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4508719502110542982}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4744396237212577413
 GameObject:
   m_ObjectHideFlags: 0
@@ -4508,15 +4521,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8795314e8ba52842abc7b032aa35d09, type: 3}
---- !u!224 &7124017157056696487 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5634842196354063244, guid: c8795314e8ba52842abc7b032aa35d09,
-    type: 3}
-  m_PrefabInstance: {fileID: 3237926243541699371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7124017157056696480 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5634842196354063243, guid: c8795314e8ba52842abc7b032aa35d09,
+    type: 3}
+  m_PrefabInstance: {fileID: 3237926243541699371}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7124017157056696487 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5634842196354063244, guid: c8795314e8ba52842abc7b032aa35d09,
     type: 3}
   m_PrefabInstance: {fileID: 3237926243541699371}
   m_PrefabAsset: {fileID: 0}
