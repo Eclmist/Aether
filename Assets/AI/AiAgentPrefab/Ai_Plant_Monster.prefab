@@ -246,7 +246,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 1.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -8574,10 +8574,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b680294db1a734fae8bc5e740747fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack1: []
-  attack2: []
-  folliageLoop: {fileID: 0}
-  walkForward: []
+  attack1:
+  - {fileID: 8300000, guid: 1ebbbc8a5b7de4790913fa9dfceee155, type: 3}
+  - {fileID: 8300000, guid: 5e6ac3fc5c2b94ea4b99389ec34bd7cc, type: 3}
+  - {fileID: 8300000, guid: bc8ec4814d01d473786073d2b02f02e0, type: 3}
+  - {fileID: 8300000, guid: 9e81871e8b5da48f485497506431119e, type: 3}
+  attack2:
+  - {fileID: 8300000, guid: bedbe37a039604887bae346c5dca2cdb, type: 3}
+  - {fileID: 8300000, guid: 534a01c4a2d624736aa526bdcb0ed6ea, type: 3}
+  - {fileID: 8300000, guid: 2f0387d0dd7da437c98cf1a87032d7a8, type: 3}
+  - {fileID: 8300000, guid: b946247b223814a999744fafce840acf, type: 3}
+  - {fileID: 8300000, guid: fbbb485f3361f49a985e8927c80524bd, type: 3}
+  death:
+  - {fileID: 8300000, guid: 903bfced9753b48958903125a61e94e7, type: 3}
+  - {fileID: 8300000, guid: 9327bb52d9cf74383965376a00a43564, type: 3}
+  - {fileID: 8300000, guid: e04ec0e1827fa4f319c53b64026a08d4, type: 3}
+  - {fileID: 8300000, guid: 37f3e3c3fa45a4724b68f59fee3c7b68, type: 3}
+  - {fileID: 8300000, guid: 345f8f452338d4ad488d32aba37b6fd2, type: 3}
+  - {fileID: 8300000, guid: 930ab8e85f521405d8d5360cf40a51a8, type: 3}
+  - {fileID: 8300000, guid: 0e2455f2649854da891b28aa3d0d5a17, type: 3}
+  - {fileID: 8300000, guid: 99c64f836b4c5437786c00d47bf277fa, type: 3}
+  - {fileID: 8300000, guid: ee21675b013ee455e879088545f2a24c, type: 3}
+  - {fileID: 8300000, guid: 192a2cd35afe44cd9b03994c6bf3c0fb, type: 3}
+  folliageLoop: {fileID: 8300000, guid: 556f134b5bd174c4da70f0030a5667d6, type: 3}
+  gotHit:
+  - {fileID: 8300000, guid: d5ad74775d6f84f8e9fb4538442a1f23, type: 3}
+  - {fileID: 8300000, guid: cb31ac6c5d8974539abeebf447017255, type: 3}
+  - {fileID: 8300000, guid: 8579bb6197b4443b392a7bdaa3843966, type: 3}
+  - {fileID: 8300000, guid: 66aed22a867e5409eb61a0d9234e5a73, type: 3}
+  - {fileID: 8300000, guid: c2cca5b9ca3fc41e9ac85f687a169d72, type: 3}
+  walkForward:
+  - {fileID: 8300000, guid: 0342df4e42d464841bcb01d162a5bb53, type: 3}
+  - {fileID: 8300000, guid: 6a0d5dc898f57447ebded08f5a29122b, type: 3}
+  - {fileID: 8300000, guid: d2af3d7b89c04481bbea2b911c2afb36, type: 3}
+  - {fileID: 8300000, guid: eaf5525470cc04daf98f4c7ef845da40, type: 3}
+  - {fileID: 8300000, guid: c8abeb0ead0454ba585f53299549d1ea, type: 3}
+  - {fileID: 8300000, guid: fab427ffa19ed487bb026c5497c7f1ca, type: 3}
+  - {fileID: 8300000, guid: 2b8b063900e534ff9a1c3ac55430388d, type: 3}
+  - {fileID: 8300000, guid: c13cc836c6db24de6b663f48a3ee5db2, type: 3}
+  - {fileID: 8300000, guid: 4b81cd00887e745c1857dd949da413bb, type: 3}
+  - {fileID: 8300000, guid: de6faafc15142431fb750474fd9243aa, type: 3}
 --- !u!114 &630678169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8896,7 +8932,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8037042474528051421}
-  m_LocalRotation: {x: 0.084271565, y: -0.14903991, z: 0.012749163, w: 0.98515123}
+  m_LocalRotation: {x: 0.08377387, y: -0.18342507, z: 0.015690526, w: 0.9793319}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0150000015, y: 0.015, z: 0.015000001}
   m_Children:

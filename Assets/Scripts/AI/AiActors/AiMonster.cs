@@ -116,8 +116,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private void OnDeath()
     {
-        float death_anim_time = m_MonsterAnimation.Death();
-        StartCoroutine(DestroyMonster(death_anim_time));
+        float deathAnimTime = m_MonsterAnimation.Death();
+        StartCoroutine(DestroyMonster(deathAnimTime));
         m_StateMachineAnim.SetBool("dead", true);
     }
 
@@ -134,6 +134,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             return;
         }
         Vector3 direction = (m_NearestPlayer.position - transform.position).normalized;
+        direction.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * m_Agent.angularSpeed);
     }
@@ -178,6 +179,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private void OnHealthChanged(float deltaHealth)
     {
+        Debug.Log(deltaHealth);
         if (deltaHealth < 0)
             m_MonsterAnimation.TakenDamage();
     }
