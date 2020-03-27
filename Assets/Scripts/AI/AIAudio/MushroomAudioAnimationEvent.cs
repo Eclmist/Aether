@@ -24,6 +24,9 @@ public class MushroomAudioAnimationEvent : MonsterAudio
             case "Death":
                 Play(GetRandom(death));
                 break;
+            case "GotHit":
+                Play(GetRandom(gotHit));
+                break;
             default:
                 var split = Regex.Split(audio, "[0-9]");
                 switch (split[0])
