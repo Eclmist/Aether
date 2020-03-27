@@ -26,6 +26,11 @@ public class GameManager : Singleton<GameManager>
             m_TeamCaptureCounts.Add(team, 0);
     }
 
+    public TowerBase[] GetTowers() 
+    {
+        return m_Towers;
+    }
+
     private void OnTowerCaptured(TowerBase tower)
     {
         if (!m_GameStarted)

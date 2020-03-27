@@ -10,6 +10,8 @@ public class TowerBase : TowerBehavior
 
     private LocalNetworkTogglables m_LocalNetworkTogglables;
 
+    private bool m_isBeingCaptured;
+
     private float m_CaptureGauge = 0;
     private bool m_IsCaptured = false;
 
@@ -28,6 +30,16 @@ public class TowerBase : TowerBehavior
     public float GetCaptureGauge()
     {
         return m_CaptureGauge;
+    }
+
+    public void SetCaptureBarFlag(bool flag)
+    {
+        m_isBeingCaptured = flag;
+    }
+
+    public bool GetBeingCaptured()
+    {
+        return m_isBeingCaptured;
     }
 
     public void UpdateCaptureGauge(float captureGauge)
