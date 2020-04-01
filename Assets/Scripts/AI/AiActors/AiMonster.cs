@@ -78,7 +78,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     
     private void DamageEntities()
     {
-        if (m_AttackSource != null && m_DamageOneShot != null)
+        if (m_AttackSource != null)
         {
             foreach (var source in m_AttackSource)
             {
