@@ -22,7 +22,7 @@ public class SpellSkillItem : SkillItem
         Vector3 playerForward = playerTransform.forward.normalized;
 
         // Shift spell to instantiate in front of player and at player's chest area
-        Vector3 spellOffset = playerForward * 3f + m_HeightOffset;
+        Vector3 spellOffset = playerForward * 2f + m_HeightOffset;
         startSpawnPosition += spellOffset;
 
         NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
