@@ -26,6 +26,16 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
         PlayDamageSound += soundCallback;
     }
 
+    public void SetDamageAmount(float damage)
+    {
+        m_DamageAmount = damage;
+    }
+
+    public void SetDuration(float duration)
+    {
+        m_Duration = duration;
+    }
+
     private bool CheckIfMonster(NetworkObject networkObject)
     {
         return networkObject is MonsterAttackNetworkObject;

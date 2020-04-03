@@ -82,7 +82,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         {
             foreach (var source in m_AttackSource)
             {
-                var damage = (MonsterAttack) NetworkManager.Instance.InstantiateMonsterAttack(0, source.position);
+                MonsterAttack damage = (MonsterAttack) NetworkManager.Instance.InstantiateMonsterAttack(0, source.position);
+                damage.OverrideDamageAndRadius(m_DamageAmount, m_DamageRadius, m_DamageDuration);
             }
         }
     }

@@ -12,4 +12,14 @@ public class MonsterAttack : MonsterAttackBehavior
         base.NetworkStart();
         m_DamageDealerBase.Activate(networkObject, null);
     }
+
+    public void OverrideDamageAndRadius(float damage, float radius, float duration)
+    {
+        m_DamageDealerBase.SetDuration(duration);
+        m_DamageDealerBase.SetDamageAmount(damage);
+        SphereCollider collider = m_DamageDealerBase.GetComponent<SphereCollider>();
+        if (collider != null)
+            collider.radius = radius;
+    }
+    
 }
