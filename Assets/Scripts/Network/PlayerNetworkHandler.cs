@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
@@ -121,7 +120,30 @@ public class PlayerNetworkHandler : MonoBehaviour
     private IEnumerator ReviveSequence()
     {
         m_PlayerMovement.ToggleDead();
-        yield return new WaitForSeconds(1.0f);
+
+        if (m_PlayerNetworkObject == null)
+            yield break;
+
+        // Set up new position
+        Player player = GetComponent<Player>();
+        PlayerNetworkManager pnm = PlayerManager.Instance.GetPlayerNetworkManager();
+        PlayerDetails details = player.GetPlayerDetails();
+        Transform spawnPos = pnm.GetSpawnPosition(details.GetTeam(), details.GetPosition());
+        CharacterController cc = GetComponent<CharacterController>();
+
+        cc.enabled = false;
+        transform.position = spawnPos.position;
+        transform.rotation = spawnPos.rotation;
+
+        m_PlayerNetworkObject.positionInterpolation.Enabled = false;
+        m_PlayerNetworkObject.positionChanged += player.WarpToFirstPosition;
+
+        // Re-enable controller
+        yield return new WaitForEndOfFrame();
+        cc.enabled = true;
+
+        // Respawn cooldown
+        yield return new WaitForSeconds(10.0f);
         m_HealthHandler.Revive();
         m_PlayerMovement.ToggleDead();
     }
