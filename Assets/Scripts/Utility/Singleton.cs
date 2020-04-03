@@ -61,12 +61,15 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
+            if (m_ShuttingDown)
+                return false;
+
             if( m_Instance == null )
             {
                 m_Instance = (T)FindObjectOfType( typeof( T ) );
             }
 
-            return m_Instance == null ? false : true;
+            return m_Instance != null;
         }
     }
 
