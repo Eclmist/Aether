@@ -18,9 +18,11 @@ public class LobbySystem : LobbySystemBehavior
 
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
-    void Awake()
+    private void Awake()
     {
         m_LobbyPlayers = new Dictionary<NetworkingPlayer, LobbyPlayer>();
+        if (NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.InstantiateAether();
     }
 
     protected override void NetworkStart()

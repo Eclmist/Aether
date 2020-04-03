@@ -26,13 +26,17 @@ public class AetherNetworkManager : AetherBehavior
     // Scene loading
     private HashSet<NetworkingPlayer> m_PlayersLoadedNextScene;
 
-    // Singleton-pattern
-    private static bool m_ShuttingDown = false;
-    private static object m_Lock = new object();
+    // Singleton instance
     private static AetherNetworkManager m_Instance;
 
     private void Awake()
     {
+        // Ensure only one of this class exists, and persistent
+        if (m_Instance != null)
+            Destroy(m_Instance);
+        m_Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         m_PlayerDetails = new Dictionary<NetworkingPlayer, PlayerDetails>();
         m_PlayersLoadedNextScene = new HashSet<NetworkingPlayer>();
     }
@@ -62,6 +66,12 @@ public class AetherNetworkManager : AetherBehavior
 
     private IEnumerator LoadNextScene(int sceneId)
     {
+        while (networkObject == null)
+        {
+            Debug.Log("Network not ready");
+            yield return null;
+        }
+
         FadeOut();
         // Load loading scene
         yield return SceneManager.LoadSceneAsync(LOADING_SCENE_INDEX);
@@ -105,12 +115,12 @@ public class AetherNetworkManager : AetherBehavior
 
     private void FadeOut()
     {
-        networkObject.SendRpc(RPC_TRIGGER_FADE_OUT, Receivers.All);
+        networkObject?.SendRpc(RPC_TRIGGER_FADE_OUT, Receivers.All);
     }
 
     private void FadeIn()
     {
-        networkObject.SendRpc(RPC_TRIGGER_FADE_IN, Receivers.All);
+        networkObject?.SendRpc(RPC_TRIGGER_FADE_IN, Receivers.All);
     }
 
     private void OnDestroy()
@@ -147,50 +157,12 @@ public class AetherNetworkManager : AetherBehavior
     {
         get
         {
-            if (m_ShuttingDown)
-            {
-                Debug.LogWarning("[Singleton] Instance 'AetherNetworkManager' already destroyed. Returning null.");
-                return null;
-            }
-
-            lock (m_Lock)
-            {
-                if (m_Instance == null)
-                {
-                    // Search for existing instance.
-                    m_Instance = FindObjectOfType<AetherNetworkManager>();
-
-                    // Create new instance if one doesn't already exist.
-                    if (m_Instance == null)
-                    {
-                        // Need to create a new GameObject to attach the singleton to.
-                        var singletonObject = new GameObject();
-                        m_Instance = singletonObject.AddComponent<AetherNetworkManager>();
-                        singletonObject.name = "AetherNetworkManager (Singleton)";
-
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
-                    }
-                }
-
-                return m_Instance;
-            }
-        }
-    }
-
-    public static bool HasInstance
-    {
-        get
-        {
-            if (m_Instance == null)
-                m_Instance = FindObjectOfType<AetherNetworkManager>();
-
-            return m_Instance != null;
+            return m_Instance;
         }
     }
 
     private void OnApplicationQuit()
     {
-        m_ShuttingDown = true;
+        m_Instance = null;
     }
 }
