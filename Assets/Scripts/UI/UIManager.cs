@@ -20,7 +20,6 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.GameStarted += OnGameStarted;
     }
 
-
     private void Update()
     {
         // E4 hack
@@ -95,5 +94,21 @@ public class UIManager : Singleton<UIManager>
     {
         if (GameManager.HasInstance)
             GameManager.Instance.GameStarted -= OnGameStarted;
+    }
+
+    public void HideAllHUD()
+    {
+        // TODO: ROBY PLEASE FIX. DON'T USE FIND.
+        GameObject gameHUD = GameObject.Find("HUD_Updated");
+        if (gameHUD != null)
+        {
+            gameHUD.SetActive(false);
+        }
+    }
+
+    public void ShowWinningMessage(Team team)
+    {
+        HideAllHUD();
+        // Show winning message
     }
 }

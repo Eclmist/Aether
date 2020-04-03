@@ -69,12 +69,11 @@ public class GameManager : Singleton<GameManager>
 
     public void SetGameOver(Team team)
     {
-        Debug.Log("Team " + (int)team + " wins");
-
         // Calls UIManager
         // Provides game stats to UIManager to show game over stats
         // for maybe 10 seconds (can be skipped if host presses a button?)
         // then return to lobby
+        UIManager.Instance.ShowWinningMessage(team);
     }
 
     private void OnDestroy()
