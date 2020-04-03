@@ -93,7 +93,7 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDestroy()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.HasInstance)
             GameManager.Instance.GameStarted -= OnGameStarted;
     }
 }
