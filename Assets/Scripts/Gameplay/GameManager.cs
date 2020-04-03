@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
@@ -83,7 +84,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnDestroy()
     {
-        if (PlayerManager.Instance != null)
+        if (PlayerManager.HasInstance)
         {
             PlayerNetworkManager playerNetworkManager = PlayerManager.Instance.GetPlayerNetworkManager();
             if (playerNetworkManager != null)

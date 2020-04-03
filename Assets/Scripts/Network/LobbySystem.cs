@@ -64,6 +64,12 @@ public class LobbySystem : LobbySystemBehavior
         return balance == 0;
     }
 
+    ////////////////////
+    ///
+    /// HOST-ONLY CODE
+    ///
+    ////////////////////
+    
     public void OnStart()
     {
         if (!NetworkManager.Instance.IsServer)
@@ -87,7 +93,7 @@ public class LobbySystem : LobbySystemBehavior
             AetherNetworkManager.Instance.AddPlayer(np, details);
         }
 
-        AetherNetworkManager.Instance.LoadGame(3);
+        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.KOTH_SCENE_INDEX);
     }
 
     private void SetupPlayer(NetworkingPlayer np)
