@@ -69,17 +69,7 @@ public class GameManager : Singleton<GameManager>
 
     public void SetGameOver(Team team)
     {
-        int winningTeam = (int)team;
-        if (winningTeam == 0)
-        {
-            UIManager.uiManager.ShowWinningMessageTeamA();
-        } else if (winningTeam == 1)
-        {
-            UIManager.uiManager.ShowWinningMessageTeamB();
-        } else
-        {
-            Debug.Log("Unreachable");
-        }
+        UIManager.Instance.ShowWinningMessage(team);
     }
 
     private void OnDestroy()
