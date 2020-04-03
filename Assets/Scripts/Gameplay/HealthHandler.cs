@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class HealthHandler : MonoBehaviour
 {
-    public float m_MaxHealth = 100f;
-
     public event System.Action<float> HealthChanged;
     public event System.Action HealthDepleted;
+
+    [SerializeField]
+    private float m_MaxHealth = 100f;
 
     [SerializeField]
     private float m_Health;
@@ -23,6 +24,11 @@ public class HealthHandler : MonoBehaviour
     public float GetHealth()
     {
         return m_Health;
+    }
+
+    public float GetMaxHealth()
+    {
+        return m_MaxHealth;
     }
 
     public float GetPercentageHealth()
@@ -48,15 +54,15 @@ public class HealthHandler : MonoBehaviour
         }
     }
 
-    public bool DamagedInCurrentFrame()
-    {
-        return m_DamagedInCurrentFrame;
-    }
-
-    public void Revive() 
+    public void Revive()
     {
         m_Health = m_MaxHealth;
         m_IsDead = false;
+    }
+
+    public bool DamagedInCurrentFrame()
+    {
+        return m_DamagedInCurrentFrame;
     }
 
     private IEnumerator SetDamaged()
