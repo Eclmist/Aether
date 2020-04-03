@@ -102,12 +102,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void ToggleDead() 
     {
-        m_IsDead = !(m_IsDead);
+        m_IsDead = !m_IsDead;
     }
 
     public void ToggleDamaged() 
     {
-        m_IsDamaged = !(m_IsDamaged);
+        m_IsDamaged = !m_IsDamaged;
     }
 
     public bool IsDead()
