@@ -58,6 +58,7 @@ public class HealthHandler : MonoBehaviour
     {
         m_Health = m_MaxHealth;
         m_IsDead = false;
+        HealthChanged?.Invoke(m_Health);
     }
 
     public bool DamagedInCurrentFrame()
