@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+
+    // Hacks pls help me fix lol, i need to call UIManager from another class (Game manager)
+    public static UIManager uiManager;
+
     [SerializeField]
     private Animator m_NotificationAnimator;
     [SerializeField]
@@ -14,10 +18,15 @@ public class UIManager : Singleton<UIManager>
     private UISkillsHandler m_UISkillsHandler;
     [SerializeField]
     private UIHealthBarHandler m_UIHealthBarHandler;
+    [SerializeField]
+    private GameObject m_WinningMessageTeamA;
+    [SerializeField]
+    private GameObject m_WinningMessageTeamB;
 
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
+        uiManager = this;
     }
 
 
@@ -95,5 +104,26 @@ public class UIManager : Singleton<UIManager>
     {
         if (GameManager.Instance != null)
             GameManager.Instance.GameStarted -= OnGameStarted;
+    }
+
+    public void HideAllHUD()
+    {
+        GameObject gameHUD = GameObject.Find("HUD_Updated");
+        if (gameHUD != null)
+        {
+            gameHUD.SetActive(false);
+        }
+    }
+
+    public void ShowWinningMessageTeamA()
+    {
+        HideAllHUD();
+        m_WinningMessageTeamA.SetActive(true);
+    }
+
+    public void ShowWinningMessageTeamB()
+    {
+        HideAllHUD();
+        m_WinningMessageTeamB.SetActive(true);
     }
 }
