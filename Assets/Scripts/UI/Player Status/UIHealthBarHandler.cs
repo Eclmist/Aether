@@ -22,8 +22,11 @@ public class UIHealthBarHandler : MonoBehaviour
 
     private void Start()
     {
-        m_HealthBar.fillAmount = 1.0f;
-        m_HealthText.text = (int)m_PlayerHealth.GetHealth() + " / " + (int)m_PlayerHealth.GetMaxHealth();
+        if (m_HealthBar != null)
+            m_HealthBar.fillAmount = 1.0f;
+            
+        if (m_HealthText != null)
+            m_HealthText.text = (int)m_PlayerHealth.GetHealth() + " / " + (int)m_PlayerHealth.GetMaxHealth();
     }
 
     private void Update()
