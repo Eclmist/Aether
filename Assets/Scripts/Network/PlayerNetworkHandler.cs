@@ -145,6 +145,7 @@ public class PlayerNetworkHandler : MonoBehaviour
         // Respawn cooldown
         yield return new WaitForSeconds(10.0f);
         m_HealthHandler.Revive();
+        m_PlayerAnimation.TriggerRevive();
         m_PlayerMovement.ToggleDead();
     }
 

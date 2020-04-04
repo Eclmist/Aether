@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerStance))]
@@ -105,6 +106,18 @@ public class PlayerAnimation : MonoBehaviour
                 return true;
 
         return false;
+    }
+
+    public void TriggerRevive() 
+    {
+        StartCoroutine(AnimateRevive());
+    }
+
+    private IEnumerator AnimateRevive() 
+    {
+        m_Animator.SetTrigger("Revive");
+        yield return new WaitForSeconds(2.5f);
+        m_Animator.ResetTrigger("Revive");
     }
 
     private void HandleSkillAnimations()
