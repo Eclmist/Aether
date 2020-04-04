@@ -67,6 +67,15 @@ public class PlayerAnimation : MonoBehaviour
         if (m_PlayerCombatHandler == null)
             return;
 
+        if (m_PlayerMovement.IsDead()) 
+        {
+            m_Animator.SetTrigger("Die");
+            return;
+        } 
+        else {
+            m_Animator.ResetTrigger("Die");
+        }
+
         if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
         {
             m_Animator.SetTrigger("Attack");
@@ -87,7 +96,7 @@ public class PlayerAnimation : MonoBehaviour
 
         m_Animator.SetBool("Block", m_PlayerCombatHandler.IsBlocking());
     }
-
+    
     public bool IsPlayingAttackAnimation()
     {
         // TODO: Find a more elegant way to do this (animation callbacks?)
