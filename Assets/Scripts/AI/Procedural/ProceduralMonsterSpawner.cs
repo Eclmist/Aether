@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 {
     [System.Serializable]
@@ -18,6 +21,33 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
     [SerializeField] private MonsterMat[] m_wormMonsterMaterials;
     [Range(0.0f, 1.0f)]
     [SerializeField] private float m_mutationChance = 0.3f;
+
+    private LinkedList<ProceduralMonster> m_MonstersSpawned;
+    [SerializeField] 
+    private bool ChangeAllMonsters = false;
+
+    private void Awake()
+    {
+        m_MonstersSpawned = new LinkedList<ProceduralMonster>();
+    }
+
+    public void AddSpawnedMonster(ProceduralMonster monster)
+    {
+        m_MonstersSpawned.AddFirst(monster);
+    }
+
+    void OnValidate()
+    {
+        if (ChangeAllMonsters)
+        {
+            foreach (ProceduralMonster monster in m_MonstersSpawned)
+            {
+                monster.ChangeType = true;
+            }
+        }
+
+        ChangeAllMonsters = false;
+    }
 
     public void SpawnMonsterAtLocation(Vector3 destination, int monsterIndex)
     {
