@@ -61,6 +61,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         }
         var monsterPrefab = m_monster_prefabs[monsterIndex];
         var monster = Instantiate(monsterPrefab);
+        monster.transform.parent = gameObject.transform;
         var mats = GetMaterials(monsterPrefab);
 
         monster.transform.position = destination;
