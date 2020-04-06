@@ -22,13 +22,12 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
     [Range(0.0f, 1.0f)]
     [SerializeField] private float m_mutationChance = 0.3f;
 
-    private LinkedList<ProceduralMonster> m_MonstersSpawned;
+    private LinkedList<ProceduralMonster> m_MonstersSpawned = new LinkedList<ProceduralMonster>();
     [SerializeField] 
-    private bool ChangeAllMonsters = false;
+    private bool m_ChangeAllMonsters = false;
 
     private void Awake()
     {
-        m_MonstersSpawned = new LinkedList<ProceduralMonster>();
     }
 
     public void AddSpawnedMonster(ProceduralMonster monster)
@@ -36,9 +35,14 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         m_MonstersSpawned.AddFirst(monster);
     }
 
+    public void RemoveSpawnedMonster(ProceduralMonster monster)
+    {
+        m_MonstersSpawned.Remove(monster);
+    }
+
     void OnValidate()
     {
-        if (ChangeAllMonsters)
+        if (m_ChangeAllMonsters)
         {
             foreach (ProceduralMonster monster in m_MonstersSpawned)
             {
@@ -46,7 +50,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
             }
         }
 
-        ChangeAllMonsters = false;
+        m_ChangeAllMonsters = false;
     }
 
     public void SpawnMonsterAtLocation(Vector3 destination, int monsterIndex)

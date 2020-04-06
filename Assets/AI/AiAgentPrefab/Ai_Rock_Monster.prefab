@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7073232743134907860}
   - component: {fileID: 1512153434069106058}
   - component: {fileID: 976267581945267424}
+  - component: {fileID: 337369461250356680}
   m_Layer: 0
   m_Name: Ai_Rock_Monster
   m_TagString: Untagged
@@ -156,6 +157,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 2000
   m_Health: 2000
+--- !u!114 &337369461250356680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250916845321079293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e7133b35a5df24c86b8ad1c45d29e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!1 &2465706374984007688
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +234,7 @@ MonoBehaviour:
   m_DeltaMultiplier: 0.05
   m_CriticalValue: 0.2
   m_HealthBar: {fileID: 7471902850733368631}
+  m_HealthText: {fileID: 0}
   m_Animator: {fileID: 4561005128044046447}
 --- !u!95 &4561005128044046447
 Animator:
