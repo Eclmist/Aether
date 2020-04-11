@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
 [RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
 [RequireComponent(typeof(StealthActor))]
+[RequireComponent(typeof(PlayerNetworkHandler))]
 public class Player : PlayerBehavior, ICanInteract
 {
     public event System.Action PlayerDead;
@@ -140,7 +139,7 @@ public class Player : PlayerBehavior, ICanInteract
     ////////////////////
 
     // Workaround for player sliding into position when instantiated.
-    private void WarpToFirstPosition(Vector3 field, ulong timestep)
+    public void WarpToFirstPosition(Vector3 field, ulong timestep)
     {
         networkObject.positionChanged -= WarpToFirstPosition;
         networkObject.positionInterpolation.Enabled = true;
@@ -168,23 +167,23 @@ public class Player : PlayerBehavior, ICanInteract
 
     public override void TriggerDeath(RpcArgs args)
     {
-        m_PlayerNetworkHandler?.TriggerDeath();
+        m_PlayerNetworkHandler.TriggerDeath();
         PlayerDead?.Invoke();
     }
 
     public override void TriggerDamaged(RpcArgs args)
     {
-        m_PlayerNetworkHandler?.TriggerDamaged();
+        m_PlayerNetworkHandler.TriggerDamaged();
     }
 
     public override void TriggerJump(RpcArgs args)
     {
-        m_PlayerNetworkHandler?.TriggerJump();
+        m_PlayerNetworkHandler.TriggerJump();
     }
 
     public override void TriggerSkill(RpcArgs args)
     {
         m_CurrentActiveSkill = args.GetNext<int>();
-        m_PlayerNetworkHandler?.TriggerSkills(m_CurrentActiveSkill);
+        m_PlayerNetworkHandler.TriggerSkills(m_CurrentActiveSkill);
     }
 }
