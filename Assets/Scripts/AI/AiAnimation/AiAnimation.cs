@@ -13,7 +13,7 @@ public abstract class AiAnimation : MonoBehaviour
         m_Animator = gameObject.GetComponent<Animator>();
     }
 
-    public abstract void ReactToPlayer();
+    public abstract float ReactToPlayer();
     
     public abstract void GoInactive();
     public abstract void Move(bool toMove);

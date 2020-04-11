@@ -63,15 +63,22 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             float attack = m_MonsterAnimation.RandomizeAttack();
             
             //logic for damaging the player here
-            DamageEntities();
-            
+
+            StartCoroutine(DealDamage(attack));
             StartCoroutine(SetCanAttack(attack));
             m_CanAttack = false;
+        }
+        
+        IEnumerator DealDamage(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            DamageEntities();
         }
 
         IEnumerator SetCanAttack(float delay)
         {
-            yield return new WaitForSeconds(attackInterval + delay); //Divide by 2 for now
+            yield return new WaitForSeconds(delay + attackInterval);
+            //Divide by 2 for now
             m_CanAttack = true;
         }
     }
@@ -118,6 +125,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         float deathAnimTime = m_MonsterAnimation.Death();
         StartCoroutine(DestroyMonster(deathAnimTime));
         m_StateMachineAnim.SetBool("dead", true);
+        enabled = false;
     }
 
     IEnumerator DestroyMonster(float delay)
@@ -149,7 +157,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     {
         if (toMove)
         {
-            
             m_MonsterAnimation.Move(true);
         }
         else
