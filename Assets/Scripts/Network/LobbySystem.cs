@@ -18,9 +18,11 @@ public class LobbySystem : LobbySystemBehavior
 
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
-    void Awake()
+    private void Awake()
     {
         m_LobbyPlayers = new Dictionary<NetworkingPlayer, LobbyPlayer>();
+        if (NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.InstantiateAether();
     }
 
     protected override void NetworkStart()
@@ -64,6 +66,12 @@ public class LobbySystem : LobbySystemBehavior
         return balance == 0;
     }
 
+    ////////////////////
+    ///
+    /// HOST-ONLY CODE
+    ///
+    ////////////////////
+    
     public void OnStart()
     {
         if (!NetworkManager.Instance.IsServer)
@@ -87,7 +95,7 @@ public class LobbySystem : LobbySystemBehavior
             AetherNetworkManager.Instance.AddPlayer(np, details);
         }
 
-        AetherNetworkManager.Instance.LoadGame(3);
+        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.KOTH_SCENE_INDEX);
     }
 
     private void SetupPlayer(NetworkingPlayer np)

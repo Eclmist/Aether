@@ -38,7 +38,7 @@ public class CinemachineTargetting : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (PlayerManager.Instance != null)
+        if (PlayerManager.HasInstance)
         {
             Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
             if (localPlayer != null)

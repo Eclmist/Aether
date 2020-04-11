@@ -22,6 +22,20 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }
 
+    public Transform GetSpawnPosition(Team team, int index)
+    {
+        switch (team)
+        {
+            case Team.TEAM_ONE:
+                return m_SpawnPositionsRed[index];
+            case Team.TEAM_TWO:
+                return m_SpawnPositionsBlue[index];
+            default:
+                Debug.Assert(false, "Should not be reached unless a team was unhandled. PlayerNetworkManager.GetSpawnPosition");
+                return null;
+        }
+    }
+
     private void OnClientReady()
     {
         // Run on main thread to lock data and send rpc

@@ -809,7 +809,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3c078df4-6f1b-48c4-b9b9-aa889da73e86"",
-                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -820,7 +820,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
-                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -985,7 +985,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""81c029a1-6b22-4a8a-bbed-e67cc6623a77"",
-                    ""path"": ""<DualShockGamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -1007,7 +1007,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f75b6394-4dc2-469a-ad6a-475070b62ac8"",
-                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
