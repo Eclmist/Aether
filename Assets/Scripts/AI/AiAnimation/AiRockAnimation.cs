@@ -28,9 +28,10 @@ public class AiRockAnimation : AiAnimation
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
     }
 
-    public override void ReactToPlayer()
+    public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.rubbleToIdle.ToString());
+        return (float) AnimMovesParam.rubbleToIdle;
     }
 
     public override void GoInactive()

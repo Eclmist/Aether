@@ -55,6 +55,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new MonsterAttackNetworkObject(networker, id, frame);
 						break;
+					case MonsterObjectNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new MonsterObjectNetworkObject(networker, id, frame);
+						break;
 					case NetworkCameraNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new NetworkCameraNetworkObject(networker, id, frame);

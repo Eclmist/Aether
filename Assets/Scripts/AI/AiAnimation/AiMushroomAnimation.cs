@@ -14,7 +14,7 @@ public class AiMushroomAnimation : AiAnimation
         death = 3,
         gotHit,
         goMonster,
-        goStatue,
+        goStatue = 2,
     }
 
     public override float Death()
@@ -28,15 +28,15 @@ public class AiMushroomAnimation : AiAnimation
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
     }
 
-    public override void ReactToPlayer()
+    public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.goStatue.ToString());
+        return (float) AnimMovesParam.goStatue;
     }
 
     public override void GoInactive()
     {
         m_Animator.SetTrigger(AnimMovesParam.goMonster.ToString());
-
     }
 
     public override void Move(bool toMove)
