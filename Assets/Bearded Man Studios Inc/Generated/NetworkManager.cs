@@ -18,10 +18,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		public GameObject[] LobbyPlayerNetworkObject = null;
 		public GameObject[] LobbySystemNetworkObject = null;
 		public GameObject[] MonsterAttackNetworkObject = null;
-<<<<<<< HEAD
 		public GameObject[] MonsterObjectNetworkObject = null;
-=======
->>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 		public GameObject[] NetworkCameraNetworkObject = null;
 		public GameObject[] PlayerNetworkManagerNetworkObject = null;
 		public GameObject[] PlayerNetworkObject = null;
@@ -238,7 +235,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						objectInitialized(newObj, obj);
 				});
 			}
-<<<<<<< HEAD
 			else if (obj is MonsterObjectNetworkObject)
 			{
 				MainThreadManager.Run(() =>
@@ -263,8 +259,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						objectInitialized(newObj, obj);
 				});
 			}
-=======
->>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 			else if (obj is NetworkCameraNetworkObject)
 			{
 				MainThreadManager.Run(() =>
@@ -860,7 +854,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			return netBehavior;
 		}
 		/// <summary>
-<<<<<<< HEAD
 		/// Instantiate an instance of MonsterObject
 		/// </summary>
 		/// <returns>
@@ -913,8 +906,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			return netBehavior;
 		}
 		/// <summary>
-=======
->>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 		/// Instantiate an instance of NetworkCamera
 		/// </summary>
 		/// <returns>

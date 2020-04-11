@@ -8,11 +8,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[]")]
 	public partial class AetherNetworkObject : NetworkObject
 	{
-<<<<<<< HEAD
 		public const int IDENTITY = 1;
-=======
-		public const int IDENTITY = 16;
->>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 
 		private byte[] _dirtyFields = new byte[0];
 
