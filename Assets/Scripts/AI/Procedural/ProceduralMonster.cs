@@ -11,7 +11,7 @@ public class ProceduralMonster : MonoBehaviour
     [SerializeField]
     private int type = 0;
 
-    private void Awake()
+    private void Start()
     {
         if (ProceduralMonsterSpawner.HasInstance)
         {

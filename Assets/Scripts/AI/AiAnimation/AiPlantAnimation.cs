@@ -24,9 +24,10 @@ public class AiPlantAnimation : AiAnimation
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
     }
     
-    public override void ReactToPlayer()
+    public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.goAlive.ToString());
+        return (float) AnimMovesParam.goAlive;
     }
 
     public override void GoInactive()
