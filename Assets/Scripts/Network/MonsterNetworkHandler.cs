@@ -3,10 +3,8 @@ using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
-[RequireComponent(typeof(MonsterObjectNetworkObject))]
 public class MonsterNetworkHandler : MonsterObjectBehavior
 {
-    
     private void Update()
     {
         if (networkObject == null)
