@@ -15,6 +15,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     private bool m_IsReady = false;
 
+    private ulong m_Customization;
+
     public string GetName()
     {
         return m_PlayerName.text;
@@ -28,6 +30,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public bool GetIsReady()
     {
         return m_IsReady;
+    }
+
+    public ulong GetCustomization()
+    {
+        return m_Customization;
     }
 
     public void ToggleReadyStatus()
@@ -71,6 +78,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
     {
         networkObject.SendRpc(player, RPC_SET_NAME, m_PlayerName.text);
         networkObject.SendRpc(player, RPC_SET_TEAM, (int)m_Team);
+    }
+
+    public void SetCustomization(ulong data)
+    {
+        m_Customization = data;
     }
 
     public override void SetName(RpcArgs args)

@@ -16,6 +16,7 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		public GameObject[] ExampleProximityPlayerNetworkObject = null;
 		public GameObject[] LobbyPlayerNetworkObject = null;
 		public GameObject[] LobbySystemNetworkObject = null;
+		public GameObject[] MonsterAttackNetworkObject = null;
 		public GameObject[] NetworkCameraNetworkObject = null;
 		public GameObject[] PlayerNetworkManagerNetworkObject = null;
 		public GameObject[] PlayerNetworkObject = null;
@@ -23,7 +24,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 		public GameObject[] SwordSlashNetworkObject = null;
 		public GameObject[] TestNetworkObject = null;
 		public GameObject[] TowerNetworkObject = null;
-		public GameObject[] MonsterAttackNetworkObject = null;
 
 		protected virtual void SetupObjectCreatedEvent()
 		{
@@ -172,6 +172,30 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(LobbySystemNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<LobbySystemBehavior>();
+							go.SetActive(false);
+						}
+					}
+
+					if (newObj == null)
+						return;
+
+					newObj.Initialize(obj);
+
+					if (objectInitialized != null)
+						objectInitialized(newObj, obj);
+				});
+			}
+			else if (obj is MonsterAttackNetworkObject)
+			{
+				MainThreadManager.Run(() =>
+				{
+					NetworkBehavior newObj = null;
+					if (!NetworkBehavior.skipAttachIds.TryGetValue(obj.NetworkId, out newObj))
+					{
+						if (MonsterAttackNetworkObject.Length > 0 && MonsterAttackNetworkObject[obj.CreateCode] != null)
+						{
+							var go = Instantiate(MonsterAttackNetworkObject[obj.CreateCode]);
+							newObj = go.GetComponent<MonsterAttackBehavior>();
 							go.SetActive(false);
 						}
 					}
@@ -340,30 +364,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 						{
 							var go = Instantiate(TowerNetworkObject[obj.CreateCode]);
 							newObj = go.GetComponent<TowerBehavior>();
-							go.SetActive(false);
-						}
-					}
-
-					if (newObj == null)
-						return;
-
-					newObj.Initialize(obj);
-
-					if (objectInitialized != null)
-						objectInitialized(newObj, obj);
-				});
-			}
-			else if (obj is MonsterAttackNetworkObject)
-			{
-				MainThreadManager.Run(() =>
-				{
-					NetworkBehavior newObj = null;
-					if (!NetworkBehavior.skipAttachIds.TryGetValue(obj.NetworkId, out newObj))
-					{
-						if (MonsterAttackNetworkObject.Length > 0 && MonsterAttackNetworkObject[obj.CreateCode] != null)
-						{
-							var go = Instantiate(MonsterAttackNetworkObject[obj.CreateCode]);
-							newObj = go.GetComponent<MonsterAttackBehavior>();
 							go.SetActive(false);
 						}
 					}
@@ -694,6 +694,58 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			}
 
 			go.GetComponent<LobbySystemBehavior>().networkObject = (LobbySystemNetworkObject)obj;
+
+			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
+
+			return netBehavior;
+		}
+		/// <summary>
+		/// Instantiate an instance of MonsterAttack
+		/// </summary>
+		/// <returns>
+		/// A local instance of MonsterAttackBehavior
+		/// </returns>
+		/// <param name="index">The index of the MonsterAttack prefab in the NetworkManager to Instantiate</param>
+		/// <param name="position">Optional parameter which defines the position of the created GameObject</param>
+		/// <param name="rotation">Optional parameter which defines the rotation of the created GameObject</param>
+		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
+		public MonsterAttackBehavior InstantiateMonsterAttack(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
+		{
+			var go = Instantiate(MonsterAttackNetworkObject[index]);
+			go.SetActive(false);
+			var netBehavior = go.GetComponent<MonsterAttackBehavior>();
+
+			NetworkObject obj = null;
+			if (!sendTransform && position == null && rotation == null)
+				obj = netBehavior.CreateNetworkObject(Networker, index);
+			else
+			{
+				metadata.Clear();
+
+				if (position == null && rotation == null)
+				{
+					byte transformFlags = 0x1 | 0x2;
+					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
+					ObjectMapper.Instance.MapBytes(metadata, go.transform.position, go.transform.rotation);
+				}
+				else
+				{
+					byte transformFlags = 0x0;
+					transformFlags |= (byte)(position != null ? 0x1 : 0x0);
+					transformFlags |= (byte)(rotation != null ? 0x2 : 0x0);
+					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
+
+					if (position != null)
+						ObjectMapper.Instance.MapBytes(metadata, position.Value);
+
+					if (rotation != null)
+						ObjectMapper.Instance.MapBytes(metadata, rotation.Value);
+				}
+
+				obj = netBehavior.CreateNetworkObject(Networker, index, metadata.CompressBytes());
+			}
+
+			go.GetComponent<MonsterAttackBehavior>().networkObject = (MonsterAttackNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
 
@@ -1058,58 +1110,6 @@ namespace BeardedManStudios.Forge.Networking.Unity
 			}
 
 			go.GetComponent<TowerBehavior>().networkObject = (TowerNetworkObject)obj;
-
-			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
-
-			return netBehavior;
-		}
-		/// <summary>
-		/// Instantiate an instance of MonsterAttack
-		/// </summary>
-		/// <returns>
-		/// A local instance of MonsterAttackBehavior
-		/// </returns>
-		/// <param name="index">The index of the MonsterAttack prefab in the NetworkManager to Instantiate</param>
-		/// <param name="position">Optional parameter which defines the position of the created GameObject</param>
-		/// <param name="rotation">Optional parameter which defines the rotation of the created GameObject</param>
-		/// <param name="sendTransform">Optional Parameter to send transform data to other connected clients on Instantiation</param>
-		public MonsterAttackBehavior InstantiateMonsterAttack(int index = 0, Vector3? position = null, Quaternion? rotation = null, bool sendTransform = true)
-		{
-			var go = Instantiate(MonsterAttackNetworkObject[index]);
-			go.SetActive(false);
-			var netBehavior = go.GetComponent<MonsterAttackBehavior>();
-
-			NetworkObject obj = null;
-			if (!sendTransform && position == null && rotation == null)
-				obj = netBehavior.CreateNetworkObject(Networker, index);
-			else
-			{
-				metadata.Clear();
-
-				if (position == null && rotation == null)
-				{
-					byte transformFlags = 0x1 | 0x2;
-					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
-					ObjectMapper.Instance.MapBytes(metadata, go.transform.position, go.transform.rotation);
-				}
-				else
-				{
-					byte transformFlags = 0x0;
-					transformFlags |= (byte)(position != null ? 0x1 : 0x0);
-					transformFlags |= (byte)(rotation != null ? 0x2 : 0x0);
-					ObjectMapper.Instance.MapBytes(metadata, transformFlags);
-
-					if (position != null)
-						ObjectMapper.Instance.MapBytes(metadata, position.Value);
-
-					if (rotation != null)
-						ObjectMapper.Instance.MapBytes(metadata, rotation.Value);
-				}
-
-				obj = netBehavior.CreateNetworkObject(Networker, index, metadata.CompressBytes());
-			}
-
-			go.GetComponent<MonsterAttackBehavior>().networkObject = (MonsterAttackNetworkObject)obj;
 
 			FinalizeInitialization(go, netBehavior, obj, position, rotation, sendTransform);
 

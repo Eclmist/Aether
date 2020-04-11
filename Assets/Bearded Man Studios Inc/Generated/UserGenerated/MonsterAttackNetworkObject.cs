@@ -8,7 +8,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[]")]
 	public partial class MonsterAttackNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 14;
+		public const int IDENTITY = 7;
 
 		private byte[] _dirtyFields = new byte[0];
 

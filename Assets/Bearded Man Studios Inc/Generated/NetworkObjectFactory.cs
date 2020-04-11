@@ -47,6 +47,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 						availableCallback = true;
 						obj = new LobbySystemNetworkObject(networker, id, frame);
 						break;
+					case MonsterAttackNetworkObject.IDENTITY:
+						availableCallback = true;
+						obj = new MonsterAttackNetworkObject(networker, id, frame);
+						break;
 					case NetworkCameraNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new NetworkCameraNetworkObject(networker, id, frame);
@@ -74,10 +78,6 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					case TowerNetworkObject.IDENTITY:
 						availableCallback = true;
 						obj = new TowerNetworkObject(networker, id, frame);
-						break;
-					case MonsterAttackNetworkObject.IDENTITY:
-						availableCallback = true;
-						obj = new MonsterAttackNetworkObject(networker, id, frame);
 						break;
 				}
 

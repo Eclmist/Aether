@@ -16,6 +16,9 @@ public class LobbySystem : LobbySystemBehavior
     [SerializeField]
     private GameObject[] m_Loaders;
 
+    [SerializeField]
+    private CharacterCustomizer m_CharacterCustomizerLocal;
+
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
     void Awake()
@@ -28,7 +31,7 @@ public class LobbySystem : LobbySystemBehavior
         base.NetworkStart();
 
         // This client is accepted and has joined the lobby. (Includes host itself)
-        networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server);
+        networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
     }
 
     private bool CanStart()
@@ -75,14 +78,16 @@ public class LobbySystem : LobbySystemBehavior
         int[] teamList = new int[System.Enum.GetNames(typeof(Team)).Length];
         foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
         {
-            Team team = m_LobbyPlayers[np].GetTeam();
+            LobbyPlayer lp = m_LobbyPlayers[np];
+            Team team = lp.GetTeam();
             int position = teamList[(int)team]++;
 
             PlayerDetails details = new PlayerDetails(
                 np.NetworkId,
                 team,
-                position
-            );
+                position,
+                lp.GetCustomization()
+            ); ;
 
             AetherNetworkManager.Instance.AddPlayer(np, details);
         }
@@ -90,7 +95,7 @@ public class LobbySystem : LobbySystemBehavior
         AetherNetworkManager.Instance.LoadGame(3);
     }
 
-    private void SetupPlayer(NetworkingPlayer np)
+    private void SetupPlayer(NetworkingPlayer np, ulong customization)
     {
         MainThreadManager.Run(() => {
             int playerCount = m_LobbyPlayers.Count;
@@ -99,6 +104,7 @@ public class LobbySystem : LobbySystemBehavior
             Destroy(m_Loaders[playerCount]);
 
             LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation: rotation) as LobbyPlayer;
+            player.SetCustomization(customization);
             // TODO: FIX THIS. ONLY HAPPENS LOCALLY.
             player.transform.SetParent(m_PlayerPositions[playerCount], false);
 
@@ -119,6 +125,11 @@ public class LobbySystem : LobbySystemBehavior
     ///
     ////////////////////
 
+    public void SendCustomizationDataToHost()
+    {
+        networkObject?.SendRpc(RPC_SET_PLAYER_CUSTOMIZATION, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
+    }
+
     // RPC sent to host by any player
     public override void ToggleReady(RpcArgs args)
     {
@@ -138,6 +149,12 @@ public class LobbySystem : LobbySystemBehavior
             p.UpdateDataFor(np);
         }
 
-        SetupPlayer(np);
+        SetupPlayer(np, args.GetNext<ulong>());
+    }
+
+    public override void SetPlayerCustomization(RpcArgs args)
+    {
+        NetworkingPlayer np = args.Info.SendingPlayer;
+        m_LobbyPlayers[np].SetCustomization(args.GetNext<ulong>());
     }
 }

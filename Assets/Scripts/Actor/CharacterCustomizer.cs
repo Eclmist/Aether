@@ -19,8 +19,6 @@ public class CharacterCustomizer : MonoBehaviour
     private int m_CostumeColorIndex = 0;
     private int m_FaceIndex = 0;
     private int m_HairIndex = 0;
-    private int m_HairColorIndex = 0;       // Not supported yet
-    private int m_EyeIndex = 0;             // Not supported yet
     private int m_EyeColorIndex = 0;
 
     private GameObject[] m_AccessoryLibrary;
@@ -60,7 +58,6 @@ public class CharacterCustomizer : MonoBehaviour
         m_FaceIndex = m_FaceIndex >= m_FaceLibrary.Length ? 0 : m_FaceIndex;
         m_CostumeIndex = m_CostumeIndex >= m_CostumeLibrary.Length ? 0 : m_CostumeIndex;
         m_CostumeColorIndex = m_CostumeColorIndex >= m_CostumeColorLibrary.Length ? 0 : m_CostumeColorIndex;
-        m_HairColorIndex = m_HairColorIndex >= m_HairColorLibrary.Length ? 0 : m_HairColorIndex;
         m_EyeColorIndex = m_EyeColorIndex >= m_EyeColorLibrary.Length ? 0 : m_EyeColorIndex;
 
         RefreshAll();
@@ -115,7 +112,6 @@ public class CharacterCustomizer : MonoBehaviour
         Destroy(m_CurrentHair);
         m_CurrentHair = newHair;
         m_HairIndex = index;
-        SetHairColor(m_HairColorIndex);
     }
 
     public void SetAccessory(int index)
@@ -132,21 +128,37 @@ public class CharacterCustomizer : MonoBehaviour
         m_CostumeIndex = index;
         SetCostumeColor(m_CostumeColorIndex);
     }
-    public void SetEyes(int index)
-    {
-        GameObject newObj = Set(index, m_EyeLibrary, m_CurrentEyes);
-        // TEMP:
-        if (newObj == null)
-            return;
-        m_CurrentEyes = newObj;
-        m_EyeIndex = index;
-        SetEyeColor(m_EyeColorIndex);
-    }
+
     public void SetFace(int index)
     {
         GameObject newObj = Set(index, m_FaceLibrary, m_CurrentFace);
         m_CurrentFace = newObj;
         m_FaceIndex = index;
+    }
+
+    // Pack data into byte sized blocks
+    public ulong GetDataPacked()
+    {
+        ulong packed = 0;
+        packed |= (ulong)(byte)m_AccessoryIndex << 0;
+        packed |= (ulong)(byte)m_CostumeColorIndex << 8;
+        packed |= (ulong)(byte)m_CostumeIndex << 16;
+        packed |= (ulong)(byte)m_EyeColorIndex << 24;
+        packed |= (ulong)(byte)m_FaceIndex << 32;
+        packed |= (ulong)(byte)m_HairIndex << 40;
+
+        return packed;
+    }
+
+    public void SetDataPacked(ulong packedData)
+    {
+        m_AccessoryIndex = (byte)(packedData >> 0);
+        m_CostumeColorIndex = (byte)(packedData >> 8);
+        m_CostumeIndex = (byte)(packedData >> 16);
+        m_EyeColorIndex = (byte)(packedData >> 24);
+        m_FaceIndex = (byte)(packedData >> 32);
+        m_HairIndex = (byte)(packedData >> 40);
+        RefreshAll();
     }
 
     protected GameObject Set(int index, GameObject[] assetLibrary, GameObject currentObj)
@@ -193,12 +205,10 @@ public class CharacterCustomizer : MonoBehaviour
     {
         Debug.Log("Character Customization Settings Loaded");
         m_HairIndex             = PlayerPrefs.GetInt("CharacterCustomization.HairType", 0);
-        m_EyeIndex              = PlayerPrefs.GetInt("CharacterCustomization.EyeType", 0);
         m_FaceIndex             = PlayerPrefs.GetInt("CharacterCustomization.FaceType", 0);
         m_CostumeIndex          = PlayerPrefs.GetInt("CharacterCustomization.CostumeType", 0);
         m_AccessoryIndex        = PlayerPrefs.GetInt("CharacterCustomization.AccessoryType", 0);
         m_CostumeColorIndex     = PlayerPrefs.GetInt("CharacterCustomization.Costume.Color", 0);
-        m_HairColorIndex        = PlayerPrefs.GetInt("CharacterCustomization.Hair.Color", 0);
         m_EyeColorIndex         = PlayerPrefs.GetInt("CharacterCustomization.Eye.Color", 0);
     }
 
@@ -206,12 +216,10 @@ public class CharacterCustomizer : MonoBehaviour
     {
         m_AccessoryIndex = Random.Range(0, m_AccessoryLibrary.Length);
         m_HairIndex = Random.Range(0, m_HairLibrary.Length);
-        m_EyeIndex = Random.Range(0, m_EyeLibrary.Length);
         m_FaceIndex = Random.Range(0, m_FaceLibrary.Length);
         m_CostumeIndex = Random.Range(0, m_CostumeLibrary.Length);
 
         m_CostumeColorIndex = Random.Range(0, m_CostumeColorLibrary.Length);
-        m_HairColorIndex = Random.Range(0, m_HairColorLibrary.Length);
         m_EyeColorIndex = Random.Range(0, m_EyeColorLibrary.Length);
 
         RefreshAll();
@@ -221,11 +229,9 @@ public class CharacterCustomizer : MonoBehaviour
     {
         Debug.Log("Character Customization Saved");
         PlayerPrefs.SetInt("CharacterCustomization.HairType", m_HairIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.EyeType", m_EyeIndex);
         PlayerPrefs.SetInt("CharacterCustomization.FaceType", m_FaceIndex);
         PlayerPrefs.SetInt("CharacterCustomization.CostumeType", m_CostumeIndex);
         PlayerPrefs.SetInt("CharacterCustomization.AccessoryType", m_AccessoryIndex);
-        PlayerPrefs.SetInt("CharacterCustomization.Hair.Color", m_HairColorIndex);
         PlayerPrefs.SetInt("CharacterCustomization.Eye.Color", m_EyeColorIndex);
         PlayerPrefs.SetInt("CharacterCustomization.Costume.Color", m_CostumeColorIndex);
     }
@@ -263,11 +269,9 @@ public class CharacterCustomizer : MonoBehaviour
     private void RefreshAll()
     {
         SetHair(m_HairIndex);
-        SetEyes(m_EyeIndex);
         SetCostume(m_CostumeIndex);
         SetFace(m_FaceIndex);
         SetAccessory(m_AccessoryIndex);
-        SetHairColor(m_HairColorIndex);
         SetEyeColor(m_EyeColorIndex);
         SetCostumeColor(m_CostumeColorIndex);
     }

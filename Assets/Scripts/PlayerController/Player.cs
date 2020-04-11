@@ -20,6 +20,7 @@ public class Player : PlayerBehavior, ICanInteract
     private StealthActor m_StealthActor;
 
     private PlayerDetails m_PlayerDetails;
+    private CharacterCustomizer m_CharacterCustomizer;
     private bool m_IsStealthy;
 
     private int m_CurrentActiveSkill;
@@ -31,6 +32,7 @@ public class Player : PlayerBehavior, ICanInteract
         m_StealthActor = GetComponent<StealthActor>();
         m_SkillHandler = GetComponent<SkillHandler>();
         m_HealthHandler = GetComponent<HealthHandler>();
+        m_CharacterCustomizer = GetComponentInChildren<CharacterCustomizer>();
     }
 
     private void Start()
@@ -158,6 +160,7 @@ public class Player : PlayerBehavior, ICanInteract
         if (details == null)
             Debug.LogWarning("Details not received correctly");
         m_PlayerDetails = details;
+        m_CharacterCustomizer.SetDataPacked(details.GetCustomization());
 
         // Setup playermanager
         if (details.GetNetworkId() == networkObject.MyPlayerId)
