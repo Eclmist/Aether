@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
 {
     [System.Serializable]
@@ -19,6 +22,37 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
     [Range(0.0f, 1.0f)]
     [SerializeField] private float m_mutationChance = 0.3f;
 
+    private LinkedList<ProceduralMonster> m_MonstersSpawned = new LinkedList<ProceduralMonster>();
+    [SerializeField] 
+    private bool m_ChangeAllMonsters = false;
+
+    private void Awake()
+    {
+    }
+
+    public void AddSpawnedMonster(ProceduralMonster monster)
+    {
+        m_MonstersSpawned.AddFirst(monster);
+    }
+
+    public void RemoveSpawnedMonster(ProceduralMonster monster)
+    {
+        m_MonstersSpawned.Remove(monster);
+    }
+
+    void OnValidate()
+    {
+        if (m_ChangeAllMonsters)
+        {
+            foreach (ProceduralMonster monster in m_MonstersSpawned)
+            {
+                monster.ChangeType = true;
+            }
+        }
+
+        m_ChangeAllMonsters = false;
+    }
+
     public void SpawnMonsterAtLocation(Vector3 destination, int monsterIndex)
     {
         if (CheckReferences())
@@ -27,6 +61,7 @@ public class ProceduralMonsterSpawner : Singleton<ProceduralMonsterSpawner>
         }
         var monsterPrefab = m_monster_prefabs[monsterIndex];
         var monster = Instantiate(monsterPrefab);
+        monster.transform.parent = gameObject.transform;
         var mats = GetMaterials(monsterPrefab);
 
         monster.transform.position = destination;
