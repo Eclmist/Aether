@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
@@ -7,6 +8,12 @@ public class UIManager : Singleton<UIManager>
     private Animator m_NotificationAnimator;
     [SerializeField]
     private Text m_NotificationText;
+
+    [SerializeField]
+    private Animator m_CountdownAnimator;
+    
+    [SerializeField]
+    private Text m_CountdownText;
 
     [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
@@ -43,7 +50,34 @@ public class UIManager : Singleton<UIManager>
         }
 
         UINotifyHeader(message);
+        UICountdown();
+    }
 
+    public void UICountdown()
+    {
+        StartCoroutine(CountdownActivate());
+    }
+
+    private IEnumerator CountdownActivate()
+    {
+        int counter = 3;
+
+        while (counter > 0) 
+        {
+            if (m_CountdownText != null)
+                m_CountdownText.text = counter + "";
+            if (m_CountdownAnimator != null)
+                m_CountdownAnimator.SetTrigger("Open");
+
+            counter--;
+
+            yield return new WaitForSeconds(2.5f);
+        }
+
+        if (m_CountdownText != null)
+            m_CountdownText.text = "Go!";
+        if (m_CountdownAnimator != null)
+            m_CountdownAnimator.SetTrigger("Open");
     }
 
     public void UINotifyHeader(string message)
