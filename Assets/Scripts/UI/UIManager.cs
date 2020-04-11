@@ -12,8 +12,6 @@ public class UIManager : Singleton<UIManager>
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
-    [SerializeField]
-    private UIHealthBarHandler m_UIHealthBarHandler;
 
     private void Awake()
     {
@@ -34,9 +32,6 @@ public class UIManager : Singleton<UIManager>
 
     private void OnGameStarted(GameMode gameMode)
     {
-        // Attach Player Health to Health Bar
-        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
-
         string message = "";
         switch (gameMode)
         {
