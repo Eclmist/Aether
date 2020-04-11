@@ -150,8 +150,6 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     private IEnumerator DamagedSequence()
     {
-        m_PlayerMovement.ToggleDamaged();
-        yield return new WaitForSeconds(3.0f);
-        m_PlayerMovement.ToggleDamaged();
+        return m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 20, () => { });
     }
 }
