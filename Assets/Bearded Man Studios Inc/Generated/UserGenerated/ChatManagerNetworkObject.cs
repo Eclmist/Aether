@@ -8,7 +8,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[]")]
 	public partial class ChatManagerNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 1;
+		public const int IDENTITY = 2;
 
 		private byte[] _dirtyFields = new byte[0];
 

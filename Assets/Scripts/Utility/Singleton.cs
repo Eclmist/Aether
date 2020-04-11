@@ -26,7 +26,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                     "' already destroyed. Returning null.");
                 return null;
             }
- 
+
             lock (m_Lock)
             {
                 if (m_Instance == null)
@@ -52,7 +52,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
  
- 
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;
@@ -62,17 +61,22 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
+            if (m_ShuttingDown)
+                return false;
+
             if( m_Instance == null )
             {
                 m_Instance = (T)FindObjectOfType( typeof( T ) );
             }
 
-            return m_Instance == null ? false : true;
+            return m_Instance != null;
         }
     }
- 
-    // private void OnDestroy()
-    // {
-    //     m_ShuttingDown = true;
-    // }
+
+    // Disables re-instantiation once singleton is destroyed.
+    // Disabled not our intended behavior.
+    //private void OnDestroy()
+    //{
+    //    m_ShuttingDown = true;
+    //}
 }

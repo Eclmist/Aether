@@ -30,6 +30,6 @@ public class UIHealthSlider : MonoBehaviour
             m_Image.fillAmount = m_HealthHandler.GetPercentageHealth();
 
         if (m_HealthText)
-            m_HealthText.text = (int)m_HealthHandler.GetHealth() + " / " + (int)m_HealthHandler.m_MaxHealth;
+            m_HealthText.text = (int)m_HealthHandler.GetHealth() + " / " + (int)m_HealthHandler.GetMaxHealth();
     }
 }

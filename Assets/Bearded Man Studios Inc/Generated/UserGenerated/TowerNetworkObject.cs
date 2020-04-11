@@ -8,7 +8,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[0.15]")]
 	public partial class TowerNetworkObject : NetworkObject
 	{
+<<<<<<< HEAD
 		public const int IDENTITY = 16;
+=======
+		public const int IDENTITY = 15;
+>>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 
 		private byte[] _dirtyFields = new byte[1];
 

@@ -19,14 +19,11 @@ public class UIManager : Singleton<UIManager>
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
-    [SerializeField]
-    private UIHealthBarHandler m_UIHealthBarHandler;
 
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
     }
-
 
     private void Update()
     {
@@ -42,9 +39,6 @@ public class UIManager : Singleton<UIManager>
 
     private void OnGameStarted(GameMode gameMode)
     {
-        // Attach Player Health to Health Bar
-        m_UIHealthBarHandler.SetPlayerAttachment(PlayerManager.Instance.GetLocalPlayer());
-
         string message = "";
         switch (gameMode)
         {
@@ -127,7 +121,23 @@ public class UIManager : Singleton<UIManager>
 
     private void OnDestroy()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.HasInstance)
             GameManager.Instance.GameStarted -= OnGameStarted;
+    }
+
+    public void HideAllHUD()
+    {
+        // TODO: ROBY PLEASE FIX. DON'T USE FIND.
+        GameObject gameHUD = GameObject.Find("HUD_Updated");
+        if (gameHUD != null)
+        {
+            gameHUD.SetActive(false);
+        }
+    }
+
+    public void ShowWinningMessage(Team team)
+    {
+        HideAllHUD();
+        // Show winning message
     }
 }

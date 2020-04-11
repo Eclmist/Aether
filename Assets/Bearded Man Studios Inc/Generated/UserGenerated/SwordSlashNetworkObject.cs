@@ -8,7 +8,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	[GeneratedInterpol("{\"inter\":[]")]
 	public partial class SwordSlashNetworkObject : NetworkObject
 	{
+<<<<<<< HEAD
 		public const int IDENTITY = 14;
+=======
+		public const int IDENTITY = 13;
+>>>>>>> 2943abb8be6c57b52b2180c5f6f79bd83dfac41b
 
 		private byte[] _dirtyFields = new byte[0];
 

@@ -22,12 +22,6 @@ public class PlatformIconChanger : MonoBehaviour
         PlatformManager.Instance.PlatformChanged += OnPlatformChanged;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void SetMouseFriendly(bool flag)
     {
         if (m_Button == null)
@@ -63,5 +57,11 @@ public class PlatformIconChanger : MonoBehaviour
 
         m_Icon.sprite = sprite;
         
+    }
+
+    private void OnDestroy()
+    {
+        if (PlatformManager.HasInstance)
+            PlatformManager.Instance.PlatformChanged -= OnPlatformChanged;
     }
 }
