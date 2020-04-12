@@ -16,6 +16,9 @@ public class UIManager : Singleton<UIManager>
     private Text m_CountdownText;
 
     [SerializeField]
+    private AudioSource m_AudioSource;
+
+    [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
@@ -69,6 +72,8 @@ public class UIManager : Singleton<UIManager>
                 m_CountdownText.text = counter + "";
             if (m_CountdownAnimator != null)
                 m_CountdownAnimator.SetTrigger("Open");
+            if (m_AudioSource != null)
+                m_AudioSource.pitch *= 1.1f;
 
             counter--;
 
@@ -79,6 +84,8 @@ public class UIManager : Singleton<UIManager>
             m_CountdownText.text = "Go!";
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
+        if (m_AudioSource != null)
+            m_AudioSource.pitch *= 1.8f;
 
         GameManager.Instance.SetUnfrozen();
     }
