@@ -25,7 +25,7 @@ public class ProceduralMonster : MonoBehaviour
         {
             ProceduralMonsterSpawner.Instance.SpawnMonsterAtLocation(transform.position, type);
             ProceduralMonsterSpawner.Instance.RemoveSpawnedMonster(this);
-            EditorApplication.delayCall += () => { DestroyImmediate(gameObject); };
+            //EditorApplication.delayCall += () => { DestroyImmediate(gameObject); };
         }
         else if (ChangeType)
         {

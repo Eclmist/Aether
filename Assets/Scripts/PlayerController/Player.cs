@@ -10,6 +10,9 @@ public class Player : PlayerBehavior, ICanInteract
 {
     public event System.Action PlayerDead;
 
+    [SerializeField]
+    private GameObject m_Weapon;
+
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
     private SkillHandler m_SkillHandler;
@@ -45,11 +48,6 @@ public class Player : PlayerBehavior, ICanInteract
 
         networkObject.positionInterpolation.Enabled = false;
         networkObject.positionChanged += WarpToFirstPosition;
-    }
-
-    private void Update()
-    {
-        Shader.SetGlobalVector("_LocalPlayerPosition", transform.position);
     }
 
     private void OnTriggerEnter(Collider c)
@@ -93,6 +91,11 @@ public class Player : PlayerBehavior, ICanInteract
     public RevealActor GetRevealActor()
     {
         return m_RevealActor;
+    }
+
+    public void SetWeaponActive(bool weaponActive)
+    {
+        m_Weapon.SetActive(weaponActive);
     }
 
     public void UpdateToggleables()
@@ -188,5 +191,10 @@ public class Player : PlayerBehavior, ICanInteract
     {
         m_CurrentActiveSkill = args.GetNext<int>();
         m_PlayerNetworkHandler.TriggerSkills(m_CurrentActiveSkill);
+    }
+
+    public override void TriggerAttack(RpcArgs args)
+    {
+        m_PlayerNetworkHandler.TriggerAttack();
     }
 }
