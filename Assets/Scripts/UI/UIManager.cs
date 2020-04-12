@@ -16,6 +16,9 @@ public class UIManager : Singleton<UIManager>
     private Text m_CountdownText;
 
     [SerializeField]
+    private Animator m_LoadingAnimator;
+
+    [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
@@ -39,6 +42,9 @@ public class UIManager : Singleton<UIManager>
 
     private void OnGameStarted(GameMode gameMode)
     {
+        if (m_LoadingAnimator != null);
+            m_LoadingAnimator.SetTrigger("ScrollBack");
+
         string message = "";
         switch (gameMode)
         {
