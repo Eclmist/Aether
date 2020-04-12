@@ -53,6 +53,11 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         });
     }
 
+    public void RequestGameOver()
+    {
+        networkObject?.SendRpc(RPC_TRIGGER_GAME_OVER, Receivers.Server, networkObject.MyPlayerId);
+    }
+
     public override void SetPlayerCount(RpcArgs args)
     {
         // Run on main thread to lock player count
@@ -65,6 +70,12 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     public override void SetAllReady(RpcArgs args)
     {
         AllPlayersReady?.Invoke();
+    }
+
+    public override void SetGameOver(RpcArgs args)
+    {
+        Player winner = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
+        GameManager.Instance.GameOver(winner);
     }
 
     ////////////////////
@@ -102,7 +113,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         MainThreadManager.Run(() =>
         {
             Transform spawnPoint = m_SpawnPositions[details.GetPosition()];
-            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position,rotation: spawnPoint.rotation) as Player;
+            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
 
             p.SetDetails(details);
             p.networkStarted += OnPlayerNetworked;
@@ -126,9 +137,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     // RPC sent to host when a client is ready
     public override void SetClientReady(RpcArgs args)
     {
-        if (!networkObject.IsServer)
-            return;
-
         // Run on main thread to ensure client count is locked and rpc can be sent
         MainThreadManager.Run(() =>
         {
@@ -139,5 +147,16 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
             }
         });
+    }
+
+    // RPC sent to host when client wants to trigger gameover
+    private bool m_TriggeredBefore = false;
+    public override void TriggerGameOver(RpcArgs args)
+    {
+        if (!m_TriggeredBefore)
+        {
+            m_TriggeredBefore = true;
+            networkObject.SendRpc(RPC_SET_GAME_OVER, Receivers.All, args.GetNext<uint>());
+        }
     }
 }

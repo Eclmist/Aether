@@ -80,7 +80,7 @@ public class UIManager : Singleton<UIManager>
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
 
-        GameManager.Instance.SetUnFrozen();
+        GameManager.Instance.SetUnfrozen();
     }
 
     public void UINotifyHeader(string message)
@@ -138,7 +138,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void ShowWinningMessage(Team team)
+    public void ShowWinningMessage(Player winner)
     {
         HideAllHUD();
         // Show winning message

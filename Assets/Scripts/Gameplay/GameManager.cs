@@ -6,99 +6,64 @@ public class GameManager : Singleton<GameManager>
 {
     public event System.Action<GameMode> GameStarted;
 
-    [SerializeField]
-    private TowerBase[] m_Towers;
-
-    private Dictionary<Team, int> m_TeamCaptureCounts;
-
-    private int m_TotalCaptureCount = 0;
+    private float m_GameOverMessageDuration = 10f;
 
     private bool m_GameStarted = false;
+
+    private Transform m_RespawnPoint;
 
     private void Awake()
     {
         PlayerManager.Instance.GetPlayerNetworkManager().AllPlayersReady += StartGame;
-        m_TeamCaptureCounts = new Dictionary<Team, int>();
-
-        foreach (TowerBase tower in m_Towers)
-            tower.TowerCaptured += OnTowerCaptured;
-
-        foreach (Team team in (Team[])System.Enum.GetValues(typeof(Team)))
-            m_TeamCaptureCounts.Add(team, 0);
-    }
-
-    public TowerBase[] GetTowers() 
-    {
-        return m_Towers;
-    }
-
-    private void OnTowerCaptured(TowerBase tower)
-    {
-        if (!m_GameStarted)
-            return;
-
-        tower.SetIsCaptured(true);
-        m_TotalCaptureCount++;
-
-        TowerBase.CaptureState captureState = tower.GetCaptureState();
-        m_TeamCaptureCounts[captureState.GetLeadingTeam()]++;
-
-        // Check for game over
-        if (m_TotalCaptureCount == m_Towers.Length)
-        {
-            Team winningTeam = Team.TEAM_ONE;
-            int winningScore = 0;
-            foreach (KeyValuePair<Team, int> pair in m_TeamCaptureCounts)
-            {
-                if (pair.Value > winningScore)
-                {
-                    winningTeam = pair.Key;
-                    winningScore = pair.Value;
-                }
-            }
-            SetGameOver(winningTeam);
-        }
     }
 
     public void StartGame()
     {
+        PlayerManager.Instance.GetPlayerNetworkManager().AllPlayersReady -= StartGame;
         Debug.Log("Game started");
         m_GameStarted = true;
         GameStarted?.Invoke(GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER);
     }
 
-    public void SetGameOver(Team team)
+    public void GameOver(Player winner)
+    {
+        StartCoroutine(SetGameOver(winner));
+    }
+
+    private IEnumerator SetGameOver(Player winner)
     {
         // Calls UIManager
         // Provides game stats to UIManager to show game over stats
         // for maybe 10 seconds (can be skipped if host presses a button?)
         // then return to lobby
-        UIManager.Instance.ShowWinningMessage(team);
+        UIManager.Instance.ShowWinningMessage(winner);
+        yield return new WaitForSeconds(m_GameOverMessageDuration);
+        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
     }
 
-    public void SetUnFrozen()
+    public bool GetGameStarted()
     {
-        if (PlayerManager.HasInstance)
-        {
-            foreach (Player player in PlayerManager.Instance.GetAllPlayers())
-            {
-                if (player != null)
-                {
-                    PlayerMovement movement = player.GetComponent<PlayerMovement>();
-                    if (movement != null)
-                        movement.SetFrozen(false);
-                }
-            }
-        }
+        return m_GameStarted;
     }
 
-    private void OnDestroy()
+    public Transform GetRespawnPoint()
     {
-        if (PlayerManager.HasInstance)
-        {
-            PlayerNetworkManager playerNetworkManager = PlayerManager.Instance.GetPlayerNetworkManager();
-            if (playerNetworkManager != null)
-                playerNetworkManager.AllPlayersReady -= StartGame;
-        }
+        return m_RespawnPoint;
+    }
+
+    public void SetRespawnPoint(Transform position)
+    {
+        m_RespawnPoint = position;
+    }
+
+    public void RequestGameOver()
+    {
+        PlayerManager.Instance.GetPlayerNetworkManager()?.RequestGameOver();
+    }
+
+    public void SetUnfrozen()
+    {
+        Player player = PlayerManager.Instance.GetLocalPlayer();
+        player.GetComponent<PlayerMovement>().SetFrozen(false);
     }
 }

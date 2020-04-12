@@ -29,7 +29,7 @@ public class CaptureBar : MonoBehaviour
         m_redCaptureAmount = 0.0f;
         m_blueCaptureAmount = 0.0f;
 
-        TowerBase[] towers = GameManager.Instance.GetTowers();
+        TowerBase[] towers = null;
 
         foreach (TowerBase tower in towers)
         {
