@@ -14,10 +14,8 @@ public class Skills : SkillsBehavior
     [SerializeField]
     private DamageDealerBase m_DamageDealerBase;
 
-    protected override void NetworkStart()
+    private void Start()
     {
-        base.NetworkStart();
-
         m_DamageDealerBase.Activate(null);
     }
 }

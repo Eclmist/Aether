@@ -14,14 +14,9 @@ public class SwordSlash : SwordSlashBehavior
     [SerializeField]
     private DamageDealerBase m_DamageDealerBase;
 
-    protected override void NetworkStart()
+    private void Start()
     {
-        base.NetworkStart();
-        if (m_DamageDealerBase != null)
-        {
-            m_DamageDealerBase.Activate(OnDamageDealt);
-        }
-        
+        m_DamageDealerBase.Activate(OnDamageDealt);
     }
 
     private void OnDamageDealt()
