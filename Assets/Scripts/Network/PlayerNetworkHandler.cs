@@ -61,12 +61,19 @@ public class PlayerNetworkHandler : MonoBehaviour
 
             // Combat states
             m_PlayerNetworkObject.weaponIndex = (int)m_PlayerStance.GetStance();
+            m_PlayerNetworkObject.blocked = m_PlayerCombatHandler.IsBlocking();
 
             if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
             {
                 Debug.Assert(m_PlayerNetworkObject.weaponIndex != 0, "Attacking unarmed, wtf?");
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_ATTACK, Receivers.All);
             }
+
+            if (m_PlayerMovement.DodgedInCurrentFrame())
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DASH, Receivers.All);
+
+            if (m_PlayerMovement.DodgedBackwardsInCurrentFrame())
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_BACK_DASH, Receivers.All);
 
             if (m_PlayerMovement.JumpedInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_JUMP, Receivers.All);
@@ -101,6 +108,7 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_Animator.SetFloat("Velocity-Y-Normalized", m_PlayerNetworkObject.vertVelocity);
             m_Animator.SetBool("Grounded", m_PlayerNetworkObject.grounded);
             m_Animator.SetInteger("WeaponIndex", m_PlayerNetworkObject.weaponIndex);
+            m_Animator.SetBool("Block", m_PlayerNetworkObject.blocked);
 
             // Show and hide sword
             // TODO: add delay or make it work with animation callbacks
@@ -148,6 +156,28 @@ public class PlayerNetworkHandler : MonoBehaviour
 
         m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
     }
+    public void TriggerDash()
+    {
+        if (m_Animator == null)
+        {
+            Debug.LogWarning("Animator does not exist on player");
+            return;
+        }
+
+        m_Animator.SetTrigger("Roll");
+    }
+
+    public void TriggerBackDash()
+    {
+        if (m_Animator == null)
+        {
+            Debug.LogWarning("Animator does not exist on player");
+            return;
+        }
+
+        m_Animator.SetTrigger("Backstep");
+    }
+
 
     public void SetLocalPlayerPosition(Vector3 position)
     {
@@ -191,4 +221,5 @@ public class PlayerNetworkHandler : MonoBehaviour
     {
         return m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 20, () => { });
     }
+
 }

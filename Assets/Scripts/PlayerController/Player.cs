@@ -197,4 +197,13 @@ public class Player : PlayerBehavior, ICanInteract
     {
         m_PlayerNetworkHandler.TriggerAttack();
     }
+
+    public override void TriggerDash(RpcArgs args)
+    {
+        m_PlayerNetworkHandler.TriggerDash();
+    }
+    public override void TriggerBackDash(RpcArgs args)
+    {
+        m_PlayerNetworkHandler.TriggerBackDash();
+    }
 }

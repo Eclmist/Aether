@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"ulong\"][][][\"int\"][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"position\", \"customization\"][][][\"SkillIndex\"][]]")]
+	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"ulong\"][][][\"int\"][][][]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"position\", \"customization\"][][][\"SkillIndex\"][][][]]")]
 	public abstract partial class PlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_TRIGGER_JUMP = 0 + 5;
@@ -14,6 +14,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		public const byte RPC_TRIGGER_DEATH = 3 + 5;
 		public const byte RPC_TRIGGER_SKILL = 4 + 5;
 		public const byte RPC_TRIGGER_ATTACK = 5 + 5;
+		public const byte RPC_TRIGGER_DASH = 6 + 5;
+		public const byte RPC_TRIGGER_BACK_DASH = 7 + 5;
 
 		public PlayerNetworkObject networkObject = null;
 
@@ -33,6 +35,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.RegisterRpc("TriggerDeath", TriggerDeath);
 			networkObject.RegisterRpc("TriggerSkill", TriggerSkill, typeof(int));
 			networkObject.RegisterRpc("TriggerAttack", TriggerAttack);
+			networkObject.RegisterRpc("TriggerDash", TriggerDash);
+			networkObject.RegisterRpc("TriggerBackDash", TriggerBackDash);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -130,6 +134,14 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// Arguments:
 		/// </summary>
 		public abstract void TriggerAttack(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void TriggerDash(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void TriggerBackDash(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

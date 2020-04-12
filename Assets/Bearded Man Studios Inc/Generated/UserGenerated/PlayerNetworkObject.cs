@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0]")]
+	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 12;
+		public const int IDENTITY = 17;
 
 		private byte[] _dirtyFields = new byte[1];
 
@@ -201,6 +201,37 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (weaponIndexChanged != null) weaponIndexChanged(_weaponIndex, timestep);
 			if (fieldAltered != null) fieldAltered("weaponIndex", _weaponIndex, timestep);
 		}
+		[ForgeGeneratedField]
+		private bool _blocked;
+		public event FieldEvent<bool> blockedChanged;
+		public Interpolated<bool> blockedInterpolation = new Interpolated<bool>() { LerpT = 0f, Enabled = false };
+		public bool blocked
+		{
+			get { return _blocked; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_blocked == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[0] |= 0x40;
+				_blocked = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetblockedDirty()
+		{
+			_dirtyFields[0] |= 0x40;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_blocked(ulong timestep)
+		{
+			if (blockedChanged != null) blockedChanged(_blocked, timestep);
+			if (fieldAltered != null) fieldAltered("blocked", _blocked, timestep);
+		}
 
 		protected override void OwnershipChanged()
 		{
@@ -216,6 +247,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			vertVelocityInterpolation.current = vertVelocityInterpolation.target;
 			groundedInterpolation.current = groundedInterpolation.target;
 			weaponIndexInterpolation.current = weaponIndexInterpolation.target;
+			blockedInterpolation.current = blockedInterpolation.target;
 		}
 
 		public override int UniqueIdentity { get { return IDENTITY; } }
@@ -228,6 +260,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			UnityObjectMapper.Instance.MapBytes(data, _vertVelocity);
 			UnityObjectMapper.Instance.MapBytes(data, _grounded);
 			UnityObjectMapper.Instance.MapBytes(data, _weaponIndex);
+			UnityObjectMapper.Instance.MapBytes(data, _blocked);
 
 			return data;
 		}
@@ -258,6 +291,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			weaponIndexInterpolation.current = _weaponIndex;
 			weaponIndexInterpolation.target = _weaponIndex;
 			RunChange_weaponIndex(timestep);
+			_blocked = UnityObjectMapper.Instance.Map<bool>(payload);
+			blockedInterpolation.current = _blocked;
+			blockedInterpolation.target = _blocked;
+			RunChange_blocked(timestep);
 		}
 
 		protected override BMSByte SerializeDirtyFields()
@@ -277,6 +314,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _grounded);
 			if ((0x20 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _weaponIndex);
+			if ((0x40 & _dirtyFields[0]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _blocked);
 
 			// Reset all the dirty fields
 			for (int i = 0; i < _dirtyFields.Length; i++)
@@ -371,6 +410,19 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					RunChange_weaponIndex(timestep);
 				}
 			}
+			if ((0x40 & readDirtyFlags[0]) != 0)
+			{
+				if (blockedInterpolation.Enabled)
+				{
+					blockedInterpolation.target = UnityObjectMapper.Instance.Map<bool>(data);
+					blockedInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_blocked = UnityObjectMapper.Instance.Map<bool>(data);
+					RunChange_blocked(timestep);
+				}
+			}
 		}
 
 		public override void InterpolateUpdate()
@@ -407,6 +459,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			{
 				_weaponIndex = (int)weaponIndexInterpolation.Interpolate();
 				//RunChange_weaponIndex(weaponIndexInterpolation.Timestep);
+			}
+			if (blockedInterpolation.Enabled && !blockedInterpolation.current.UnityNear(blockedInterpolation.target, 0.0015f))
+			{
+				_blocked = (bool)blockedInterpolation.Interpolate();
+				//RunChange_blocked(blockedInterpolation.Timestep);
 			}
 		}
 
