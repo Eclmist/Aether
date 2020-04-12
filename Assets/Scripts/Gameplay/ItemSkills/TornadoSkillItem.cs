@@ -4,8 +4,6 @@ using BeardedManStudios.Forge.Networking.Unity;
 
 public class TornadoSkillItem : SkillItem
 {
-    private float m_Timer = 0;
-    private const float m_CastingTime = 10f;
     public override void UseSkill(Transform playerTransform)
     {
         Vector3 startSpawnPosition = playerTransform.position;
