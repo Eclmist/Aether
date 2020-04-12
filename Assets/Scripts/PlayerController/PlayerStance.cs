@@ -44,6 +44,7 @@ public class PlayerStance : MonoBehaviour
         ACTION_CASTSPELL        = 512,
         ACTION_DAMAGED          = 1024, 
         ACTION_DEAD             = 2048, 
+        ACTION_FROZEN           = 4096, 
 
         // More actions to be added here (e.g., ACTION_CAPTURE, ACTION_DEATH, etc)
         ACTION_ALL              = int.MaxValue
@@ -51,7 +52,7 @@ public class PlayerStance : MonoBehaviour
 
     // Action masks
     private Action m_CanWalkMask = Action.ACTION_ALL & (~Action.ACTION_ATTACK) & (~Action.ACTION_DODGE) & (~Action.ACTION_CASTSPELL) 
-        & (~Action.ACTION_DAMAGED) & (~Action.ACTION_DEAD);
+        & (~Action.ACTION_DAMAGED) & (~Action.ACTION_DEAD) & (~Action.ACTION_FROZEN);
     private Action m_CanSprintMask = Action.ACTION_WALK;
     private Action m_CanJumpMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT | Action.ACTION_DODGE;
     private Action m_CanDodgeMask = Action.ACTION_IDLE | Action.ACTION_WALK | Action.ACTION_SPRINT;
@@ -91,6 +92,9 @@ public class PlayerStance : MonoBehaviour
         // TODO: Set Sprint action
 
         // TODO: Shift Bool Checks into Player
+
+        if (m_PlayerMovement.IsFrozen())
+            m_CurrentActions = Action.ACTION_FROZEN;
 
         if (m_PlayerMovement.IsDead())
             m_CurrentActions = Action.ACTION_DEAD;

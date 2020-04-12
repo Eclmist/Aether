@@ -81,6 +81,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool m_IsDamaged;
 
+    private bool m_IsFrozen;
+
     void Start()
     {
         AetherInput.GetPlayerActions().Jump.performed += JumpInputCallback;
@@ -110,6 +112,11 @@ public class PlayerMovement : MonoBehaviour
         m_IsDamaged = !m_IsDamaged;
     }
 
+    public void ToggleFrozen()
+    {
+        m_IsFrozen = !m_IsFrozen;
+    }
+
     public bool IsDead()
     {
         return m_IsDead;
@@ -118,6 +125,11 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDamaged()
     {
         return m_IsDamaged;
+    }
+
+    public bool IsFrozen()
+    {
+        return m_IsFrozen;
     }
 
     private void OnDrawGizmos()
