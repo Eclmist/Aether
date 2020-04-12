@@ -10,6 +10,6 @@ public class MonsterAttack : MonsterAttackBehavior
     protected override void NetworkStart()
     {
         base.NetworkStart();
-        m_DamageDealerBase.Activate(networkObject, null);
+        m_DamageDealerBase.Activate(null);
     }
 }
