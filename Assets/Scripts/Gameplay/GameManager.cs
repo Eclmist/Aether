@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Game started");
         m_GameStarted = true;
-        GameStarted?.Invoke(GameMode.GAMEMODE_KING_OF_THE_HILL);
+        GameStarted?.Invoke(GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER);
     }
 
     public void SetGameOver(Team team)

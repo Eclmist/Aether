@@ -1,4 +1,4 @@
 ﻿public enum GameMode
 {
-    GAMEMODE_KING_OF_THE_HILL
+    GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER
 }

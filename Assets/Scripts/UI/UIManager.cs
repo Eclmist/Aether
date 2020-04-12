@@ -42,8 +42,8 @@ public class UIManager : Singleton<UIManager>
         string message = "";
         switch (gameMode)
         {
-            case GameMode.GAMEMODE_KING_OF_THE_HILL:
-                message = "King of the Hill";
+            case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
+                message = "Zoom: Racing Circuit Breaker";
                 break;
             default:
                 break;
