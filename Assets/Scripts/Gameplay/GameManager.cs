@@ -76,8 +76,10 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Checkpoint tower captured");
         tower.TowerCaptured -= EnableCheckpoint;
-        Checkpoint checkpoint = tower.GetComponent<Checkpoint>();
-        checkpoint.enabled = true;
+
+        // Replace tower with checkpoint
+        Destroy(tower.GetComponent<TowerLocal>());
+        tower.GetComponent<Checkpoint>().Activate();
     }
 
     public Transform GetRespawnPoint()
