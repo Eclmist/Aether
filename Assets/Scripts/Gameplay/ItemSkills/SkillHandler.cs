@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-[RequireComponent(typeof(PlayerStance))]
 public class SkillHandler : MonoBehaviour
 {
     private PlayerStance m_PlayerStance;
@@ -35,6 +34,9 @@ public class SkillHandler : MonoBehaviour
             return;
 
         if (m_ItemSkillSlots.Count == 0)
+            return;
+
+        if (m_PlayerStance == null)
             return;
 
         SkillItem currentSkill = m_ItemSkillSlots.Peek();

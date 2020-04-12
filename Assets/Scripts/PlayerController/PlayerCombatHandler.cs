@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using static UnityEngine.InputSystem.HID.HID;
 
-[RequireComponent(typeof(PlayerStance))]
 public class PlayerCombatHandler : MonoBehaviour
 {
     private PlayerStance m_PlayerStance;
@@ -39,6 +38,9 @@ public class PlayerCombatHandler : MonoBehaviour
         if (!button.wasPressedThisFrame)
             return;
 
+        if (m_PlayerStance == null)
+            return;
+
         if (!m_PlayerStance.IsCombatStance())
         {
             AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
@@ -53,6 +55,9 @@ public class PlayerCombatHandler : MonoBehaviour
     }
     private void BlockIfPossible()
     {
+        if (m_PlayerStance == null)
+            return;
+
         m_BlockedInCurrentFrame = false;
 
         if (!m_PlayerStance.IsCombatStance())
@@ -79,6 +84,9 @@ public class PlayerCombatHandler : MonoBehaviour
 
     public void SheatheInputCallback(InputAction.CallbackContext ctx)
     {
+        if (m_PlayerStance == null)
+            return;
+
         if (ctx.performed)
         {
             m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);
