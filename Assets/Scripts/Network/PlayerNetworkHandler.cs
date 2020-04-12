@@ -69,11 +69,11 @@ public class PlayerNetworkHandler : MonoBehaviour
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_ATTACK, Receivers.All);
             }
 
-            if (m_PlayerMovement.DodgedInCurrentFrame())
-                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DASH, Receivers.All);
-
             if (m_PlayerMovement.DodgedBackwardsInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_BACK_DASH, Receivers.All);
+            else if (m_PlayerMovement.DodgedInCurrentFrame())
+                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DASH, Receivers.All);
+
 
             if (m_PlayerMovement.JumpedInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_JUMP, Receivers.All);
