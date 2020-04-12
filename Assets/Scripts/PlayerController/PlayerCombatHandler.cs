@@ -87,10 +87,13 @@ public class PlayerCombatHandler : MonoBehaviour
         if (m_PlayerStance == null)
             return;
 
-        if (ctx.performed)
-        {
-            m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);
-            AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
-        }
+        if (!ctx.performed)
+            return;
+
+        if (!m_PlayerStance.IsCombatStance())
+            return;
+
+        m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);
+        AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
     }
 }

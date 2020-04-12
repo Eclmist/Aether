@@ -30,16 +30,13 @@ public class CinemachineTargetting : MonoBehaviour
     private void OnPlayerDrop()
     {
         Debug.Log("Drop");
-        m_VirtualCam.Follow = null;
         m_VirtualCam.LookAt = null;
-        m_VirtualCam.transform.Translate(new Vector3(0, 25.0f - m_VirtualCam.transform.position.y, 0));
     }
 
     private void OnPlayerRespawn()
     {
         Debug.Log("Respawn");
         Player player = PlayerManager.Instance.GetLocalPlayer();
-        m_VirtualCam.Follow = player.transform;
         m_VirtualCam.LookAt = player.transform;
     }
 }
