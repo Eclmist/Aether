@@ -41,11 +41,6 @@ public class LobbyPlayer : LobbyPlayerBehavior
         return m_Customization;
     }
 
-    public void SetReadyStatus(bool isReady)
-    {
-        networkObject?.SendRpc(RPC_SET_READY, Receivers.All, isReady);
-    }
-
     public void UpdatePosition(int index)
     {
         networkObject?.SendRpc(RPC_SET_POSITION, Receivers.All, index);
@@ -54,6 +49,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public void UpdateName(string name)
     {
         networkObject?.SendRpc(RPC_SET_NAME, Receivers.All, name);
+    }
+
+    public void UpdateReadyStatus(bool isReady)
+    {
+        networkObject?.SendRpc(RPC_SET_READY, Receivers.All, isReady);
     }
 
     public void UpdateDataFor(NetworkingPlayer player)
