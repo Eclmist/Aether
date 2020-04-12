@@ -72,7 +72,7 @@ public class UIManager : Singleton<UIManager>
 
             counter--;
 
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1.5f);
         }
 
         if (m_CountdownText != null)

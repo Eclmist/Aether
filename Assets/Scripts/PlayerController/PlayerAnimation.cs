@@ -22,6 +22,7 @@ public class PlayerAnimation : MonoBehaviour
 
     void Update()
     {
+
         m_AxisDelta.x = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.x, 0, Time.deltaTime * 5), -1, 1);
         m_AxisDelta.y = Mathf.Clamp(Mathf.Lerp(m_AxisDelta.y, 0, Time.deltaTime * 5), -1, 1);
 
