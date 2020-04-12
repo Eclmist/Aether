@@ -21,6 +21,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
         m_Container = GetComponent<RawImage>();
     }
 
+    public int GetPosition()
+    {
+        return m_PositionIndex;
+    }
+
     public string GetName()
     {
         return m_PlayerName.text;
@@ -66,11 +71,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public override void SetPosition(RpcArgs args)
     {
         m_PositionIndex = args.GetNext<int>();
-        Transform parent = LobbySystem.Instance.GetPosition(m_PositionIndex);
-        if (parent == null)
-            return;
-
-        transform.SetParent(parent, false);
+        LobbySystem.Instance.SetPlayerInPosition(this);
     }
 
     public override void SetName(RpcArgs args)

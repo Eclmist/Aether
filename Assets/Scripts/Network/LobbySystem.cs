@@ -63,12 +63,15 @@ public class LobbySystem : LobbySystemBehavior
         return true;
     }
 
-    public Transform GetPosition(int index)
+    public void SetPlayerInPosition(LobbyPlayer player)
     {
-        if (index >= m_PlayerPositions.Length)
-            return null;
+        int index = player.GetPosition();
+        if (index >= m_PlayerPositions.Length || index >= m_Loaders.Length)
+            return;
 
-        return m_PlayerPositions[index];
+        Transform parent = m_PlayerPositions[index];
+        player.transform.SetParent(parent);
+        Destroy(m_Loaders[index]);
     }
 
     ////////////////////
@@ -103,10 +106,8 @@ public class LobbySystem : LobbySystemBehavior
     {
         MainThreadManager.Run(() => {
             int playerCount = m_LobbyPlayers.Count;
-            Quaternion rotation = m_PlayerPositions[playerCount].rotation;
-            Destroy(m_Loaders[playerCount]);
 
-            LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation: rotation) as LobbyPlayer;
+            LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer() as LobbyPlayer;
 
             player.networkStarted += (NetworkBehavior behavior) =>
             {
