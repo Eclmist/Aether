@@ -66,12 +66,12 @@ public class LobbySystem : LobbySystemBehavior
     public void SetPlayerInPosition(LobbyPlayer player)
     {
         int index = player.GetPosition();
-        if (index >= m_PlayerPositions.Length || index >= m_Loaders.Length)
+        if (index >= AetherNetworkManager.MAX_PLAYER_COUNT)
             return;
 
-        Transform parent = m_PlayerPositions[index];
-        player.transform.SetParent(parent);
         Destroy(m_Loaders[index]);
+        Transform parent = m_PlayerPositions[index];
+        player.transform.SetParent(parent, false);
     }
 
     ////////////////////
@@ -149,7 +149,7 @@ public class LobbySystem : LobbySystemBehavior
             NetworkingPlayer np = args.Info.SendingPlayer;
             LobbyPlayer lobbyPlayer;
             if (m_LobbyPlayers.TryGetValue(np, out lobbyPlayer))
-                lobbyPlayer.SetReadyStatus(args.GetNext<bool>());
+                lobbyPlayer.UpdateReadyStatus(args.GetNext<bool>());
         });
     }
 

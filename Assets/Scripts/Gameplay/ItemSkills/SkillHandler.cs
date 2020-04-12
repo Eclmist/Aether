@@ -29,6 +29,9 @@ public class SkillHandler : MonoBehaviour
     //key bindings
     public void UseSkillAt(InputAction.CallbackContext ctx)
     {
+        if (!m_PlayerStance.CanPerformAction(PlayerStance.Action.ACTION_CASTSPELL))
+            return;
+        
         ButtonControl button = ctx.control as ButtonControl;
         if (!button.wasPressedThisFrame)
             return;
