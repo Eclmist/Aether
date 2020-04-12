@@ -60,6 +60,7 @@ public class UIManager : Singleton<UIManager>
 
     private IEnumerator CountdownActivate()
     {
+        ToggelMoveability();
         int counter = 3;
 
         while (counter > 0) 
@@ -78,6 +79,24 @@ public class UIManager : Singleton<UIManager>
             m_CountdownText.text = "Go!";
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
+
+        ToggelMoveability();
+    }
+
+    private void ToggelMoveability()
+    {
+        if (PlayerManager.HasInstance)
+        {
+            foreach (Player player in PlayerManager.Instance.GetAllPlayers())
+            {
+                if (player != null)
+                {
+                    PlayerMovement movement = player.GetComponent<PlayerMovement>();
+                    if (movement != null)
+                        movement.ToggleFrozen();
+                }
+            }
+        }
     }
 
     public void UINotifyHeader(string message)
