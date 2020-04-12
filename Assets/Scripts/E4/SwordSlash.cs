@@ -17,7 +17,7 @@ public class SwordSlash : SwordSlashBehavior
 
     private void Awake()
     {
-        m_PlayerStance = GameObject.FindWithTag("Player").GetComponent<PlayerStance>();
+        m_PlayerStance = GameObject.FindWithTag("Player")?.GetComponent<PlayerStance>();
     }
 
     private void Start()
@@ -27,7 +27,10 @@ public class SwordSlash : SwordSlashBehavior
 
     private void Update()
     {
-        transform.position = m_PlayerStance.transform.position;
+        if (m_PlayerStance == null)
+            return;
+
+        transform.position = m_PlayerStance.transform.position + Vector3.up;
         networkObject.position = transform.position;
     }
 
