@@ -12,6 +12,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     private bool m_IsReady = false;
 
+    private int m_PositionIndex = -1;
+
     private ulong m_Customization;
 
     private void Start()
@@ -39,21 +41,36 @@ public class LobbyPlayer : LobbyPlayerBehavior
         networkObject?.SendRpc(RPC_SET_READY, Receivers.All, isReady);
     }
 
+    public void UpdatePosition(int index)
+    {
+        networkObject?.SendRpc(RPC_SET_POSITION, Receivers.All, index);
+    }
+
     public void UpdateName(string name)
     {
-        m_PlayerName.text = name;
-
         networkObject?.SendRpc(RPC_SET_NAME, Receivers.All, name);
     }
 
     public void UpdateDataFor(NetworkingPlayer player)
     {
         networkObject?.SendRpc(player, RPC_SET_NAME, m_PlayerName.text);
+        networkObject?.SendRpc(player, RPC_SET_READY, m_IsReady);
+        networkObject?.SendRpc(player, RPC_SET_POSITION, m_PositionIndex);
     }
 
     public void SetCustomization(ulong data)
     {
         m_Customization = data;
+    }
+
+    public override void SetPosition(RpcArgs args)
+    {
+        m_PositionIndex = args.GetNext<int>();
+        Transform parent = LobbySystem.Instance.GetPosition(m_PositionIndex);
+        if (parent == null)
+            return;
+
+        transform.SetParent(parent, false);
     }
 
     public override void SetName(RpcArgs args)

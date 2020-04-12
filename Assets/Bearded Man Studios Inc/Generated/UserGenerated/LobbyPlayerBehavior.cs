@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"string\"][\"bool\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"name\"][\"isReady\"]]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][\"string\"][\"bool\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"index\"][\"name\"][\"isReady\"]]")]
 	public abstract partial class LobbyPlayerBehavior : NetworkBehavior
 	{
-		public const byte RPC_SET_NAME = 0 + 5;
-		public const byte RPC_SET_READY = 1 + 5;
+		public const byte RPC_SET_POSITION = 0 + 5;
+		public const byte RPC_SET_NAME = 1 + 5;
+		public const byte RPC_SET_READY = 2 + 5;
 
 		public LobbyPlayerNetworkObject networkObject = null;
 
@@ -23,6 +24,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
+			networkObject.RegisterRpc("SetPosition", SetPosition, typeof(int));
 			networkObject.RegisterRpc("SetName", SetName, typeof(string));
 			networkObject.RegisterRpc("SetReady", SetReady, typeof(bool));
 
@@ -98,6 +100,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
+		/// <summary>
+		/// Arguments:
+		/// int index
+		/// </summary>
+		public abstract void SetPosition(RpcArgs args);
 		/// <summary>
 		/// Arguments:
 		/// string name

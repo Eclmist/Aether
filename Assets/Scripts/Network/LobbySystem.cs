@@ -19,11 +19,19 @@ public class LobbySystem : LobbySystemBehavior
     [SerializeField]
     private CharacterCustomizer m_CharacterCustomizerLocal;
 
+    // Singleton instance
+    private static LobbySystem m_Instance;
+
     // Host only
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
     private void Awake()
     {
+        // Ensure only one of this class exists
+        if (m_Instance != null)
+            Destroy(m_Instance);
+        m_Instance = this;
+
         m_LobbyPlayers = new Dictionary<NetworkingPlayer, LobbyPlayer>();
         if (NetworkManager.Instance.IsServer)
             NetworkManager.Instance.InstantiateAether();
@@ -34,7 +42,9 @@ public class LobbySystem : LobbySystemBehavior
         base.NetworkStart();
 
         // This client is accepted and has joined the lobby. (Includes host itself)
-        networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
+        string name = PlayerPrefs.GetString("nickname", "Guest");
+        ulong customization = m_CharacterCustomizerLocal.GetDataPacked();
+        networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, name, customization);
     }
 
     public bool CanStart()
@@ -51,6 +61,14 @@ public class LobbySystem : LobbySystemBehavior
         }
 
         return true;
+    }
+
+    public Transform GetPosition(int index)
+    {
+        if (index >= m_PlayerPositions.Length)
+            return null;
+
+        return m_PlayerPositions[index];
     }
 
     ////////////////////
@@ -81,22 +99,26 @@ public class LobbySystem : LobbySystemBehavior
         AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.KOTH_SCENE_INDEX);
     }
 
-    private void SetupPlayer(NetworkingPlayer np, ulong customization)
+    private void SetupPlayer(NetworkingPlayer np, string name, ulong customization)
     {
         MainThreadManager.Run(() => {
             int playerCount = m_LobbyPlayers.Count;
-            Vector3 position = m_PlayerPositions[playerCount].position;
             Quaternion rotation = m_PlayerPositions[playerCount].rotation;
             Destroy(m_Loaders[playerCount]);
 
             LobbyPlayer player = NetworkManager.Instance.InstantiateLobbyPlayer(rotation: rotation) as LobbyPlayer;
-            player.SetCustomization(customization);
-            // TODO: FIX THIS. ONLY HAPPENS LOCALLY.
-            player.transform.SetParent(m_PlayerPositions[playerCount], false);
 
-            // Name setup
-            string playerName = "Player-" + np.NetworkId;
-            player.UpdateName(playerName);
+            player.networkStarted += (NetworkBehavior behavior) =>
+            {
+                // Position setup
+                player.UpdatePosition(playerCount);
+
+                // Customization setup
+                player.SetCustomization(customization);
+
+                // Name setup
+                player.UpdateName(name);
+            };
 
             m_LobbyPlayers.Add(np, player);
         });
@@ -140,12 +162,31 @@ public class LobbySystem : LobbySystemBehavior
             p.UpdateDataFor(np);
         }
 
-        SetupPlayer(np, args.GetNext<ulong>());
+        SetupPlayer(np, args.GetNext<string>(), args.GetNext<ulong>());
     }
 
     public override void SetPlayerCustomization(RpcArgs args)
     {
         NetworkingPlayer np = args.Info.SendingPlayer;
         m_LobbyPlayers[np].SetCustomization(args.GetNext<ulong>());
+    }
+
+    ////////////////////
+    ///
+    /// Singleton Pattern
+    ///
+    ////////////////////
+
+    public static LobbySystem Instance
+    {
+        get
+        {
+            return m_Instance;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        m_Instance = null;
     }
 }

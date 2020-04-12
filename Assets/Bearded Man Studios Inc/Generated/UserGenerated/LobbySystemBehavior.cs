@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"bool\"][\"ulong\"][\"ulong\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"isReady\"][\"customization\"][\"customization\"]]")]
+	[GeneratedRPC("{\"types\":[[\"bool\"][\"string\", \"ulong\"][\"ulong\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"isReady\"][\"name\", \"customization\"][\"customization\"]]")]
 	public abstract partial class LobbySystemBehavior : NetworkBehavior
 	{
 		public const byte RPC_TOGGLE_READY = 0 + 5;
@@ -25,7 +25,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("ToggleReady", ToggleReady, typeof(bool));
-			networkObject.RegisterRpc("SetPlayerEntered", SetPlayerEntered, typeof(ulong));
+			networkObject.RegisterRpc("SetPlayerEntered", SetPlayerEntered, typeof(string), typeof(ulong));
 			networkObject.RegisterRpc("SetPlayerCustomization", SetPlayerCustomization, typeof(ulong));
 
 			networkObject.onDestroy += DestroyGameObject;
@@ -107,6 +107,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		public abstract void ToggleReady(RpcArgs args);
 		/// <summary>
 		/// Arguments:
+		/// string name
 		/// ulong customization
 		/// </summary>
 		public abstract void SetPlayerEntered(RpcArgs args);
