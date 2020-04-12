@@ -9,7 +9,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 	public abstract partial class LobbyPlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_NAME = 0 + 5;
-		public const byte RPC_TOGGLE_READY = 1 + 5;
+		public const byte RPC_SET_READY = 1 + 5;
 
 		public LobbyPlayerNetworkObject networkObject = null;
 
@@ -24,7 +24,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("SetName", SetName, typeof(string));
-			networkObject.RegisterRpc("ToggleReady", ToggleReady, typeof(bool));
+			networkObject.RegisterRpc("SetReady", SetReady, typeof(bool));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -107,7 +107,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// Arguments:
 		/// bool isReady
 		/// </summary>
-		public abstract void ToggleReady(RpcArgs args);
+		public abstract void SetReady(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

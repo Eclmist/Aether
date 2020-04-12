@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Game started");
         m_GameStarted = true;
-        GameStarted?.Invoke(GameMode.GAMEMODE_KING_OF_THE_HILL);
+        GameStarted?.Invoke(GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER);
     }
 
     public void SetGameOver(Team team)
@@ -74,6 +74,22 @@ public class GameManager : Singleton<GameManager>
         // for maybe 10 seconds (can be skipped if host presses a button?)
         // then return to lobby
         UIManager.Instance.ShowWinningMessage(team);
+    }
+
+    public void SetUnFrozen()
+    {
+        if (PlayerManager.HasInstance)
+        {
+            foreach (Player player in PlayerManager.Instance.GetAllPlayers())
+            {
+                if (player != null)
+                {
+                    PlayerMovement movement = player.GetComponent<PlayerMovement>();
+                    if (movement != null)
+                        movement.SetFrozen(false);
+                }
+            }
+        }
     }
 
     private void OnDestroy()

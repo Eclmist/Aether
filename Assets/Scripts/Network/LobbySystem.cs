@@ -19,6 +19,7 @@ public class LobbySystem : LobbySystemBehavior
     [SerializeField]
     private CharacterCustomizer m_CharacterCustomizerLocal;
 
+    // Host only
     private Dictionary<NetworkingPlayer, LobbyPlayer> m_LobbyPlayers;
 
     private void Awake()
@@ -36,7 +37,7 @@ public class LobbySystem : LobbySystemBehavior
         networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
     }
 
-    private bool CanStart()
+    public bool CanStart()
     {
         // bypass for testing
         if (m_BypassReadyCheck)
@@ -61,9 +62,6 @@ public class LobbySystem : LobbySystemBehavior
     public void OnStart()
     {
         if (!NetworkManager.Instance.IsServer)
-            return;
-
-        if (!CanStart())
             return;
 
         int position = 0;
@@ -109,6 +107,11 @@ public class LobbySystem : LobbySystemBehavior
     /// CLIENT-ONLY CODE
     ///
     ////////////////////
+    
+    public void SetPlayerReady(bool isReady)
+    {
+        networkObject?.SendRpc(RPC_TOGGLE_READY, Receivers.Server, isReady);
+    }
 
     public void SendCustomizationDataToHost()
     {
@@ -118,10 +121,13 @@ public class LobbySystem : LobbySystemBehavior
     // RPC sent to host by any player
     public override void ToggleReady(RpcArgs args)
     {
-        NetworkingPlayer np = args.Info.SendingPlayer;
-        LobbyPlayer lobbyPlayer;
-        if (m_LobbyPlayers.TryGetValue(np, out lobbyPlayer))
-            lobbyPlayer.ToggleReadyStatus(args.GetNext<bool>());
+        MainThreadManager.Run(() =>
+        {
+            NetworkingPlayer np = args.Info.SendingPlayer;
+            LobbyPlayer lobbyPlayer;
+            if (m_LobbyPlayers.TryGetValue(np, out lobbyPlayer))
+                lobbyPlayer.SetReadyStatus(args.GetNext<bool>());
+        });
     }
 
     // RPC sent to host by new entering player
