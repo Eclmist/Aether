@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0]")]
+	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0,0]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
 		public const int IDENTITY = 12;
@@ -78,35 +78,35 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (fieldAltered != null) fieldAltered("rotation", _rotation, timestep);
 		}
 		[ForgeGeneratedField]
-		private float _axisDeltaMagnitude;
-		public event FieldEvent<float> axisDeltaMagnitudeChanged;
-		public InterpolateFloat axisDeltaMagnitudeInterpolation = new InterpolateFloat() { LerpT = 0.05f, Enabled = true };
-		public float axisDeltaMagnitude
+		private Vector2 _axisDelta;
+		public event FieldEvent<Vector2> axisDeltaChanged;
+		public InterpolateVector2 axisDeltaInterpolation = new InterpolateVector2() { LerpT = 0.05f, Enabled = true };
+		public Vector2 axisDelta
 		{
-			get { return _axisDeltaMagnitude; }
+			get { return _axisDelta; }
 			set
 			{
 				// Don't do anything if the value is the same
-				if (_axisDeltaMagnitude == value)
+				if (_axisDelta == value)
 					return;
 
 				// Mark the field as dirty for the network to transmit
 				_dirtyFields[0] |= 0x4;
-				_axisDeltaMagnitude = value;
+				_axisDelta = value;
 				hasDirtyFields = true;
 			}
 		}
 
-		public void SetaxisDeltaMagnitudeDirty()
+		public void SetaxisDeltaDirty()
 		{
 			_dirtyFields[0] |= 0x4;
 			hasDirtyFields = true;
 		}
 
-		private void RunChange_axisDeltaMagnitude(ulong timestep)
+		private void RunChange_axisDelta(ulong timestep)
 		{
-			if (axisDeltaMagnitudeChanged != null) axisDeltaMagnitudeChanged(_axisDeltaMagnitude, timestep);
-			if (fieldAltered != null) fieldAltered("axisDeltaMagnitude", _axisDeltaMagnitude, timestep);
+			if (axisDeltaChanged != null) axisDeltaChanged(_axisDelta, timestep);
+			if (fieldAltered != null) fieldAltered("axisDelta", _axisDelta, timestep);
 		}
 		[ForgeGeneratedField]
 		private float _vertVelocity;
@@ -170,6 +170,99 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (groundedChanged != null) groundedChanged(_grounded, timestep);
 			if (fieldAltered != null) fieldAltered("grounded", _grounded, timestep);
 		}
+		[ForgeGeneratedField]
+		private int _weaponIndex;
+		public event FieldEvent<int> weaponIndexChanged;
+		public Interpolated<int> weaponIndexInterpolation = new Interpolated<int>() { LerpT = 0f, Enabled = false };
+		public int weaponIndex
+		{
+			get { return _weaponIndex; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_weaponIndex == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[0] |= 0x20;
+				_weaponIndex = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetweaponIndexDirty()
+		{
+			_dirtyFields[0] |= 0x20;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_weaponIndex(ulong timestep)
+		{
+			if (weaponIndexChanged != null) weaponIndexChanged(_weaponIndex, timestep);
+			if (fieldAltered != null) fieldAltered("weaponIndex", _weaponIndex, timestep);
+		}
+		[ForgeGeneratedField]
+		private int _skillIndex;
+		public event FieldEvent<int> skillIndexChanged;
+		public Interpolated<int> skillIndexInterpolation = new Interpolated<int>() { LerpT = 0f, Enabled = false };
+		public int skillIndex
+		{
+			get { return _skillIndex; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_skillIndex == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[0] |= 0x40;
+				_skillIndex = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetskillIndexDirty()
+		{
+			_dirtyFields[0] |= 0x40;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_skillIndex(ulong timestep)
+		{
+			if (skillIndexChanged != null) skillIndexChanged(_skillIndex, timestep);
+			if (fieldAltered != null) fieldAltered("skillIndex", _skillIndex, timestep);
+		}
+		[ForgeGeneratedField]
+		private bool _blocked;
+		public event FieldEvent<bool> blockedChanged;
+		public Interpolated<bool> blockedInterpolation = new Interpolated<bool>() { LerpT = 0f, Enabled = false };
+		public bool blocked
+		{
+			get { return _blocked; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_blocked == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[0] |= 0x80;
+				_blocked = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetblockedDirty()
+		{
+			_dirtyFields[0] |= 0x80;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_blocked(ulong timestep)
+		{
+			if (blockedChanged != null) blockedChanged(_blocked, timestep);
+			if (fieldAltered != null) fieldAltered("blocked", _blocked, timestep);
+		}
 
 		protected override void OwnershipChanged()
 		{
@@ -181,9 +274,12 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		{
 			positionInterpolation.current = positionInterpolation.target;
 			rotationInterpolation.current = rotationInterpolation.target;
-			axisDeltaMagnitudeInterpolation.current = axisDeltaMagnitudeInterpolation.target;
+			axisDeltaInterpolation.current = axisDeltaInterpolation.target;
 			vertVelocityInterpolation.current = vertVelocityInterpolation.target;
 			groundedInterpolation.current = groundedInterpolation.target;
+			weaponIndexInterpolation.current = weaponIndexInterpolation.target;
+			skillIndexInterpolation.current = skillIndexInterpolation.target;
+			blockedInterpolation.current = blockedInterpolation.target;
 		}
 
 		public override int UniqueIdentity { get { return IDENTITY; } }
@@ -192,9 +288,12 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		{
 			UnityObjectMapper.Instance.MapBytes(data, _position);
 			UnityObjectMapper.Instance.MapBytes(data, _rotation);
-			UnityObjectMapper.Instance.MapBytes(data, _axisDeltaMagnitude);
+			UnityObjectMapper.Instance.MapBytes(data, _axisDelta);
 			UnityObjectMapper.Instance.MapBytes(data, _vertVelocity);
 			UnityObjectMapper.Instance.MapBytes(data, _grounded);
+			UnityObjectMapper.Instance.MapBytes(data, _weaponIndex);
+			UnityObjectMapper.Instance.MapBytes(data, _skillIndex);
+			UnityObjectMapper.Instance.MapBytes(data, _blocked);
 
 			return data;
 		}
@@ -209,10 +308,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			rotationInterpolation.current = _rotation;
 			rotationInterpolation.target = _rotation;
 			RunChange_rotation(timestep);
-			_axisDeltaMagnitude = UnityObjectMapper.Instance.Map<float>(payload);
-			axisDeltaMagnitudeInterpolation.current = _axisDeltaMagnitude;
-			axisDeltaMagnitudeInterpolation.target = _axisDeltaMagnitude;
-			RunChange_axisDeltaMagnitude(timestep);
+			_axisDelta = UnityObjectMapper.Instance.Map<Vector2>(payload);
+			axisDeltaInterpolation.current = _axisDelta;
+			axisDeltaInterpolation.target = _axisDelta;
+			RunChange_axisDelta(timestep);
 			_vertVelocity = UnityObjectMapper.Instance.Map<float>(payload);
 			vertVelocityInterpolation.current = _vertVelocity;
 			vertVelocityInterpolation.target = _vertVelocity;
@@ -221,6 +320,18 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			groundedInterpolation.current = _grounded;
 			groundedInterpolation.target = _grounded;
 			RunChange_grounded(timestep);
+			_weaponIndex = UnityObjectMapper.Instance.Map<int>(payload);
+			weaponIndexInterpolation.current = _weaponIndex;
+			weaponIndexInterpolation.target = _weaponIndex;
+			RunChange_weaponIndex(timestep);
+			_skillIndex = UnityObjectMapper.Instance.Map<int>(payload);
+			skillIndexInterpolation.current = _skillIndex;
+			skillIndexInterpolation.target = _skillIndex;
+			RunChange_skillIndex(timestep);
+			_blocked = UnityObjectMapper.Instance.Map<bool>(payload);
+			blockedInterpolation.current = _blocked;
+			blockedInterpolation.target = _blocked;
+			RunChange_blocked(timestep);
 		}
 
 		protected override BMSByte SerializeDirtyFields()
@@ -233,11 +344,17 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if ((0x2 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _rotation);
 			if ((0x4 & _dirtyFields[0]) != 0)
-				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _axisDeltaMagnitude);
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _axisDelta);
 			if ((0x8 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _vertVelocity);
 			if ((0x10 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _grounded);
+			if ((0x20 & _dirtyFields[0]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _weaponIndex);
+			if ((0x40 & _dirtyFields[0]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _skillIndex);
+			if ((0x80 & _dirtyFields[0]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _blocked);
 
 			// Reset all the dirty fields
 			for (int i = 0; i < _dirtyFields.Length; i++)
@@ -282,15 +399,15 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			}
 			if ((0x4 & readDirtyFlags[0]) != 0)
 			{
-				if (axisDeltaMagnitudeInterpolation.Enabled)
+				if (axisDeltaInterpolation.Enabled)
 				{
-					axisDeltaMagnitudeInterpolation.target = UnityObjectMapper.Instance.Map<float>(data);
-					axisDeltaMagnitudeInterpolation.Timestep = timestep;
+					axisDeltaInterpolation.target = UnityObjectMapper.Instance.Map<Vector2>(data);
+					axisDeltaInterpolation.Timestep = timestep;
 				}
 				else
 				{
-					_axisDeltaMagnitude = UnityObjectMapper.Instance.Map<float>(data);
-					RunChange_axisDeltaMagnitude(timestep);
+					_axisDelta = UnityObjectMapper.Instance.Map<Vector2>(data);
+					RunChange_axisDelta(timestep);
 				}
 			}
 			if ((0x8 & readDirtyFlags[0]) != 0)
@@ -319,6 +436,45 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					RunChange_grounded(timestep);
 				}
 			}
+			if ((0x20 & readDirtyFlags[0]) != 0)
+			{
+				if (weaponIndexInterpolation.Enabled)
+				{
+					weaponIndexInterpolation.target = UnityObjectMapper.Instance.Map<int>(data);
+					weaponIndexInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_weaponIndex = UnityObjectMapper.Instance.Map<int>(data);
+					RunChange_weaponIndex(timestep);
+				}
+			}
+			if ((0x40 & readDirtyFlags[0]) != 0)
+			{
+				if (skillIndexInterpolation.Enabled)
+				{
+					skillIndexInterpolation.target = UnityObjectMapper.Instance.Map<int>(data);
+					skillIndexInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_skillIndex = UnityObjectMapper.Instance.Map<int>(data);
+					RunChange_skillIndex(timestep);
+				}
+			}
+			if ((0x80 & readDirtyFlags[0]) != 0)
+			{
+				if (blockedInterpolation.Enabled)
+				{
+					blockedInterpolation.target = UnityObjectMapper.Instance.Map<bool>(data);
+					blockedInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_blocked = UnityObjectMapper.Instance.Map<bool>(data);
+					RunChange_blocked(timestep);
+				}
+			}
 		}
 
 		public override void InterpolateUpdate()
@@ -336,10 +492,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 				_rotation = (Quaternion)rotationInterpolation.Interpolate();
 				//RunChange_rotation(rotationInterpolation.Timestep);
 			}
-			if (axisDeltaMagnitudeInterpolation.Enabled && !axisDeltaMagnitudeInterpolation.current.UnityNear(axisDeltaMagnitudeInterpolation.target, 0.0015f))
+			if (axisDeltaInterpolation.Enabled && !axisDeltaInterpolation.current.UnityNear(axisDeltaInterpolation.target, 0.0015f))
 			{
-				_axisDeltaMagnitude = (float)axisDeltaMagnitudeInterpolation.Interpolate();
-				//RunChange_axisDeltaMagnitude(axisDeltaMagnitudeInterpolation.Timestep);
+				_axisDelta = (Vector2)axisDeltaInterpolation.Interpolate();
+				//RunChange_axisDelta(axisDeltaInterpolation.Timestep);
 			}
 			if (vertVelocityInterpolation.Enabled && !vertVelocityInterpolation.current.UnityNear(vertVelocityInterpolation.target, 0.0015f))
 			{
@@ -350,6 +506,21 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			{
 				_grounded = (bool)groundedInterpolation.Interpolate();
 				//RunChange_grounded(groundedInterpolation.Timestep);
+			}
+			if (weaponIndexInterpolation.Enabled && !weaponIndexInterpolation.current.UnityNear(weaponIndexInterpolation.target, 0.0015f))
+			{
+				_weaponIndex = (int)weaponIndexInterpolation.Interpolate();
+				//RunChange_weaponIndex(weaponIndexInterpolation.Timestep);
+			}
+			if (skillIndexInterpolation.Enabled && !skillIndexInterpolation.current.UnityNear(skillIndexInterpolation.target, 0.0015f))
+			{
+				_skillIndex = (int)skillIndexInterpolation.Interpolate();
+				//RunChange_skillIndex(skillIndexInterpolation.Timestep);
+			}
+			if (blockedInterpolation.Enabled && !blockedInterpolation.current.UnityNear(blockedInterpolation.target, 0.0015f))
+			{
+				_blocked = (bool)blockedInterpolation.Interpolate();
+				//RunChange_blocked(blockedInterpolation.Timestep);
 			}
 		}
 

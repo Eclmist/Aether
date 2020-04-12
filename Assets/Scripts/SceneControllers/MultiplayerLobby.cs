@@ -45,6 +45,7 @@ public class MultiplayerLobby : MonoBehaviour
         }
 
         m_IsReady = !m_IsReady;
+        AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
         m_LobbySystem.SetPlayerReady(m_IsReady);
     }
 

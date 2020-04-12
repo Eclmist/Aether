@@ -110,7 +110,7 @@ public class LobbySystem : LobbySystemBehavior
     
     public void SetPlayerReady(bool isReady)
     {
-        networkObject.SendRpc(RPC_TOGGLE_READY, Receivers.Server, isReady);
+        networkObject?.SendRpc(RPC_TOGGLE_READY, Receivers.Server, isReady);
     }
 
     public void SendCustomizationDataToHost()
