@@ -27,9 +27,9 @@ public class LobbyPlayer : LobbyPlayerBehavior
         return m_Customization;
     }
 
-    public void ToggleReadyStatus(bool isReady)
+    public void SetReadyStatus(bool isReady)
     {
-        networkObject.SendRpc(RPC_TOGGLE_READY, Receivers.All, isReady);
+        networkObject.SendRpc(RPC_SET_READY, Receivers.All, isReady);
     }
 
     public void UpdateName(string name)
@@ -55,8 +55,9 @@ public class LobbyPlayer : LobbyPlayerBehavior
         m_PlayerName.text = args.GetNext<string>();
     }
 
-    public override void ToggleReady(RpcArgs args)
+    public override void SetReady(RpcArgs args)
     {
         m_IsReady = args.GetNext<bool>();
+        Debug.Log("Ready: " + m_IsReady);
     }
 }

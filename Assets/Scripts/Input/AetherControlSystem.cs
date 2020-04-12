@@ -558,7 +558,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Invite"",
+                    ""name"": ""Ready"",
                     ""type"": ""Button"",
                     ""id"": ""76ee5a8b-26f5-487d-9452-2f513077e77d"",
                     ""expectedControlType"": """",
@@ -978,7 +978,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Invite"",
+                    ""action"": ""Ready"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -989,7 +989,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Invite"",
+                    ""action"": ""Ready"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1106,7 +1106,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_TrackedDeviceSelect = m_UI.FindAction("TrackedDeviceSelect", throwIfNotFound: true);
         m_UI_KeyboardAction = m_UI.FindAction("KeyboardAction", throwIfNotFound: true);
-        m_UI_Invite = m_UI.FindAction("Invite", throwIfNotFound: true);
+        m_UI_Ready = m_UI.FindAction("Ready", throwIfNotFound: true);
         m_UI_Customize = m_UI.FindAction("Customize", throwIfNotFound: true);
     }
 
@@ -1266,7 +1266,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_TrackedDeviceSelect;
     private readonly InputAction m_UI_KeyboardAction;
-    private readonly InputAction m_UI_Invite;
+    private readonly InputAction m_UI_Ready;
     private readonly InputAction m_UI_Customize;
     public struct UIActions
     {
@@ -1284,7 +1284,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @TrackedDeviceSelect => m_Wrapper.m_UI_TrackedDeviceSelect;
         public InputAction @KeyboardAction => m_Wrapper.m_UI_KeyboardAction;
-        public InputAction @Invite => m_Wrapper.m_UI_Invite;
+        public InputAction @Ready => m_Wrapper.m_UI_Ready;
         public InputAction @Customize => m_Wrapper.m_UI_Customize;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -1331,9 +1331,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @KeyboardAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
                 @KeyboardAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
                 @KeyboardAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
-                @Invite.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInvite;
-                @Invite.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInvite;
-                @Invite.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInvite;
+                @Ready.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
+                @Ready.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
+                @Ready.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
                 @Customize.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
                 @Customize.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
                 @Customize.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
@@ -1377,9 +1377,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @KeyboardAction.started += instance.OnKeyboardAction;
                 @KeyboardAction.performed += instance.OnKeyboardAction;
                 @KeyboardAction.canceled += instance.OnKeyboardAction;
-                @Invite.started += instance.OnInvite;
-                @Invite.performed += instance.OnInvite;
-                @Invite.canceled += instance.OnInvite;
+                @Ready.started += instance.OnReady;
+                @Ready.performed += instance.OnReady;
+                @Ready.canceled += instance.OnReady;
                 @Customize.started += instance.OnCustomize;
                 @Customize.performed += instance.OnCustomize;
                 @Customize.canceled += instance.OnCustomize;
@@ -1458,7 +1458,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnTrackedDeviceSelect(InputAction.CallbackContext context);
         void OnKeyboardAction(InputAction.CallbackContext context);
-        void OnInvite(InputAction.CallbackContext context);
+        void OnReady(InputAction.CallbackContext context);
         void OnCustomize(InputAction.CallbackContext context);
     }
 }
