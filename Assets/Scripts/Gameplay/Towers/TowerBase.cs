@@ -55,7 +55,8 @@ public class TowerBase : TowerBehavior
             else if (captureGauge < -MAXIMUM_CAPTURE_GAUGE)
                 m_CaptureGauge = -MAXIMUM_CAPTURE_GAUGE;
 
-            TowerCaptured(this);
+
+            TowerCaptured?.Invoke(this);
         }
     }
 

@@ -28,7 +28,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
             return;
 
         // Check current rate of gauge shift
-        int captureMultiplier = 0;
+        int captureMultiplier = 1;
     
         if (m_PlayersInCaptureZone.Count == 0)
             m_Tower.SetCaptureBarFlag(false);
