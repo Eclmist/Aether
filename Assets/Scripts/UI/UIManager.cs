@@ -42,25 +42,25 @@ public class UIManager : Singleton<UIManager>
         string message = "";
         switch (gameMode)
         {
-            case GameMode.GAMEMODE_KING_OF_THE_HILL:
-                message = "King of the Hill";
+            case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
+                message = "Zoom: Racing Circuit Breaker";
                 break;
             default:
                 break;
         }
 
-        UINotifyHeader(message);
-        UICountdown();
+        StartCoroutine(UIStartGame(message));
     }
 
-    public void UICountdown()
+    public IEnumerator UIStartGame(string message)
     {
+        UINotifyHeader(message);
+        yield return new WaitForSeconds(2.5f);
         StartCoroutine(CountdownActivate());
     }
 
     private IEnumerator CountdownActivate()
     {
-        ToggelMoveability();
         int counter = 3;
 
         while (counter > 0) 
@@ -80,23 +80,7 @@ public class UIManager : Singleton<UIManager>
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
 
-        ToggelMoveability();
-    }
-
-    private void ToggelMoveability()
-    {
-        if (PlayerManager.HasInstance)
-        {
-            foreach (Player player in PlayerManager.Instance.GetAllPlayers())
-            {
-                if (player != null)
-                {
-                    PlayerMovement movement = player.GetComponent<PlayerMovement>();
-                    if (movement != null)
-                        movement.ToggleFrozen();
-                }
-            }
-        }
+        GameManager.Instance.SetUnFrozen();
     }
 
     public void UINotifyHeader(string message)

@@ -22,6 +22,13 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         m_Players.Add(player);
 
+         if (player != null)
+        {
+            PlayerMovement movement = player.GetComponent<PlayerMovement>();
+            if (movement != null)
+                movement.SetFrozen(true);
+        }
+
         PlayerDetails details = player.GetPlayerDetails();
         if (details == null)
         {

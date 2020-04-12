@@ -112,9 +112,9 @@ public class PlayerMovement : MonoBehaviour
         m_IsDamaged = !m_IsDamaged;
     }
 
-    public void ToggleFrozen()
+    public void SetFrozen(bool frozen)
     {
-        m_IsFrozen = !m_IsFrozen;
+        m_IsFrozen = frozen;
     }
 
     public bool IsDead()
