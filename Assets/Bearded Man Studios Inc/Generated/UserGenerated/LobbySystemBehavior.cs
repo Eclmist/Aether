@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][\"ulong\"][\"ulong\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][\"customization\"][\"customization\"]]")]
+	[GeneratedRPC("{\"types\":[[\"bool\"][\"ulong\"][\"ulong\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"isReady\"][\"customization\"][\"customization\"]]")]
 	public abstract partial class LobbySystemBehavior : NetworkBehavior
 	{
 		public const byte RPC_TOGGLE_READY = 0 + 5;
@@ -24,7 +24,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
-			networkObject.RegisterRpc("ToggleReady", ToggleReady);
+			networkObject.RegisterRpc("ToggleReady", ToggleReady, typeof(bool));
 			networkObject.RegisterRpc("SetPlayerEntered", SetPlayerEntered, typeof(ulong));
 			networkObject.RegisterRpc("SetPlayerCustomization", SetPlayerCustomization, typeof(ulong));
 
@@ -102,14 +102,17 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		/// <summary>
 		/// Arguments:
+		/// bool isReady
 		/// </summary>
 		public abstract void ToggleReady(RpcArgs args);
 		/// <summary>
 		/// Arguments:
+		/// ulong customization
 		/// </summary>
 		public abstract void SetPlayerEntered(RpcArgs args);
 		/// <summary>
 		/// Arguments:
+		/// ulong customization
 		/// </summary>
 		public abstract void SetPlayerCustomization(RpcArgs args);
 

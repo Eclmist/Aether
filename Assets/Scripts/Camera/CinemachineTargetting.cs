@@ -27,7 +27,7 @@ public class CinemachineTargetting : MonoBehaviour
 
     private void OnPlayerDeath()
     {
-        List<Player> players = PlayerManager.Instance.GetTeamMembers();
+        List<Player> players = PlayerManager.Instance.GetOtherPlayers();
 
         if (players.Count == 0)
             return;

@@ -11,16 +11,11 @@ public class PlayerManager : Singleton<PlayerManager>
 
     private Player m_LocalPlayer;
     private List<Player> m_Players;
-    private Dictionary<Team, List<int>> m_TeamIndices;
     private int m_TotalPlayerCount;
 
     private void Awake()
     {
         m_Players = new List<Player>();
-        m_TeamIndices = new Dictionary<Team, List<int>>();
-
-        foreach (Team team in (Team[])System.Enum.GetValues(typeof(Team)))
-            m_TeamIndices.Add(team, new List<int>());
     }
 
     public void AddPlayer(Player player)
@@ -33,10 +28,6 @@ public class PlayerManager : Singleton<PlayerManager>
             Debug.Log("Player details are null. PlayerManager.AddPlayer");
             return;
         }
-
-        // Add index to the appropriate team list
-        Team team = details.GetTeam();
-        m_TeamIndices[team].Add(m_Players.Count - 1);
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
@@ -73,19 +64,13 @@ public class PlayerManager : Singleton<PlayerManager>
         return m_Players;
     }
 
-    public List<Player> GetPlayersByTeam(Team team)
+    public List<Player> GetOtherPlayers()
     {
-        return m_TeamIndices[team].ConvertAll(index => m_Players[index]);
-    }
+        List<Player> others = m_Players.ConvertAll(player => player);
+        if (!others.Remove(m_LocalPlayer))
+            Debug.Log("Local player not found in player list");
 
-    public List<Player> GetTeamMembers()
-    {
-        List<Player> teamPlayers = GetPlayersByTeam(m_LocalPlayer.GetPlayerDetails().GetTeam());
-
-        if (!teamPlayers.Remove(m_LocalPlayer))
-            Debug.Log("Local player not found in his team's list");
-
-        return teamPlayers;
+        return others;
     }
 
     public PlayerNetworkManager GetPlayerNetworkManager()

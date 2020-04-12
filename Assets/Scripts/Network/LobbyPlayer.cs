@@ -8,11 +8,6 @@ public class LobbyPlayer : LobbyPlayerBehavior
     [SerializeField]
     private Text m_PlayerName;
 
-    [SerializeField]
-    private Text m_PlayerTeam;
-
-    private Team m_Team;
-
     private bool m_IsReady = false;
 
     private ulong m_Customization;
@@ -20,11 +15,6 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public string GetName()
     {
         return m_PlayerName.text;
-    }
-
-    public Team GetTeam()
-    {
-        return m_Team;
     }
 
     public bool GetIsReady()
@@ -37,11 +27,9 @@ public class LobbyPlayer : LobbyPlayerBehavior
         return m_Customization;
     }
 
-    public void ToggleReadyStatus()
+    public void ToggleReadyStatus(bool isReady)
     {
-        m_IsReady = !m_IsReady;
-
-        // Send RPC to update ready status
+        networkObject.SendRpc(RPC_TOGGLE_READY, Receivers.All, isReady);
     }
 
     public void UpdateName(string name)
@@ -52,32 +40,9 @@ public class LobbyPlayer : LobbyPlayerBehavior
             networkObject.SendRpc(RPC_SET_NAME, Receivers.All, name);
     }
 
-    public void UpdateTeam(Team team)
-    {
-        m_Team = team;
-        if (m_PlayerTeam != null)
-        {
-            switch (m_Team)
-            {
-                case Team.TEAM_ONE:
-                    m_PlayerTeam.text = "Red";
-                    break;
-                case Team.TEAM_TWO:
-                    m_PlayerTeam.text = "Blue";
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        if (networkObject != null)
-            networkObject.SendRpc(RPC_SET_TEAM, Receivers.All, (int)m_Team);
-    }
-
     public void UpdateDataFor(NetworkingPlayer player)
     {
         networkObject.SendRpc(player, RPC_SET_NAME, m_PlayerName.text);
-        networkObject.SendRpc(player, RPC_SET_TEAM, (int)m_Team);
     }
 
     public void SetCustomization(ulong data)
@@ -90,17 +55,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
         m_PlayerName.text = args.GetNext<string>();
     }
 
-    public override void SetTeam(RpcArgs args)
+    public override void ToggleReady(RpcArgs args)
     {
-        m_Team = (Team)args.GetNext<int>();
-        // E3: No text, this is breaking build
-        //if (Team == 0)
-        //{
-        //    m_PlayerTeam.text = "Red";
-        //}
-        //else
-        //{
-        //    m_PlayerTeam.text = "Blue";
-        //}
+        m_IsReady = args.GetNext<bool>();
     }
 }

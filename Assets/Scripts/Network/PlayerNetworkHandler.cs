@@ -128,7 +128,7 @@ public class PlayerNetworkHandler : MonoBehaviour
         Player player = GetComponent<Player>();
         PlayerNetworkManager pnm = PlayerManager.Instance.GetPlayerNetworkManager();
         PlayerDetails details = player.GetPlayerDetails();
-        Transform spawnPos = pnm.GetSpawnPosition(details.GetTeam(), details.GetPosition());
+        Transform spawnPos = pnm.GetSpawnPosition(details.GetPosition());
         CharacterController cc = GetComponent<CharacterController>();
 
         cc.enabled = false;

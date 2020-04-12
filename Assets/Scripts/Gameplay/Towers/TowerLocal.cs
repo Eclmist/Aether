@@ -35,24 +35,6 @@ public class TowerLocal : MonoBehaviour, IInteractable
         else 
             m_Tower.SetCaptureBarFlag(true);
 
-
-        foreach (Player player in m_PlayersInCaptureZone)
-        {
-            Team team = player.GetPlayerDetails().GetTeam();
-            switch (team)
-            {
-                case Team.TEAM_ONE:
-                    captureMultiplier++;
-                    break;
-                case Team.TEAM_TWO:
-                    captureMultiplier--;
-                    break;
-                default:
-                    Debug.Assert(false, "Should not be reached unless a team was unhandled. TowerLocal.Update");
-                    break;
-            }
-        }
-
         float captureGauge = m_Tower.GetCaptureGauge();
         captureGauge += captureMultiplier * m_CapturePerPaxPerSecond * Time.deltaTime;
         m_Tower.UpdateCaptureGauge(captureGauge);

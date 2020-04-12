@@ -9,10 +9,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     public event System.Action AllPlayersReady;
 
     [SerializeField]
-    private Transform[] m_SpawnPositionsRed;
-
-    [SerializeField]
-    private Transform[] m_SpawnPositionsBlue;
+    private Transform[] m_SpawnPositions;
 
     private int m_ReadyClientCount = 0;
 
@@ -22,18 +19,9 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }
 
-    public Transform GetSpawnPosition(Team team, int index)
+    public Transform GetSpawnPosition(int position)
     {
-        switch (team)
-        {
-            case Team.TEAM_ONE:
-                return m_SpawnPositionsRed[index];
-            case Team.TEAM_TWO:
-                return m_SpawnPositionsBlue[index];
-            default:
-                Debug.Assert(false, "Should not be reached unless a team was unhandled. PlayerNetworkManager.GetSpawnPosition");
-                return null;
-        }
+        return m_SpawnPositions[position];
     }
 
     private void OnClientReady()
@@ -53,15 +41,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 // Remove unnecessary objects/components
                 player.UpdateToggleables();
 
-                // Set reveal based on team
-                // Player details not null
-                PlayerDetails details = player.GetPlayerDetails();
+                // Player reveal activates
                 RevealActor revealActor = player.GetRevealActor();
-                if (details.GetTeam().Equals(localPlayerDetails.GetTeam()))
-                    revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_SHOW);
-                else
-                    revealActor.SetRevealMode(RevealActor.RevealMode.REVEALMODE_HIDE);
-
                 revealActor.enabled = true;
             }
 
@@ -120,21 +101,8 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         // Run on main thread for unity to be able to grab transform data and instantiate player etc
         MainThreadManager.Run(() =>
         {
-            Transform spawnPoint = null;
-            switch(details.GetTeam())
-            {
-                case Team.TEAM_ONE:
-                    spawnPoint = m_SpawnPositionsRed[details.GetPosition()];
-                    break;
-                case Team.TEAM_TWO:
-                    spawnPoint = m_SpawnPositionsBlue[details.GetPosition()];
-                    break;
-                default:
-                    Debug.Assert(false, "Should not be reached unless a team was unhandled. PlayerNetworkManager.SpawnPlayer");
-                    break;
-            }
-
-            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
+            Transform spawnPoint = m_SpawnPositions[details.GetPosition()];
+            Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position,rotation: spawnPoint.rotation) as Player;
 
             p.SetDetails(details);
             p.networkStarted += OnPlayerNetworked;

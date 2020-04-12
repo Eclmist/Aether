@@ -8,7 +8,7 @@ using BeardedManStudios.Forge.Networking.Generated;
 public class LobbySystem : LobbySystemBehavior
 {
     [SerializeField]
-    private bool m_BypassTeamCheck;
+    private bool m_BypassReadyCheck;
 
     [SerializeField]
     private Transform[] m_PlayerPositions;
@@ -39,34 +39,17 @@ public class LobbySystem : LobbySystemBehavior
     private bool CanStart()
     {
         // bypass for testing
-        if (m_BypassTeamCheck)
+        if (m_BypassReadyCheck)
             return true;
 
-        if (m_LobbyPlayers.Count != AetherNetworkManager.MAX_PLAYER_COUNT)
-            return false;
-
-        int balance = 0;
         foreach (LobbyPlayer p in m_LobbyPlayers.Values)
         {
             // player not ready, cannot start
             if (!p.GetIsReady())
                 return false;
-
-            switch (p.GetTeam())
-            {
-                case Team.TEAM_ONE:
-                    balance++;
-                    break;
-                case Team.TEAM_TWO:
-                    balance--;
-                    break;
-                default:
-                    Debug.Assert(false, "Should not be reached unless a team was unhandled. LobbySystem.CanStart");
-                    break;
-            }
         }
 
-        return balance == 0;
+        return true;
     }
 
     ////////////////////
@@ -83,19 +66,16 @@ public class LobbySystem : LobbySystemBehavior
         if (!CanStart())
             return;
 
-        int[] teamList = new int[System.Enum.GetNames(typeof(Team)).Length];
+        int position = 0;
         foreach (NetworkingPlayer np in m_LobbyPlayers.Keys)
         {
             LobbyPlayer lp = m_LobbyPlayers[np];
-            Team team = lp.GetTeam();
-            int position = teamList[(int)team]++;
 
             PlayerDetails details = new PlayerDetails(
                 np.NetworkId,
-                team,
-                position,
+                position++,
                 lp.GetCustomization()
-            ); ;
+            );
 
             AetherNetworkManager.Instance.AddPlayer(np, details);
         }
@@ -120,9 +100,6 @@ public class LobbySystem : LobbySystemBehavior
             string playerName = "Player-" + np.NetworkId;
             player.UpdateName(playerName);
 
-            // Team setup, alternates based on join order by default
-            player.UpdateTeam(playerCount % 2 == 0 ? Team.TEAM_ONE : Team.TEAM_TWO);
-
             m_LobbyPlayers.Add(np, player);
         });
     }
@@ -144,7 +121,7 @@ public class LobbySystem : LobbySystemBehavior
         NetworkingPlayer np = args.Info.SendingPlayer;
         LobbyPlayer lobbyPlayer;
         if (m_LobbyPlayers.TryGetValue(np, out lobbyPlayer))
-            lobbyPlayer.ToggleReadyStatus();
+            lobbyPlayer.ToggleReadyStatus(args.GetNext<bool>());
     }
 
     // RPC sent to host by new entering player
