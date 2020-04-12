@@ -31,12 +31,15 @@ public class AnimationCallbacks : MonoBehaviour
 
     public void DashForward(float distance)
     {
+
         // E4 Hack: This DashForward function is gonna temporarily be the place to trigger actual
         // attack code. This should be moved into a different event callback
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Swing_1", transform.position);
         NetworkManager.Instance.InstantiateSwordSlash(index: 0, position: transform.position);
         NetworkManager.Instance.InstantiateSwordSlash(index: 1, position: transform.position, rotation: Quaternion.LookRotation(Camera.main.transform.forward));
-        StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
+
+        if (m_PlayerMovement != null)
+            StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
     }
 
     public void SetWeaponActive()

@@ -16,6 +16,6 @@ public class Skills : SkillsBehavior
 
     private void Start()
     {
-        m_DamageDealerBase.Activate(null);
+        m_DamageDealerBase?.Activate(null);
     }
 }
