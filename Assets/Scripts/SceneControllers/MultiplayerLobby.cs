@@ -24,6 +24,12 @@ public class MultiplayerLobby : MonoBehaviour
 
     private void ToggleCustomizationCallback(InputAction.CallbackContext ctx)
     {
+        ToggleCustomization();
+    }
+
+    // Do not delete, referenced by UI
+    public void ToggleCustomization()
+    {
         m_IsInCustomization = !m_IsInCustomization;
         AudioManager.m_Instance.PlaySound("GEN_Success_2", 1.0f, 1.0f);
         m_UIAnimator.SetBool("ShowCustomization", m_IsInCustomization);
