@@ -76,6 +76,22 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.ShowWinningMessage(team);
     }
 
+    public void SetUnFrozen()
+    {
+        if (PlayerManager.HasInstance)
+        {
+            foreach (Player player in PlayerManager.Instance.GetAllPlayers())
+            {
+                if (player != null)
+                {
+                    PlayerMovement movement = player.GetComponent<PlayerMovement>();
+                    if (movement != null)
+                        movement.SetFrozen(false);
+                }
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         if (PlayerManager.HasInstance)
