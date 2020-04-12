@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(PlayerStance))]
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField]
@@ -33,7 +32,7 @@ public class PlayerAnimation : MonoBehaviour
         m_Animator.SetFloat("Velocity-XZ-Normalized-01", m_AxisDelta.magnitude);
 
         // TODO: Support Velocity X, Velocity Z for unarmed rotation
-        if (m_PlayerStance.IsCombatStance())
+        if (m_PlayerStance != null && m_PlayerStance.IsCombatStance())
         {
             m_Animator.SetFloat("Velocity-X-Normalized", m_AxisDelta.x);
             m_Animator.SetFloat("Velocity-Z-Normalized", m_AxisDelta.y);
@@ -48,7 +47,8 @@ public class PlayerAnimation : MonoBehaviour
         m_Animator.SetBool("Grounded", isGrounded);
 
         // Set Player Weapon Stance
-        m_Animator.SetInteger("WeaponIndex", (int)m_PlayerStance.GetStance());
+        if (m_PlayerStance != null)
+            m_Animator.SetInteger("WeaponIndex", (int)m_PlayerStance.GetStance());
 
         // Set Jump trigger
         bool hasJumped = m_PlayerMovement.JumpedInCurrentFrame();
