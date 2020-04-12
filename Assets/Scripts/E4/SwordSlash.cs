@@ -19,7 +19,7 @@ public class SwordSlash : SwordSlashBehavior
         base.NetworkStart();
         if (m_DamageDealerBase != null)
         {
-            m_DamageDealerBase.Activate(networkObject, OnDamageDealt);
+            m_DamageDealerBase.Activate(OnDamageDealt);
         }
         
     }
