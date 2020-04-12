@@ -62,6 +62,7 @@ public class PlayerNetworkHandler : MonoBehaviour
             // Combat states
             m_PlayerNetworkObject.weaponIndex = (int)m_PlayerStance.GetStance();
             m_PlayerNetworkObject.blocked = m_PlayerCombatHandler.IsBlocking();
+            m_PlayerNetworkObject.skillIndex = m_SkillHandler.GetCurrentActiveSkill(); 
 
             if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
             {
@@ -83,12 +84,6 @@ public class PlayerNetworkHandler : MonoBehaviour
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
             if (m_HealthHandler.DeadInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DEATH, Receivers.All);
-
-            // Send skill state
-            if (m_SkillHandler.GetCastInCurrentFrame())
-                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, m_SkillHandler.GetCurrentActiveSkill());
-            else
-                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_SKILL, Receivers.All, (int)SkillItem.SkillType.NONE);
         }
         else
         {
@@ -109,6 +104,7 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_Animator.SetBool("Grounded", m_PlayerNetworkObject.grounded);
             m_Animator.SetInteger("WeaponIndex", m_PlayerNetworkObject.weaponIndex);
             m_Animator.SetBool("Block", m_PlayerNetworkObject.blocked);
+            m_Animator.SetInteger("SkillIndex", m_PlayerNetworkObject.skillIndex);
 
             // Show and hide sword
             // TODO: add delay or make it work with animation callbacks
@@ -146,16 +142,6 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_Animator.SetTrigger("Attack");
     }
 
-    public void TriggerSkills(int currentActiveSkill)
-    {
-        if (m_Animator == null)
-        {
-            Debug.LogWarning("Animator does not exist on player");
-            return;
-        }
-
-        m_Animator.SetInteger("SkillsIndex", currentActiveSkill);
-    }
     public void TriggerDash()
     {
         if (m_Animator == null)

@@ -187,12 +187,6 @@ public class Player : PlayerBehavior, ICanInteract
         m_PlayerNetworkHandler.TriggerJump();
     }
 
-    public override void TriggerSkill(RpcArgs args)
-    {
-        m_CurrentActiveSkill = args.GetNext<int>();
-        m_PlayerNetworkHandler.TriggerSkills(m_CurrentActiveSkill);
-    }
-
     public override void TriggerAttack(RpcArgs args)
     {
         m_PlayerNetworkHandler.TriggerAttack();

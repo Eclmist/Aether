@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0]")]
+	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0,0]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
 		public const int IDENTITY = 17;
@@ -202,6 +202,37 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (fieldAltered != null) fieldAltered("weaponIndex", _weaponIndex, timestep);
 		}
 		[ForgeGeneratedField]
+		private int _skillIndex;
+		public event FieldEvent<int> skillIndexChanged;
+		public Interpolated<int> skillIndexInterpolation = new Interpolated<int>() { LerpT = 0f, Enabled = false };
+		public int skillIndex
+		{
+			get { return _skillIndex; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_skillIndex == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[0] |= 0x40;
+				_skillIndex = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetskillIndexDirty()
+		{
+			_dirtyFields[0] |= 0x40;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_skillIndex(ulong timestep)
+		{
+			if (skillIndexChanged != null) skillIndexChanged(_skillIndex, timestep);
+			if (fieldAltered != null) fieldAltered("skillIndex", _skillIndex, timestep);
+		}
+		[ForgeGeneratedField]
 		private bool _blocked;
 		public event FieldEvent<bool> blockedChanged;
 		public Interpolated<bool> blockedInterpolation = new Interpolated<bool>() { LerpT = 0f, Enabled = false };
@@ -215,7 +246,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					return;
 
 				// Mark the field as dirty for the network to transmit
-				_dirtyFields[0] |= 0x40;
+				_dirtyFields[0] |= 0x80;
 				_blocked = value;
 				hasDirtyFields = true;
 			}
@@ -223,7 +254,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 		public void SetblockedDirty()
 		{
-			_dirtyFields[0] |= 0x40;
+			_dirtyFields[0] |= 0x80;
 			hasDirtyFields = true;
 		}
 
@@ -247,6 +278,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			vertVelocityInterpolation.current = vertVelocityInterpolation.target;
 			groundedInterpolation.current = groundedInterpolation.target;
 			weaponIndexInterpolation.current = weaponIndexInterpolation.target;
+			skillIndexInterpolation.current = skillIndexInterpolation.target;
 			blockedInterpolation.current = blockedInterpolation.target;
 		}
 
@@ -260,6 +292,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			UnityObjectMapper.Instance.MapBytes(data, _vertVelocity);
 			UnityObjectMapper.Instance.MapBytes(data, _grounded);
 			UnityObjectMapper.Instance.MapBytes(data, _weaponIndex);
+			UnityObjectMapper.Instance.MapBytes(data, _skillIndex);
 			UnityObjectMapper.Instance.MapBytes(data, _blocked);
 
 			return data;
@@ -291,6 +324,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			weaponIndexInterpolation.current = _weaponIndex;
 			weaponIndexInterpolation.target = _weaponIndex;
 			RunChange_weaponIndex(timestep);
+			_skillIndex = UnityObjectMapper.Instance.Map<int>(payload);
+			skillIndexInterpolation.current = _skillIndex;
+			skillIndexInterpolation.target = _skillIndex;
+			RunChange_skillIndex(timestep);
 			_blocked = UnityObjectMapper.Instance.Map<bool>(payload);
 			blockedInterpolation.current = _blocked;
 			blockedInterpolation.target = _blocked;
@@ -315,6 +352,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if ((0x20 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _weaponIndex);
 			if ((0x40 & _dirtyFields[0]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _skillIndex);
+			if ((0x80 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _blocked);
 
 			// Reset all the dirty fields
@@ -412,6 +451,19 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			}
 			if ((0x40 & readDirtyFlags[0]) != 0)
 			{
+				if (skillIndexInterpolation.Enabled)
+				{
+					skillIndexInterpolation.target = UnityObjectMapper.Instance.Map<int>(data);
+					skillIndexInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_skillIndex = UnityObjectMapper.Instance.Map<int>(data);
+					RunChange_skillIndex(timestep);
+				}
+			}
+			if ((0x80 & readDirtyFlags[0]) != 0)
+			{
 				if (blockedInterpolation.Enabled)
 				{
 					blockedInterpolation.target = UnityObjectMapper.Instance.Map<bool>(data);
@@ -459,6 +511,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			{
 				_weaponIndex = (int)weaponIndexInterpolation.Interpolate();
 				//RunChange_weaponIndex(weaponIndexInterpolation.Timestep);
+			}
+			if (skillIndexInterpolation.Enabled && !skillIndexInterpolation.current.UnityNear(skillIndexInterpolation.target, 0.0015f))
+			{
+				_skillIndex = (int)skillIndexInterpolation.Interpolate();
+				//RunChange_skillIndex(skillIndexInterpolation.Timestep);
 			}
 			if (blockedInterpolation.Enabled && !blockedInterpolation.current.UnityNear(blockedInterpolation.target, 0.0015f))
 			{
