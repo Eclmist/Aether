@@ -6,7 +6,7 @@ using BeardedManStudios.Forge.Networking.Generated;
  * Class facilitates tornado spell forward movement
  * with each frame.
  */
-public class TornadoSkill : SkillsBehavior
+public class MoveSkill : SkillsBehavior
 {
     [SerializeField]
     private float m_Speed = 15f;
@@ -25,10 +25,10 @@ public class TornadoSkill : SkillsBehavior
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(MoveTornado());
+        StartCoroutine(Move());
     }
 
-    private IEnumerator MoveTornado()
+    private IEnumerator Move()
     {
         yield return new WaitForSeconds(0.9f);
         if (networkObject != null)
