@@ -47,7 +47,7 @@ public class HealthHandler : MonoBehaviour
         m_Health = newHealth;
         StartCoroutine(SetDamaged());
 
-        if (m_Health == 0.0f)
+        if (m_Health <= 0.0f)
         {
             HealthDepleted?.Invoke();
             StartCoroutine(SetDead());

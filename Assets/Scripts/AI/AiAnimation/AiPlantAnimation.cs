@@ -7,7 +7,6 @@ public class AiPlantAnimation : AiAnimation
         locomotion,
         attack1 = 1,
         attack2 = 2,
-        idleBreak,
         death = 3,
         gotHit,
         goPlant,

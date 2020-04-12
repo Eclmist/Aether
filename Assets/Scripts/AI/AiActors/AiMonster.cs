@@ -1,17 +1,13 @@
 using System.Collections;
 using BeardedManStudios.Forge.Networking.Unity;
 using UnityEngine;
-using UnityEngine.AI;
 
 [RequireComponent(typeof(Collider))]
 public class AiMonster : AiActor, Attacker, ICanInteract
 {
     [SerializeField] 
     private AiAnimation m_MonsterAnimation;
-
-    [SerializeField] 
-    private GameObject m_DamageOneShot;
-
+    
     [SerializeField] 
     private Transform[] m_AttackSource;
 
@@ -90,7 +86,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     
     private void DamageEntities()
     {
-        if (m_AttackSource != null && m_DamageOneShot != null)
+        if (m_AttackSource != null)
         {
             foreach (var source in m_AttackSource)
             {
@@ -133,6 +129,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     public void OnDeath()
     {
         m_isDead = true;
+        Debug.Log("Dying");
         float deathAnimTime = m_MonsterAnimation.Death();
         StartCoroutine(DestroyMonster(deathAnimTime));
         m_StateMachineAnim.SetBool("dead", true);
