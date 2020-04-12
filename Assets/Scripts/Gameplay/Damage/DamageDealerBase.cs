@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Generated;
 
 public abstract class DamageDealerBase : MonoBehaviour, IInteractable
 {
@@ -15,12 +16,19 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
     protected float m_Duration = 0.0f;
 
     private bool m_IsActivated = false;
+    private bool m_IsMonster = false;
 
     public void Activate(NetworkObject networkObject, System.Action soundCallback)
     {
         m_NetworkObject = networkObject;
+        m_IsMonster = CheckIfMonster(networkObject);
         StartCoroutine(StartupDamageDealer());
         PlayDamageSound += soundCallback;
+    }
+
+    private bool CheckIfMonster(NetworkObject networkObject)
+    {
+        return networkObject is MonsterAttackNetworkObject;
     }
 
     public abstract void DealDamage(HealthHandler health, InteractionType interactionType);
@@ -45,9 +53,10 @@ public abstract class DamageDealerBase : MonoBehaviour, IInteractable
     {
         if (m_NetworkObject == null)
             return true;
-
-        Player owner = PlayerManager.Instance.GetPlayerById(m_NetworkObject.Owner.NetworkId);
-
+        
+        Player owner = null;
+        if (!m_IsMonster)
+            owner = PlayerManager.Instance.GetPlayerById(m_NetworkObject.Owner.NetworkId);
         // Non-players should not damage each other, may need to have specific cases
         if (owner == null && !(mb is Player))
             return true;
