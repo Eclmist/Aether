@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class MultiplayerMenu : MonoBehaviour
 {
+	public InputField displayName = null;
 	public InputField ipAddress = null;
 	public InputField portNumber = null;
 	public bool DontChangeSceneOnConnect = false;
@@ -40,6 +41,7 @@ public class MultiplayerMenu : MonoBehaviour
 	{
 		ipAddress.text = "127.0.0.1";
 		portNumber.text = "15937";
+		displayName.text = PlayerPrefs.GetString("nickname", "");
 
 		for (int i = 0; i < ToggledButtons.Length; ++i)
 		{
@@ -98,6 +100,8 @@ public class MultiplayerMenu : MonoBehaviour
 			else
 				((UDPClient)client).Connect(ipAddress.text, (ushort)port, natServerHost, natServerPort);
 		}
+
+		PlayerPrefs.SetString("nickname", displayName.text);
 
 		Connected(client);
 	}
