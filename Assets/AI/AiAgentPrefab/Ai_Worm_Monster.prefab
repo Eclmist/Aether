@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 252777277477294166}
   - component: {fileID: 9086353944631980033}
   - component: {fileID: 6276093999332201543}
+  - component: {fileID: 5129920403372566608}
   m_Layer: 0
   m_Name: Ai_Worm_Monster
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NearestPlayer: {fileID: 0}
   m_MonsterAnimation: {fileID: 459701034685223614}
+  m_DamageOneShot: {fileID: 0}
   m_AttackSource:
   - {fileID: 459701034421040414}
   - {fileID: 459701034421040286}
@@ -156,6 +158,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 5000
   m_Health: 5000
+--- !u!114 &5129920403372566608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328529008253358979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e7133b35a5df24c86b8ad1c45d29e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeType: 0
+  type: 4
 --- !u!82 &9015928989712194165
 AudioSource:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class UIHealthBarHandler : MonoBehaviour
     [SerializeField]
     private Animator m_Animator;
 
+    [SerializeField]
     private HealthHandler m_PlayerHealth;
 
     private float m_HealthDelta = 0.0f;
