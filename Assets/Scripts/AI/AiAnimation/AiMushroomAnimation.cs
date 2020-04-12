@@ -8,9 +8,6 @@ public class AiMushroomAnimation : AiAnimation
         attack1 = 1,
         attack2 = 2,
         attack3 = 2,
-        attack4Start,
-        attack4End,
-        idleBreak,
         death = 3,
         gotHit,
         goMonster,
@@ -51,6 +48,7 @@ public class AiMushroomAnimation : AiAnimation
     {
         AnimMovesParam [] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2, AnimMovesParam.attack3};
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
+        Debug.Log(attack);
         m_Animator.SetTrigger(attack.ToString());
         return ((float) attack) / 2;
     }

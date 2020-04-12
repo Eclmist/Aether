@@ -1,9 +1,10 @@
+using UnityEngine;
 
-    public class Dead : AiStateBehaviour
+public class Dead : AiStateBehaviour
+{
+    public override void Init()
     {
-        public override void Init()
-        {
-            
-            
-        }
+
+
     }
+}
