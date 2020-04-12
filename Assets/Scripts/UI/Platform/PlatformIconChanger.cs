@@ -12,7 +12,13 @@ public class PlatformIconChanger : MonoBehaviour
     private Sprite m_KeyboardMouseIcon;
 
     [SerializeField]
+    private Color m_KeyboardIconColor;
+
+    [SerializeField]
     private Sprite m_PS4ControllerIcon;
+
+    [SerializeField]
+    private Color m_PS4IconColor;
 
     [SerializeField]
     private Button m_Button;
@@ -38,11 +44,11 @@ public class PlatformIconChanger : MonoBehaviour
         switch(platformType)
         {
             case PlatformType.PS4_CONTROLLER:
-                ChangeIcon(m_PS4ControllerIcon);
+                ChangeIcon(m_PS4ControllerIcon, m_PS4IconColor);
                 SetMouseFriendly(false);
                 break;
             case PlatformType.KEYBOARD_MOUSE:
-                ChangeIcon(m_KeyboardMouseIcon);
+                ChangeIcon(m_KeyboardMouseIcon, m_KeyboardIconColor);
                 SetMouseFriendly(true);
                 break;
             default: 
@@ -50,12 +56,13 @@ public class PlatformIconChanger : MonoBehaviour
 
         }
     }
-    private void ChangeIcon(Sprite sprite)
+    private void ChangeIcon(Sprite sprite, Color color)
     {
         if (m_Icon == null || sprite == null)
             return;
 
         m_Icon.sprite = sprite;
+        m_Icon.color = color;
         
     }
 
