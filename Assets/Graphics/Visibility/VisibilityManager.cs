@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VisibilityManager : Singleton<VisibilityManager>
 {
@@ -39,6 +40,28 @@ public class VisibilityManager : Singleton<VisibilityManager>
         LoadCS();
         InitGlobalTextures();
         SetShaderGlobals();
+
+        SceneManager.sceneLoaded += (Scene scn, LoadSceneMode mode) =>
+        {
+            if (m_VisibilityCS == null)
+                return;
+
+            if (m_WorldVisibilityTexture == null)
+                return;
+
+            int numThreadGroupX = m_TextureSizeX / THREADGROUP_SIZE_X;
+            int numThreadGroupY = m_TextureSizeY / THREADGROUP_SIZE_Y;
+            m_VisibilityCS.SetTexture(RESET_KERNEL, "WorldVisibilityResult", m_WorldVisibilityTexture);
+            m_VisibilityCS.Dispatch(RESET_KERNEL, numThreadGroupX, numThreadGroupY, 1);
+
+            m_PersistentModifierList.Clear();
+            m_OneShotModifierQueue.Clear();
+        };
+    }
+
+    private void ResetVisibility()
+    {
+
     }
 
     private void OnDestroy()
@@ -162,4 +185,5 @@ public class VisibilityManager : Singleton<VisibilityManager>
             Debug.LogWarning("[Aether Visibility] More persistent visibility modifiers are present than expected!");
         }
     }
+
 }
