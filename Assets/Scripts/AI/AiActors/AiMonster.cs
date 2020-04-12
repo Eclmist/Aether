@@ -129,6 +129,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     public void OnDeath()
     {
         m_isDead = true;
+        Debug.Log("Dying");
         float deathAnimTime = m_MonsterAnimation.Death();
         StartCoroutine(DestroyMonster(deathAnimTime));
         m_StateMachineAnim.SetBool("dead", true);
