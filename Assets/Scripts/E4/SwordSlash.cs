@@ -17,7 +17,7 @@ public class SwordSlash : SwordSlashBehavior
 
     private void Awake()
     {
-        m_PlayerStance = GameObject.FindWithTag("Player")?.GetComponent<PlayerStance>();
+        m_PlayerStance = PlayerManager.Instance.GetLocalPlayer().GetComponent<PlayerStance>();
     }
 
     private void Start()
