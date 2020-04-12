@@ -31,14 +31,14 @@ public class CaptureBar : MonoBehaviour
 
         TowerBase[] towers = null;
 
-        foreach (TowerBase tower in towers)
+        /*foreach (TowerBase tower in towers)
         {
             TowerBase.CaptureState captureState = tower.GetCaptureState();
             if (captureState.GetLeadingTeam() == Team.TEAM_ONE)
                 m_redCaptureAmount += captureState.GetCapturePercentage();
             else 
                 m_blueCaptureAmount += captureState.GetCapturePercentage();
-        }
+        }*/
 
         m_redTeamBar.fillAmount = (m_redCaptureAmount / m_maximumCaptureAmount);
         m_blueTeamBar.fillAmount = (m_blueCaptureAmount / m_maximumCaptureAmount);

@@ -62,6 +62,7 @@ public class GameManager : Singleton<GameManager>
         // Provides game stats to UIManager to show game over stats
         // for maybe 10 seconds (can be skipped if host presses a button?)
         // then return to lobby
+        Debug.Log("Player-" + winner.GetPlayerDetails().GetNetworkId() + " wins");
         UIManager.Instance.ShowWinningMessage(winner);
         yield return new WaitForSeconds(m_GameOverMessageDuration);
         AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
@@ -76,8 +77,10 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("Checkpoint tower captured");
         tower.TowerCaptured -= EnableCheckpoint;
-        Checkpoint checkpoint = tower.GetComponent<Checkpoint>();
-        checkpoint.enabled = true;
+
+        // Replace tower with checkpoint
+        Destroy(tower.GetComponent<TowerLocal>());
+        tower.GetComponent<Checkpoint>().Activate();
     }
 
     public Transform GetRespawnPoint()

@@ -27,21 +27,12 @@ public class TowerLocal : MonoBehaviour, IInteractable
         if (m_Tower.IsCaptured())
             return;
 
-        // Check current rate of gauge shift
-        int captureMultiplier = 1;
-    
-        if (m_PlayersInCaptureZone.Count == 0)
-            m_Tower.SetCaptureBarFlag(false);
-        else 
-            m_Tower.SetCaptureBarFlag(true);
+        // Current rate of gauge shift
+        int captureMultiplier = m_PlayersInCaptureZone.Count;
 
         float captureGauge = m_Tower.GetCaptureGauge();
         captureGauge += captureMultiplier * m_CapturePerPaxPerSecond * Time.deltaTime;
         m_Tower.UpdateCaptureGauge(captureGauge);
-
-        // Update network data
-        if (m_Tower.networkObject != null)
-            m_Tower.networkObject.captureGauge = captureGauge;
     }
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)

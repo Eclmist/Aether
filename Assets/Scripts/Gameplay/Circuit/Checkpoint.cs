@@ -7,14 +7,14 @@ public class Checkpoint : MonoBehaviour, IInteractable
     [SerializeField]
     private Transform m_RespawnPoint;
 
-    private bool m_AlreadyPassed = false;
+    private bool m_IsActivated = false;
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
-        if (!GameManager.Instance.GetGameStarted())
+        if (!m_IsActivated)
             return;
 
-        if (m_AlreadyPassed)
+        if (!GameManager.Instance.GetGameStarted())
             return;
 
         if (!(interactor is Player) || PlayerManager.Instance.GetLocalPlayer() != (interactor as Player))
@@ -22,7 +22,7 @@ public class Checkpoint : MonoBehaviour, IInteractable
 
         switch (interactionType)
         {
-            case InteractionType.INTERACTION_TRIGGER_ENTER:
+            case InteractionType.INTERACTION_TRIGGER_STAY:
                 SetCheckpoint();
                 break;
             default:
@@ -30,10 +30,15 @@ public class Checkpoint : MonoBehaviour, IInteractable
         }
     }
 
+    public void Activate()
+    {
+        m_IsActivated = true;
+    }
+
     private void SetCheckpoint()
     {
         Debug.Log("Checkpoint activated");
-        m_AlreadyPassed = true;
+        m_IsActivated = false;
         GameManager.Instance.SetRespawnPoint(m_RespawnPoint);
     }
 }
