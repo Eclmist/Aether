@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System.Collections;
 
 public class CinemachineTargetting : MonoBehaviour
 {
@@ -22,27 +23,23 @@ public class CinemachineTargetting : MonoBehaviour
         m_VirtualCam.Follow = playerTransform;
         m_VirtualCam.LookAt = playerTransform;
 
-        localPlayer.PlayerDead += OnPlayerDeath;
+        localPlayer.PlayerDrop += OnPlayerDrop;
+        localPlayer.PlayerRespawn += OnPlayerRespawn;
     }
 
-    private void OnPlayerDeath()
+    private void OnPlayerDrop()
     {
-        List<Player> players = PlayerManager.Instance.GetOtherPlayers();
-
-        if (players.Count == 0)
-            return;
-
-        m_VirtualCam.Follow = players[0].transform;
-        m_VirtualCam.LookAt = players[0].transform;
+        Debug.Log("Drop");
+        m_VirtualCam.Follow = null;
+        m_VirtualCam.LookAt = null;
+        m_VirtualCam.transform.Translate(new Vector3(0, 25.0f - m_VirtualCam.transform.position.y, 0));
     }
 
-    private void OnDestroy()
+    private void OnPlayerRespawn()
     {
-        if (PlayerManager.HasInstance)
-        {
-            Player localPlayer = PlayerManager.Instance.GetLocalPlayer();
-            if (localPlayer != null)
-                localPlayer.PlayerDead -= OnPlayerDeath;
-        }
+        Debug.Log("Respawn");
+        Player player = PlayerManager.Instance.GetLocalPlayer();
+        m_VirtualCam.Follow = player.transform;
+        m_VirtualCam.LookAt = player.transform;
     }
 }
