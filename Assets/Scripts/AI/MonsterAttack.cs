@@ -7,9 +7,8 @@ public class MonsterAttack : MonsterAttackBehavior
   
     [SerializeField] private DamageDealerBase m_DamageDealerBase;
 
-    protected override void NetworkStart()
+    private void Start()
     {
-        base.NetworkStart();
         m_DamageDealerBase.Activate(null);
     }
 }
