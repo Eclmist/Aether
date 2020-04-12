@@ -15,7 +15,7 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
     {
         if (networkObject == null)
         {
-            Debug.LogWarning("No monster network object found");
+            Debug.LogWarning("No monster network object found on " + this);
             return;
         }
 

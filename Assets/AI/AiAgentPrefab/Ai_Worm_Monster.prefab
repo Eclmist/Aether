@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 252777277477294166}
   - component: {fileID: 9086353944631980033}
   - component: {fileID: 6276093999332201543}
+  - component: {fileID: 5129920403372566608}
+  - component: {fileID: -1060107611855112418}
   m_Layer: 0
   m_Name: Ai_Worm_Monster
   m_TagString: Untagged
@@ -156,6 +158,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 5000
   m_Health: 5000
+--- !u!114 &5129920403372566608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328529008253358979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e7133b35a5df24c86b8ad1c45d29e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChangeType: 0
+  type: 4
+--- !u!114 &-1060107611855112418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328529008253358979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90198862a3234e08bb1f2f9c49e29f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &9015928989712194165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -304,6 +332,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 328529008253358984}
     m_Modifications:
+    - target: {fileID: 3077569688939212944, guid: e6767c3a81bab064683f3098157a9db7,
+        type: 3}
+      propertyPath: m_HealthText
+      value: 
+      objectReference: {fileID: 7638237506134168672}
+    - target: {fileID: 3077569688939212944, guid: e6767c3a81bab064683f3098157a9db7,
+        type: 3}
+      propertyPath: m_PlayerHealth
+      value: 
+      objectReference: {fileID: 6276093999332201543}
     - target: {fileID: 3152792305738568457, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_Name
@@ -327,22 +365,22 @@ PrefabInstance:
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.16986646
+      value: 0.08377391
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000022907487
+      value: -0.18342516
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000013289603
+      value: 0.015690526
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98546714
+      value: 0.9793319
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
