@@ -8,9 +8,16 @@ public class LobbyPlayer : LobbyPlayerBehavior
     [SerializeField]
     private Text m_PlayerName;
 
+    private RawImage m_Container;
+
     private bool m_IsReady = false;
 
     private ulong m_Customization;
+
+    private void Start()
+    {
+        m_Container = GetComponent<RawImage>();
+    }
 
     public string GetName()
     {
@@ -58,6 +65,10 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public override void SetReady(RpcArgs args)
     {
         m_IsReady = args.GetNext<bool>();
-        Debug.Log("Ready: " + m_IsReady);
+
+        if (m_IsReady)
+            m_Container.color = Color.green;
+        else
+            m_Container.color = Color.white;
     }
 }
