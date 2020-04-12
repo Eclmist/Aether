@@ -16,7 +16,7 @@ public class SwordSlash : SwordSlashBehavior
 
     private void Start()
     {
-        m_DamageDealerBase.Activate(OnDamageDealt);
+        m_DamageDealerBase?.Activate(OnDamageDealt);
     }
 
     private void OnDamageDealt()
