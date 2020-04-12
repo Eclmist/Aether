@@ -21,15 +21,6 @@ public class HealthHandler : MonoBehaviour
         m_Health = m_MaxHealth;
     }
 
-    public void Update()
-    {
-        if (m_Health <= 0 && !m_IsDead)
-        {
-            HealthDepleted?.Invoke();
-            StartCoroutine(SetDead());
-        }
-    }
-
     public float GetHealth()
     {
         return m_Health;
