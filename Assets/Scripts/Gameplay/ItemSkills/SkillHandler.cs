@@ -76,6 +76,9 @@ public class SkillHandler : MonoBehaviour
 
     public void SwitchSkills(InputAction.CallbackContext ctx)
     {
+        if (m_ItemSkillSlots == null || m_ItemSkillSlots.Count == 0)
+            return;
+
         UIManager.Instance.SwitchPlayerSkills();
         m_ItemSkillSlots.Enqueue(m_ItemSkillSlots.Dequeue());
     }
