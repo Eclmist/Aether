@@ -31,6 +31,6 @@ public class Item : MonoBehaviour, IInteractable
 
     public void HandleItemSkill(Player player)
     {
-        player.GetSkillHandler().AddSkill(m_ItemSkill); //must be after or else will be deleted
+        player.GetSkillHandler()?.AddSkill(m_ItemSkill); //must be after or else will be deleted
     }
 }
