@@ -35,11 +35,11 @@ public class AnimationCallbacks : MonoBehaviour
         // attack code. This should be moved into a different event callback
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Swing_1", transform.position);
         NetworkManager.Instance.InstantiateSwordSlash(index: 0, position: transform.position);
-        NetworkManager.Instance.InstantiateSwordSlash(index: 1,
-            position: transform.position,
-            rotation: Quaternion.LookRotation(
-                -m_PlayerStance.GetWeaponTransform().up,
-                -m_PlayerStance.GetWeaponTransform().forward));
+        // NetworkManager.Instance.InstantiateSwordSlash(index: 1,
+        //    position: transform.position,
+        //    rotation: Quaternion.LookRotation(
+        //        -m_PlayerStance.GetWeaponTransform().up,
+        //        -m_PlayerStance.GetWeaponTransform().forward));
         StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
     }
 

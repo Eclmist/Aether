@@ -102,7 +102,7 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_Animator.SetBool("Grounded", m_PlayerNetworkObject.grounded);
             m_Animator.SetInteger("WeaponIndex", m_PlayerNetworkObject.weaponIndex);
             m_Animator.SetBool("Block", m_PlayerNetworkObject.blocked);
-            m_Animator.SetInteger("SkillIndex", m_PlayerNetworkObject.skillIndex);
+            m_Animator.SetInteger("SkillsIndex", m_PlayerNetworkObject.skillIndex);
 
             // Show and hide sword
             // TODO: add delay or make it work with animation callbacks
