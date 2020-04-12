@@ -156,6 +156,11 @@ public class PlayerStance : MonoBehaviour
             m_Weapon.SetActive(IsCombatStance());
     }
 
+    public Transform GetWeaponTransform()
+    {
+        return m_Weapon.transform;
+    }
+
     IEnumerator ToggleCombatStanceFlag()
     {
         Debug.Assert(!m_IsTogglingCombatStance);

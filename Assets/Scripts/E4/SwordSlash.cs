@@ -13,17 +13,27 @@ public class SwordSlash : SwordSlashBehavior
 {
     [SerializeField]
     private DamageDealerBase m_DamageDealerBase;
+    private PlayerStance m_PlayerStance;
+
+    private void Awake()
+    {
+        m_PlayerStance = GameObject.FindWithTag("Player").GetComponent<PlayerStance>();
+    }
 
     private void Start()
     {
         m_DamageDealerBase.Activate(OnDamageDealt);
     }
 
+    private void Update()
+    {
+        transform.position = m_PlayerStance.transform.position;
+        networkObject.position = transform.position;
+    }
+
     private void OnDamageDealt()
     {
         // E4 HACK
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Sword_Impact_1", transform.position);
-
-
     }
 }
