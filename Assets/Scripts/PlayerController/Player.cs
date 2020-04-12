@@ -8,7 +8,8 @@ using BeardedManStudios.Forge.Networking.Generated;
 [RequireComponent(typeof(PlayerNetworkHandler))]
 public class Player : PlayerBehavior, ICanInteract
 {
-    public event System.Action PlayerDead;
+    public System.Action PlayerDrop;
+    public System.Action PlayerRespawn;
 
     [SerializeField]
     private GameObject m_Weapon;
@@ -171,10 +172,10 @@ public class Player : PlayerBehavior, ICanInteract
         PlayerManager.Instance.AddPlayer(this);
     }
 
-    public override void TriggerDeath(RpcArgs args)
+    public void TriggerRespawn()
     {
-        m_PlayerNetworkHandler.TriggerDeath();
-        PlayerDead?.Invoke();
+        PlayerDrop?.Invoke();
+        m_PlayerNetworkHandler.TriggerRespawn(PlayerRespawn);
     }
 
     public override void TriggerDamaged(RpcArgs args)
@@ -196,6 +197,7 @@ public class Player : PlayerBehavior, ICanInteract
     {
         m_PlayerNetworkHandler.TriggerDash();
     }
+
     public override void TriggerBackDash(RpcArgs args)
     {
         m_PlayerNetworkHandler.TriggerBackDash();

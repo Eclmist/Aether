@@ -82,8 +82,6 @@ public class PlayerNetworkHandler : MonoBehaviour
             // Send health state
             if (m_HealthHandler.DamagedInCurrentFrame())
                 m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DAMAGED, Receivers.All);
-            if (m_HealthHandler.DeadInCurrentFrame())
-                m_PlayerNetworkObject.SendRpc(Player.RPC_TRIGGER_DEATH, Receivers.All);
         }
         else
         {
@@ -110,11 +108,6 @@ public class PlayerNetworkHandler : MonoBehaviour
             // TODO: add delay or make it work with animation callbacks
             m_Player.SetWeaponActive(m_PlayerNetworkObject.weaponIndex != 0);
         }
-    }
-
-    public void TriggerDeath()
-    {
-        StartCoroutine(ReviveSequence());
     }
 
     public void TriggerDamaged()
@@ -164,7 +157,6 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_Animator.SetTrigger("Backstep");
     }
 
-
     public void SetLocalPlayerPosition(Vector3 position)
     {
         if (m_PlayerNetworkObject != null && !m_PlayerNetworkObject.IsOwner)
@@ -173,17 +165,18 @@ public class PlayerNetworkHandler : MonoBehaviour
         Shader.SetGlobalVector("_LocalPlayerPosition", transform.position);
     }
 
-    private IEnumerator ReviveSequence()
+    public void TriggerRespawn(System.Action callback)
     {
-        m_PlayerMovement.ToggleDead();
+        StartCoroutine(RespawnSequence(callback));
+    }
 
+    private IEnumerator RespawnSequence(System.Action callback)
+    {
         if (m_PlayerNetworkObject == null)
             yield break;
 
         // Set up new position
-        PlayerNetworkManager pnm = PlayerManager.Instance.GetPlayerNetworkManager();
-        PlayerDetails details = m_Player.GetPlayerDetails();
-        Transform spawnPos = pnm.GetSpawnPosition(details.GetPosition());
+        Transform spawnPos = GameManager.Instance.GetRespawnPoint();
         CharacterController cc = GetComponent<CharacterController>();
 
         cc.enabled = false;
@@ -194,13 +187,9 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_PlayerNetworkObject.positionChanged += m_Player.WarpToFirstPosition;
 
         // Re-enable controller
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.2f);
+        callback?.Invoke();
         cc.enabled = true;
-
-        // Respawn cooldown
-        yield return new WaitForSeconds(10.0f);
-        m_HealthHandler.Revive();
-        m_PlayerMovement.ToggleDead();
     }
 
     private IEnumerator DamagedSequence()

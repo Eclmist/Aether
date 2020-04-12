@@ -32,6 +32,7 @@ public class Checkpoint : MonoBehaviour, IInteractable
 
     private void SetCheckpoint()
     {
+        Debug.Log("Checkpoint activated");
         m_AlreadyPassed = true;
         GameManager.Instance.SetRespawnPoint(m_RespawnPoint);
     }
