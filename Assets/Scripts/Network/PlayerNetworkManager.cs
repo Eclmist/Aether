@@ -115,6 +115,9 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             Transform spawnPoint = m_SpawnPositions[details.GetPosition()];
             Player p = NetworkManager.Instance.InstantiatePlayer(position: spawnPoint.position, rotation: spawnPoint.rotation) as Player;
 
+            // E5 spawn circle hack 
+            NetworkManager.Instance.InstantiateSkills(index: 8, position: spawnPoint.position, rotation: spawnPoint.rotation);
+
             p.SetDetails(details);
             p.networkStarted += OnPlayerNetworked;
         });

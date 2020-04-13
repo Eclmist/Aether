@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using BeardedManStudios.Forge.Networking.Unity;
 
 [RequireComponent(typeof(PlayerNetworkManager))]
 public class PlayerManager : Singleton<PlayerManager>
@@ -35,6 +36,9 @@ public class PlayerManager : Singleton<PlayerManager>
             Debug.Log("Player details are null. PlayerManager.AddPlayer");
             return;
         }
+
+        // E5 spawn circle hack 
+        NetworkManager.Instance.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
