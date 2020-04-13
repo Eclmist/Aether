@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using BeardedManStudios.Forge.Networking.Unity;
 
 [RequireComponent(typeof(PlayerNetworkManager))]
 public class PlayerManager : Singleton<PlayerManager>
@@ -46,6 +47,8 @@ public class PlayerManager : Singleton<PlayerManager>
             string name = details.GetName();
             UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
         }
+
+        NetworkManager.Instance.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
