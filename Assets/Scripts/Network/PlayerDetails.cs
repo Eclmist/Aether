@@ -1,14 +1,21 @@
 ﻿public class PlayerDetails
 {
+    private string m_Name;
     private uint m_NetworkId;
     private int m_Position;
     private ulong m_Customization;
 
-    public PlayerDetails(uint networkId, int position, ulong customization)
+    public PlayerDetails(string name, uint networkId, int position, ulong customization)
     {
+        m_Name = name;
         m_NetworkId = networkId;
         m_Position = position;
         m_Customization = customization;
+    }
+
+    public void SetName(string name)
+    {
+        m_Name = name;
     }
 
     public void SetNetworkId(uint networkId)
@@ -24,6 +31,11 @@
     public void SetCustomization(ulong customization)
     {
         m_Customization = customization;
+    }
+
+    public string GetName()
+    {
+        return m_Name;
     }
 
     public uint GetNetworkId()
@@ -43,14 +55,14 @@
 
     public object[] ToArray()
     {
-        return new object[] { m_NetworkId, m_Position, m_Customization };
+        return new object[] { m_Name, m_NetworkId, m_Position, m_Customization };
     }
 
     public static PlayerDetails FromArray(object[] arr)
     {
-        if (arr.Length != 3)
+        if (arr.Length != 4)
             return null;
 
-        return new PlayerDetails((uint)arr[0], (int)arr[1], (ulong)arr[2]);
+        return new PlayerDetails((string)arr[0], (uint)arr[1], (int)arr[2], (ulong)arr[3]);
     }
 }

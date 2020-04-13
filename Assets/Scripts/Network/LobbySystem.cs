@@ -91,6 +91,7 @@ public class LobbySystem : LobbySystemBehavior
             LobbyPlayer lp = m_LobbyPlayers[np];
 
             PlayerDetails details = new PlayerDetails(
+                lp.GetName(),
                 np.NetworkId,
                 position++,
                 lp.GetCustomization()
