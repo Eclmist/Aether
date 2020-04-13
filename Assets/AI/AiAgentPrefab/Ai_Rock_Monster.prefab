@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 3191648732450128638}
   m_Layer: 0
   m_Name: Ai_Rock_Monster
-  m_TagString: Untagged
+  m_TagString: PlayerDetector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,7 +297,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2467831435125450895}
-  m_LocalRotation: {x: -0.16986646, y: -0.00000019857366, z: -0.0000013274555, w: 0.98546714}
+  m_LocalRotation: {x: -0.16986646, y: -0.0000002609355, z: -0.0000013383516, w: 0.98546714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.020000001}
   m_Children:
@@ -593,7 +593,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d9d0c55fbb2f4a13b01626d6b0a8555, type: 3}
   attack2:
   - {fileID: 8300000, guid: 07d0d19f0ffdf46068628a34829a87d6, type: 3}
-  desiredAudioLevel: 0
+  death: []
+  folliageLoop: {fileID: 0}
+  gotHit: []
   walkForward:
   - {fileID: 8300000, guid: 300d5d9d945e64209b9d33fca34b6c8c, type: 3}
   - {fileID: 8300000, guid: 00d8ab826913e468ab6bd192a488a459, type: 3}
