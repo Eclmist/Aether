@@ -9,6 +9,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     private TowerBase[] m_TowerCheckpoints;
 
+    [SerializeField]
+    private Endpoint m_Endpoint;
+
     private float m_GameOverMessageDuration = 10f;
 
     private bool m_GameStarted = false;
@@ -17,6 +20,11 @@ public class GameManager : Singleton<GameManager>
 
     private float m_RespawnHeight = -50f;
 
+    // Current Game Progress;
+    private float m_StartZ = 0.0f;
+    private float m_EndZ = 0.0f;
+    private float m_CurrentProgress = 0.0f;
+
     private void Awake()
     {
         PlayerManager.Instance.GetPlayerNetworkManager().AllPlayersReady += StartGame;
@@ -24,7 +32,7 @@ public class GameManager : Singleton<GameManager>
         if (m_TowerCheckpoints != null)
         {
             foreach (TowerBase tower in m_TowerCheckpoints)
-                tower.TowerCaptured += EnableCheckpoint;
+                tower.TowerCaptured += TowerCheckpointCaptured;
         }
     }
 
@@ -37,6 +45,10 @@ public class GameManager : Singleton<GameManager>
 
         if (player.transform.position.y < m_RespawnHeight)
             player.TriggerRespawn();
+
+        float currentZ = player.transform.position.z;
+        m_CurrentProgress = (currentZ - m_StartZ) / (m_EndZ - m_StartZ);
+        m_CurrentProgress = Mathf.Clamp01(m_CurrentProgress);
     }
 
     public void StartGame()
@@ -45,6 +57,9 @@ public class GameManager : Singleton<GameManager>
         PlayerDetails details = PlayerManager.Instance.GetLocalPlayer().GetPlayerDetails();
         pnm.AllPlayersReady -= StartGame;
         m_RespawnPoint = pnm.GetSpawnPosition(details.GetPosition());
+
+        m_StartZ = m_RespawnPoint.position.z;
+        m_EndZ = m_Endpoint.transform.position.z;
 
         Debug.Log("Game started");
         m_GameStarted = true;
@@ -73,14 +88,19 @@ public class GameManager : Singleton<GameManager>
         return m_GameStarted;
     }
 
-    public void EnableCheckpoint(TowerBase tower)
+    public void TowerCheckpointCaptured(TowerBase tower)
     {
         Debug.Log("Checkpoint tower captured");
-        tower.TowerCaptured -= EnableCheckpoint;
+        tower.TowerCaptured -= TowerCheckpointCaptured;
 
         // Replace tower with checkpoint
         Destroy(tower.GetComponent<TowerLocal>());
         tower.GetComponent<Checkpoint>().Activate();
+    }
+
+    public float GetCurrentProgress()
+    {
+        return m_CurrentProgress;
     }
 
     public Transform GetRespawnPoint()
