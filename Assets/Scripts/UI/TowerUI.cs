@@ -14,6 +14,7 @@ public class TowerUI : MonoBehaviour
         if (GameManager.Instance.GetCurrentTower() == null)
         {
             ui.SetActive(false);
+            return;
         }
 
         ui.SetActive(true);
