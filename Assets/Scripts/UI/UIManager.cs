@@ -53,6 +53,11 @@ public class UIManager : Singleton<UIManager>
         {
             hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            m_ControllerUIPrompt.SetActive(!m_ControllerUIPrompt.activeSelf);
+        }
     }
 
     private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
@@ -69,7 +74,7 @@ public class UIManager : Singleton<UIManager>
         switch (gameMode)
         {
             case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
-                message = "Zoom: Racing Circuit Breaker";
+                message = "Zoom: Circuit Breaker";
                 break;
             default:
                 break;
