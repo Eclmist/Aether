@@ -95,6 +95,5 @@ public class PlayerCombatHandler : MonoBehaviour
 
         m_PlayerStance.SetStance(PlayerStance.Stance.STANCE_UNARMED);
         AudioManager.m_Instance.PlaySoundAtPosition("GEN_Weapon_Draw", transform.position);
-        UIManager.Instance.NotifySecondary("Sheathed Weapon");
     }
 }
