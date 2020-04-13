@@ -57,12 +57,18 @@ public class TowerLocal : MonoBehaviour, IInteractable
     private void HandleEntry(Player player)
     {
         if (!m_PlayersInCaptureZone.Contains(player))
+        {
             m_PlayersInCaptureZone.Add(player);
+            UIManager.Instance.NotifySecondary("You have started capturing the checkpoint.");
+        }
     }
 
     private void HandleExit(Player player)
     {
         if (m_PlayersInCaptureZone.Contains(player))
+        {
             m_PlayersInCaptureZone.Remove(player);
+            UIManager.Instance.NotifySecondary("You are no longer capturing the checkpoint.");
+        }
     }
 }

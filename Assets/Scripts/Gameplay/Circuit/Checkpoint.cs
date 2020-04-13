@@ -35,6 +35,11 @@ public class Checkpoint : MonoBehaviour, IInteractable
         m_IsActivated = true;
     }
 
+    public void Deactivate()
+    {
+        m_IsActivated = false;
+    }
+
     private void SetCheckpoint()
     {
         Debug.Log("Checkpoint activated");
