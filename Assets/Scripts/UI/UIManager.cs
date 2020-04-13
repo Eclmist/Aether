@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -26,9 +27,12 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
 
+    private bool m_AreBindingsShown;
+
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
+        AetherInput.GetUIActions().GetBindings.performed += ToggleOptionsCallback;
     }
 
     private void Update()
@@ -41,6 +45,19 @@ public class UIManager : Singleton<UIManager>
         {
             hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
         }
+    }
+
+    private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
+    {
+        if (m_AreBindingsShown)
+        {
+            // Hide Controller Bindings
+        }
+        else {
+            // Show Controller Bindings 
+        }
+
+        m_AreBindingsShown = !(m_AreBindingsShown);
     }
 
     private void OnGameStarted(GameMode gameMode)
