@@ -24,6 +24,11 @@ public class TowerBase : TowerBehavior
             m_NextTower.gameObject.SetActive(true);
     }
 
+    public float GetCapturePercentage()
+    {
+        return m_CaptureGauge / MAXIMUM_CAPTURE_GAUGE;
+    }
+
     public float GetCaptureGauge()
     {
         return m_CaptureGauge;

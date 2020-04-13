@@ -25,6 +25,7 @@ public class GameManager : Singleton<GameManager>
     private float m_StartZ = 0.0f;
     private float m_EndZ = 0.0f;
     private Dictionary<Player, float> m_CurrentProgress;
+    private TowerBase m_CurrentTower;
 
     private void Awake()
     {
@@ -124,9 +125,19 @@ public class GameManager : Singleton<GameManager>
         return m_CurrentCheckpointPriority;
     }
 
+    public TowerBase GetCurrentTower()
+    {
+        return m_CurrentTower;
+    }
+
     public void SetRespawnPoint(Transform position)
     {
         m_RespawnPoint = position;
+    }
+
+    public void SetCurrentTower(TowerBase tower)
+    {
+        m_CurrentTower = tower;
     }
 
     public void RequestGameOver()

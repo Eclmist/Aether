@@ -60,6 +60,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
         {
             m_PlayersInCaptureZone.Add(player);
             UIManager.Instance.NotifySecondary("You have started capturing the checkpoint.");
+            GameManager.Instance.SetCurrentTower(m_Tower);
         }
     }
 
@@ -69,6 +70,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
         {
             m_PlayersInCaptureZone.Remove(player);
             UIManager.Instance.NotifySecondary("You are no longer capturing the checkpoint.");
+            GameManager.Instance.SetCurrentTower(null);
         }
     }
 }
