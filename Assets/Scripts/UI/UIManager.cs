@@ -20,6 +20,9 @@ public class UIManager : Singleton<UIManager>
     private Animator m_LoadingAnimator;
 
     [SerializeField]
+    private Animator m_BindingsAnimator;
+
+    [SerializeField]
     private AudioSource m_AudioSource;
 
     [SerializeField]
@@ -49,12 +52,15 @@ public class UIManager : Singleton<UIManager>
 
     private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
     {
+        if (m_BindingsAnimator == null)
+            return;
+
         if (m_AreBindingsShown)
         {
-            // Hide Controller Bindings
+            m_BindingsAnimator.SetBool("CanShowBindings", false);
         }
         else {
-            // Show Controller Bindings 
+            m_BindingsAnimator.SetBool("CanShowBindings", true);
         }
 
         m_AreBindingsShown = !(m_AreBindingsShown);
