@@ -103,8 +103,9 @@ public class GameManager : Singleton<GameManager>
         return m_GameStarted;
     }
 
-    public float GetPlayerProgress(Player player)
+    public float GetPlayerProgress(int playerIndex)
     {
+        Player player = PlayerManager.Instance.GetAllPlayers()[playerIndex];
         float progress = -1;
         m_CurrentProgress.TryGetValue(player, out progress);
         return progress;
