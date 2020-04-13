@@ -105,6 +105,9 @@ public class GameManager : Singleton<GameManager>
 
     public float GetPlayerProgress(int playerIndex)
     {
+        if (playerIndex < 0 || playerIndex >= PlayerManager.Instance.GetAllPlayers().Count)
+            return 0;
+
         Player player = PlayerManager.Instance.GetAllPlayers()[playerIndex];
         float progress = -1;
         m_CurrentProgress.TryGetValue(player, out progress);
