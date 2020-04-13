@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
     // Current Game Progress;
     private float m_StartZ = 0.0f;
     private float m_EndZ = 0.0f;
-    private float m_CurrentProgress = 0.0f;
+    private Dictionary<Player, float> m_CurrentProgress;
 
     private void Awake()
     {
@@ -34,6 +34,8 @@ public class GameManager : Singleton<GameManager>
             foreach (TowerBase tower in m_TowerCheckpoints)
                 tower.TowerCaptured += TowerCheckpointCaptured;
         }
+
+        m_CurrentProgress = new Dictionary<Player, float>();
     }
 
     private void Update()
@@ -41,14 +43,16 @@ public class GameManager : Singleton<GameManager>
         if (!m_GameStarted)
             return;
 
-        Player player = PlayerManager.Instance.GetLocalPlayer();
+        Player lp = PlayerManager.Instance.GetLocalPlayer();
 
-        if (player.transform.position.y < m_RespawnHeight)
-            player.TriggerRespawn();
+        if (lp.transform.position.y < m_RespawnHeight)
+            lp.TriggerRespawn();
 
-        float currentZ = player.transform.position.z;
-        m_CurrentProgress = (currentZ - m_StartZ) / (m_EndZ - m_StartZ);
-        m_CurrentProgress = Mathf.Clamp01(m_CurrentProgress);
+        foreach (Player player in m_CurrentProgress.Keys)
+        {
+            float currentZ = player.transform.position.z;
+            m_CurrentProgress[player] = Mathf.Clamp01((currentZ - m_StartZ) / (m_EndZ - m_StartZ));
+        }
     }
 
     public void StartGame()
@@ -60,6 +64,11 @@ public class GameManager : Singleton<GameManager>
 
         m_StartZ = m_RespawnPoint.position.z;
         m_EndZ = m_Endpoint.transform.position.z;
+
+        foreach (Player player in PlayerManager.Instance.GetAllPlayers())
+        {
+            m_CurrentProgress.Add(player, 0.0f);
+        }
 
         Debug.Log("Game started");
         m_GameStarted = true;
@@ -101,9 +110,11 @@ public class GameManager : Singleton<GameManager>
         tower.GetComponent<Checkpoint>().Activate();
     }
 
-    public float GetCurrentProgress()
+    public float GetPlayerProgress(Player player)
     {
-        return m_CurrentProgress;
+        float progress = -1;
+        m_CurrentProgress.TryGetValue(player, out progress);
+        return progress;
     }
 
     public Transform GetRespawnPoint()
