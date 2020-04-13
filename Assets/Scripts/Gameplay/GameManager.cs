@@ -16,9 +16,10 @@ public class GameManager : Singleton<GameManager>
 
     private bool m_GameStarted = false;
 
+    // Checkpoint Mechanic
     private Transform m_RespawnPoint;
-
     private float m_RespawnHeight = -50f;
+    private int m_CurrentCheckpointPriority = 0;
 
     // Current Game Progress;
     private float m_StartZ = 0.0f;
@@ -99,17 +100,6 @@ public class GameManager : Singleton<GameManager>
         return m_GameStarted;
     }
 
-    public void TowerCheckpointCaptured(TowerBase tower)
-    {
-        UIManager.Instance.NotifySecondary("You have successfully captured the checkpoint.");
-        Debug.Log("Checkpoint tower captured");
-        tower.TowerCaptured -= TowerCheckpointCaptured;
-
-        // Replace tower with checkpoint
-        Destroy(tower.GetComponent<TowerLocal>());
-        tower.GetComponent<Checkpoint>().Activate();
-    }
-
     public float GetPlayerProgress(Player player)
     {
         float progress = -1;
@@ -120,6 +110,11 @@ public class GameManager : Singleton<GameManager>
     public Transform GetRespawnPoint()
     {
         return m_RespawnPoint;
+    }
+
+    public int GetCheckpointPriority()
+    {
+        return m_CurrentCheckpointPriority;
     }
 
     public void SetRespawnPoint(Transform position)
@@ -136,5 +131,22 @@ public class GameManager : Singleton<GameManager>
     {
         Player player = PlayerManager.Instance.GetLocalPlayer();
         player.GetComponent<PlayerMovement>().SetFrozen(false);
+    }
+
+    public void TowerCheckpointCaptured(TowerBase tower)
+    {
+        UIManager.Instance.NotifySecondary("You have successfully captured the checkpoint.");
+        Debug.Log("Checkpoint tower captured");
+        tower.TowerCaptured -= TowerCheckpointCaptured;
+        int priority = tower.GetPriority();
+        tower.RevealNext();
+
+        // Replace tower with checkpoint
+        Destroy(tower.GetComponent<TowerLocal>());
+        if (m_CurrentCheckpointPriority <= priority)
+        {
+            tower.GetComponent<Checkpoint>().Activate();
+            m_CurrentCheckpointPriority = priority;
+        }
     }
 }
