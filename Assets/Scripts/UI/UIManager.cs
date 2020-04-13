@@ -16,6 +16,9 @@ public class UIManager : Singleton<UIManager>
     private Text m_CountdownText;
 
     [SerializeField]
+    private Animator m_LoadingAnimator;
+
+    [SerializeField]
     private AudioSource m_AudioSource;
 
     [SerializeField]
@@ -58,6 +61,10 @@ public class UIManager : Singleton<UIManager>
     public IEnumerator UIStartGame(string message)
     {
         UINotifyHeader(message);
+        
+        if (m_LoadingAnimator != null)
+            m_LoadingAnimator.SetTrigger("ScrollBack");
+
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(CountdownActivate());
     }
