@@ -8,7 +8,7 @@ namespace UTJ
 {
     public class FindGameObjectsWindow : EditorWindow
     {
-        [MenuItem("UTJ/名前で選択窓")]
+        [MenuItem("Tools/UTJ/名前で選択窓")]
         public static void ShowWindow()
         {
             var window = GetWindow<FindGameObjectsWindow>("名前で選択");

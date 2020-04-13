@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4851084828201172895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4851084828201172865}
+  - component: {fileID: 4851084828201172864}
+  m_Layer: 9
+  m_Name: MonsterSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4851084828201172865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851084828201172895}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4851084828201172864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851084828201172895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1fcb68544c454e866dce7000293b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_monster_prefabs:
+  - {fileID: 5564611184946383430, guid: e15c0feb858d5e943adf90d65ab4de0a, type: 3}
+  - {fileID: 3539631057950247276, guid: 78122b9b3e3c71b4a9ba63367e9a69b2, type: 3}
+  - {fileID: 250916845321079293, guid: 863a87ece81dc9c409c8e3e4d892a5bb, type: 3}
+  - {fileID: 328529008253358979, guid: 5bebc0f90db3b2440b9331e2e5b8da0c, type: 3}
+  m_monsterIndex: 2
+  m_mushroomMonsterMaterials:
+  - m_matColor: 
+    m_materials:
+    - {fileID: 2100000, guid: bc90ba2c4e269433398787a98d1a7fc7, type: 2}
+    - {fileID: 2100000, guid: c8130f5c098a14c01beaace2db7529c2, type: 2}
+    - {fileID: 2100000, guid: 661590faf98b94400b8abe10dbd38ec8, type: 2}
+    - {fileID: 2100000, guid: 85951c0bd326f4add93728599aaf1c3a, type: 2}
+    - {fileID: 2100000, guid: a52f24f39546e4c6eac0de6f58ed0b99, type: 2}
+    - {fileID: 2100000, guid: 1e706e35268a246d19b613223e7c9683, type: 2}
+    - {fileID: 2100000, guid: 234ed7d0d0c5042d79d39e5013af2fdc, type: 2}
+    - {fileID: 2100000, guid: e1930f549a8094141b1773957a1c653f, type: 2}
+    - {fileID: 2100000, guid: 3cc68b9e963f84b1385cb16a47c3ce8d, type: 2}
+  m_plantMonsterMaterials:
+  - m_matColor: Black
+    m_materials:
+    - {fileID: 2100000, guid: b928a1e7edbb1439e833c24383e539b2, type: 2}
+    - {fileID: 2100000, guid: 06ead0fd66e0e4679b3c9b7f64c5388b, type: 2}
+    - {fileID: 2100000, guid: 73a80a04a309f4fe0b140d9f261c3cc0, type: 2}
+    - {fileID: 2100000, guid: adc38afe9440b47f5b652ab983796ddf, type: 2}
+  - m_matColor: Blue
+    m_materials:
+    - {fileID: 2100000, guid: 3b2da622fc44e47a8ad1ab781b810019, type: 2}
+    - {fileID: 2100000, guid: 9b0556b26589e4c2cb7c89ab9586aaa2, type: 2}
+    - {fileID: 2100000, guid: 00c1b8a925fb747b2beb544e5f87ae56, type: 2}
+    - {fileID: 2100000, guid: 550623eb8ec3648e9ac2ca83895e3294, type: 2}
+  - m_matColor: Dark Blue
+    m_materials:
+    - {fileID: 2100000, guid: 6bf7f59b6547e4de39f010122a9dccd6, type: 2}
+    - {fileID: 2100000, guid: de0dfc2d88cf340a096be29b892ed048, type: 2}
+    - {fileID: 2100000, guid: 9459d58be392a4b51bf0395817c75fb7, type: 2}
+    - {fileID: 2100000, guid: 8833e2d4b4bdc41ff9209ea70f2bba6f, type: 2}
+  - m_matColor: Dark Pink
+    m_materials:
+    - {fileID: 2100000, guid: 294ad58d980b04740bb8cfd1d3659543, type: 2}
+    - {fileID: 2100000, guid: 753a2b017b73e410eb845ed5e2b153c7, type: 2}
+    - {fileID: 2100000, guid: 2c92f609bda51478aa242865a9bc3948, type: 2}
+    - {fileID: 2100000, guid: d7b3ce0d0860f4f289c168a4ddbaea08, type: 2}
+  - m_matColor: Dark Red
+    m_materials:
+    - {fileID: 2100000, guid: ce0c24545a7114421a719d0fce7210f4, type: 2}
+    - {fileID: 2100000, guid: b18a167dba58042ef8103f6768843d01, type: 2}
+    - {fileID: 2100000, guid: f45b3ebbe370b4ff3bf2d89f5fdecadd, type: 2}
+    - {fileID: 2100000, guid: b4e6938f6e13d4530b77fa6803a8878b, type: 2}
+  - m_matColor: Dark Yellow
+    m_materials:
+    - {fileID: 2100000, guid: d45252ce361b641a589bafc8b48401f7, type: 2}
+    - {fileID: 2100000, guid: a3f9dc8d671584cd0abec170d93aee0a, type: 2}
+    - {fileID: 2100000, guid: e53c406b9bf5e4e8e8b54688bc29d7aa, type: 2}
+    - {fileID: 2100000, guid: 9677e076bba4f4e0c92be973eb3c5d94, type: 2}
+  - m_matColor: Green
+    m_materials:
+    - {fileID: 2100000, guid: b4ab0ab50888448249f1e40e2ff41532, type: 2}
+    - {fileID: 2100000, guid: c2cf03cf344d64ba9ac07e97b5916f87, type: 2}
+    - {fileID: 2100000, guid: 4d90619e0fc8f4ea392c29613e1ab6b7, type: 2}
+    - {fileID: 2100000, guid: 6cf94a45af3334520bc8940a08f0b2b9, type: 2}
+  - m_matColor: DEfault
+    m_materials:
+    - {fileID: 2100000, guid: 522ff29fe3c1d41aa8900f5a5f9d435a, type: 2}
+    - {fileID: 2100000, guid: 70f374a0b82284024bf3c9b5b2dc1998, type: 2}
+    - {fileID: 2100000, guid: e9f5bb01ab588479bb7db0faf7ad5bf1, type: 2}
+    - {fileID: 2100000, guid: ef63e32941df3415998259c01040d1d8, type: 2}
+  - m_matColor: Pink
+    m_materials:
+    - {fileID: 2100000, guid: 7839a792d913d4eb597c2eb5d3bdd333, type: 2}
+    - {fileID: 2100000, guid: 6591747febfe64836a91b1b69209e5b8, type: 2}
+    - {fileID: 2100000, guid: ca4f984d0e2504459a44ae71598e79ca, type: 2}
+    - {fileID: 2100000, guid: 5ac272a13a13f46df97300faab489d31, type: 2}
+  - m_matColor: White
+    m_materials:
+    - {fileID: 2100000, guid: 066b95ba2145449269308835213ae82f, type: 2}
+    - {fileID: 2100000, guid: f004892a3a10d47f08447bc213b9a1d3, type: 2}
+    - {fileID: 2100000, guid: 983e3293ec3a8445d85652f45727a516, type: 2}
+    - {fileID: 2100000, guid: 5e7ae234527dc4d96b632e76e834afb1, type: 2}
+  m_rockMonsterMaterials:
+  - m_matColor: 
+    m_materials:
+    - {fileID: 2100000, guid: e0915211cf67a4cf5992c6bb4686345d, type: 2}
+    - {fileID: 2100000, guid: 8a041252a6dc244f48c808d9c4176378, type: 2}
+    - {fileID: 2100000, guid: 840a14deb927742009a4cb7f93893bb4, type: 2}
+    - {fileID: 2100000, guid: 9f7e53a8c6dec488585f931615f5d954, type: 2}
+    - {fileID: 2100000, guid: e0a0197fb3db045f4abd125a712f06dc, type: 2}
+    - {fileID: 2100000, guid: 229ec977daabb4b2eabf4d43ccffef4a, type: 2}
+    - {fileID: 2100000, guid: 0ff7ff7e8e39643a5b12ae27b8eaada2, type: 2}
+    - {fileID: 2100000, guid: 9f7858eced2b74b47bcf2394594e0c17, type: 2}
+    - {fileID: 2100000, guid: bd7ba32fd5dbd45b2b4d20366a246545, type: 2}
+  m_wormMonsterMaterials:
+  - m_matColor: 
+    m_materials:
+    - {fileID: 2100000, guid: 47c34232d81274575b0edfb9b4e963e9, type: 2}
+    - {fileID: 2100000, guid: 92d590e6acf9b4e74a62fb4b50daa62d, type: 2}
+    - {fileID: 2100000, guid: 31e43ce26c9b746f29c5f013338adf08, type: 2}
+    - {fileID: 2100000, guid: e6479f86cac6948cebe722ec3cbfd956, type: 2}
+  m_mutationChance: 0.3

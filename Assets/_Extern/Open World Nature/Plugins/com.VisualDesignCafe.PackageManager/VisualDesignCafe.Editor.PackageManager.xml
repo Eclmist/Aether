@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VisualDesignCafe.Editor.PackageManager</name>
+    </assembly>
+    <members>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageDownloader.JsonResponse.Url">
+            <summary>
+            Download URL containing SaS token.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageDownloader.JsonResponse.#ctor(System.String)">
+            <summary>
+            Creates a new instance from the given JSON string.
+            </summary>
+        </member>
+        <member name="T:VisualDesignCafe.Editor.PackageManager.PackageImporter">
+            <summary>
+            Imports '.UnityPackage' files.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageInstaller.ExtractBundleId(System.String)">
+            <summary>
+            Extracts the bundle ID from a package file name.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageManager.Packages">
+            <summary>
+            The packages in this project.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageManager.Queue">
+            <summary>
+            Queue of packages that are updating.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageManager.Installer">
+            <summary>
+            Installs packages that are imported for the first time.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageManager.StatusCache">
+            <summary>
+            Cache containing the status for each package.
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Editor.PackageManager.PackageManager.IsUpdating">
+            <summary>
+            Is the package manager updating any packages?
+            </summary>
+        </member>
+        <member name="P:VisualDesignCafe.Editor.PackageManager.PackageManager.DownloadProgress">
+            <summary>
+            The download progress for the package being downloaded.
+            Only one package can be downloaded at the same time.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManager.#ctor">
+            <summary>
+            Creates a new Package Manager.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManager.DownloadAndCacheUpdates(System.Boolean)">
+            <summary>
+            Downloads and caches updates for all packages in the project.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManager.RequestLatestPackageVersion(VisualDesignCafe.Packages.Package,System.Action{VisualDesignCafe.Editor.PackageManager.PackageStatus,VisualDesignCafe.Packages.Version})">
+            <summary>
+            Checks for updates for the given package.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManagerWindow.PackageElement.DrawTitle">
+            <summary>
+            Draws the title of the package.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManagerWindow.PackageElement.DrawDownloadButton">
+            <summary>
+            Draws the download button.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageManagerWindow.Open(VisualDesignCafe.Packages.Version[],System.Action)">
+            <summary>
+            Opens the package manager window. Will send a new web request to 
+            the server to retreive the package info if none was given.
+            </summary>
+            <param name="versionCode">Version code of the new update, or 'null' if not available</param>
+            <param name="buildNumber">Build Number of the new update, or '0' if not available.</param>
+            <param name="changelog">Changelog for the new update, or 'null' if not available.</param>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageQueue.Clear">
+            <summary>
+            Clears all queues.
+            </summary>
+        </member>
+        <member name="T:VisualDesignCafe.Editor.PackageManager.PackageUpdater.JsonResponse">
+            <summary>
+            JSON Serializable class for 'Version' class.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageUpdater.JsonResponse.#ctor(System.String)">
+            <summary>
+            Creates a new instance from the given JSON string.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.PackageUpdater.JsonResponse.ToVersion">
+            <summary>
+            Creates a new Version instance from the data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Unknown">
+            <summary>
+            The status of the package is unknown. 
+            Use CheckForUpdates to request the status of the package.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.RequestingVersion">
+            <summary>
+            The package manager is requesting the live version 
+            of the package from the server.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.UpToDate">
+            <summary>
+            The package is up-to-date.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.HasUpdate">
+            <summary>
+            The package has an update available on the server
+            and is pending for download.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Downloading">
+            <summary>
+            A new version of the package is downloading.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Downloaded">
+            <summary>
+            A new version of the package was downloaded.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Importing">
+            <summary>
+            The package is being imported.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Imported">
+            <summary>
+            The latest version of the package was imported.
+            </summary>
+        </member>
+        <member name="F:VisualDesignCafe.Editor.PackageManager.PackageStatus.Error">
+            <summary>
+            An error occured.
+            </summary>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.UpdateQueue.DownloadAllInQueue(System.Action)">
+            <summary>
+            Downloads all packages in the download queue.
+            </summary>
+            <param name="onAllDownloadsFinished">Callback to invoke when all downloads finished.</param>
+        </member>
+        <member name="M:VisualDesignCafe.Editor.PackageManager.UpdateQueue.Clear">
+            <summary>
+            Clears all queues.
+            </summary>
+        </member>
+    </members>
+</doc>

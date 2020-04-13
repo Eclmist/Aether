@@ -23,10 +23,10 @@ Material:
   m_Name: dirt02
   m_Shader: {fileID: -6465566751694194690, guid: 4fd7a72f71c597f4ab62e510b4196f2b,
     type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _NORMALMAP_TANGENT_SPACE
+  m_ShaderKeywords: _ALPHATEST_ON _DOUBLESIDED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2000
   stringTagMap:
     MotionVector: User
@@ -160,6 +160,8 @@ Material:
     - Vector1_3833C0E4: 0
     - Vector1_81098F70: 0.5
     - Vector1_89C1DAF2: 0
+    - Vector1_AD17D10A: 20
+    - Vector1_C5F70375: 1
     - Vector1_E6EC5E19: 0
     - _AORemapMax: 1
     - _AORemapMin: 0
@@ -177,8 +179,8 @@ Material:
     - _BlendMode: 0
     - _BumpScale: 1
     - _CoatMask: 0
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -204,8 +206,8 @@ Material:
     - _DistortionSrcBlend: 1
     - _DistortionVectorBias: -1
     - _DistortionVectorScale: 2
-    - _DoubleSidedEnable: 0
-    - _DoubleSidedNormalMode: 1
+    - _DoubleSidedEnable: 1
+    - _DoubleSidedNormalMode: 0
     - _DstBlend: 0
     - _EmissionScaleUI: 0
     - _EmissiveColorMode: 1
@@ -238,6 +240,7 @@ Material:
     - _NormalMapSpace: 0
     - _NormalScale: 1
     - _OcclusionStrength: 1
+    - _Opacity: 1
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
@@ -297,7 +300,7 @@ Material:
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
-    - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
+    - _DoubleSidedConstants: {r: -1, g: -1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}

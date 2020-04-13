@@ -30,6 +30,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   - TransparentBackface
@@ -102,7 +103,8 @@ Material:
     - Vector1_81098F70: 0.5
     - Vector1_89C1DAF2: 0
     - Vector1_AD17D10A: 20
-    - Vector1_E6EC5E19: 0
+    - Vector1_C5F70375: 30
+    - Vector1_E6EC5E19: 1
     - _AlphaCutoffEnable: 1
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
@@ -112,8 +114,9 @@ Material:
     - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffusionProfileHash: 0
     - _DoubleSidedEnable: 1
-    - _DoubleSidedNormalMode: 2
+    - _DoubleSidedNormalMode: 0
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
@@ -161,5 +164,6 @@ Material:
     - Color_38C8247D: {r: 0, g: 8388608, b: 8191229, a: 0}
     - Color_5E0F4F37: {r: 0, g: 0.9905014, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
+    - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
+    - _DoubleSidedConstants: {r: -1, g: -1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

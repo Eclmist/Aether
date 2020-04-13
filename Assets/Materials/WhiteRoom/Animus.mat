@@ -23,10 +23,10 @@ Material:
   m_Name: Animus
   m_Shader: {fileID: -6465566751694194690, guid: 050d8d8a48227e8499597178aabb2524,
     type: 3}
-  m_ShaderKeywords: _BLENDMODE_ADD _SURFACE_TYPE_TRANSPARENT
+  m_ShaderKeywords: _BLENDMODE_ADD _DOUBLESIDED_ON _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3000
   stringTagMap:
     MotionVector: User
@@ -130,9 +130,11 @@ Material:
     - Vector1_3752021A: 1
     - Vector1_40ACDA19: 278.5
     - Vector1_49F3694E: 100
-    - Vector1_5F105742: 64
+    - Vector1_5F105742: 100
     - Vector1_7A1D4BFD: 0.082
     - Vector1_8E95BF2C: 40.01
+    - Vector1_972347EF: 2.07
+    - Vector1_A49E8E27: 11
     - Vector1_ADEB07D1: 4.47
     - Vector1_BBA9EBCE: 100000
     - Vector1_CAE4D3DF: 0.008
@@ -152,8 +154,8 @@ Material:
     - _Anisotropy: 0
     - _BlendMode: 1
     - _CoatMask: 0
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -178,7 +180,7 @@ Material:
     - _DistortionSrcBlend: 0
     - _DistortionVectorBias: -1
     - _DistortionVectorScale: 2
-    - _DoubleSidedEnable: 0
+    - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 1
     - _EmissiveColorMode: 1
@@ -259,7 +261,8 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - Color_1AB329E8: {r: 196351, g: 196351, b: 196351, a: 1}
+    - Color_1AB329E8: {r: 785404, g: 785404, b: 785404, a: 1}
+    - Color_3EA9EE24: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

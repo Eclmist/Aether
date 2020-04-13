@@ -1,0 +1,339 @@
+fileFormatVersion: 2
+guid: 489b71b440f324961af97680e68be8ca
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
+  version: 24
+  mGraphInstanceData:
+  - graphLabel: PlantMonster_Thorns
+    prototypeName: PlantMonster_Thorns
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://PlantMonster_Thorns\" label=\"\" >\n  <presetinput
+      identifier=\"Main_EnableTextureModification\" uid=\"2401829940\" type=\"4\"
+      value=\"1\" />\n  <presetinput identifier=\"Thorns1_Hue\" uid=\"2362639303\"
+      type=\"0\" value=\"0.368\" />\n  <presetinput identifier=\"Thorns1_Saturation\"
+      uid=\"2362639310\" type=\"0\" value=\"0.51\" />\n  <presetinput identifier=\"Thorns1_Lightness\"
+      uid=\"2362639313\" type=\"0\" value=\"0.357\" />\n  <presetinput identifier=\"Thorns1_Contrast\"
+      uid=\"2362639320\" type=\"0\" value=\"0.279\" />\n  <presetinput identifier=\"Thorns1_OverlayColor\"
+      uid=\"2362639145\" type=\"3\" value=\"0,0.383337,1,1\" />\n  <presetinput identifier=\"Thorns2_Hue\"
+      uid=\"2362639265\" type=\"0\" value=\"0.368\" />\n  <presetinput identifier=\"Thorns2_Saturation\"
+      uid=\"2362639272\" type=\"0\" value=\"0.51\" />\n  <presetinput identifier=\"Thorns2_Lightness\"
+      uid=\"2362639280\" type=\"0\" value=\"0.357\" />\n  <presetinput identifier=\"Thorns2_Contrast\"
+      uid=\"2362639239\" type=\"0\" value=\"0.279\" />\n  <presetinput identifier=\"Thorns3_Hue\"
+      uid=\"2362638342\" type=\"0\" value=\"0.368\" />\n  <presetinput identifier=\"Thorns3_Saturation\"
+      uid=\"2362638345\" type=\"0\" value=\"0.51\" />\n  <presetinput identifier=\"Thorns3_Lightness\"
+      uid=\"2362638353\" type=\"0\" value=\"0.357\" />\n  <presetinput identifier=\"Thorns3_Contrast\"
+      uid=\"2362638363\" type=\"0\" value=\"0.279\" />\n  <presetinput identifier=\"Thorns3_OverlayColor\"
+      uid=\"2362638445\" type=\"3\" value=\"0,0.383337,1,1\" />\n  <presetinput identifier=\"Env_GroundDirt_Enable\"
+      uid=\"2400570921\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"Env_GroundDirt_Height\"
+      uid=\"2362646487\" type=\"0\" value=\"0.351\" />\n  <presetinput identifier=\"Env_GroundDirt_Contrast\"
+      uid=\"2362646307\" type=\"0\" value=\"0.339\" />\n  <presetinput identifier=\"Env_GroundDirt_Color\"
+      uid=\"2362648322\" type=\"3\" value=\"0.160784,0.104036,0.0472877,1\" />\n 
+      <presetinput identifier=\"Env_GroundDirt_Roughness\" uid=\"2362650479\" type=\"0\"
+      value=\"0.694\" />\n  <presetinput identifier=\"Env_Damage_Enable\" uid=\"2401855911\"
+      type=\"4\" value=\"1\" />\n  <presetinput identifier=\"Env_Damage_MaskMetalOnly\"
+      uid=\"2349301113\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"Env_Damage_WearLevel\"
+      uid=\"2362877475\" type=\"0\" value=\"0.715\" />\n  <presetinput identifier=\"Env_Damage_Lightness\"
+      uid=\"2362872087\" type=\"0\" value=\"0.669\" />\n  <presetinput identifier=\"Env_Damage_Roughness\"
+      uid=\"2362897310\" type=\"0\" value=\"0.77\" />\n </sbspreset>\n"
+    shaderName: Standard
+    materialProperties:
+      shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+      shaderKeywords: _METALLICGLOSSMAP _OCCLUSIONMAP
+      lightmapFlags: 4
+      texEnvs:
+      - name: _BumpMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailAlbedoMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailMask
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _DetailNormalMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _EmissionMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _MainTex
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _MetallicGlossMap
+        texture: {fileID: 8379254286576365046, guid: 489b71b440f324961af97680e68be8ca,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _OcclusionMap
+        texture: {fileID: 9029614616912457853, guid: 489b71b440f324961af97680e68be8ca,
+          type: 3}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      - name: _ParallaxMap
+        texture: {instanceID: 0}
+        scale: {x: 1, y: 1}
+        offset: {x: 0, y: 0}
+      floats:
+      - name: _BumpScale
+        float: 1
+      - name: _Cutoff
+        float: 0.5
+      - name: _DetailNormalMapScale
+        float: 1
+      - name: _DstBlend
+        float: 0
+      - name: _GlossMapScale
+        float: 1
+      - name: _Glossiness
+        float: 0.5
+      - name: _GlossyReflections
+        float: 1
+      - name: _Metallic
+        float: 1
+      - name: _Mode
+        float: 0
+      - name: _OcclusionStrength
+        float: 1
+      - name: _Parallax
+        float: 0.02
+      - name: _SmoothnessTextureChannel
+        float: 0
+      - name: _SpecularHighlights
+        float: 1
+      - name: _SrcBlend
+        float: 1
+      - name: _UVSec
+        float: 0
+      - name: _ZWrite
+        float: 1
+      colors:
+      - name: _Color
+        color: {r: 1, g: 1, b: 1, a: 1}
+      - name: _EmissionColor
+        color: {r: 1, g: 1, b: 1, a: 1}
+    outputDescList:
+    - outputName: baseColor
+      identifier: albedoOpacity
+      usageName: baseColor
+      channelStr: baseColor
+      label: Albedo Opacity
+      usage: 1
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: normal
+      identifier: normal
+      usageName: normal
+      channelStr: normal
+      label: Normal
+      usage: 7
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: ambientOcclusion
+      identifier: ambientOcclusion
+      usageName: ambientOcclusion
+      channelStr: ambientOcclusion
+      label: Ambient Occlusion
+      usage: 5
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: emissive
+      identifier: emissive
+      usageName: emissive
+      channelStr: emissive
+      label: Emissive
+      usage: 3
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: metallic
+      identifier: metallicRoughness
+      usageName: metallic
+      channelStr: metallic
+      label: Metallic Roughness
+      usage: 28
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: albedo
+      identifier: albedo
+      usageName: baseColor
+      channelStr: baseColor
+      label: Z_Albedo
+      usage: 1
+      bImage: 1
+      bNumerical: 0
+      bLinear: 0
+    - outputName: roughness
+      identifier: roughness
+      usageName: roughness
+      channelStr: roughness
+      label: Z_Roughness
+      usage: 15
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: metallic
+      identifier: metallic
+      usageName: metallic
+      channelStr: metallic
+      label: Z_Metallic
+      usage: 28
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: height
+      identifier: height
+      usageName: height
+      channelStr: height
+      label: Height
+      usage: 9
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    - outputName: mask
+      identifier: mask
+      usageName: mask
+      channelStr: mask
+      label: Mask
+      usage: 6
+      bImage: 1
+      bNumerical: 0
+      bLinear: 1
+    texturePackingList:
+    - targetName: baseColor
+      components:
+      - sourceName: baseColor
+        from: 0
+        to: 3
+    - targetName: normal
+      components:
+      - sourceName: source
+        from: 0
+        to: 3
+    - targetName: ambientOcclusion
+      components:
+      - sourceName: source
+        from: 0
+        to: 3
+    - targetName: emissive
+      components:
+      - sourceName: source
+        from: 0
+        to: 3
+    - targetName: metallic
+      components:
+      - sourceName: smoothness
+        from: 0
+        to: 3
+    - targetName: albedo
+      components:
+      - sourceName: albedo
+        from: 0
+        to: 3
+    - targetName: roughness
+      components:
+      - sourceName: roughness
+        from: 0
+        to: 3
+    - targetName: metallic
+      components:
+      - sourceName: smoothness
+        from: 0
+        to: 3
+    - targetName: height
+      components:
+      - sourceName: source
+        from: 0
+        to: 3
+    - targetName: mask
+      components:
+      - sourceName: metallic
+        from: 0
+        to: 0
+      - sourceName: ambientOcclusion
+        from: 0
+        to: 1
+      - sourceName: mask
+        from: 0
+        to: 2
+      - sourceName: smoothness
+        from: 0
+        to: 3
+    textureParameters:
+    - textureName: PlantMonster_Thorns - baseColor
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - normal
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - ambientOcclusion
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - emissive
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - metallic
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - albedo
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - roughness
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - height
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    - textureName: PlantMonster_Thorns - mask
+      wrapMode: 0
+      filterMode: 1
+      aniso: 1
+    colorSpaceList: []
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      textureWidth: 2048
+      textureHeight: 2048
+      textureFormatMode: 0
+      normalCompressed: 0
+      bGenerateOnLoad: 1
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      textureWidth: 512
+      textureHeight: 512
+      textureFormatMode: 0
+      normalCompressed: 0
+      bGenerateOnLoad: 0
+    material: {fileID: -567075861470235856, guid: 489b71b440f324961af97680e68be8ca,
+      type: 3}
+    generatedTextures:
+    - {fileID: 9029614616912457853, guid: 489b71b440f324961af97680e68be8ca, type: 3}
+    - {fileID: 5862919862753656980, guid: 489b71b440f324961af97680e68be8ca, type: 3}

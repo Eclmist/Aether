@@ -40,7 +40,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""id"": ""2addab5d-50d4-4dcf-be83-f57413d0b6ed"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Jump"",
@@ -49,6 +49,46 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Sheathe"",
+                    ""type"": ""Button"",
+                    ""id"": ""10c17fd3-6519-409d-b507-66826ff58946"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6e2dde3-a04d-4406-8dbf-bd33f529ab32"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8ab1bad-cb24-493c-80d1-28bc6aea74b8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchSkills"",
+                    ""type"": ""Button"",
+                    ""id"": ""67dbebb4-83eb-4811-8307-df84c971253b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UseSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""509dc814-6aaf-4650-8d03-ba7d97a1cb97"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -293,6 +333,127 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b04583bf-a02c-45ee-8b48-58589ba62913"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": ""Hold(duration=0.3)"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Sheathe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2683c426-5b7e-478f-bd53-d48e80446307"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Sheathe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad4e8112-7553-497e-a29d-6b9e2308da15"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8aa3b9a-f916-40cc-aa36-2936b9b8257b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a82bf7d-9343-40f1-81f0-760a53b6d93f"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad;Joystick"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86155681-f07a-4576-98f4-9e0ba70bb7b1"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bbf0318-60c1-41df-bfea-b2381faf567b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5449088f-d1f4-4cdf-8316-52abdec0bf9f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d05661ea-e936-48cc-a71d-85f49a182d34"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwitchSkills"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbccf7ff-7165-4dbb-a616-525cbdd777ff"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UseSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68edd2e4-44b9-4a9a-ae6c-01099afe5cff"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""UseSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -322,7 +483,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""id"": ""7ee94bc3-6a7b-4307-b634-8f29cf8add15"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Point"",
@@ -385,6 +546,38 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""191d6fd4-90cd-43ab-af38-fbb8a788f42d"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""KeyboardAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e713500-f523-43be-83b0-3dea33be0968"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Ready"",
+                    ""type"": ""Button"",
+                    ""id"": ""76ee5a8b-26f5-487d-9452-2f513077e77d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Customize"",
+                    ""type"": ""Button"",
+                    ""id"": ""7215beef-d54f-4088-ad11-aa2feea7462b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""GetBindings"",
+                    ""type"": ""Button"",
+                    ""id"": ""3aa8fef6-0296-449d-ba79-e067e065fc2c"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -613,10 +806,21 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
-                    ""path"": ""*/{Submit}"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c078df4-6f1b-48c4-b9b9-aa889da73e86"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -624,10 +828,21 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""82627dcc-3b13-4ba9-841d-e4b746d6553e"",
-                    ""path"": ""*/{Cancel}"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4405205-0cd6-4d23-bcfd-17d2b8dcfd75"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -752,6 +967,94 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""TrackedDeviceSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16d28ff7-7287-44bd-8e72-7730d02a9a3a"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""KeyboardAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8665a955-14a9-4969-b6dd-0eb5ad106993"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Ready"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81c029a1-6b22-4a8a-bbed-e67cc6623a77"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Ready"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df2f22b8-11ea-46cf-8dfc-13ea024a7903"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Customize"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f75b6394-4dc2-469a-ad6a-475070b62ac8"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Customize"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1de118ab-5031-4730-a51d-511c3393704a"",
+                    ""path"": ""*/{Menu}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GetBindings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0615faaa-07a8-4e50-8e74-f6ecb2507b40"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GetBindings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""658691fb-b912-4fd1-8f20-22f704d8dcc6"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GetBindings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -825,6 +1128,11 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Sheathe = m_Player.FindAction("Sheathe", throwIfNotFound: true);
+        m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
+        m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
+        m_Player_SwitchSkills = m_Player.FindAction("SwitchSkills", throwIfNotFound: true);
+        m_Player_UseSkill = m_Player.FindAction("UseSkill", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -838,6 +1146,10 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_TrackedDeviceSelect = m_UI.FindAction("TrackedDeviceSelect", throwIfNotFound: true);
+        m_UI_KeyboardAction = m_UI.FindAction("KeyboardAction", throwIfNotFound: true);
+        m_UI_Ready = m_UI.FindAction("Ready", throwIfNotFound: true);
+        m_UI_Customize = m_UI.FindAction("Customize", throwIfNotFound: true);
+        m_UI_GetBindings = m_UI.FindAction("GetBindings", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -891,6 +1203,11 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Sheathe;
+    private readonly InputAction m_Player_Dodge;
+    private readonly InputAction m_Player_Block;
+    private readonly InputAction m_Player_SwitchSkills;
+    private readonly InputAction m_Player_UseSkill;
     public struct PlayerActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -899,6 +1216,11 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Sheathe => m_Wrapper.m_Player_Sheathe;
+        public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
+        public InputAction @Block => m_Wrapper.m_Player_Block;
+        public InputAction @SwitchSkills => m_Wrapper.m_Player_SwitchSkills;
+        public InputAction @UseSkill => m_Wrapper.m_Player_UseSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -920,6 +1242,21 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Sheathe.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Sheathe.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Sheathe.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSheathe;
+                @Dodge.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDodge;
+                @Block.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBlock;
+                @SwitchSkills.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @SwitchSkills.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchSkills;
+                @UseSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
+                @UseSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
+                @UseSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseSkill;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -936,6 +1273,21 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Sheathe.started += instance.OnSheathe;
+                @Sheathe.performed += instance.OnSheathe;
+                @Sheathe.canceled += instance.OnSheathe;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
+                @SwitchSkills.started += instance.OnSwitchSkills;
+                @SwitchSkills.performed += instance.OnSwitchSkills;
+                @SwitchSkills.canceled += instance.OnSwitchSkills;
+                @UseSkill.started += instance.OnUseSkill;
+                @UseSkill.performed += instance.OnUseSkill;
+                @UseSkill.canceled += instance.OnUseSkill;
             }
         }
     }
@@ -955,6 +1307,10 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_TrackedDeviceSelect;
+    private readonly InputAction m_UI_KeyboardAction;
+    private readonly InputAction m_UI_Ready;
+    private readonly InputAction m_UI_Customize;
+    private readonly InputAction m_UI_GetBindings;
     public struct UIActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -970,6 +1326,10 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @TrackedDeviceSelect => m_Wrapper.m_UI_TrackedDeviceSelect;
+        public InputAction @KeyboardAction => m_Wrapper.m_UI_KeyboardAction;
+        public InputAction @Ready => m_Wrapper.m_UI_Ready;
+        public InputAction @Customize => m_Wrapper.m_UI_Customize;
+        public InputAction @GetBindings => m_Wrapper.m_UI_GetBindings;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1012,6 +1372,18 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceSelect;
+                @KeyboardAction.started -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
+                @KeyboardAction.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
+                @KeyboardAction.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnKeyboardAction;
+                @Ready.started -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
+                @Ready.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
+                @Ready.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnReady;
+                @Customize.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
+                @Customize.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
+                @Customize.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
+                @GetBindings.started -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
+                @GetBindings.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
+                @GetBindings.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1049,6 +1421,18 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @TrackedDeviceSelect.started += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.performed += instance.OnTrackedDeviceSelect;
                 @TrackedDeviceSelect.canceled += instance.OnTrackedDeviceSelect;
+                @KeyboardAction.started += instance.OnKeyboardAction;
+                @KeyboardAction.performed += instance.OnKeyboardAction;
+                @KeyboardAction.canceled += instance.OnKeyboardAction;
+                @Ready.started += instance.OnReady;
+                @Ready.performed += instance.OnReady;
+                @Ready.canceled += instance.OnReady;
+                @Customize.started += instance.OnCustomize;
+                @Customize.performed += instance.OnCustomize;
+                @Customize.canceled += instance.OnCustomize;
+                @GetBindings.started += instance.OnGetBindings;
+                @GetBindings.performed += instance.OnGetBindings;
+                @GetBindings.canceled += instance.OnGetBindings;
             }
         }
     }
@@ -1104,6 +1488,11 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnSheathe(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
+        void OnSwitchSkills(InputAction.CallbackContext context);
+        void OnUseSkill(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1118,5 +1507,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnTrackedDeviceSelect(InputAction.CallbackContext context);
+        void OnKeyboardAction(InputAction.CallbackContext context);
+        void OnReady(InputAction.CallbackContext context);
+        void OnCustomize(InputAction.CallbackContext context);
+        void OnGetBindings(InputAction.CallbackContext context);
     }
 }

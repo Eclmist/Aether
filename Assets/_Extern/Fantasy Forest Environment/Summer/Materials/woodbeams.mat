@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: woodbeams
-  m_Shader: {fileID: -6465566751694194690, guid: bd124297cdc049e40aa408c888cd2fae,
+  m_Shader: {fileID: -6465566751694194690, guid: f0eb2d0a70677ed46a6ee8a364f416e3,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _DOUBLESIDED_ON
   m_LightmapFlags: 1
@@ -166,6 +166,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WorldVisibilityTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_2EC3E108: 0.154
     - Vector1_3833C0E4: 0
@@ -181,6 +185,7 @@ Material:
     - Vector1_AD17D10A: 20
     - Vector1_C3D29010: 9.8
     - Vector1_C3E46BBF: 0.45
+    - Vector1_C5F70375: 1
     - Vector1_E6EC5E19: 0
     - Vector1_F4EF2C48: 0
     - _AORemapMax: 1
@@ -242,6 +247,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _HdrpVersion: 2
+    - _Height: 22
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -269,6 +275,7 @@ Material:
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
     - _Parallax: 0.02
+    - _PivotYOff: 0
     - _ReceivesSSR: 1
     - _RefractionModel: 0
     - _RenderQueueType: 1
@@ -339,6 +346,9 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _WorldVisibilityTextureSize: {r: 256, g: 32, b: 256, a: 0}
+    - _uv_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _uv_Size: {r: 0.5, g: 0.5, b: 0, a: 0}
 --- !u!114 &9081176225451316309
 MonoBehaviour:
   m_ObjectHideFlags: 11

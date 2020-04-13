@@ -1,0 +1,52 @@
+﻿#pragma kernel ComputeVisibility
+#pragma kernel VisibilityUpdate
+#pragma kernel ResetVisibility
+
+RWTexture2D<float4> WorldVisibilityResult;
+
+float2 ModifierPosition;
+bool IsUnreveal;
+float ModifierRadius;
+float UpdateSpeed;
+
+[numthreads(8,8,1)]
+void ComputeVisibility(uint2 id : SV_DispatchThreadID)
+{
+    float2 offsetFromCenter = id - ModifierRadius;
+    uint2 writePos = ModifierPosition + offsetFromCenter;
+    float t = saturate(length(offsetFromCenter) / ModifierRadius);
+
+    float4 currentVal = WorldVisibilityResult[writePos];
+
+    if (IsUnreveal)
+    {
+        t *= 0.8 * t;
+        currentVal.r = min(currentVal.r, lerp(currentVal.r, t, UpdateSpeed));
+    }
+    else
+    {
+        t = 1 - t;
+        currentVal.r = max(currentVal.r, lerp(currentVal.r, t, UpdateSpeed));
+    }
+
+    WorldVisibilityResult[writePos] = currentVal;
+}
+
+[numthreads(8,8,1)]
+void VisibilityUpdate(uint2 id : SV_DispatchThreadID)
+{
+    uint2 writePos = id;
+    float4 currentVal = WorldVisibilityResult[writePos];
+    if (currentVal.r > 0.0)
+    {
+        currentVal.g = lerp(currentVal.g, 1, UpdateSpeed);
+    }
+
+    WorldVisibilityResult[writePos] = currentVal;
+}
+
+[numthreads(8,8,1)]
+void ResetVisibility(uint2 id : SV_DispatchThreadID)
+{
+    WorldVisibilityResult[id].rgba = 0;
+}
