@@ -25,7 +25,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
-    
+    private SkinnedMeshRenderer m_MonsterSkin;
+    private ParticleSystem m_DeathParticles;
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<Player>() != null)
@@ -109,6 +110,13 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         m_Agent.updateRotation = true;
 
         m_HealthHandler = GetComponent<HealthHandler>();
+        m_MonsterSkin = GetComponentInChildren<SkinnedMeshRenderer>();
+        m_DeathParticles = GetComponentInChildren<ParticleSystem>();
+
+        if (m_MonsterSkin != null)
+        {
+            Debug.Log("Skin grabbed");
+        }
         if (m_HealthHandler != null)
         {
             m_HealthHandler.HealthChanged += OnHealthChanged;
@@ -131,15 +139,21 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         m_isDead = true;
         Debug.Log("Dying");
         float deathAnimTime = m_MonsterAnimation.Death();
-        StartCoroutine(DestroyMonster(deathAnimTime));
         m_StateMachineAnim.SetBool("dead", true);
+        StartCoroutine(DestroyMonster(deathAnimTime));
         enabled = false;
     }
 
     IEnumerator DestroyMonster(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
+        m_MonsterSkin.enabled = false;
+        if (m_DeathParticles != null)
+        {
+            AudioManager.m_Instance.PlaySound("MONSTER_Death", 3.0f, 1.2f);
+            m_DeathParticles.Play();
+        }
+        Destroy(gameObject, 3);
     }
 
     private void RotateTowardsNearestPlayer()
