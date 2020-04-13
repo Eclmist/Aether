@@ -5,18 +5,39 @@ public class AiPlantAnimation : AiAnimation
     private enum AnimMovesParam
     {
         locomotion,
-        attack1 = 1,
-        attack2 = 2,
-        death = 3,
+        attack1,
+        attack2,
+        death,
         gotHit,
         goPlant,
         goAlive
     }
 
+    private float GetTime(AnimMovesParam anim)
+    {
+        switch (anim)
+        {
+            case AnimMovesParam.attack1:
+                return 1.0f;
+            case AnimMovesParam.attack2:
+                return 1.5f;
+            case AnimMovesParam.death:
+                return 3.4f;
+            case AnimMovesParam.gotHit:
+                return 0.3f;
+            case AnimMovesParam.goPlant:
+                return 2.7f;
+            case AnimMovesParam.goAlive:
+                return 4f;
+            default:
+                return 1f;
+        }
+
+    }
     public override float Death()
     {
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
-        return (float) AnimMovesParam.death;
+        return GetTime(AnimMovesParam.death);
     }
     public override void TakenDamage()
     {
@@ -26,7 +47,7 @@ public class AiPlantAnimation : AiAnimation
     public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.goAlive.ToString());
-        return (float) AnimMovesParam.goAlive;
+        return GetTime(AnimMovesParam.goAlive);
     }
 
     public override void GoInactive()
@@ -48,6 +69,6 @@ public class AiPlantAnimation : AiAnimation
         AnimMovesParam [] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2};
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
         m_Animator.SetTrigger(attack.ToString());
-        return ((float) attack) / 2;
+        return GetTime(attack);
     }
 }

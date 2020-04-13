@@ -2,22 +2,45 @@ using UnityEngine;
 
 public class AiRockAnimation : AiAnimation
 {
-    private enum AnimMovesParam
+    private enum AnimMovesParam: long
     {
         locomotion,
-        attack1A = 1,
-        attack1B = 2,
-        attack2 = 2,
-        death = 3,
+        attack1A,
+        attack1B,
+        attack2,
+        death,
         gotHit,
         idleToRubble,
         rubbleToIdle,
     }
 
+    private float GetTime(AnimMovesParam anim)
+    {
+        switch (anim)
+        {
+            case AnimMovesParam.attack1A:
+                return 1.0f;
+            case AnimMovesParam.attack1B:
+                return 1.5f;
+            case AnimMovesParam.attack2:
+                return 1.3f;
+            case AnimMovesParam.death:
+                return 3.4f;
+            case AnimMovesParam.gotHit:
+                return 0.3f;
+            case AnimMovesParam.idleToRubble:
+                return 2.7f;
+            case AnimMovesParam.rubbleToIdle:
+                return 4f;
+            default:
+                return 1f;
+        }
+
+    }
     public override float Death()
     {
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
-        return (float) AnimMovesParam.death;
+        return GetTime(AnimMovesParam.death);
     }
     
     public override void TakenDamage()
@@ -28,7 +51,7 @@ public class AiRockAnimation : AiAnimation
     public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.rubbleToIdle.ToString());
-        return (float) AnimMovesParam.rubbleToIdle;
+        return GetTime(AnimMovesParam.rubbleToIdle);
     }
 
     public override void GoInactive()
@@ -47,9 +70,12 @@ public class AiRockAnimation : AiAnimation
 
     public override float RandomizeAttack()
     {
-        AnimMovesParam [] temp = {AnimMovesParam.attack1A, AnimMovesParam.attack1B, AnimMovesParam.attack2};
-        AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
+        AnimMovesParam[] temp = {AnimMovesParam.attack1A, AnimMovesParam.attack1B, AnimMovesParam.attack2};
+        int range = Random.Range(0, temp.Length);
+        
+        AnimMovesParam attack = temp[range];
+        
         m_Animator.SetTrigger(attack.ToString());
-        return ((float) attack) / 2;
+        return GetTime(attack);
     }
 }

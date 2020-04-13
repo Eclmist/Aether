@@ -5,21 +5,42 @@ public class AiWormAnimation : AiAnimation
 {
     private enum AnimMovesParam
     {
-        attack1 = 1,
-        attack2 = 2,
+        attack1,
+        attack2,
         attack4Start,
         attack4End,
         idleBreak,
-        death =3,
+        death,
         gotHitBody,
-        appear = 2,
+        appear,
         disappear,
     }
 
+    private float GetTime(AnimMovesParam anim)
+    {
+        switch (anim)
+        {
+            case AnimMovesParam.attack1:
+                return 1.0f;
+            case AnimMovesParam.attack2:
+                return 1.5f;
+            case AnimMovesParam.death:
+                return 3.4f;
+            case AnimMovesParam.gotHitBody:
+                return 0.3f;
+            case AnimMovesParam.appear:
+                return 2.7f;
+            case AnimMovesParam.disappear:
+                return 4f;
+            default:
+                return 1f;
+        }
+
+    }
     public override float Death()
     {
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
-        return (float) AnimMovesParam.death;
+        return GetTime(AnimMovesParam.death);
     }
     
     public override void TakenDamage()
@@ -30,7 +51,7 @@ public class AiWormAnimation : AiAnimation
     public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.appear.ToString());
-        return (float) AnimMovesParam.appear;
+        return GetTime(AnimMovesParam.appear);
     }
 
     public override void GoInactive()
@@ -52,7 +73,7 @@ public class AiWormAnimation : AiAnimation
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
         StartCoroutine(Attack(ReactToPlayer(), attack));
        
-        return ((float) attack) / 2;
+        return GetTime(attack);
     }
 
     IEnumerator Attack(float delay, AnimMovesParam attack)
