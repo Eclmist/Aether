@@ -25,8 +25,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
-    private SkinnedMeshRenderer m_MonsterSkin;
-    private ParticleSystem m_DeathParticles;
+    private SkinnedMeshRenderer[] m_MonsterSkin;
+    private ParticleSystem[] m_DeathParticles;
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<Player>() != null)
@@ -110,13 +110,9 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         m_Agent.updateRotation = true;
 
         m_HealthHandler = GetComponent<HealthHandler>();
-        m_MonsterSkin = GetComponentInChildren<SkinnedMeshRenderer>();
-        m_DeathParticles = GetComponentInChildren<ParticleSystem>();
+        m_MonsterSkin = GetComponentsInChildren<SkinnedMeshRenderer>();
+        m_DeathParticles = GetComponentsInChildren<ParticleSystem>();
 
-        if (m_MonsterSkin != null)
-        {
-            Debug.Log("Skin grabbed");
-        }
         if (m_HealthHandler != null)
         {
             m_HealthHandler.HealthChanged += OnHealthChanged;
@@ -146,11 +142,20 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     IEnumerator DestroyMonster(float delay)
     {
         yield return new WaitForSeconds(delay);
-        m_MonsterSkin.enabled = false;
+        foreach (SkinnedMeshRenderer s in m_MonsterSkin) {
+            s.enabled = false;
+        }
+        
         if (m_DeathParticles != null)
         {
-            AudioManager.m_Instance.PlaySound("MONSTER_Death", 3.0f, 1.2f);
-            m_DeathParticles.Play();
+            foreach (ParticleSystem p in m_DeathParticles)
+            {
+                if (p.gameObject.name == "DeathVfx")
+                {
+                    AudioManager.m_Instance.PlaySound("MONSTER_Death", 3.0f, 1.2f);
+                    p.Play();
+                }
+            }
         }
         Destroy(gameObject, 3);
     }
