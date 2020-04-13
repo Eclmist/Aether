@@ -8,15 +8,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: woodbeams_bridge
-  m_Shader: {fileID: -6465566751694194690, guid: f0eb2d0a70677ed46a6ee8a364f416e3,
+  m_Shader: {fileID: -6465566751694194690, guid: 4f1a9066f5163084e96d4f75e2c511de,
     type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _DOUBLESIDED_ON
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     MotionVector: User
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - DistortionVectors
   - TransparentDepthPrepass
@@ -343,6 +344,8 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
+    - _uv_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _uv_Size: {r: 0.5, g: 0.5, b: 0, a: 0}
 --- !u!114 &9081176225451316309
 MonoBehaviour:
   m_ObjectHideFlags: 11
