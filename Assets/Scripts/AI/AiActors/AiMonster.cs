@@ -21,6 +21,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private float m_DamageDuration = 0.2f;
 
     private bool m_isDead = false;
+    public bool DEBUG_DEATH = false;
+    public bool DEBUG_GOTHIT = false;
 
     private HealthHandler m_HealthHandler;
 
@@ -100,8 +102,13 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private void SetNearPlayer()
     {
         //alerts the animator if the player has entered the vicinity.
-        m_StateMachineAnim.SetBool("nearPlayer", true);
-        m_MonsterAnimation.ReactToPlayer();
+        float animTime = m_MonsterAnimation.ReactToPlayer();
+        StartCoroutine(SetAfterAnim(animTime));
+        IEnumerator SetAfterAnim(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            m_StateMachineAnim.SetBool("nearPlayer", true);
+        }
     }
 
     private void Start()
@@ -192,6 +199,14 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     public void Update()
     {
+        if(DEBUG_DEATH)
+            OnDeath();
+        if (DEBUG_GOTHIT)
+        {
+            DEBUG_GOTHIT = false;
+            m_MonsterAnimation.TakenDamage();
+        }
+
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
         {
             MoveMonster(true);
