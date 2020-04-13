@@ -22,6 +22,11 @@ public class UIManager : Singleton<UIManager>
     private AudioSource m_AudioSource;
 
     [SerializeField]
+    private Transform m_SecondaryNotificationPanel;
+    [SerializeField]
+    private GameObject m_SecondaryNotificationItemPrefab;
+
+    [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
@@ -150,6 +155,12 @@ public class UIManager : Singleton<UIManager>
         {
             gameHUD.SetActive(false);
         }
+    }
+
+    public void NotifySecondary(string message)
+    {
+        SecondaryNotification sn = Instantiate(m_SecondaryNotificationItemPrefab, m_SecondaryNotificationPanel).GetComponent<SecondaryNotification>();
+        sn.SetUIText(message);
     }
 
     public void ShowWinningMessage(Player winner)
