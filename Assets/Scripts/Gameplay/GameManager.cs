@@ -49,6 +49,9 @@ public class GameManager : Singleton<GameManager>
         if (lp.transform.position.y < m_RespawnHeight)
             lp.TriggerRespawn();
 
+        if (m_CurrentProgress.Count == 0)
+            return;
+
         foreach (Player player in m_CurrentProgress.Keys)
         {
             float currentZ = player.transform.position.z;
