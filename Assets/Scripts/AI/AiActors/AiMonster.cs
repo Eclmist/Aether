@@ -62,7 +62,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     {
         if (m_CanAttack)
         {
-            float attack = m_MonsterAnimation.RandomizeAttack();
+            float attack = m_MonsterAnimation.RandomizeAttack()/2;
             
             //logic for damaging the player here
 
@@ -137,7 +137,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     public void OnDeath()
     {
         m_isDead = true;
-        Debug.Log("Dying");
         float deathAnimTime = m_MonsterAnimation.Death();
         m_StateMachineAnim.SetBool("dead", true);
         StartCoroutine(DestroyMonster(deathAnimTime));
@@ -164,8 +163,12 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         }
         Vector3 direction = (m_NearestPlayer.position - transform.position).normalized;
         direction.y = 0;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * m_Agent.angularSpeed);
+        if (direction.x != 0 && direction.z != 0)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * m_Agent.angularSpeed);
+        }
     }
 
     public override void SetInactive()
@@ -207,7 +210,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private void OnHealthChanged(float deltaHealth)
     {
-        Debug.Log(deltaHealth);
         if (deltaHealth < 0)
             m_MonsterAnimation.TakenDamage();
     }
