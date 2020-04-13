@@ -5,19 +5,42 @@ public class AiMushroomAnimation : AiAnimation
     private enum AnimMovesParam
     {
         locomotion,
-        attack1 = 1,
-        attack2 = 2,
-        attack3 = 2,
-        death = 3,
+        attack1,
+        attack2,
+        attack3,
+        death,
         gotHit,
         goMonster,
-        goStatue = 2,
+        goStatue,
     }
 
+    private float GetTime(AnimMovesParam anim)
+    {
+        switch (anim)
+        {
+            case AnimMovesParam.attack1:
+                return 1.0f;
+            case AnimMovesParam.attack2:
+                return 1.6f;
+             case AnimMovesParam.attack3:
+                 return 2.7f;
+            case AnimMovesParam.death:
+                return 1.5f;
+            case AnimMovesParam.gotHit:
+                return 0.3f;
+            case AnimMovesParam.goMonster:
+                return 1.2f;
+            case AnimMovesParam.goStatue:
+                return 3f;
+            default:
+                return 1f;
+        }
+
+    }
     public override float Death()
     {
-        m_Animator.SetTrigger(AnimMovesParam.death.ToString());
-        return (float) AnimMovesParam.death;
+        m_Animator.SetBool(AnimMovesParam.death.ToString(), true);
+        return GetTime(AnimMovesParam.death);
     }
     
     public override void TakenDamage()
@@ -28,7 +51,7 @@ public class AiMushroomAnimation : AiAnimation
     public override float ReactToPlayer()
     {
         m_Animator.SetTrigger(AnimMovesParam.goStatue.ToString());
-        return (float) AnimMovesParam.goStatue;
+        return GetTime(AnimMovesParam.goStatue);
     }
 
     public override void GoInactive()
@@ -48,8 +71,7 @@ public class AiMushroomAnimation : AiAnimation
     {
         AnimMovesParam [] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2, AnimMovesParam.attack3};
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
-        Debug.Log(attack);
         m_Animator.SetTrigger(attack.ToString());
-        return ((float) attack) / 2;
+        return GetTime(attack);
     }
 }
