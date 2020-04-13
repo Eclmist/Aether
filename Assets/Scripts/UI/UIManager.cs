@@ -20,7 +20,7 @@ public class UIManager : Singleton<UIManager>
     private Animator m_LoadingAnimator;
 
     [SerializeField]
-    private Animator m_BindingsAnimator;
+    private GameObject m_ControllerUIPrompt;
 
     [SerializeField]
     private AudioSource m_AudioSource;
@@ -57,18 +57,10 @@ public class UIManager : Singleton<UIManager>
 
     private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
     {
-        if (m_BindingsAnimator == null)
+        if (m_ControllerUIPrompt == null)
             return;
 
-        if (m_AreBindingsShown)
-        {
-            m_BindingsAnimator.SetBool("CanShowBindings", false);
-        }
-        else {
-            m_BindingsAnimator.SetBool("CanShowBindings", true);
-        }
-
-        m_AreBindingsShown = !(m_AreBindingsShown);
+        m_ControllerUIPrompt.SetActive(!m_ControllerUIPrompt.activeSelf);
     }
 
     private void OnGameStarted(GameMode gameMode)
@@ -89,11 +81,11 @@ public class UIManager : Singleton<UIManager>
     public IEnumerator UIStartGame(string message)
     {
         UINotifyHeader(message);
-        
-        if (m_LoadingAnimator != null)
-            m_LoadingAnimator.SetTrigger("ScrollBack");
 
-        yield return new WaitForSeconds(2.5f);
+        if (m_LoadingAnimator != null)
+            m_LoadingAnimator.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(CountdownActivate());
     }
 
@@ -116,7 +108,7 @@ public class UIManager : Singleton<UIManager>
         }
 
         if (m_CountdownText != null)
-            m_CountdownText.text = "Go!";
+            m_CountdownText.text = "Start";
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
         if (m_AudioSource != null)
