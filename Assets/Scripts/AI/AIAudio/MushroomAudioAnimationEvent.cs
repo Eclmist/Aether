@@ -24,7 +24,7 @@ public class MushroomAudioAnimationEvent : MonsterAudio
             case "Death":
                 Play(GetRandom(death));
                 break;
-            case "GotHit":
+            case "gotHit":
                 Play(GetRandom(gotHit));
                 break;
             default:

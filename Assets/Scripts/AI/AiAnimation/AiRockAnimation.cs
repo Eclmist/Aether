@@ -31,7 +31,7 @@ public class AiRockAnimation : AiAnimation
             case AnimMovesParam.idleToRubble:
                 return 2.7f;
             case AnimMovesParam.rubbleToIdle:
-                return 4f;
+                return 4.8f;
             default:
                 return 1f;
         }
