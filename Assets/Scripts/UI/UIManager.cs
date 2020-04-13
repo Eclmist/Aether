@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -19,6 +20,9 @@ public class UIManager : Singleton<UIManager>
     private Animator m_LoadingAnimator;
 
     [SerializeField]
+    private Animator m_BindingsAnimator;
+
+    [SerializeField]
     private AudioSource m_AudioSource;
 
     [SerializeField]
@@ -31,9 +35,12 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
 
+    private bool m_AreBindingsShown;
+
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
+        AetherInput.GetUIActions().GetBindings.performed += ToggleOptionsCallback;
     }
 
     private void Update()
@@ -46,6 +53,22 @@ public class UIManager : Singleton<UIManager>
         {
             hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
         }
+    }
+
+    private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
+    {
+        if (m_BindingsAnimator == null)
+            return;
+
+        if (m_AreBindingsShown)
+        {
+            m_BindingsAnimator.SetBool("CanShowBindings", false);
+        }
+        else {
+            m_BindingsAnimator.SetBool("CanShowBindings", true);
+        }
+
+        m_AreBindingsShown = !(m_AreBindingsShown);
     }
 
     private void OnGameStarted(GameMode gameMode)

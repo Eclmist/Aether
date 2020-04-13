@@ -572,6 +572,14 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""GetBindings"",
+                    ""type"": ""Button"",
+                    ""id"": ""3aa8fef6-0296-449d-ba79-e067e065fc2c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -1014,6 +1022,17 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                     ""action"": ""Customize"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1de118ab-5031-4730-a51d-511c3393704a"",
+                    ""path"": ""*/{Menu}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""GetBindings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1108,6 +1127,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         m_UI_KeyboardAction = m_UI.FindAction("KeyboardAction", throwIfNotFound: true);
         m_UI_Ready = m_UI.FindAction("Ready", throwIfNotFound: true);
         m_UI_Customize = m_UI.FindAction("Customize", throwIfNotFound: true);
+        m_UI_GetBindings = m_UI.FindAction("GetBindings", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1268,6 +1288,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_KeyboardAction;
     private readonly InputAction m_UI_Ready;
     private readonly InputAction m_UI_Customize;
+    private readonly InputAction m_UI_GetBindings;
     public struct UIActions
     {
         private @AetherControlSystem m_Wrapper;
@@ -1286,6 +1307,7 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         public InputAction @KeyboardAction => m_Wrapper.m_UI_KeyboardAction;
         public InputAction @Ready => m_Wrapper.m_UI_Ready;
         public InputAction @Customize => m_Wrapper.m_UI_Customize;
+        public InputAction @GetBindings => m_Wrapper.m_UI_GetBindings;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1337,6 +1359,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Customize.started -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
                 @Customize.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
                 @Customize.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnCustomize;
+                @GetBindings.started -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
+                @GetBindings.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
+                @GetBindings.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnGetBindings;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1383,6 +1408,9 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
                 @Customize.started += instance.OnCustomize;
                 @Customize.performed += instance.OnCustomize;
                 @Customize.canceled += instance.OnCustomize;
+                @GetBindings.started += instance.OnGetBindings;
+                @GetBindings.performed += instance.OnGetBindings;
+                @GetBindings.canceled += instance.OnGetBindings;
             }
         }
     }
@@ -1460,5 +1488,6 @@ public class @AetherControlSystem : IInputActionCollection, IDisposable
         void OnKeyboardAction(InputAction.CallbackContext context);
         void OnReady(InputAction.CallbackContext context);
         void OnCustomize(InputAction.CallbackContext context);
+        void OnGetBindings(InputAction.CallbackContext context);
     }
 }
