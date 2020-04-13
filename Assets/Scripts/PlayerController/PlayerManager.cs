@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using BeardedManStudios.Forge.Networking.Unity;
 
 [RequireComponent(typeof(PlayerNetworkManager))]
 public class PlayerManager : Singleton<PlayerManager>
@@ -33,12 +32,20 @@ public class PlayerManager : Singleton<PlayerManager>
         PlayerDetails details = player.GetPlayerDetails();
         if (details == null)
         {
-            Debug.Log("Player details are null. PlayerManager.AddPlayer");
+            Debug.LogError("Player details are null. PlayerManager.AddPlayer");
             return;
         }
 
-        // E5 spawn circle hack 
-        NetworkManager.Instance.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
+        // Notify player entered
+        if (player == m_LocalPlayer)
+        {
+            UIManager.Instance.NotifySecondary("You have joined the game.");
+        }
+        else
+        {
+            string name = details.GetName();
+            UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
+        }
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)

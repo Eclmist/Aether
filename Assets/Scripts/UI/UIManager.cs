@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -19,16 +20,27 @@ public class UIManager : Singleton<UIManager>
     private Animator m_LoadingAnimator;
 
     [SerializeField]
+    private GameObject m_ControllerUIPrompt;
+
+    [SerializeField]
     private AudioSource m_AudioSource;
+
+    [SerializeField]
+    private Transform m_SecondaryNotificationPanel;
+    [SerializeField]
+    private GameObject m_SecondaryNotificationItemPrefab;
 
     [SerializeField]
     private UIPowerUpHandler m_UIPowerUpHandler;
     [SerializeField]
     private UISkillsHandler m_UISkillsHandler;
 
+    private bool m_AreBindingsShown;
+
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
+        AetherInput.GetUIActions().GetBindings.performed += ToggleOptionsCallback;
     }
 
     private void Update()
@@ -41,6 +53,19 @@ public class UIManager : Singleton<UIManager>
         {
             hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
         }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            m_ControllerUIPrompt.SetActive(!m_ControllerUIPrompt.activeSelf);
+        }
+    }
+
+    private void ToggleOptionsCallback(InputAction.CallbackContext ctx)
+    {
+        if (m_ControllerUIPrompt == null)
+            return;
+
+        m_ControllerUIPrompt.SetActive(!m_ControllerUIPrompt.activeSelf);
     }
 
     private void OnGameStarted(GameMode gameMode)
@@ -49,7 +74,7 @@ public class UIManager : Singleton<UIManager>
         switch (gameMode)
         {
             case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
-                message = "Zoom: Racing Circuit Breaker";
+                message = "Zoom: Circuit Breaker";
                 break;
             default:
                 break;
@@ -61,11 +86,11 @@ public class UIManager : Singleton<UIManager>
     public IEnumerator UIStartGame(string message)
     {
         UINotifyHeader(message);
-        
-        if (m_LoadingAnimator != null)
-            m_LoadingAnimator.SetTrigger("ScrollBack");
 
-        yield return new WaitForSeconds(2.5f);
+        if (m_LoadingAnimator != null)
+            m_LoadingAnimator.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(1.5f);
         StartCoroutine(CountdownActivate());
     }
 
@@ -88,7 +113,7 @@ public class UIManager : Singleton<UIManager>
         }
 
         if (m_CountdownText != null)
-            m_CountdownText.text = "Go!";
+            m_CountdownText.text = "Start";
         if (m_CountdownAnimator != null)
             m_CountdownAnimator.SetTrigger("Open");
         if (m_AudioSource != null)
@@ -150,6 +175,12 @@ public class UIManager : Singleton<UIManager>
         {
             gameHUD.SetActive(false);
         }
+    }
+
+    public void NotifySecondary(string message)
+    {
+        SecondaryNotification sn = Instantiate(m_SecondaryNotificationItemPrefab, m_SecondaryNotificationPanel).GetComponent<SecondaryNotification>();
+        sn.SetUIText(message);
     }
 
     public void ShowWinningMessage(Player winner)

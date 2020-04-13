@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[][\"uint\", \"int\", \"ulong\"][][][][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[][\"networkId\", \"position\", \"customization\"][][][][]]")]
+	[GeneratedRPC("{\"types\":[[][\"string\", \"uint\", \"int\", \"ulong\"][][][][]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[][\"name\", \"networkId\", \"position\", \"customization\"][][][][]]")]
 	public abstract partial class PlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_TRIGGER_JUMP = 0 + 5;
@@ -28,7 +28,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("TriggerJump", TriggerJump);
-			networkObject.RegisterRpc("TriggerUpdateDetails", TriggerUpdateDetails, typeof(uint), typeof(int), typeof(ulong));
+			networkObject.RegisterRpc("TriggerUpdateDetails", TriggerUpdateDetails, typeof(string), typeof(uint), typeof(int), typeof(ulong));
 			networkObject.RegisterRpc("TriggerDamaged", TriggerDamaged);
 			networkObject.RegisterRpc("TriggerAttack", TriggerAttack);
 			networkObject.RegisterRpc("TriggerDash", TriggerDash);
