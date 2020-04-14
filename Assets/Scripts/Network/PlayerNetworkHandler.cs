@@ -21,6 +21,7 @@ public class PlayerNetworkHandler : MonoBehaviour
     private PlayerAnimation m_PlayerAnimation;
     private PlayerStance m_PlayerStance;
     private PlayerCombatHandler m_PlayerCombatHandler;
+    private PlayerAnimationLookat m_PlayerAnimationLookat;
 
     private void Start()
     {
@@ -32,6 +33,7 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_SkillHandler = GetComponent<SkillHandler>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
+        m_PlayerAnimationLookat = GetComponent<PlayerAnimationLookat>();
 
         // Make sure animator exists
         Debug.Assert(m_Animator != null, "Animator should not be null");
@@ -62,7 +64,10 @@ public class PlayerNetworkHandler : MonoBehaviour
             // Combat states
             m_PlayerNetworkObject.weaponIndex = (int)m_PlayerStance.GetStance();
             m_PlayerNetworkObject.blocked = m_PlayerCombatHandler.IsBlocking();
-            m_PlayerNetworkObject.skillIndex = m_SkillHandler.GetCurrentActiveSkill(); 
+            m_PlayerNetworkObject.skillIndex = m_SkillHandler.GetCurrentActiveSkill();
+
+            // Fun misc
+            m_PlayerNetworkObject.lookatDir = m_PlayerAnimationLookat.GetLookatDirection();
 
             if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
             {
@@ -107,6 +112,10 @@ public class PlayerNetworkHandler : MonoBehaviour
             // Show and hide sword
             // TODO: add delay or make it work with animation callbacks
             m_Player.SetWeaponActive(m_PlayerNetworkObject.weaponIndex != 0);
+
+            // Misc
+            m_PlayerAnimationLookat.SetLookatDirection(m_PlayerNetworkObject.lookatDir);
+            m_PlayerAnimationLookat.SetLookatType(PlayerAnimationLookat.LookAtType.LOOKAT_NETWORKED);
         }
     }
 
