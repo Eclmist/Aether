@@ -7100,6 +7100,7 @@ GameObject:
   - component: {fileID: 4526435887570520906}
   - component: {fileID: 4526435887570520905}
   - component: {fileID: 4526435887570520904}
+  - component: {fileID: 7586418862605139646}
   - component: {fileID: 2763478414200293667}
   - component: {fileID: 3250895980907471645}
   - component: {fileID: 4526435887570521015}
@@ -7107,7 +7108,6 @@ GameObject:
   - component: {fileID: 1493451522}
   - component: {fileID: 1493451523}
   - component: {fileID: 381850364086531946}
-  - component: {fileID: 5749760556525897301}
   - component: {fileID: 4526435887570521014}
   - component: {fileID: 2697102517156753296}
   m_Layer: 9
@@ -7154,7 +7154,7 @@ MonoBehaviour:
   - {fileID: 1493451523}
   - {fileID: 2604487334481758411}
   - {fileID: 381850364086531946}
-  - {fileID: 5749760556525897301}
+  - {fileID: 7586418862605139646}
   m_NetworkComponents:
   - {fileID: 0}
 --- !u!143 &4526435887570520904
@@ -7175,6 +7175,20 @@ CharacterController:
   m_SkinWidth: 0.2
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
+--- !u!114 &7586418862605139646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526435887570521012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19d8f12edf2285f489003a09124ae708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxHealth: 100
+  m_Health: 100
 --- !u!114 &2763478414200293667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7327,20 +7341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c68def87371d4f6c811c211b41ca421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5749760556525897301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4526435887570521012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bd4b829b85a4624a0e4806877dadb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxHealth: 100
-  m_Health: 100
 --- !u!114 &4526435887570521014
 MonoBehaviour:
   m_ObjectHideFlags: 0

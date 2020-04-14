@@ -36,7 +36,7 @@ public class HealthHandler : MonoBehaviour
         return m_Health / m_MaxHealth;
     }
 
-    public void Damage(float amount)
+    public virtual void Damage(float amount)
     {
         if (m_IsDead)
             return;
@@ -66,7 +66,7 @@ public class HealthHandler : MonoBehaviour
         return m_DamagedInCurrentFrame;
     }
 
-    private IEnumerator SetDamaged()
+    public IEnumerator SetDamaged()
     {
         m_DamagedInCurrentFrame = true;
         yield return new WaitForEndOfFrame();
