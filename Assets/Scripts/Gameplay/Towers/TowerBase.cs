@@ -6,6 +6,8 @@ public class TowerBase : TowerBehavior
     public const float MAXIMUM_CAPTURE_GAUGE = 100;
 
     public System.Action<TowerBase> TowerCaptured;
+    public System.Action<TowerBase> TowerEntered;
+    public System.Action TowerExited;
 
     [SerializeField]
     private TowerBase m_NextTower;
