@@ -102,7 +102,7 @@ public class LobbySystem : LobbySystemBehavior
         {
             foreach (var entry in toDestroy)
             {
-                Destroy(entry.Value.gameObject);
+                entry.Value.Disconnect();
                 m_LobbyPlayers.Remove(entry.Key);
             }
         }
@@ -191,7 +191,7 @@ public class LobbySystem : LobbySystemBehavior
         LobbyPlayer lobbyPlayer;
         m_LobbyPlayers.TryGetValue(np, out lobbyPlayer);
         if (lobbyPlayer != null)
-            lobbyPlayer.Disconnect();
+            lobbyPlayer.SignalDisconnect();
     }
 
     // RPC sent to host by any player

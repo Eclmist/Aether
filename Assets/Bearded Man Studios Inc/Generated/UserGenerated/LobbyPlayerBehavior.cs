@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\"][\"string\"][\"bool\"][]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"index\"][\"name\"][\"isReady\"][]]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][\"string\"][\"bool\"][][]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"index\"][\"name\"][\"isReady\"][][]]")]
 	public abstract partial class LobbyPlayerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_POSITION = 0 + 5;
 		public const byte RPC_SET_NAME = 1 + 5;
 		public const byte RPC_SET_READY = 2 + 5;
-		public const byte RPC_SET_DISCONNECTED = 3 + 5;
+		public const byte RPC_SIGNAL_DISCONNECTED = 3 + 5;
+		public const byte RPC_DISCONNECT = 4 + 5;
 
 		public LobbyPlayerNetworkObject networkObject = null;
 
@@ -28,7 +29,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.RegisterRpc("SetPosition", SetPosition, typeof(int));
 			networkObject.RegisterRpc("SetName", SetName, typeof(string));
 			networkObject.RegisterRpc("SetReady", SetReady, typeof(bool));
-			networkObject.RegisterRpc("SetDisconnected", SetDisconnected);
+			networkObject.RegisterRpc("SignalDisconnected", SignalDisconnected);
+			networkObject.RegisterRpc("Disconnect", Disconnect);
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -120,7 +122,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// <summary>
 		/// Arguments:
 		/// </summary>
-		public abstract void SetDisconnected(RpcArgs args);
+		public abstract void SignalDisconnected(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void Disconnect(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

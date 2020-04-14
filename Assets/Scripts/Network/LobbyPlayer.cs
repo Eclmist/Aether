@@ -64,9 +64,14 @@ public class LobbyPlayer : LobbyPlayerBehavior
         networkObject?.SendRpc(RPC_SET_READY, Receivers.All, isReady);
     }
 
+    public void SignalDisconnect()
+    {
+        networkObject?.SendRpc(RPC_SIGNAL_DISCONNECTED, Receivers.All);
+    }
+
     public void Disconnect()
     {
-        networkObject?.SendRpc(RPC_SET_DISCONNECTED, Receivers.All);
+        networkObject?.SendRpc(RPC_DISCONNECT, Receivers.All);
     }
 
     public void UpdateDataFor(NetworkingPlayer player)
@@ -103,8 +108,13 @@ public class LobbyPlayer : LobbyPlayerBehavior
             m_Container.color = Color.white;
     }
 
-    public override void SetDisconnected(RpcArgs args)
+    public override void SignalDisconnected(RpcArgs args)
     {
         m_IsDisconnected = true;
+    }
+
+    public override void Disconnect(RpcArgs args)
+    {
+        Destroy(gameObject);
     }
 }
