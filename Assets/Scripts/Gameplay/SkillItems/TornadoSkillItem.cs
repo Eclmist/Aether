@@ -7,8 +7,8 @@ public class TornadoSkillItem : SkillItem
     public override void UseSkill(Transform playerTransform)
     {
         Vector3 startSpawnPosition = playerTransform.position;
-        Vector3 playerForward = playerTransform.forward.normalized * 2f;
-        Vector3 spellOffset = playerForward;
+        Vector3 playerForward = playerTransform.forward.normalized;
+        Vector3 spellOffset = playerForward  * 2f;
         startSpawnPosition += spellOffset;
         NetworkManager.Instance?.InstantiateSkills(index: 4, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
     }
