@@ -40,6 +40,9 @@ public class UIManager : Singleton<UIManager>
     private void Awake()
     {
         GameManager.Instance.GameStarted += OnGameStarted;
+    }
+    private void Start()
+    {
         AetherInput.GetUIActions().GetBindings.performed += ToggleOptionsCallback;
     }
 
