@@ -36,6 +36,10 @@ public class LobbySystem : LobbySystemBehavior
         m_Instance = this;
 
         m_LobbyPlayers = new Dictionary<NetworkingPlayer, LobbyPlayer>();
+
+        if (NetworkManager.Instance == null)
+            return;
+
         if (NetworkManager.Instance.IsServer)
         {
             NetworkManager.Instance.InstantiateAether();
