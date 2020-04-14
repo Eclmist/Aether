@@ -118,6 +118,10 @@ public class PlayerAnimationLookat : MonoBehaviour
                 return;
         }
 
+        // If looking behind player
+        if (Vector3.Dot(transform.forward, (lookat - transform.position).normalized) < -0.4f)
+            m_LookAtWeightCache = Mathf.Lerp(m_LookAtWeightCache, m_DisabledWeight, Time.deltaTime * m_WeightDampingSpeed);
+
         m_Animator.SetLookAtWeight(m_LookAtWeightCache, m_WeightBody, m_WeightHead, m_WeightEye, m_WeightClamp);
         m_Animator.SetLookAtPosition(lookat);
     }
