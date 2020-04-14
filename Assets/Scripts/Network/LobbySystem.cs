@@ -4,6 +4,7 @@ using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Unity;
 using BeardedManStudios.Forge.Networking.Generated;
+using UnityEngine.SceneManagement;
 
 public class LobbySystem : LobbySystemBehavior
 {
@@ -30,6 +31,7 @@ public class LobbySystem : LobbySystemBehavior
 
     private void Awake()
     {
+        Debug.Log("Loaded Lobby");
         // Ensure only one of this class exists
         if (m_Instance != null)
             Destroy(m_Instance);
@@ -45,10 +47,8 @@ public class LobbySystem : LobbySystemBehavior
             NetworkManager.Instance.InstantiateAether();
             NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
         }
-        else
-        {
-            NetworkManager.Instance.Networker.disconnected += OnDisconnected;
-        }
+
+        NetworkManager.Instance.Networker.disconnected += OnDisconnected;
     }
 
     protected override void NetworkStart()
@@ -94,7 +94,7 @@ public class LobbySystem : LobbySystemBehavior
             {
                 toDestroy.Add(entry);
 
-                m_Loaders[entry.Value.GetPosition()].SetActive(true);
+                m_Loaders[entry.Value.GetPosition().current].SetActive(true);
             }
         }
 
@@ -102,25 +102,24 @@ public class LobbySystem : LobbySystemBehavior
         {
             foreach (var entry in toDestroy)
             {
-                m_LobbyPlayers.Remove(entry.Key);
                 Destroy(entry.Value.gameObject);
+                m_LobbyPlayers.Remove(entry.Key);
             }
         }
 
         // Handle reslotting
         int currentIndex = 0;
         List<LobbyPlayer> players = new List<LobbyPlayer>(m_LobbyPlayers.Values);
-        players.Sort((a, b) => a.GetPosition() - b.GetPosition());
+        players.Sort((a, b) => a.GetPosition().current - b.GetPosition().current);
         foreach (LobbyPlayer player in players)
         {
-            int position = player.GetPosition();
-            if (position >= m_PlayerPositions.Length)
+            int position = player.GetPosition().current;
+            if (position == -1)
                 continue;
 
             if (position > currentIndex)
-            {
                 player.UpdatePosition(currentIndex);
-            }
+
             currentIndex++;
         }
     }
@@ -129,8 +128,9 @@ public class LobbySystem : LobbySystemBehavior
     {
         if (NetworkManager.Instance != null)
         {
+            if (NetworkManager.Instance.IsServer)
+                NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnected;
             NetworkManager.Instance.Networker.disconnected -= OnDisconnected;
-            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnected;
         }
     }
 
@@ -244,17 +244,27 @@ public class LobbySystem : LobbySystemBehavior
 
     private void OnDisconnected(NetWorker sender)
     {
-        AetherNetworkManager.Instance.LoadScene(SceneIndex.TITLE_SCENE_INDEX);
+        MainThreadManager.Run(() =>
+        {
+            if (NetworkManager.Instance != null)
+                Destroy(NetworkManager.Instance.gameObject);
+            if (AetherNetworkManager.Instance != null)
+                Destroy(AetherNetworkManager.Instance.gameObject);
+            SceneManager.LoadScene((int)SceneIndex.TITLE_SCENE_INDEX);
+        });
     }
 
     public void SetPlayerInPosition(LobbyPlayer player)
     {
-        int index = player.GetPosition();
-        if (index >= m_PlayerPositions.Length)
+        var position = player.GetPosition();
+        if (position.current >= m_PlayerPositions.Length)
             return;
 
-        m_Loaders[index].SetActive(false);
-        Transform parent = m_PlayerPositions[index];
+        if (position.previous != -1)
+            m_Loaders[position.previous].SetActive(true);
+
+        m_Loaders[position.current].SetActive(false);
+        Transform parent = m_PlayerPositions[position.current];
         player.transform.SetParent(parent, false);
     }
 

@@ -12,7 +12,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     private bool m_IsReady = false;
 
-    private int m_PositionIndex = -1;
+    private int m_PreviousPosition = -1;
+    private int m_Position = -1;
 
     private ulong m_Customization;
 
@@ -23,9 +24,9 @@ public class LobbyPlayer : LobbyPlayerBehavior
         m_Container = GetComponent<RawImage>();
     }
 
-    public int GetPosition()
+    public (int previous, int current) GetPosition()
     {
-        return m_PositionIndex;
+        return (m_PreviousPosition, m_Position);
     }
 
     public string GetName()
@@ -72,7 +73,7 @@ public class LobbyPlayer : LobbyPlayerBehavior
     {
         networkObject?.SendRpc(player, RPC_SET_NAME, m_PlayerName.text);
         networkObject?.SendRpc(player, RPC_SET_READY, m_IsReady);
-        networkObject?.SendRpc(player, RPC_SET_POSITION, m_PositionIndex);
+        networkObject?.SendRpc(player, RPC_SET_POSITION, m_Position);
     }
 
     public void SetCustomization(ulong data)
@@ -82,7 +83,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     public override void SetPosition(RpcArgs args)
     {
-        m_PositionIndex = args.GetNext<int>();
+        m_PreviousPosition = m_Position;
+        m_Position = args.GetNext<int>();
         LobbySystem.Instance.SetPlayerInPosition(this);
     }
 
