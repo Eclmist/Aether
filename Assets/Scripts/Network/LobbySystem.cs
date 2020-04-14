@@ -240,7 +240,7 @@ public class LobbySystem : LobbySystemBehavior
         if (index >= m_PlayerPositions.Length)
             return;
 
-        Destroy(m_Loaders[index]);
+        m_Loaders[index].SetActive(false);
         Transform parent = m_PlayerPositions[index];
         player.transform.SetParent(parent, false);
     }
