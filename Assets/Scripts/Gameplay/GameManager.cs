@@ -163,6 +163,9 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.NotifySecondary("You have successfully captured the checkpoint.");
         Debug.Log("Checkpoint tower captured");
         tower.TowerCaptured -= TowerCheckpointCaptured;
+        // Prevent notification from calling again
+        tower.TowerEntered = null;
+        tower.TowerExited = null;
         int priority = tower.GetPriority();
         tower.RevealNext();
 
