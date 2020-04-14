@@ -37,7 +37,14 @@ public class LobbySystem : LobbySystemBehavior
 
         m_LobbyPlayers = new Dictionary<NetworkingPlayer, LobbyPlayer>();
         if (NetworkManager.Instance.IsServer)
+        {
             NetworkManager.Instance.InstantiateAether();
+            NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
+        }
+        else
+        {
+            NetworkManager.Instance.Networker.disconnected += OnDisconnected;
+        }
     }
 
     protected override void NetworkStart()
@@ -69,15 +76,49 @@ public class LobbySystem : LobbySystemBehavior
         return true;
     }
 
-    public void SetPlayerInPosition(LobbyPlayer player)
+    private void Update()
     {
-        int index = player.GetPosition();
-        if (index >= AetherNetworkManager.MAX_PLAYER_COUNT)
+        if (m_LobbyPlayers.Count == 0)
             return;
 
-        Destroy(m_Loaders[index]);
-        Transform parent = m_PlayerPositions[index];
-        player.transform.SetParent(parent, false);
+        // Handle disconnections
+        List<KeyValuePair<NetworkingPlayer, LobbyPlayer>> toDestroy = new List<KeyValuePair<NetworkingPlayer, LobbyPlayer>>();
+
+        foreach (var entry in m_LobbyPlayers)
+        {
+            if (entry.Value.GetIsDisconnected())
+            {
+                toDestroy.Add(entry);
+
+                m_Loaders[entry.Value.GetPosition()].SetActive(true);
+            }
+        }
+
+        if (toDestroy.Count > 0)
+        {
+            foreach (var entry in toDestroy)
+            {
+                m_LobbyPlayers.Remove(entry.Key);
+                Destroy(entry.Value);
+            }
+        }
+
+        // Handle reslotting
+        int currentIndex = 0;
+        List<LobbyPlayer> players = new List<LobbyPlayer>(m_LobbyPlayers.Values);
+        players.Sort((a, b) => a.GetPosition() - b.GetPosition());
+        foreach (LobbyPlayer player in players)
+        {
+            int position = player.GetPosition();
+            if (position >= m_PlayerPositions.Length)
+                continue;
+
+            if (position > currentIndex)
+            {
+                player.UpdatePosition(currentIndex);
+            }
+            currentIndex++;
+        }
     }
 
     ////////////////////
@@ -106,7 +147,7 @@ public class LobbySystem : LobbySystemBehavior
             AetherNetworkManager.Instance.AddPlayer(np, details);
         }
 
-        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.KOTH_SCENE_INDEX);
+        AetherNetworkManager.Instance.LoadScene(SceneIndex.FUNRUN_SCENE_INDEX);
     }
 
     private void SetupPlayer(NetworkingPlayer np, string name, ulong customization)
@@ -132,20 +173,12 @@ public class LobbySystem : LobbySystemBehavior
         });
     }
 
-    ////////////////////
-    ///
-    /// CLIENT-ONLY CODE
-    ///
-    ////////////////////
-    
-    public void SetPlayerReady(bool isReady)
+    private void OnPlayerDisconnected(NetworkingPlayer np, NetWorker sender)
     {
-        networkObject?.SendRpc(RPC_TOGGLE_READY, Receivers.Server, isReady);
-    }
-
-    public void SendCustomizationDataToHost()
-    {
-        networkObject?.SendRpc(RPC_SET_PLAYER_CUSTOMIZATION, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
+        LobbyPlayer lobbyPlayer;
+        m_LobbyPlayers.TryGetValue(np, out lobbyPlayer);
+        if (lobbyPlayer != null)
+            lobbyPlayer.Disconnect();
     }
 
     // RPC sent to host by any player
@@ -173,10 +206,43 @@ public class LobbySystem : LobbySystemBehavior
         SetupPlayer(np, args.GetNext<string>(), args.GetNext<ulong>());
     }
 
+    // RPC sent to host by player finalizing customization
     public override void SetPlayerCustomization(RpcArgs args)
     {
         NetworkingPlayer np = args.Info.SendingPlayer;
         m_LobbyPlayers[np].SetCustomization(args.GetNext<ulong>());
+    }
+
+    ////////////////////
+    ///
+    /// CLIENT-ONLY CODE
+    ///
+    ////////////////////
+
+    public void SetPlayerReady(bool isReady)
+    {
+        networkObject?.SendRpc(RPC_TOGGLE_READY, Receivers.Server, isReady);
+    }
+
+    public void SendCustomizationDataToHost()
+    {
+        networkObject?.SendRpc(RPC_SET_PLAYER_CUSTOMIZATION, Receivers.Server, m_CharacterCustomizerLocal.GetDataPacked());
+    }
+
+    private void OnDisconnected(NetWorker sender)
+    {
+        AetherNetworkManager.Instance.LoadScene(SceneIndex.TITLE_SCENE_INDEX);
+    }
+
+    public void SetPlayerInPosition(LobbyPlayer player)
+    {
+        int index = player.GetPosition();
+        if (index >= m_PlayerPositions.Length)
+            return;
+
+        Destroy(m_Loaders[index]);
+        Transform parent = m_PlayerPositions[index];
+        player.transform.SetParent(parent, false);
     }
 
     ////////////////////

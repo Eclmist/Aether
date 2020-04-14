@@ -16,6 +16,8 @@ public class LobbyPlayer : LobbyPlayerBehavior
 
     private ulong m_Customization;
 
+    private bool m_IsDisconnected = false;
+
     private void Start()
     {
         m_Container = GetComponent<RawImage>();
@@ -36,6 +38,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
         return m_IsReady;
     }
 
+    public bool GetIsDisconnected()
+    {
+        return m_IsDisconnected;
+    }
+
     public ulong GetCustomization()
     {
         return m_Customization;
@@ -54,6 +61,11 @@ public class LobbyPlayer : LobbyPlayerBehavior
     public void UpdateReadyStatus(bool isReady)
     {
         networkObject?.SendRpc(RPC_SET_READY, Receivers.All, isReady);
+    }
+
+    public void Disconnect()
+    {
+        networkObject?.SendRpc(RPC_SET_DISCONNECTED, Receivers.All);
     }
 
     public void UpdateDataFor(NetworkingPlayer player)
@@ -87,5 +99,10 @@ public class LobbyPlayer : LobbyPlayerBehavior
             m_Container.color = Color.green;
         else
             m_Container.color = Color.white;
+    }
+
+    public override void SetDisconnected(RpcArgs args)
+    {
+        m_IsDisconnected = true;
     }
 }
