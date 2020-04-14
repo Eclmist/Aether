@@ -15,6 +15,12 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void Awake()
     {
+        if (AetherNetworkManager.Instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         AetherNetworkManager.Instance.SceneLoaded += OnSceneLoaded;
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
     }

@@ -10,14 +10,15 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
     private void Start()
     {
         m_aiMonster = GetComponent<AiMonster>();
-    }
-    private void Update()
-    {
         if (networkObject == null)
         {
-            Debug.LogWarning("No monster network object found on " + this);
+            this.enabled = false;
             return;
         }
+    }
+    
+    private void Update()
+    {
 
         if (networkObject.IsOwner)
         {
