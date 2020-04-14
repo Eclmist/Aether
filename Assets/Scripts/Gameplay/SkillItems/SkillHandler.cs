@@ -51,6 +51,12 @@ public class SkillHandler : MonoBehaviour
                 return;
         }
 
+        // Player must draw his weapon before spell cast
+        if (!m_PlayerStance.GetWeaponTransform().gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         currentSkill.UseSkill(this.transform);
         m_CurrentActiveSkill = currentSkill.GetSkillType();
         m_CastInCurrentFrame = true;
