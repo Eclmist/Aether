@@ -112,7 +112,7 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     public void TriggerDamaged()
     {
-        StartCoroutine(DamagedSequence());
+        GetKnockBack();
     }
 
     public void TriggerJump()
@@ -192,9 +192,9 @@ public class PlayerNetworkHandler : MonoBehaviour
         cc.enabled = true;
     }
 
-    private IEnumerator DamagedSequence()
+    private void GetKnockBack()
     {
-        return m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 20, () => { });
+        m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 20, () => { });
     }
 
 }
