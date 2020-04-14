@@ -52,7 +52,7 @@ public class UIManager : Singleton<UIManager>
         // Look for a monster and toggle their health UI
         Ray screenRay = Camera.main.ViewportPointToRay(new Vector2(0.5f, 0.5f));
         RaycastHit hit;
-        if (Physics.Raycast(screenRay, out hit, 20))
+        if (Physics.Raycast(screenRay, out hit, 10, LayerMask.GetMask("Monster")))
         {
             hit.collider.GetComponent<UIDisplayOnHover>()?.OnHover();
         }

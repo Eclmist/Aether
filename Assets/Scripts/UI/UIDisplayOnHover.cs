@@ -8,20 +8,17 @@ public class UIDisplayOnHover : MonoBehaviour
     [Tooltip("Used to display health and crosshair overlay")]
     private GameObject m_CanvasGroup;
 
-    private bool m_IsHovered;
+    private float m_HoveredTime = float.MinValue;
+    private float m_ActiveTime = 5.0f;
 
     public void OnHover()
     {
-        m_IsHovered = true;
+        m_HoveredTime = Time.time;
+        Debug.Log("Hovered!");
     }
 
     public void Update()
     {
-        m_CanvasGroup?.SetActive(m_IsHovered);
-    }
-
-    public void LateUpdate()
-    {
-        m_IsHovered = false;
+        m_CanvasGroup?.SetActive(Time.time - m_HoveredTime < m_ActiveTime);
     }
 }

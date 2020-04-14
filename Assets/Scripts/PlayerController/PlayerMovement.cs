@@ -24,11 +24,6 @@ public class PlayerMovement : MonoBehaviour
         public float m_GroundCheckRadius = 0.5f;
         public LayerMask m_GroundLayerMask = new LayerMask();
         public bool m_IsGrounded = false;
-
-        public void Update()
-        {
-            m_IsGrounded = Physics.CheckSphere(m_GroundCheckPosition.position, m_GroundCheckRadius, m_GroundLayerMask);
-        }
     }
 
     [System.Serializable]
