@@ -10,7 +10,7 @@ public class ShurikenSkill : SkillItem
         Vector3 playerForward = playerTransform.forward.normalized;
         Vector3 spellOffset = playerForward * 1.5f;
         startSpawnPosition += spellOffset;
-        NetworkManager.Instance.InstantiateSkills(index: 6, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
+        NetworkManager.Instance?.InstantiateSkills(index: 6, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
     }
 
 }

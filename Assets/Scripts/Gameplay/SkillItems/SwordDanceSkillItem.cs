@@ -16,10 +16,10 @@ public class SwordDanceSkillItem : SkillItem
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
             // Instantiate SwordDanceStart at the player's current position
-            NetworkManager.Instance.InstantiateSkills(index: 1, position: playerTransform.position, rotation: Quaternion.identity);
+            NetworkManager.Instance?.InstantiateSkills(index: 1, position: playerTransform.position, rotation: Quaternion.identity);
 
             // Instantiate SwordDanceEnd at the player's click point
-            NetworkManager.Instance.InstantiateSkills(index: 2, position: hit.point, rotation: Quaternion.identity);
+            NetworkManager.Instance?.InstantiateSkills(index: 2, position: hit.point, rotation: Quaternion.identity);
 
             ///////////////////////////////////////////////////////////
             // Code below is for instantiation of game prefabs locally

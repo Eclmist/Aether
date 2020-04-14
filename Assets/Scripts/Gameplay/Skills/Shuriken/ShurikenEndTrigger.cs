@@ -14,7 +14,7 @@ public class ShurikenEndTrigger : MonoBehaviour
         {
             return;
         }
-        NetworkManager.Instance.InstantiateSkills(index: 7, position: transform.position, rotation: Quaternion.identity);
+        NetworkManager.Instance?.InstantiateSkills(index: 7, position: transform.position, rotation: Quaternion.identity);
         Destroy(gameObject);
     }
 }
