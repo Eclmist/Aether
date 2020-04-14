@@ -34,7 +34,11 @@ public class GameManager : Singleton<GameManager>
         if (m_TowerCheckpoints != null)
         {
             foreach (TowerBase tower in m_TowerCheckpoints)
+            {
                 tower.TowerCaptured += TowerCheckpointCaptured;
+                tower.TowerEntered += SetCurrentTower;
+                tower.TowerExited += () => SetCurrentTower(null);
+            }
         }
 
         m_CurrentProgress = new Dictionary<Player, float>();
