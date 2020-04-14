@@ -57,8 +57,11 @@ public class GameManager : Singleton<GameManager>
         if (m_CurrentProgress.Count == 0)
             return;
 
-        foreach (Player player in m_CurrentProgress.Keys)
+        foreach (Player player in PlayerManager.Instance.GetAllPlayers())
         {
+            if (!m_CurrentProgress.ContainsKey(player))
+                continue;
+
             float currentZ = player.transform.position.z;
             m_CurrentProgress[player] = Mathf.Clamp01((currentZ - m_StartZ) / (m_EndZ - m_StartZ));
         }
