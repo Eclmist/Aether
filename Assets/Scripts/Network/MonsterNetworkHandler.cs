@@ -32,8 +32,10 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
         {
             transform.position = networkObject.position;
             transform.rotation = networkObject.rotation;
-            m_aiMonster.IsDead = networkObject.isDead;
-            m_aiMonster.OnDeath();
+            if (networkObject.isDead)
+            {
+                m_aiMonster.OnDeath();
+            }
         }
 
     }
