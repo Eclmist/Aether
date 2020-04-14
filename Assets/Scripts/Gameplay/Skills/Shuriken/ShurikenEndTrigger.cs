@@ -10,10 +10,6 @@ public class ShurikenEndTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerDetector"))
-        {
-            return;
-        }
         NetworkManager.Instance.InstantiateSkills(index: 7, position: transform.position, rotation: Quaternion.identity);
         Destroy(gameObject);
     }
