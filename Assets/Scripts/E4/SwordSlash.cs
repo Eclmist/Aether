@@ -30,8 +30,16 @@ public class SwordSlash : SwordSlashBehavior
         if (m_PlayerStance == null)
             return;
 
-        transform.position = m_PlayerStance.transform.position + Vector3.up;
-        networkObject.position = transform.position;
+        // Update the damage dealing object over network
+        if (networkObject.IsOwner)
+        {
+            transform.position = m_PlayerStance.transform.position + Vector3.up;
+            networkObject.position = transform.position;
+        }
+        else
+        {
+            transform.position = networkObject.position;
+        }
     }
 
     private void OnDamageDealt()
