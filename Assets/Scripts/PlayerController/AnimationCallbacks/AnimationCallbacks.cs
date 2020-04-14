@@ -29,6 +29,10 @@ public class AnimationCallbacks : MonoBehaviour
 
     }
 
+    public void Backstep() {
+        StartCoroutine(m_PlayerMovement.Dash(-transform.forward, 0, 0.3f, 8, () => { }));
+    }
+
     public void DashForward(float distance)
     {
         // E4 Hack: This DashForward function is gonna temporarily be the place to trigger actual
@@ -40,7 +44,7 @@ public class AnimationCallbacks : MonoBehaviour
         //    rotation: Quaternion.LookRotation(
         //        -m_PlayerStance.GetWeaponTransform().up,
         //        -m_PlayerStance.GetWeaponTransform().forward));
-        StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 20, () => { }));
+        StartCoroutine(m_PlayerMovement.Dash(transform.forward, 0, distance, 8, () => { }));
     }
 
     public void SetWeaponActive()
