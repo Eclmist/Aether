@@ -13,7 +13,7 @@ public class MeteorSkillItem : SkillItem
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
-            NetworkManager.Instance.InstantiateSkills(index: 0, position: hit.point, rotation: Quaternion.identity);
+            NetworkManager.Instance?.InstantiateSkills(index: 0, position: hit.point, rotation: Quaternion.identity);
 
             ///////////////////////////////////////////////////////////
             // Code below is for instantiation of game prefabs locally

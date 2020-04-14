@@ -91,7 +91,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         {
             foreach (var source in m_AttackSource)
             {
-                var damage = NetworkManager.Instance.InstantiateMonsterAttack(position: source.position);
+                var damage = NetworkManager.Instance?.InstantiateMonsterAttack(position: source.position);
             }
         }
     }

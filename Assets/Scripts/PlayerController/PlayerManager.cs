@@ -48,7 +48,7 @@ public class PlayerManager : Singleton<PlayerManager>
             UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
         }
 
-        NetworkManager.Instance.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
+        NetworkManager.Instance?.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)

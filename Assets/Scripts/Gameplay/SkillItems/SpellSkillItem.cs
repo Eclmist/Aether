@@ -25,6 +25,6 @@ public class SpellSkillItem : SkillItem
         Vector3 spellOffset = playerForward * 3f + m_HeightOffset;
         startSpawnPosition += spellOffset;
 
-        NetworkManager.Instance.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
+        NetworkManager.Instance?.InstantiateSkills(index: 3, position: startSpawnPosition, rotation: Quaternion.LookRotation(playerForward));
     }
 }
