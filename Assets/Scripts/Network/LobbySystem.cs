@@ -103,7 +103,7 @@ public class LobbySystem : LobbySystemBehavior
             foreach (var entry in toDestroy)
             {
                 m_LobbyPlayers.Remove(entry.Key);
-                Destroy(entry.Value);
+                Destroy(entry.Value.gameObject);
             }
         }
 
@@ -125,12 +125,21 @@ public class LobbySystem : LobbySystemBehavior
         }
     }
 
+    private void OnDestroy()
+    {
+        if (NetworkManager.Instance != null)
+        {
+            NetworkManager.Instance.Networker.disconnected -= OnDisconnected;
+            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnected;
+        }
+    }
+
     ////////////////////
     ///
     /// HOST-ONLY CODE
     ///
     ////////////////////
-    
+
     public void OnStart()
     {
         if (!NetworkManager.Instance.IsServer)
