@@ -11,15 +11,14 @@ public class MoveSkill : SkillsBehavior
     [SerializeField]
     private float m_Speed = 15f;
 
-    private Vector3 m_CurrentDirection;
+    //private Vector3 m_CurrentDirection;
 
     private void Start()
     {
-        if (networkObject != null && networkObject.IsOwner)
-        {
-            m_CurrentDirection = PlayerManager.Instance.GetLocalPlayer().transform.forward.normalized;
-        }
-
+        //if (networkObject != null && networkObject.IsOwner)
+        //{
+        //    m_CurrentDirection = PlayerManager.Instance.GetLocalPlayer().transform.forward.normalized;
+        //}
     }
 
     // Update is called once per frame
@@ -37,15 +36,18 @@ public class MoveSkill : SkillsBehavior
             {
                 transform.position = networkObject.position;
                 yield return null;
-            }
-
-            if (m_CurrentDirection != null)
+            } else
             {
                 // Called by owner of tornado spell
-                transform.position += m_CurrentDirection * Time.deltaTime * m_Speed;
+                transform.position += transform.forward * Time.deltaTime * m_Speed;
                 networkObject.position = transform.position;
                 yield return null;
             }
+
+            //if (m_CurrentDirection != null)
+            //{
+                
+            //}
         }
     }
 }
