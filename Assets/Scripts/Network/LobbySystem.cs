@@ -19,6 +19,9 @@ public class LobbySystem : LobbySystemBehavior
     [SerializeField]
     private CharacterCustomizer m_CharacterCustomizerLocal;
 
+    [SerializeField]
+    private GameObject m_StartButton;
+
     // Singleton instance
     private static LobbySystem m_Instance;
 
@@ -45,6 +48,9 @@ public class LobbySystem : LobbySystemBehavior
         string name = PlayerPrefs.GetString("nickname", "Guest");
         ulong customization = m_CharacterCustomizerLocal.GetDataPacked();
         networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, name, customization);
+
+        if (!networkObject.IsServer)
+            m_StartButton.SetActive(false);
     }
 
     public bool CanStart()
