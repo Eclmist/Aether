@@ -67,7 +67,8 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_PlayerNetworkObject.skillIndex = m_SkillHandler.GetCurrentActiveSkill();
 
             // Fun misc
-            m_PlayerNetworkObject.lookatDir = m_PlayerAnimationLookat?.GetLookatDirection();
+            if (m_PlayerAnimationLookat != null)
+            m_PlayerNetworkObject.lookatDir = m_PlayerAnimationLookat.GetLookatDirection();
 
             if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
             {
@@ -114,8 +115,12 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_Player.SetWeaponActive(m_PlayerNetworkObject.weaponIndex != 0);
 
             // Misc
-            m_PlayerAnimationLookat.SetLookatDirection(m_PlayerNetworkObject.lookatDir);
-            m_PlayerAnimationLookat.SetLookatType(PlayerAnimationLookat.LookAtType.LOOKAT_NETWORKED);
+            if (m_PlayerAnimationLookat != null)
+            {
+                m_PlayerAnimationLookat?.SetLookatDirection(m_PlayerNetworkObject.lookatDir);
+                m_PlayerAnimationLookat?.SetLookatType(PlayerAnimationLookat.LookAtType.LOOKAT_NETWORKED);
+
+            }
         }
     }
 
