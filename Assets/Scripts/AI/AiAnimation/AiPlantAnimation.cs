@@ -36,6 +36,7 @@ public class AiPlantAnimation : AiAnimation
     }
     public override float Death()
     {
+        m_Animator.SetFloat("locomotion", 0);
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
         return GetTime(AnimMovesParam.death);
     }
