@@ -60,6 +60,12 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             interactable.Interact(this, interactionType);
     }
 
+    IEnumerator SetCanAttack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        //Divide by 2 for now
+        m_CanAttack = true;
+    }
     public void Attack(float attackInterval)
     {
         if (m_CanAttack)
@@ -69,7 +75,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             //logic for damaging the player here
 
             StartCoroutine(DealDamage(attack));
-            StartCoroutine(SetCanAttack(attack));
+            StartCoroutine(SetCanAttack(attack + attackInterval));
             m_CanAttack = false;
         }
         
@@ -79,12 +85,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             DamageEntities();
         }
 
-        IEnumerator SetCanAttack(float delay)
-        {
-            yield return new WaitForSeconds(delay + attackInterval);
-            //Divide by 2 for now
-            m_CanAttack = true;
-        }
+        
     }
     
     private void DamageEntities()
@@ -212,6 +213,9 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             m_MonsterAnimation.TakenDamage();
         }
 
+        if (m_isDead)
+            return;
+
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
         {
             MoveMonster(true);
@@ -230,8 +234,12 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private void OnHealthChanged(float deltaHealth)
     {
-        if (deltaHealth < 0)
-            m_MonsterAnimation.TakenDamage();
+        if (deltaHealth < 0 && !m_isDead)
+        {
+            m_CanAttack = false;
+            float delay = m_MonsterAnimation.TakenDamage();
+            StartCoroutine(SetCanAttack(delay));
+        }
     }
 
     private void OnDestroy()

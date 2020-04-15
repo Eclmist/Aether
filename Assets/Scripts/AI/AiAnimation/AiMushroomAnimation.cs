@@ -27,7 +27,7 @@ public class AiMushroomAnimation : AiAnimation
             case AnimMovesParam.death:
                 return 1.4f;
             case AnimMovesParam.gotHit:
-                return 0.3f;
+                return 0.15f;
             case AnimMovesParam.goMonster:
                 return 0.2f;
             case AnimMovesParam.goStatue:
@@ -39,13 +39,15 @@ public class AiMushroomAnimation : AiAnimation
     }
     public override float Death()
     {
+        m_Animator.SetFloat("locomotion", 0);
         m_Animator.SetBool(AnimMovesParam.death.ToString(), true);
         return GetTime(AnimMovesParam.death);
     }
     
-    public override void TakenDamage()
+    public override float TakenDamage()
     {
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
+        return GetTime(AnimMovesParam.gotHit);
     }
 
     public override float ReactToPlayer()

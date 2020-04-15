@@ -43,9 +43,11 @@ public class AiWormAnimation : AiAnimation
         return GetTime(AnimMovesParam.death);
     }
     
-    public override void TakenDamage()
+    public override float TakenDamage()
     {
         m_Animator.SetTrigger(AnimMovesParam.gotHitBody.ToString());
+        return GetTime(AnimMovesParam.gotHitBody);
+
     }
 
     public override float ReactToPlayer()

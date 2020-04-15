@@ -24,7 +24,7 @@ public class AiPlantAnimation : AiAnimation
             case AnimMovesParam.death:
                 return 3.4f;
             case AnimMovesParam.gotHit:
-                return 0.3f;
+                return 0.15f;
             case AnimMovesParam.goPlant:
                 return 0.7f;
             case AnimMovesParam.goAlive:
@@ -39,9 +39,11 @@ public class AiPlantAnimation : AiAnimation
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
         return GetTime(AnimMovesParam.death);
     }
-    public override void TakenDamage()
+    public override float TakenDamage()
     {
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
+        return GetTime(AnimMovesParam.gotHit);
+
     }
     
     public override float ReactToPlayer()
