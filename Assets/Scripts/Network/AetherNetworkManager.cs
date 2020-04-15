@@ -14,7 +14,6 @@ public class AetherNetworkManager : AetherBehavior
     public const int MAX_PLAYER_COUNT = 4;
 
     // Events for networking interaction
-    public event System.Action<NetworkingPlayer> PlayerDisconnected;
     public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneLoaded;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
@@ -39,7 +38,11 @@ public class AetherNetworkManager : AetherBehavior
 
     private void Start()
     {
-        NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnect;
+        if (NetworkManager.Instance == null)
+            return;
+
+        if (NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
     }
 
     public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
@@ -100,13 +103,10 @@ public class AetherNetworkManager : AetherBehavior
         SceneLoaded?.Invoke(m_PlayerDetails);
     }
 
-    private void OnPlayerDisconnect(NetworkingPlayer np, NetWorker sender)
+    private void OnPlayerDisconnected(NetworkingPlayer np, NetWorker sender)
     {
         if (m_PlayerDetails.ContainsKey(np))
-        {
             m_PlayerDetails.Remove(np);
-            PlayerDisconnected?.Invoke(np);
-        }
     }
 
     private void FadeOut()
@@ -121,8 +121,8 @@ public class AetherNetworkManager : AetherBehavior
 
     private void OnDestroy()
     {
-        if (NetworkManager.Instance != null)
-            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnect;
+        if (NetworkManager.Instance != null && NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnected;
     }
 
     ////////////////////
