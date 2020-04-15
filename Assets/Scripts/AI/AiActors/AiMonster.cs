@@ -69,7 +69,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     }
     public void Attack(float attackInterval)
     {
-        if (m_CanAttack && !m_IsStun)
+        if (m_CanAttack)
         {
             float attack = m_MonsterAnimation.RandomizeAttack()/2;
             
@@ -233,22 +233,22 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         }
     }
 
-    IEnumerator SetNotStun(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        //Divide by 2 for now
-        m_IsStun = false;
-    }
-    private IEnumerator stunRoutine;
+    //IEnumerator SetNotStun(float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //   //Divide by 2 for now
+    //    m_IsStun = false;
+    //}
+    //private IEnumerator stunRoutine;
     private void OnHealthChanged(float deltaHealth)
     {
         if (deltaHealth < 0 && !m_isDead)
         {
-            m_IsStun = true;
+            //m_IsStun = true;
             float delay = m_MonsterAnimation.TakenDamage();
-            StopCoroutine(stunRoutine);
-            stunRoutine = SetNotStun(delay);
-            StartCoroutine(stunRoutine);
+            //StopCoroutine(stunRoutine);
+            //stunRoutine = SetNotStun(delay);
+            //StartCoroutine(stunRoutine);
         }
     }
 
