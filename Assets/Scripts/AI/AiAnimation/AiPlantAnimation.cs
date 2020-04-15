@@ -20,7 +20,7 @@ public class AiPlantAnimation : AiAnimation
             case AnimMovesParam.attack1:
                 return 1.0f;
             case AnimMovesParam.attack2:
-                return 1.5f;
+                return 1.4f;
             case AnimMovesParam.death:
                 return 3.4f;
             case AnimMovesParam.gotHit:

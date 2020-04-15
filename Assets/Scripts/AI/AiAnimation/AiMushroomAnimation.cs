@@ -21,9 +21,9 @@ public class AiMushroomAnimation : AiAnimation
             case AnimMovesParam.attack1:
                 return 1.0f;
             case AnimMovesParam.attack2:
-                return 1.6f;
+                return 1.3f;
              case AnimMovesParam.attack3:
-                 return 2.7f;
+                 return 1.6f;
             case AnimMovesParam.death:
                 return 1.4f;
             case AnimMovesParam.gotHit:

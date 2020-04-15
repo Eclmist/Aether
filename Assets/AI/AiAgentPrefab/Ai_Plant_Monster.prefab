@@ -5030,7 +5030,6 @@ GameObject:
   - component: {fileID: 3539631057950247274}
   - component: {fileID: 3539631057950247275}
   - component: {fileID: 437460316}
-  - component: {fileID: 1486325248406296032}
   - component: {fileID: 3294945164015653300}
   - component: {fileID: -8310564473453091907}
   - component: {fileID: 6065614195903299465}
@@ -5147,19 +5146,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MaxHealth: 100
   m_Health: 100
---- !u!114 &1486325248406296032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539631057950247276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CanvasGroup: {fileID: 8037042474528051421}
 --- !u!54 &3294945164015653300
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13258,6 +13244,7 @@ GameObject:
   - component: {fileID: 3539631059896054121}
   - component: {fileID: 630678167}
   - component: {fileID: 630678169}
+  - component: {fileID: 8815767846048691319}
   m_Layer: 16
   m_Name: PlantMonster
   m_TagString: Untagged
@@ -13480,6 +13467,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a3747937f24c87beb715f31c2f89ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8815767846048691319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3539631059896054122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 8037042474528051421}
 --- !u!1 &3539631059896055922
 GameObject:
   m_ObjectHideFlags: 0
@@ -13786,7 +13786,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8037042474528051421}
-  m_LocalRotation: {x: -0.16986646, y: -0.00000019857366, z: -0.0000013274555, w: 0.98546714}
+  m_LocalRotation: {x: -0.16986646, y: -0.00000022956618, z: -0.0000013318106, w: 0.98546714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.0150000015, y: 0.015, z: 0.015000001}
   m_Children:

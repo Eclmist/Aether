@@ -19,9 +19,9 @@ public class AiRockAnimation : AiAnimation
         switch (anim)
         {
             case AnimMovesParam.attack1A:
-                return 1.0f;
+                return 0.8f;
             case AnimMovesParam.attack1B:
-                return 1.5f;
+                return 1.3f;
             case AnimMovesParam.attack2:
                 return 1.3f;
             case AnimMovesParam.death:

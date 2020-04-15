@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 250916845321079288}
   - component: {fileID: 250916845321079291}
   - component: {fileID: 250916845321079290}
-  - component: {fileID: 7073232743134907860}
   - component: {fileID: 1512153434069106058}
   - component: {fileID: 976267581945267424}
   - component: {fileID: 337369461250356680}
@@ -118,19 +117,6 @@ MonoBehaviour:
   m_DamageDuration: 0.2
   DEBUG_DEATH: 0
   DEBUG_GOTHIT: 0
---- !u!114 &7073232743134907860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 250916845321079293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CanvasGroup: {fileID: 2467831435125450895}
 --- !u!54 &1512153434069106058
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -299,7 +285,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2467831435125450895}
-  m_LocalRotation: {x: -0.16986646, y: -0.00000022956618, z: -0.0000013318106, w: 0.98546714}
+  m_LocalRotation: {x: -0.16986646, y: -0.00000019857366, z: -0.0000013274555, w: 0.98546714}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.02, y: 0.02, z: 0.020000001}
   m_Children:
@@ -604,6 +590,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 300d5d9d945e64209b9d33fca34b6c8c, type: 3}
   - {fileID: 8300000, guid: 00d8ab826913e468ab6bd192a488a459, type: 3}
   - {fileID: 8300000, guid: 475f60c10e97a4e17a124839ed1bcfd0, type: 3}
+--- !u!114 &4399227011627871688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5408238715245394276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 2467831435125450895}
 --- !u!1 &5919646215690083939
 GameObject:
   m_ObjectHideFlags: 0
