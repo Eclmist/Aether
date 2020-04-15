@@ -85,6 +85,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Game started");
         m_GameStarted = true;
         GameStarted?.Invoke(GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER);
+        m_TowerCheckpoints[0].Activate();
     }
 
     public void GameOver(Player winner)
@@ -166,13 +167,18 @@ public class GameManager : Singleton<GameManager>
         // Prevent notification from calling again
         tower.TowerEntered = null;
         tower.TowerExited = null;
-        if (tower == m_CurrentTower)
-            SetCurrentTower(null);
-        int priority = tower.GetPriority();
+        SetCurrentTower(null);
         tower.RevealNext();
 
         // Replace tower with checkpoint
-        Destroy(tower.GetComponent<TowerHost>());
+        TowerHost th = tower.GetComponent<TowerHost>();
+        TowerClient tc = tower.GetComponent<TowerClient>();
+        if (th != null)
+            Destroy(th);
+        if (tc != null)
+            Destroy(tc);
+
+        int priority = tower.GetPriority();
         if (m_CurrentCheckpointPriority <= priority)
         {
             tower.GetComponent<Checkpoint>().Activate();

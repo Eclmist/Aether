@@ -1,4 +1,5 @@
 ﻿using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Unity;
 using UnityEngine;
 
 [RequireComponent(typeof(TowerBase))]
@@ -18,7 +19,7 @@ public class TowerNetworkHandler : MonoBehaviour
         // Retrieve network data
         if (m_Tower.networkObject != null)
         {
-            if (m_Tower.networkObject.IsServer)
+            if (NetworkManager.Instance.IsServer)
             {
                 if (m_TowerHost == null)
                     return;
@@ -26,6 +27,7 @@ public class TowerNetworkHandler : MonoBehaviour
                 m_Tower.networkObject.captureGauge = m_Tower.GetCaptureGauge();
 
                 int change = m_TowerHost.GetCaptureCountChange();
+                Debug.Log("Test capture count change: " + change);
                 if (change > 0)
                     m_Tower.networkObject.SendRpc(TowerBase.RPC_SIGNAL_ENTRY, Receivers.All, m_TowerHost.GetCaptureCount());
                 else if (change < 0)
@@ -52,6 +54,5 @@ public class TowerNetworkHandler : MonoBehaviour
             UIManager.Instance.NotifySecondary("Checkpoint capture stopped.");
         else
             UIManager.Instance.NotifySecondary("Capture rate decreased. Now at " + playerCount + "x speed.");
-
     }
 }

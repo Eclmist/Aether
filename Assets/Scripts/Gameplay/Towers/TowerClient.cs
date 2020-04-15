@@ -14,6 +14,9 @@ public class TowerClient : MonoBehaviour, IInteractable
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
+        if (!m_Tower.GetIsActivated())
+            return;
+
         if (!(interactor is Player))
             return;
 
@@ -36,9 +39,6 @@ public class TowerClient : MonoBehaviour, IInteractable
 
     private void HandleEntry()
     {
-        if (m_Tower.GetIsCaptured())
-            return;
-
         m_Tower.TowerEntered?.Invoke(m_Tower);
     }
 

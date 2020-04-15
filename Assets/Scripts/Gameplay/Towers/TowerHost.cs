@@ -26,6 +26,9 @@ public class TowerHost : MonoBehaviour, IInteractable
 
     private void Update()
     {
+        if (!m_Tower.GetIsActivated())
+            return;
+
         if (m_Tower.IsCaptured())
             return;
 
@@ -44,6 +47,9 @@ public class TowerHost : MonoBehaviour, IInteractable
 
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
+        if (!m_Tower.GetIsActivated())
+            return;
+
         if (!(interactor is Player))
             return;
         Player player = interactor as Player;

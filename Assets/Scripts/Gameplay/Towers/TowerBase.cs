@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
 using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Unity;
 
 [RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(TowerNetworkHandler))]
@@ -18,12 +19,14 @@ public class TowerBase : TowerBehavior
     [SerializeField] // Higher priority level = will activate
     private int m_PriorityLevel = 0;
 
+    [SerializeField]
+    private GameObject[] m_ToActivate;
+
     private LocalNetworkTogglables m_LocalNetworkTogglables;
     private TowerNetworkHandler m_TowerNetworkHandler;
 
-    private bool m_isBeingCaptured;
-
     private float m_CaptureGauge = 0;
+    private bool m_IsActivated = false;
     private bool m_IsCaptured = false;
 
     private void Awake()
@@ -32,17 +35,30 @@ public class TowerBase : TowerBehavior
         m_TowerNetworkHandler = GetComponent<TowerNetworkHandler>();
     }
 
-    protected override void NetworkStart()
+    private void Start()
     {
-        base.NetworkStart();
-
-        m_LocalNetworkTogglables.UpdateOwner(networkObject.IsServer);
+        m_LocalNetworkTogglables.UpdateOwner(NetworkManager.Instance.IsServer);
     }
 
     public void RevealNext()
     {
         if (m_NextTower != null)
-            m_NextTower.gameObject.SetActive(true);
+            m_NextTower.Activate();
+    }
+
+    public void Activate()
+    {
+        m_IsActivated = true;
+        if (m_ToActivate.Length == 0)
+            return;
+
+        foreach (GameObject go in m_ToActivate)
+            go.SetActive(true);
+    }
+
+    public bool GetIsActivated()
+    {
+        return m_IsActivated;
     }
 
     public float GetCapturePercentage()
