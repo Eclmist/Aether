@@ -27,11 +27,11 @@ public class TowerNetworkHandler : MonoBehaviour
                 m_Tower.networkObject.captureGauge = m_Tower.GetCaptureGauge();
 
                 int change = m_TowerHost.GetCaptureCountChange();
-                Debug.Log("Test capture count change: " + change);
+                int currCount = m_TowerHost.GetCaptureCount();
                 if (change > 0)
-                    m_Tower.networkObject.SendRpc(TowerBase.RPC_SIGNAL_ENTRY, Receivers.All, m_TowerHost.GetCaptureCount());
+                    m_Tower.networkObject.SendRpc(TowerBase.RPC_SIGNAL_ENTRY, Receivers.All, currCount);
                 else if (change < 0)
-                    m_Tower.networkObject.SendRpc(TowerBase.RPC_SIGNAL_EXIT, Receivers.All, m_TowerHost.GetCaptureCount());
+                    m_Tower.networkObject.SendRpc(TowerBase.RPC_SIGNAL_EXIT, Receivers.All, currCount);
             }
             else
             {
