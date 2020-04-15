@@ -26,9 +26,9 @@ public class AiPlantAnimation : AiAnimation
             case AnimMovesParam.gotHit:
                 return 0.3f;
             case AnimMovesParam.goPlant:
-                return 2.7f;
+                return 0.7f;
             case AnimMovesParam.goAlive:
-                return 4f;
+                return 0.7f;
             default:
                 return 1f;
         }

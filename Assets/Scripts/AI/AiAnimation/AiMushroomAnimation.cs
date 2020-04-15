@@ -29,7 +29,7 @@ public class AiMushroomAnimation : AiAnimation
             case AnimMovesParam.gotHit:
                 return 0.3f;
             case AnimMovesParam.goMonster:
-                return 1.2f;
+                return 0.2f;
             case AnimMovesParam.goStatue:
                 return 3f;
             default:
@@ -50,13 +50,13 @@ public class AiMushroomAnimation : AiAnimation
 
     public override float ReactToPlayer()
     {
-        m_Animator.SetTrigger(AnimMovesParam.goStatue.ToString());
-        return GetTime(AnimMovesParam.goStatue);
+        m_Animator.SetTrigger(AnimMovesParam.goMonster.ToString());
+        return GetTime(AnimMovesParam.goMonster);
     }
 
     public override void GoInactive()
     {
-        m_Animator.SetTrigger(AnimMovesParam.goMonster.ToString());
+        m_Animator.SetTrigger(AnimMovesParam.goStatue.ToString());
     }
 
     public override void Move(bool toMove)
