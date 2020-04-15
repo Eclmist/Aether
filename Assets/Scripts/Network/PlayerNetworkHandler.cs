@@ -33,7 +33,7 @@ public class PlayerNetworkHandler : MonoBehaviour
         m_SkillHandler = GetComponent<SkillHandler>();
         m_PlayerStance = GetComponent<PlayerStance>();
         m_PlayerCombatHandler = GetComponent<PlayerCombatHandler>();
-        m_PlayerAnimationLookat = GetComponent<PlayerAnimationLookat>();
+        m_PlayerAnimationLookat = GetComponentInChildren<PlayerAnimationLookat>();
 
         // Make sure animator exists
         Debug.Assert(m_Animator != null, "Animator should not be null");
@@ -67,7 +67,7 @@ public class PlayerNetworkHandler : MonoBehaviour
             m_PlayerNetworkObject.skillIndex = m_SkillHandler.GetCurrentActiveSkill();
 
             // Fun misc
-            m_PlayerNetworkObject.lookatDir = m_PlayerAnimationLookat.GetLookatDirection();
+            m_PlayerNetworkObject.lookatDir = m_PlayerAnimationLookat?.GetLookatDirection();
 
             if (m_PlayerCombatHandler.GetAttackedInCurrentFrame())
             {
