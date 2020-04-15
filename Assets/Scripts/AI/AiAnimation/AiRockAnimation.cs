@@ -29,9 +29,9 @@ public class AiRockAnimation : AiAnimation
             case AnimMovesParam.gotHit:
                 return 0.2f;
             case AnimMovesParam.idleToRubble:
-                return 2.7f;
+                return 2.5f;
             case AnimMovesParam.rubbleToIdle:
-                return 3.8f;
+                return 3.6f;
             default:
                 return 1f;
         }
