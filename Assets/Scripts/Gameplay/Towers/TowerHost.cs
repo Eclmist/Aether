@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(TowerBase))]
-public class TowerLocal : MonoBehaviour, IInteractable
+public class TowerHost : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private float m_CapturePerPaxPerSecond = 2;
@@ -11,6 +11,8 @@ public class TowerLocal : MonoBehaviour, IInteractable
     private TowerBase m_Tower;
 
     private List<Player> m_PlayersInCaptureZone;
+
+    private int m_CaptureCountChangeThisFrame = 0;
 
     private void Awake()
     {
@@ -35,6 +37,11 @@ public class TowerLocal : MonoBehaviour, IInteractable
         m_Tower.UpdateCaptureGauge(captureGauge);
     }
 
+    private void LateUpdate()
+    {
+        m_CaptureCountChangeThisFrame = 0;
+    }
+
     public void Interact(ICanInteract interactor, InteractionType interactionType)
     {
         if (!(interactor is Player))
@@ -54,12 +61,22 @@ public class TowerLocal : MonoBehaviour, IInteractable
         }
     }
 
+    public int GetCaptureCount()
+    {
+        return m_PlayersInCaptureZone.Count;
+    }
+
+    public int GetCaptureCountChange()
+    {
+        return m_CaptureCountChangeThisFrame;
+    }
+
     private void HandleEntry(Player player)
     {
         if (!m_PlayersInCaptureZone.Contains(player))
         {
             m_PlayersInCaptureZone.Add(player);
-            UIManager.Instance.NotifySecondary("You have started capturing the checkpoint.");
+            m_CaptureCountChangeThisFrame++;
             m_Tower.TowerEntered?.Invoke(m_Tower);
         }
     }
@@ -69,8 +86,7 @@ public class TowerLocal : MonoBehaviour, IInteractable
         if (m_PlayersInCaptureZone.Contains(player))
         {
             m_PlayersInCaptureZone.Remove(player);
-            UIManager.Instance.NotifySecondary("You are no longer capturing the checkpoint.");
-            GameManager.Instance.SetCurrentTower(null);
+            m_CaptureCountChangeThisFrame--;
             m_Tower.TowerExited?.Invoke();
         }
     }

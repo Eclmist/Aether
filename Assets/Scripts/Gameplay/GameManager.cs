@@ -166,11 +166,13 @@ public class GameManager : Singleton<GameManager>
         // Prevent notification from calling again
         tower.TowerEntered = null;
         tower.TowerExited = null;
+        if (tower == m_CurrentTower)
+            SetCurrentTower(null);
         int priority = tower.GetPriority();
         tower.RevealNext();
 
         // Replace tower with checkpoint
-        Destroy(tower.GetComponent<TowerLocal>());
+        Destroy(tower.GetComponent<TowerHost>());
         if (m_CurrentCheckpointPriority <= priority)
         {
             tower.GetComponent<Checkpoint>().Activate();

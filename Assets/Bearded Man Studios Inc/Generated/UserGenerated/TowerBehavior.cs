@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[]")]
-	[GeneratedRPCVariableNames("{\"types\":[]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][\"int\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][\"playerCount\"]]")]
 	public abstract partial class TowerBehavior : NetworkBehavior
 	{
+		public const byte RPC_SIGNAL_ENTRY = 0 + 5;
+		public const byte RPC_SIGNAL_EXIT = 1 + 5;
 
 		public TowerNetworkObject networkObject = null;
 
@@ -21,6 +23,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
+			networkObject.RegisterRpc("SignalEntry", SignalEntry, typeof(int));
+			networkObject.RegisterRpc("SignalExit", SignalExit, typeof(int));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -94,6 +98,16 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
+		/// <summary>
+		/// Arguments:
+		/// int playerCount
+		/// </summary>
+		public abstract void SignalEntry(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// int playerCount
+		/// </summary>
+		public abstract void SignalExit(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}
