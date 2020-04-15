@@ -24,6 +24,8 @@ public class CharacterCustomizeUI : MonoBehaviour
 
     private int m_CurrentSelectedIndex = 0;
 
+    private bool m_IsExpanded = false;
+
     private RectTransform m_RectTransform;
 
     // Start is called before the first frame update
@@ -46,8 +48,9 @@ public class CharacterCustomizeUI : MonoBehaviour
     {
         if (index >= m_Animators.Length || m_Animators[index] == null)
             return;
-            
+
         m_Animators[index].SetBool("Open", false);
+        m_IsExpanded = false;
         EventSystem.current.SetSelectedGameObject(m_ExpansionGroups[index].m_TriggerButton);
     }
     public void Open(int index)
@@ -64,6 +67,7 @@ public class CharacterCustomizeUI : MonoBehaviour
         }
 
         SetCurrentSelectedIndex(index);
+        m_IsExpanded = true;
         m_NavGroups[index].SelectFirstElement();
     }
 
@@ -80,5 +84,10 @@ public class CharacterCustomizeUI : MonoBehaviour
     public void SetCurrentSelectedIndex(int index)
     {
         m_CurrentSelectedIndex = index;
+    }
+
+    public bool GetIsExpanded()
+    {
+        return m_IsExpanded;
     }
 }

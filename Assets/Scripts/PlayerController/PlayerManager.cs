@@ -60,14 +60,14 @@ public class PlayerManager : Singleton<PlayerManager>
         m_LocalPlayer = player;
     }
 
-    public Player GetLocalPlayer()
-    {
-        return m_LocalPlayer;
-    }
-
     public void SetPlayerCount(int count)
     {
         m_TotalPlayerCount = count;
+    }
+
+    public Player GetLocalPlayer()
+    {
+        return m_LocalPlayer;
     }
 
     public int GetPlayerCount()
@@ -97,5 +97,14 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerNetworkManager GetPlayerNetworkManager()
     {
         return m_PlayerNetworkManager;
+    }
+
+    public void DestroyPlayer(Player player)
+    {
+        if (!m_Players.Contains(player))
+            return;
+
+        m_Players.Remove(player);
+        m_TotalPlayerCount--;
     }
 }

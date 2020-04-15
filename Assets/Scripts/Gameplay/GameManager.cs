@@ -104,7 +104,7 @@ public class GameManager : Singleton<GameManager>
         UIManager.Instance.NotifySecondary(winnerName + " has reached the finish line.");
         UIManager.Instance.ShowWinningMessage(winner);
         yield return new WaitForSeconds(m_GameOverMessageDuration);
-        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
+        AetherNetworkManager.Instance.LoadScene(SceneIndex.LOBBY_SCENE_INDEX);
     }
 
     public bool GetGameStarted()

@@ -21,10 +21,13 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private float m_DamageDuration = 0.2f;
 
     private bool m_isDead = false;
+    public bool DEBUG_DEATH = false;
+    public bool DEBUG_GOTHIT = false;
 
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
+    private bool m_IsStun = false;
     private SkinnedMeshRenderer[] m_MonsterSkin;
     private ParticleSystem[] m_DeathParticles;
     private void OnTriggerEnter(Collider c)
@@ -58,6 +61,12 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             interactable.Interact(this, interactionType);
     }
 
+    IEnumerator SetCanAttack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        //Divide by 2 for now
+        m_CanAttack = true;
+    }
     public void Attack(float attackInterval)
     {
         if (m_CanAttack)
@@ -67,7 +76,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             //logic for damaging the player here
 
             StartCoroutine(DealDamage(attack));
-            StartCoroutine(SetCanAttack(attack));
+            StartCoroutine(SetCanAttack(attack + attackInterval));
             m_CanAttack = false;
         }
         
@@ -77,12 +86,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             DamageEntities();
         }
 
-        IEnumerator SetCanAttack(float delay)
-        {
-            yield return new WaitForSeconds(delay + attackInterval);
-            //Divide by 2 for now
-            m_CanAttack = true;
-        }
+        
     }
     
     private void DamageEntities()
@@ -100,8 +104,13 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private void SetNearPlayer()
     {
         //alerts the animator if the player has entered the vicinity.
-        m_StateMachineAnim.SetBool("nearPlayer", true);
-        m_MonsterAnimation.ReactToPlayer();
+        float animTime = m_MonsterAnimation.ReactToPlayer();
+        StartCoroutine(SetAfterAnim(animTime));
+        IEnumerator SetAfterAnim(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            m_StateMachineAnim.SetBool("nearPlayer", true);
+        }
     }
 
     private void Start()
@@ -197,6 +206,17 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     public void Update()
     {
+        if(DEBUG_DEATH)
+            OnDeath();
+        if (DEBUG_GOTHIT)
+        {
+            DEBUG_GOTHIT = false;
+            m_MonsterAnimation.TakenDamage();
+        }
+
+        if (m_isDead)
+            return;
+
         if (m_Agent.remainingDistance > m_Agent.stoppingDistance)
         {
             MoveMonster(true);
@@ -213,10 +233,23 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         }
     }
 
+    //IEnumerator SetNotStun(float delay)
+    //{
+    //    yield return new WaitForSeconds(delay);
+    //   //Divide by 2 for now
+    //    m_IsStun = false;
+    //}
+    //private IEnumerator stunRoutine;
     private void OnHealthChanged(float deltaHealth)
     {
-        if (deltaHealth < 0)
-            m_MonsterAnimation.TakenDamage();
+        if (deltaHealth < 0 && !m_isDead)
+        {
+            //m_IsStun = true;
+            float delay = m_MonsterAnimation.TakenDamage();
+            //StopCoroutine(stunRoutine);
+            //stunRoutine = SetNotStun(delay);
+            //StartCoroutine(stunRoutine);
+        }
     }
 
     private void OnDestroy()
