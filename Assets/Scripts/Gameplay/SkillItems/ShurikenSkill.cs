@@ -13,8 +13,8 @@ public class ShurikenSkill : SkillItem
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
             Vector3 startSpawnPosition = playerTransform.position 
-                + 25.0f * (playerTransform.forward.normalized)
-                + new Vector3(0.0f, 1.6f, 0.0f);
+                + 5.0f * (playerTransform.forward.normalized)
+                + new Vector3(0.0f, 1.25f, 0.0f);
             Vector3 hitPoint = hit.point - playerTransform.position;
             NetworkManager.Instance?.InstantiateSkills(index: 6, position: startSpawnPosition, rotation: Quaternion.LookRotation(hitPoint, playerTransform.up));
         }

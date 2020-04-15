@@ -13,12 +13,11 @@ GameObject:
   - component: {fileID: 328529008253358982}
   - component: {fileID: 328529008253358981}
   - component: {fileID: 328529008253358980}
-  - component: {fileID: 252777277477294166}
   - component: {fileID: 9086353944631980033}
   - component: {fileID: 6276093999332201543}
   - component: {fileID: 5129920403372566608}
   - component: {fileID: -1060107611855112418}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: Ai_Worm_Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +92,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.8820603
+  m_Radius: 7
   m_Center: {x: 0, y: 1.2893128, z: -0.09274745}
 --- !u!114 &328529008253358980
 MonoBehaviour:
@@ -115,19 +114,8 @@ MonoBehaviour:
   m_DamageAmount: 30
   m_DamageRadius: 10
   m_DamageDuration: 0.2
---- !u!114 &252777277477294166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 328529008253358979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CanvasGroup: {fileID: 3162385053693651191}
+  DEBUG_DEATH: 0
+  DEBUG_GOTHIT: 0
 --- !u!54 &9086353944631980033
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -311,6 +299,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ced2ed4d59374a6484be68f898ec3687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8722782424573816055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459701034421070002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa8cf8a3a2c6c7b41a2b68916e4fbb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CanvasGroup: {fileID: 3162385053693651191}
 --- !u!114 &4414806813893857732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,22 +381,22 @@ PrefabInstance:
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.085230805
+      value: -0.16986646
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00018320911
+      value: -0.00000022794286
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000015769367
+      value: -0.0000013223931
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99636126
+      value: 0.98546714
       objectReference: {fileID: 0}
     - target: {fileID: 5336226993382622162, guid: e6767c3a81bab064683f3098157a9db7,
         type: 3}

@@ -3,13 +3,20 @@ using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
 
+[RequireComponent(typeof(AiMonster), typeof(HealthHandler))]
 public class MonsterNetworkHandler : MonsterObjectBehavior
 {
     private AiMonster m_aiMonster;
+    private HealthHandler m_healthHandler;
 
     private void Start()
     {
         m_aiMonster = GetComponent<AiMonster>();
+        m_healthHandler = GetComponent<HealthHandler>();
+        if (m_aiMonster == null || m_healthHandler == null)
+        {
+            Debug.LogError("No health handler and ai monster attached " + this);
+        }
         if (networkObject == null)
         {
             this.enabled = false;
@@ -27,6 +34,7 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
             networkObject.position = transform.position;
             networkObject.rotation = transform.rotation;
             networkObject.isDead = m_aiMonster.IsDead;
+            networkObject.health = m_healthHandler.GetHealth();
 
         }
         else
@@ -37,6 +45,7 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
             {
                 m_aiMonster.OnDeath();
             }
+            m_healthHandler.SetHealth(networkObject.health);
         }
 
     }
