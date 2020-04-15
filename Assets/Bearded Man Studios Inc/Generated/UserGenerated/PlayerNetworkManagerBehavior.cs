@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\"][][][\"uint\"][\"uint\"][\"uint\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][][][\"networkId\"][\"networkId\"][\"networkId\"]]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][\"string\"][][\"uint\"][\"uint\"][\"uint\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][\"playerName\"][][\"networkId\"][\"networkId\"][\"networkId\"]]")]
 	public abstract partial class PlayerNetworkManagerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_PLAYER_COUNT = 0 + 5;
@@ -28,7 +28,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("SetPlayerCount", SetPlayerCount, typeof(int));
-			networkObject.RegisterRpc("SetClientReady", SetClientReady);
+			networkObject.RegisterRpc("SetClientReady", SetClientReady, typeof(string));
 			networkObject.RegisterRpc("SetAllReady", SetAllReady);
 			networkObject.RegisterRpc("TriggerGameOver", TriggerGameOver, typeof(uint));
 			networkObject.RegisterRpc("SetGameOver", SetGameOver, typeof(uint));
@@ -113,6 +113,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		public abstract void SetPlayerCount(RpcArgs args);
 		/// <summary>
 		/// Arguments:
+		/// string playerName
 		/// </summary>
 		public abstract void SetClientReady(RpcArgs args);
 		/// <summary>
