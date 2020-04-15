@@ -198,7 +198,7 @@ public class MultiplayerSystem : MonoBehaviour
 		if (networker is IServer)
 		{
 			if (!m_DontChangeSceneOnConnect)
-				AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
+				AetherNetworkManager.Instance.LoadScene(SceneIndex.LOBBY_SCENE_INDEX);
 			else
 				NetworkObject.Flush(networker); //Called because we are already in the correct scene!
 		}

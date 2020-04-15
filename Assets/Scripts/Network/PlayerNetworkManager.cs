@@ -23,6 +23,14 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
         AetherNetworkManager.Instance.SceneLoaded += OnSceneLoaded;
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
+
+        if (NetworkManager.Instance != null)
+        {
+            if (NetworkManager.Instance.IsServer)
+                NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
+
+            NetworkManager.Instance.Networker.disconnected += OnDisconnected;
+        }
     }
 
     public Transform GetSpawnPosition(int position)
@@ -59,6 +67,11 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         });
     }
 
+    private void OnDisconnected(NetWorker sender)
+    {
+        UIManager.Instance.NotifySecondary("You have disconnected from the server.");
+    }
+
     public void RequestGameOver()
     {
         networkObject?.SendRpc(RPC_TRIGGER_GAME_OVER, Receivers.Server, networkObject.MyPlayerId);
@@ -82,6 +95,18 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     {
         Player winner = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
         GameManager.Instance.GameOver(winner);
+    }
+
+    public override void SignalPlayerDisconnected(RpcArgs args)
+    {
+        Player player = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
+        if (player == null)
+            return;
+
+        string name = player.GetPlayerDetails().GetName();
+        UIManager.Instance.NotifySecondary(name + " has disconnected from the server.");
+
+        PlayerManager.Instance.DestroyPlayer(player);
     }
 
     ////////////////////
@@ -141,6 +166,11 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         player.networkObject.SendRpc(Player.RPC_TRIGGER_UPDATE_DETAILS, Receivers.All, details.ToArray());
 
         player.networkStarted -= OnPlayerNetworked;
+    }
+
+    private void OnPlayerDisconnected(NetworkingPlayer player, NetWorker sender)
+    {
+        networkObject?.SendRpc(RPC_SIGNAL_PLAYER_DISCONNECTED, Receivers.All, player.NetworkId);
     }
 
     // RPC sent to host when a client is ready
