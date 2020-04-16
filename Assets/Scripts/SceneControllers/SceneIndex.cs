@@ -1,0 +1,7 @@
+﻿public enum SceneIndex
+{
+    TITLE_SCENE_INDEX = 0,
+    LOBBY_SCENE_INDEX = 1,
+    LOADING_SCENE_INDEX = 2,
+    FUNRUN_SCENE_INDEX = 3
+}

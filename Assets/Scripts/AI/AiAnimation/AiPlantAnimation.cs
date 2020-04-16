@@ -20,15 +20,15 @@ public class AiPlantAnimation : AiAnimation
             case AnimMovesParam.attack1:
                 return 1.0f;
             case AnimMovesParam.attack2:
-                return 1.5f;
+                return 1.7f;
             case AnimMovesParam.death:
                 return 3.4f;
             case AnimMovesParam.gotHit:
-                return 0.3f;
+                return 0.15f;
             case AnimMovesParam.goPlant:
-                return 2.7f;
+                return 0.7f;
             case AnimMovesParam.goAlive:
-                return 4f;
+                return 0.7f;
             default:
                 return 1f;
         }
@@ -36,12 +36,15 @@ public class AiPlantAnimation : AiAnimation
     }
     public override float Death()
     {
+        m_Animator.SetFloat("locomotion", 0);
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
         return GetTime(AnimMovesParam.death);
     }
-    public override void TakenDamage()
+    public override float TakenDamage()
     {
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
+        return GetTime(AnimMovesParam.gotHit);
+
     }
     
     public override float ReactToPlayer()

@@ -13,7 +13,7 @@ public class TornadoSkillItem : SkillItem
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, m_LayerMask))
         {
-            Vector3 startSpawnPosition = playerTransform.position + 5.0f * (playerTransform.forward.normalized);
+            Vector3 startSpawnPosition = playerTransform.position + 2.0f * (playerTransform.forward.normalized);
             Vector3 hitPoint = hit.point - playerTransform.position;
             NetworkManager.Instance?.InstantiateSkills(index: 4, position: startSpawnPosition, rotation: Quaternion.LookRotation(hitPoint, playerTransform.up));
         }
