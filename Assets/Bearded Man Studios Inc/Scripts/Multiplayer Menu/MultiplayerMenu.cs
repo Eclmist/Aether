@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class MultiplayerMenu : MonoBehaviour
 {
@@ -37,11 +38,17 @@ public class MultiplayerMenu : MonoBehaviour
 
 	public bool useTCP = false;
 
+	public float timeoutDuration = 10f;
+	private float nextAvailableConnect;
+	private bool waitForTimeout = false;
+
 	private void Start()
 	{
 		ipAddress.text = "127.0.0.1";
 		portNumber.text = "15937";
 		displayName.text = PlayerPrefs.GetString("nickname", "");
+
+		nextAvailableConnect = Time.time;
 
 		for (int i = 0; i < ToggledButtons.Length; ++i)
 		{
@@ -73,6 +80,15 @@ public class MultiplayerMenu : MonoBehaviour
 
 	public void Connect()
 	{
+		if (waitForTimeout)
+		{
+            if (Time.time < nextAvailableConnect)
+			    return;
+		}
+
+		waitForTimeout = true;
+		nextAvailableConnect = Time.time + timeoutDuration + 2.0f;
+
 		if (connectUsingMatchmaking)
 		{
 			ConnectToMatchmaking();
@@ -82,7 +98,9 @@ public class MultiplayerMenu : MonoBehaviour
 		if(!ushort.TryParse(portNumber.text, out port))
 		{
 			Debug.LogError("The supplied port number is not within the allowed range 0-" + ushort.MaxValue);
-		    	return;
+
+			waitForTimeout = false;
+		    return;
 		}
 
 		NetWorker client;
@@ -225,6 +243,19 @@ public class MultiplayerMenu : MonoBehaviour
 			else
 				NetworkObject.Flush(networker); //Called because we are already in the correct scene!
 		}
+
+		StartCoroutine(StartTimeout(mgr));
+	}
+
+	private IEnumerator StartTimeout(NetworkManager mgr)
+	{
+		float waitTill = Time.time + timeoutDuration;
+        while (Time.time < waitTill)
+		{
+			yield return null;
+		}
+		mgr.Disconnect();
+		waitForTimeout = false;
 	}
 
 	private void CreateInlineChat(Scene arg0, LoadSceneMode arg1)

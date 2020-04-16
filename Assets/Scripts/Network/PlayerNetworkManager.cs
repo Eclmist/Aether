@@ -60,7 +60,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 revealActor.enabled = true;
             }
 
-            networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.Server);
+            networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.All, localPlayerDetails.GetName());
 
             // Unsubscribe from playersloaded
             PlayerManager.Instance.PlayerListPopulated -= OnClientReady;
@@ -69,7 +69,10 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void OnDisconnected(NetWorker sender)
     {
-        UIManager.Instance.NotifySecondary("You have disconnected from the server.");
+        MainThreadManager.Run(() =>
+        {
+            UIManager.Instance.NotifySecondary("You have disconnected from the server.");
+        });
     }
 
     public void RequestGameOver()
@@ -99,14 +102,46 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     public override void SignalPlayerDisconnected(RpcArgs args)
     {
-        Player player = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
-        if (player == null)
-            return;
+        MainThreadManager.Run(() =>
+        {
+            Player player = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
+            if (player == null)
+                return;
 
-        string name = player.GetPlayerDetails().GetName();
-        UIManager.Instance.NotifySecondary(name + " has disconnected from the server.");
+            string name = player.GetPlayerDetails().GetName();
+            UIManager.Instance.NotifySecondary(name + " has disconnected from the server.");
 
-        PlayerManager.Instance.DestroyPlayer(player);
+            PlayerManager.Instance.DestroyPlayer(player);
+        });
+    }
+
+    // RPC sent when a client is ready
+    public override void SetClientReady(RpcArgs args)
+    {
+        // Run on main thread to ensure client count is locked and rpc can be sent
+        MainThreadManager.Run(() =>
+        {
+            // Notify player entered
+            if (args.Info.SendingPlayer == NetworkManager.Instance.Networker.Me)
+            {
+                UIManager.Instance.NotifySecondary("You have joined the game.");
+            }
+            else
+            {
+                string name = args.GetNext<string>();
+                UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
+            }
+
+            if (networkObject.IsServer)
+            {
+                m_ReadyClientCount++;
+                if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
+                {
+                    // Tell clients that all players are ready
+                    networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
+                }
+            }
+        });
     }
 
     ////////////////////
@@ -171,21 +206,6 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     private void OnPlayerDisconnected(NetworkingPlayer player, NetWorker sender)
     {
         networkObject?.SendRpc(RPC_SIGNAL_PLAYER_DISCONNECTED, Receivers.All, player.NetworkId);
-    }
-
-    // RPC sent to host when a client is ready
-    public override void SetClientReady(RpcArgs args)
-    {
-        // Run on main thread to ensure client count is locked and rpc can be sent
-        MainThreadManager.Run(() =>
-        {
-            m_ReadyClientCount++;
-            if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
-            {
-                // Tell clients that all players are ready
-                networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
-            }
-        });
     }
 
     // RPC sent to host when client wants to trigger gameover
