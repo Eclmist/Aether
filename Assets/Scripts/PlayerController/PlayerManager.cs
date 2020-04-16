@@ -37,18 +37,7 @@ public class PlayerManager : Singleton<PlayerManager>
             return;
         }
 
-        // Notify player entered
-        if (player == m_LocalPlayer)
-        {
-            UIManager.Instance.NotifySecondary("You have joined the game.");
-        }
-        else
-        {
-            string name = details.GetName();
-            UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
-        }
-
-        NetworkManager.Instance.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
+        NetworkManager.Instance?.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
 
         // Check if all players are loaded into the lists
         if (m_Players.Count == m_TotalPlayerCount)
@@ -60,14 +49,14 @@ public class PlayerManager : Singleton<PlayerManager>
         m_LocalPlayer = player;
     }
 
-    public Player GetLocalPlayer()
-    {
-        return m_LocalPlayer;
-    }
-
     public void SetPlayerCount(int count)
     {
         m_TotalPlayerCount = count;
+    }
+
+    public Player GetLocalPlayer()
+    {
+        return m_LocalPlayer;
     }
 
     public int GetPlayerCount()
@@ -97,5 +86,14 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerNetworkManager GetPlayerNetworkManager()
     {
         return m_PlayerNetworkManager;
+    }
+
+    public void DestroyPlayer(Player player)
+    {
+        if (!m_Players.Contains(player))
+            return;
+
+        m_Players.Remove(player);
+        m_TotalPlayerCount--;
     }
 }

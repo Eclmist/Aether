@@ -45,11 +45,11 @@ public class CaptureBar : MonoBehaviour
 
         foreach (TowerBase tower in towers)
         {
-            if (tower.GetBeingCaptured())
-            {
-                ActivateBar();
-                return;
-            }
+            //if (tower.GetBeingCaptured())
+            //{
+            //    ActivateBar();
+            //    return;
+            //}
         }
 
         DeactivateBar();

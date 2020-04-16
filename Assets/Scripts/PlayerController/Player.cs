@@ -14,6 +14,9 @@ public class Player : PlayerBehavior, ICanInteract
     [SerializeField]
     private GameObject m_Weapon;
 
+    [SerializeField]
+    private bool m_IsEditorPlayer = false;
+
     private PlayerNetworkHandler m_PlayerNetworkHandler;
     private LocalNetworkTogglables m_LocalNetworkTogglables;
     private SkillHandler m_SkillHandler;
@@ -41,6 +44,11 @@ public class Player : PlayerBehavior, ICanInteract
     private void Start()
     {
         //AetherInput.GetPlayerActions().Stealth.performed += StealthInputCallback;
+
+        if (m_IsEditorPlayer && AetherNetworkManager.Instance != null)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     protected override void NetworkStart()

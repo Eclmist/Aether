@@ -19,19 +19,19 @@ public class AiRockAnimation : AiAnimation
         switch (anim)
         {
             case AnimMovesParam.attack1A:
-                return 1.0f;
+                return 0.8f;
             case AnimMovesParam.attack1B:
-                return 1.5f;
+                return 1.3f;
             case AnimMovesParam.attack2:
                 return 1.3f;
             case AnimMovesParam.death:
                 return 3.4f;
             case AnimMovesParam.gotHit:
-                return 0.3f;
+                return 0.2f;
             case AnimMovesParam.idleToRubble:
-                return 2.7f;
+                return 2.5f;
             case AnimMovesParam.rubbleToIdle:
-                return 4.8f;
+                return 3.6f;
             default:
                 return 1f;
         }
@@ -39,13 +39,15 @@ public class AiRockAnimation : AiAnimation
     }
     public override float Death()
     {
+        m_Animator.SetFloat("locomotion", 0);
         m_Animator.SetTrigger(AnimMovesParam.death.ToString());
         return GetTime(AnimMovesParam.death);
     }
     
-    public override void TakenDamage()
+    public override float TakenDamage()
     {
         m_Animator.SetTrigger(AnimMovesParam.gotHit.ToString());
+        return GetTime(AnimMovesParam.gotHit);
     }
 
     public override float ReactToPlayer()

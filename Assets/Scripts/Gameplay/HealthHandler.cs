@@ -26,6 +26,11 @@ public class HealthHandler : MonoBehaviour
         return m_Health;
     }
 
+    public void SetHealth(float health)
+    {
+        m_Health = health;
+    }
+
     public float GetMaxHealth()
     {
         return m_MaxHealth;
@@ -36,7 +41,7 @@ public class HealthHandler : MonoBehaviour
         return m_Health / m_MaxHealth;
     }
 
-    public void Damage(float amount)
+    public virtual void Damage(float amount)
     {
         if (m_IsDead)
             return;
@@ -66,7 +71,7 @@ public class HealthHandler : MonoBehaviour
         return m_DamagedInCurrentFrame;
     }
 
-    private IEnumerator SetDamaged()
+    public IEnumerator SetDamaged()
     {
         m_DamagedInCurrentFrame = true;
         yield return new WaitForEndOfFrame();

@@ -34,7 +34,11 @@ public class GameManager : Singleton<GameManager>
         if (m_TowerCheckpoints != null)
         {
             foreach (TowerBase tower in m_TowerCheckpoints)
+            {
                 tower.TowerCaptured += TowerCheckpointCaptured;
+                tower.TowerEntered += SetCurrentTower;
+                tower.TowerExited += () => SetCurrentTower(null);
+            }
         }
 
         m_CurrentProgress = new Dictionary<Player, float>();
@@ -53,8 +57,11 @@ public class GameManager : Singleton<GameManager>
         if (m_CurrentProgress.Count == 0)
             return;
 
-        foreach (Player player in m_CurrentProgress.Keys)
+        foreach (Player player in PlayerManager.Instance.GetAllPlayers())
         {
+            if (!m_CurrentProgress.ContainsKey(player))
+                continue;
+
             float currentZ = player.transform.position.z;
             m_CurrentProgress[player] = Mathf.Clamp01((currentZ - m_StartZ) / (m_EndZ - m_StartZ));
         }
@@ -78,10 +85,12 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Game started");
         m_GameStarted = true;
         GameStarted?.Invoke(GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER);
+        m_TowerCheckpoints[0].Activate();
     }
 
     public void GameOver(Player winner)
     {
+        UIManager.Instance.ShowWinningMessage(winner);
         StartCoroutine(SetGameOver(winner));
     }
 
@@ -93,10 +102,11 @@ public class GameManager : Singleton<GameManager>
         // then return to lobby
         string winnerName = winner.GetPlayerDetails().GetName();
         Debug.Log(winnerName + " wins");
-        UIManager.Instance.NotifySecondary(winnerName + " has reached the finish line.");
-        UIManager.Instance.ShowWinningMessage(winner);
+        yield return new WaitForSeconds(2.0f);
+        UIManager.Instance.UINotifySecondary("Returning to lobby.");
+
         yield return new WaitForSeconds(m_GameOverMessageDuration);
-        AetherNetworkManager.Instance.LoadScene(AetherNetworkManager.LOBBY_SCENE_INDEX);
+        AetherNetworkManager.Instance.LoadScene(SceneIndex.LOBBY_SCENE_INDEX);
     }
 
     public bool GetGameStarted()
@@ -153,14 +163,25 @@ public class GameManager : Singleton<GameManager>
 
     public void TowerCheckpointCaptured(TowerBase tower)
     {
-        UIManager.Instance.NotifySecondary("You have successfully captured the checkpoint.");
+        UIManager.Instance.UINotifyHeader("Checkpoint Captured!");
+        UIManager.Instance.UINotifySecondary("The next checkpoint has been revealed.");
         Debug.Log("Checkpoint tower captured");
         tower.TowerCaptured -= TowerCheckpointCaptured;
-        int priority = tower.GetPriority();
+        // Prevent notification from calling again
+        tower.TowerEntered = null;
+        tower.TowerExited = null;
+        SetCurrentTower(null);
         tower.RevealNext();
 
         // Replace tower with checkpoint
-        Destroy(tower.GetComponent<TowerLocal>());
+        TowerHost th = tower.GetComponent<TowerHost>();
+        TowerClient tc = tower.GetComponent<TowerClient>();
+        if (th != null)
+            Destroy(th);
+        if (tc != null)
+            Destroy(tc);
+
+        int priority = tower.GetPriority();
         if (m_CurrentCheckpointPriority <= priority)
         {
             tower.GetComponent<Checkpoint>().Activate();

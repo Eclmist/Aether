@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0,0]")]
+	[GeneratedInterpol("{\"inter\":[0.15,0.15,0.05,0.15,0,0,0,0,0.15]")]
 	public partial class PlayerNetworkObject : NetworkObject
 	{
-		public const int IDENTITY = 17;
+		public const int IDENTITY = 12;
 
-		private byte[] _dirtyFields = new byte[1];
+		private byte[] _dirtyFields = new byte[2];
 
 		#pragma warning disable 0067
 		public event FieldChangedEvent fieldAltered;
@@ -263,6 +263,37 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			if (blockedChanged != null) blockedChanged(_blocked, timestep);
 			if (fieldAltered != null) fieldAltered("blocked", _blocked, timestep);
 		}
+		[ForgeGeneratedField]
+		private Vector3 _lookatDir;
+		public event FieldEvent<Vector3> lookatDirChanged;
+		public InterpolateVector3 lookatDirInterpolation = new InterpolateVector3() { LerpT = 0.15f, Enabled = true };
+		public Vector3 lookatDir
+		{
+			get { return _lookatDir; }
+			set
+			{
+				// Don't do anything if the value is the same
+				if (_lookatDir == value)
+					return;
+
+				// Mark the field as dirty for the network to transmit
+				_dirtyFields[1] |= 0x1;
+				_lookatDir = value;
+				hasDirtyFields = true;
+			}
+		}
+
+		public void SetlookatDirDirty()
+		{
+			_dirtyFields[1] |= 0x1;
+			hasDirtyFields = true;
+		}
+
+		private void RunChange_lookatDir(ulong timestep)
+		{
+			if (lookatDirChanged != null) lookatDirChanged(_lookatDir, timestep);
+			if (fieldAltered != null) fieldAltered("lookatDir", _lookatDir, timestep);
+		}
 
 		protected override void OwnershipChanged()
 		{
@@ -280,6 +311,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			weaponIndexInterpolation.current = weaponIndexInterpolation.target;
 			skillIndexInterpolation.current = skillIndexInterpolation.target;
 			blockedInterpolation.current = blockedInterpolation.target;
+			lookatDirInterpolation.current = lookatDirInterpolation.target;
 		}
 
 		public override int UniqueIdentity { get { return IDENTITY; } }
@@ -294,6 +326,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			UnityObjectMapper.Instance.MapBytes(data, _weaponIndex);
 			UnityObjectMapper.Instance.MapBytes(data, _skillIndex);
 			UnityObjectMapper.Instance.MapBytes(data, _blocked);
+			UnityObjectMapper.Instance.MapBytes(data, _lookatDir);
 
 			return data;
 		}
@@ -332,6 +365,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			blockedInterpolation.current = _blocked;
 			blockedInterpolation.target = _blocked;
 			RunChange_blocked(timestep);
+			_lookatDir = UnityObjectMapper.Instance.Map<Vector3>(payload);
+			lookatDirInterpolation.current = _lookatDir;
+			lookatDirInterpolation.target = _lookatDir;
+			RunChange_lookatDir(timestep);
 		}
 
 		protected override BMSByte SerializeDirtyFields()
@@ -355,6 +392,8 @@ namespace BeardedManStudios.Forge.Networking.Generated
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _skillIndex);
 			if ((0x80 & _dirtyFields[0]) != 0)
 				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _blocked);
+			if ((0x1 & _dirtyFields[1]) != 0)
+				UnityObjectMapper.Instance.MapBytes(dirtyFieldsData, _lookatDir);
 
 			// Reset all the dirty fields
 			for (int i = 0; i < _dirtyFields.Length; i++)
@@ -475,6 +514,19 @@ namespace BeardedManStudios.Forge.Networking.Generated
 					RunChange_blocked(timestep);
 				}
 			}
+			if ((0x1 & readDirtyFlags[1]) != 0)
+			{
+				if (lookatDirInterpolation.Enabled)
+				{
+					lookatDirInterpolation.target = UnityObjectMapper.Instance.Map<Vector3>(data);
+					lookatDirInterpolation.Timestep = timestep;
+				}
+				else
+				{
+					_lookatDir = UnityObjectMapper.Instance.Map<Vector3>(data);
+					RunChange_lookatDir(timestep);
+				}
+			}
 		}
 
 		public override void InterpolateUpdate()
@@ -522,12 +574,17 @@ namespace BeardedManStudios.Forge.Networking.Generated
 				_blocked = (bool)blockedInterpolation.Interpolate();
 				//RunChange_blocked(blockedInterpolation.Timestep);
 			}
+			if (lookatDirInterpolation.Enabled && !lookatDirInterpolation.current.UnityNear(lookatDirInterpolation.target, 0.0015f))
+			{
+				_lookatDir = (Vector3)lookatDirInterpolation.Interpolate();
+				//RunChange_lookatDir(lookatDirInterpolation.Timestep);
+			}
 		}
 
 		private void Initialize()
 		{
 			if (readDirtyFlags == null)
-				readDirtyFlags = new byte[1];
+				readDirtyFlags = new byte[2];
 
 		}
 

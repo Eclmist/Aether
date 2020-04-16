@@ -15,8 +15,22 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
 
     private void Awake()
     {
+        if (AetherNetworkManager.Instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         AetherNetworkManager.Instance.SceneLoaded += OnSceneLoaded;
         PlayerManager.Instance.PlayerListPopulated += OnClientReady;
+
+        if (NetworkManager.Instance != null)
+        {
+            if (NetworkManager.Instance.IsServer)
+                NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
+
+            NetworkManager.Instance.Networker.disconnected += OnDisconnected;
+        }
     }
 
     public Transform GetSpawnPosition(int position)
@@ -46,10 +60,18 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 revealActor.enabled = true;
             }
 
-            networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.Server);
+            networkObject.SendRpc(RPC_SET_CLIENT_READY, Receivers.All, localPlayerDetails.GetName());
 
             // Unsubscribe from playersloaded
             PlayerManager.Instance.PlayerListPopulated -= OnClientReady;
+        });
+    }
+
+    private void OnDisconnected(NetWorker sender)
+    {
+        MainThreadManager.Run(() =>
+        {
+            UIManager.Instance.UINotifySecondary("You have disconnected from the server.");
         });
     }
 
@@ -76,6 +98,50 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     {
         Player winner = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
         GameManager.Instance.GameOver(winner);
+    }
+
+    public override void SignalPlayerDisconnected(RpcArgs args)
+    {
+        MainThreadManager.Run(() =>
+        {
+            Player player = PlayerManager.Instance.GetPlayerById(args.GetNext<uint>());
+            if (player == null)
+                return;
+
+            string name = player.GetPlayerDetails().GetName();
+            UIManager.Instance.UINotifySecondary(name + " has disconnected.");
+
+            PlayerManager.Instance.DestroyPlayer(player);
+        });
+    }
+
+    // RPC sent when a client is ready
+    public override void SetClientReady(RpcArgs args)
+    {
+        // Run on main thread to ensure client count is locked and rpc can be sent
+        MainThreadManager.Run(() =>
+        {
+            // Notify player entered
+            if (args.Info.SendingPlayer == NetworkManager.Instance.Networker.Me)
+            {
+                UIManager.Instance.UINotifySecondary("The first checkpoint has been revealed.");
+            }
+            else
+            {
+                string name = args.GetNext<string>();
+                UIManager.Instance.UINotifySecondary(name + " have joined the game.");
+            }
+
+            if (networkObject.IsServer)
+            {
+                m_ReadyClientCount++;
+                if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
+                {
+                    // Tell clients that all players are ready
+                    networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
+                }
+            }
+        });
     }
 
     ////////////////////
@@ -137,19 +203,9 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
         player.networkStarted -= OnPlayerNetworked;
     }
 
-    // RPC sent to host when a client is ready
-    public override void SetClientReady(RpcArgs args)
+    private void OnPlayerDisconnected(NetworkingPlayer player, NetWorker sender)
     {
-        // Run on main thread to ensure client count is locked and rpc can be sent
-        MainThreadManager.Run(() =>
-        {
-            m_ReadyClientCount++;
-            if (m_ReadyClientCount == PlayerManager.Instance.GetPlayerCount())
-            {
-                // Tell clients that all players are ready
-                networkObject.SendRpc(RPC_SET_ALL_READY, Receivers.All);
-            }
-        });
+        networkObject?.SendRpc(RPC_SIGNAL_PLAYER_DISCONNECTED, Receivers.All, player.NetworkId);
     }
 
     // RPC sent to host when client wants to trigger gameover

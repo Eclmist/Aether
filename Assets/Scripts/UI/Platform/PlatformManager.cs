@@ -16,12 +16,22 @@ public class PlatformManager : Singleton<PlatformManager>
     {
         m_platformType = PlatformType.PS4_CONTROLLER;
 
+        // Keyboard Action Call
         AetherInput.GetUIActions().KeyboardAction.performed += RetrievePlatformTypeCallback;
-        AetherInput.GetUIActions().Cancel.performed += RetrievePlatformTypeCallback;
-        AetherInput.GetUIActions().Navigate.performed += RetrievePlatformTypeCallback;
+
+        // Mouse Action Calls
+        AetherInput.GetUIActions().ScrollWheel.performed += RetrievePlatformTypeCallback;
         AetherInput.GetUIActions().Click.performed += RetrievePlatformTypeCallback;
         AetherInput.GetUIActions().MiddleClick.performed += RetrievePlatformTypeCallback;
         AetherInput.GetUIActions().RightClick.performed += RetrievePlatformTypeCallback;
+
+        // Other Bindings
+        AetherInput.GetUIActions().Cancel.performed += RetrievePlatformTypeCallback;
+        AetherInput.GetUIActions().Navigate.performed += RetrievePlatformTypeCallback;
+        AetherInput.GetUIActions().Ready.performed += RetrievePlatformTypeCallback;
+        AetherInput.GetUIActions().Submit.performed += RetrievePlatformTypeCallback;
+        AetherInput.GetUIActions().Customize.performed += RetrievePlatformTypeCallback;
+        AetherInput.GetUIActions().GetBindings.performed += RetrievePlatformTypeCallback;
     }
 
     public PlatformType GetPlatformType()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[[\"int\"][][][\"uint\"][\"uint\"]]")]
-	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][][][\"networkId\"][\"networkId\"]]")]
+	[GeneratedRPC("{\"types\":[[\"int\"][\"string\"][][\"uint\"][\"uint\"][\"uint\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"playerCount\"][\"playerName\"][][\"networkId\"][\"networkId\"][\"networkId\"]]")]
 	public abstract partial class PlayerNetworkManagerBehavior : NetworkBehavior
 	{
 		public const byte RPC_SET_PLAYER_COUNT = 0 + 5;
@@ -13,6 +13,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		public const byte RPC_SET_ALL_READY = 2 + 5;
 		public const byte RPC_TRIGGER_GAME_OVER = 3 + 5;
 		public const byte RPC_SET_GAME_OVER = 4 + 5;
+		public const byte RPC_SIGNAL_PLAYER_DISCONNECTED = 5 + 5;
 
 		public PlayerNetworkManagerNetworkObject networkObject = null;
 
@@ -27,10 +28,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 
 			base.SetupHelperRpcs(networkObject);
 			networkObject.RegisterRpc("SetPlayerCount", SetPlayerCount, typeof(int));
-			networkObject.RegisterRpc("SetClientReady", SetClientReady);
+			networkObject.RegisterRpc("SetClientReady", SetClientReady, typeof(string));
 			networkObject.RegisterRpc("SetAllReady", SetAllReady);
 			networkObject.RegisterRpc("TriggerGameOver", TriggerGameOver, typeof(uint));
 			networkObject.RegisterRpc("SetGameOver", SetGameOver, typeof(uint));
+			networkObject.RegisterRpc("SignalPlayerDisconnected", SignalPlayerDisconnected, typeof(uint));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -111,6 +113,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		public abstract void SetPlayerCount(RpcArgs args);
 		/// <summary>
 		/// Arguments:
+		/// string playerName
 		/// </summary>
 		public abstract void SetClientReady(RpcArgs args);
 		/// <summary>
@@ -125,6 +128,10 @@ namespace BeardedManStudios.Forge.Networking.Generated
 		/// Arguments:
 		/// </summary>
 		public abstract void SetGameOver(RpcArgs args);
+		/// <summary>
+		/// Arguments:
+		/// </summary>
+		public abstract void SignalPlayerDisconnected(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

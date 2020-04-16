@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking.Generated;
+using BeardedManStudios.Forge.Networking;
+using BeardedManStudios.Forge.Networking.Unity;
 
+[RequireComponent(typeof(LocalNetworkTogglables))]
+[RequireComponent(typeof(TowerNetworkHandler))]
 public class TowerBase : TowerBehavior
 {
     public const float MAXIMUM_CAPTURE_GAUGE = 100;
 
-    public System.Action<TowerBase> TowerCaptured;
+    public event System.Action<TowerBase> TowerCaptured;
+    public System.Action<TowerBase> TowerEntered;
+    public System.Action TowerExited;
 
     [SerializeField]
     private TowerBase m_NextTower;
@@ -13,15 +19,46 @@ public class TowerBase : TowerBehavior
     [SerializeField] // Higher priority level = will activate
     private int m_PriorityLevel = 0;
 
-    private bool m_isBeingCaptured;
+    [SerializeField]
+    private GameObject[] m_ToActivate;
+
+    private LocalNetworkTogglables m_LocalNetworkTogglables;
+    private TowerNetworkHandler m_TowerNetworkHandler;
 
     private float m_CaptureGauge = 0;
+    private bool m_IsActivated = false;
     private bool m_IsCaptured = false;
+
+    private void Awake()
+    {
+        m_LocalNetworkTogglables = GetComponent<LocalNetworkTogglables>();
+        m_TowerNetworkHandler = GetComponent<TowerNetworkHandler>();
+    }
+
+    private void Start()
+    {
+        m_LocalNetworkTogglables.UpdateOwner(NetworkManager.Instance.IsServer);
+    }
 
     public void RevealNext()
     {
         if (m_NextTower != null)
-            m_NextTower.gameObject.SetActive(true);
+            m_NextTower.Activate();
+    }
+
+    public void Activate()
+    {
+        m_IsActivated = true;
+        if (m_ToActivate.Length == 0)
+            return;
+
+        foreach (GameObject go in m_ToActivate)
+            go.SetActive(true);
+    }
+
+    public bool GetIsActivated()
+    {
+        return m_IsActivated;
     }
 
     public float GetCapturePercentage()
@@ -34,9 +71,9 @@ public class TowerBase : TowerBehavior
         return m_CaptureGauge;
     }
 
-    public bool GetBeingCaptured()
+    public bool GetIsCaptured()
     {
-        return m_isBeingCaptured;
+        return m_IsCaptured;
     }
 
     public int GetPriority()
@@ -65,5 +102,15 @@ public class TowerBase : TowerBehavior
     public bool IsCaptured()
     {
         return m_IsCaptured;
+    }
+
+    public override void SignalEntry(RpcArgs args)
+    {
+        m_TowerNetworkHandler.SignalEntry(args.GetNext<int>());
+    }
+
+    public override void SignalExit(RpcArgs args)
+    {
+        m_TowerNetworkHandler.SignalExit(args.GetNext<int>());
     }
 }

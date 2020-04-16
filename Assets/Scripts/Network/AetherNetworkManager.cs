@@ -13,12 +13,7 @@ public class AetherNetworkManager : AetherBehavior
 {
     public const int MAX_PLAYER_COUNT = 4;
 
-    public const int LOBBY_SCENE_INDEX = 1;
-    public const int LOADING_SCENE_INDEX = 2;
-    public const int KOTH_SCENE_INDEX = 3;
-
     // Events for networking interaction
-    public event System.Action<NetworkingPlayer> PlayerDisconnected;
     public event System.Action<Dictionary<NetworkingPlayer, PlayerDetails>> SceneLoaded;
 
     private Dictionary<NetworkingPlayer, PlayerDetails> m_PlayerDetails;
@@ -43,7 +38,11 @@ public class AetherNetworkManager : AetherBehavior
 
     private void Start()
     {
-        NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnect;
+        if (NetworkManager.Instance == null)
+            return;
+
+        if (NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.Networker.playerDisconnected += OnPlayerDisconnected;
     }
 
     public bool AddPlayer(NetworkingPlayer player, PlayerDetails details)
@@ -55,16 +54,16 @@ public class AetherNetworkManager : AetherBehavior
         return true;
     }
 
-    public void LoadScene(int sceneId)
+    public void LoadScene(SceneIndex sceneIndex)
     {
         Debug.Log("Loading");
         m_PlayersLoadedNextScene.Clear();
         // To trigger events on host when clients finish loading scene
         NetworkManager.Instance.playerLoadedScene += (np, sender) => CheckAllLoadedScene(np);
-        StartCoroutine(LoadNextScene(sceneId));
+        StartCoroutine(LoadNextScene(sceneIndex));
     }
 
-    private IEnumerator LoadNextScene(int sceneId)
+    private IEnumerator LoadNextScene(SceneIndex sceneIndex)
     {
         while (networkObject == null)
         {
@@ -74,12 +73,12 @@ public class AetherNetworkManager : AetherBehavior
 
         FadeOut();
         // Load loading scene
-        yield return SceneManager.LoadSceneAsync(LOADING_SCENE_INDEX);
+        yield return SceneManager.LoadSceneAsync((int)SceneIndex.LOADING_SCENE_INDEX);
         // Artificial load time injected to not flicker in/out of loading scene.
         yield return new WaitForSeconds(1.0f);
 
         FadeOut();
-        AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneId);
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync((int)sceneIndex);
         asyncOp.allowSceneActivation = false;
 
         while (!asyncOp.isDone)
@@ -104,13 +103,10 @@ public class AetherNetworkManager : AetherBehavior
         SceneLoaded?.Invoke(m_PlayerDetails);
     }
 
-    private void OnPlayerDisconnect(NetworkingPlayer np, NetWorker sender)
+    private void OnPlayerDisconnected(NetworkingPlayer np, NetWorker sender)
     {
         if (m_PlayerDetails.ContainsKey(np))
-        {
             m_PlayerDetails.Remove(np);
-            PlayerDisconnected?.Invoke(np);
-        }
     }
 
     private void FadeOut()
@@ -125,8 +121,8 @@ public class AetherNetworkManager : AetherBehavior
 
     private void OnDestroy()
     {
-        if (NetworkManager.Instance != null)
-            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnect;
+        if (NetworkManager.Instance != null && NetworkManager.Instance.IsServer)
+            NetworkManager.Instance.Networker.playerDisconnected -= OnPlayerDisconnected;
     }
 
     ////////////////////

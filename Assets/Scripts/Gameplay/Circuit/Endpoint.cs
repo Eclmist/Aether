@@ -24,6 +24,7 @@ public class Endpoint : MonoBehaviour, IInteractable
 
     private void RequestGameOver()
     {
+        UIManager.Instance.UINotifyHeader("Test");
         GameManager.Instance.RequestGameOver();
     }
 }
