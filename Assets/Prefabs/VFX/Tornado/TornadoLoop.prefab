@@ -14450,6 +14450,8 @@ GameObject:
   - component: {fileID: 1397935758978470083}
   - component: {fileID: 7352873549623982363}
   - component: {fileID: -4741119675124729139}
+  - component: {fileID: 3826893939787659015}
+  - component: {fileID: 3007982253288628330}
   m_Layer: 0
   m_Name: TornadoLoop
   m_TagString: Untagged
@@ -14479,7 +14481,6 @@ Transform:
   - {fileID: 6445690253815537554}
   - {fileID: 4832801489399371886}
   - {fileID: 7269623844256324238}
-  - {fileID: 3894598149273374740}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14591,7 +14592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea17549c90368a43a42202198af91bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DamageDealerBase: {fileID: 2574168447464927029}
+  m_DamageDealerBase: {fileID: 3826893939787659015}
 --- !u!114 &1397935758978470083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14604,7 +14605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffadc4527121ccc48aada68e78b818c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TimeOfDestruction: 10
+  m_TimeOfDestruction: 20
 --- !u!114 &7352873549623982363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14617,7 +14618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313d8060c7641ad4db53b01449453d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Speed: 15
+  m_Speed: 10
 --- !u!114 &-4741119675124729139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14632,6 +14633,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Radius: 4
   m_IsUnreveal: 0
+--- !u!114 &3826893939787659015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729166761864512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6865e09e9802f4ee793041ba3843fb1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StartOffset: 1
+  m_DamageAmount: 20
+  m_Duration: 10
+  m_IsPlayerAttack: 1
+--- !u!65 &3007982253288628330
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729166761864512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8, y: 10.67, z: 5.46}
+  m_Center: {x: 0, y: 1.94, z: 0}
 --- !u!1 &1854250750785534
 GameObject:
   m_ObjectHideFlags: 0
@@ -43504,68 +43534,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1 &6314821388772889185
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3894598149273374740}
-  - component: {fileID: 2574168447464927029}
-  - component: {fileID: 1320396762957802475}
-  m_Layer: 0
-  m_Name: DamageDealer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3894598149273374740
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314821388772889185}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4735951889367626}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2574168447464927029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314821388772889185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e521a6f4b34d40d0aa0831a5080ce87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StartOffset: 0
-  m_DamageAmount: 20
-  m_Duration: 5
-  m_IsPlayerAttack: 1
-  m_DamageInterval: 0.5
---- !u!65 &1320396762957802475
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6314821388772889185}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.41, y: 4.38, z: 2.04}
-  m_Center: {x: 0, y: 2.18, z: 0}
 --- !u!1 &6554050728304012935
 GameObject:
   m_ObjectHideFlags: 0
