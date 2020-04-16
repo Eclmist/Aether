@@ -158,6 +158,15 @@ public class MultiplayerMenu : MonoBehaviour
 
 	public void Host()
 	{
+		if (waitForTimeout)
+		{
+			if (Time.time < nextAvailableConnect)
+				return;
+		}
+
+		waitForTimeout = true;
+		nextAvailableConnect = Time.time + timeoutDuration + 2.0f;
+
 		if (useTCP)
 		{
 			server = new TCPServer(maxPlayers);
