@@ -14,10 +14,11 @@ public class Checkpoint : MonoBehaviour, IInteractable
         if (!m_IsActivated)
             return;
 
-        if (!GameManager.Instance.GetGameStarted())
+        if (!(interactor is Player))
             return;
 
-        if (!(interactor is Player) || PlayerManager.Instance.GetLocalPlayer() != (interactor as Player))
+        Player player = interactor as Player;
+        if (player != PlayerManager.Instance.GetLocalPlayer())
             return;
 
         switch (interactionType)
@@ -40,7 +41,7 @@ public class Checkpoint : MonoBehaviour, IInteractable
         m_IsActivated = false;
     }
 
-    private void SetCheckpoint()
+    public void SetCheckpoint()
     {
         Debug.Log("Checkpoint activated");
         m_IsActivated = false;

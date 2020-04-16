@@ -83,7 +83,8 @@ public class TowerHost : MonoBehaviour, IInteractable
         {
             m_PlayersInCaptureZone.Add(player);
             m_CaptureCountChangeThisFrame++;
-            m_Tower.TowerEntered?.Invoke(m_Tower);
+            if (player == PlayerManager.Instance.GetLocalPlayer())
+                m_Tower.TowerEntered?.Invoke(m_Tower);
         }
     }
 
@@ -93,7 +94,8 @@ public class TowerHost : MonoBehaviour, IInteractable
         {
             m_PlayersInCaptureZone.Remove(player);
             m_CaptureCountChangeThisFrame--;
-            m_Tower.TowerExited?.Invoke();
+            if (player == PlayerManager.Instance.GetLocalPlayer())
+                m_Tower.TowerExited?.Invoke();
         }
     }
 }

@@ -173,18 +173,10 @@ public class GameManager : Singleton<GameManager>
         SetCurrentTower(null);
         tower.RevealNext();
 
-        // Replace tower with checkpoint
-        TowerHost th = tower.GetComponent<TowerHost>();
-        TowerClient tc = tower.GetComponent<TowerClient>();
-        if (th != null)
-            Destroy(th);
-        if (tc != null)
-            Destroy(tc);
-
         int priority = tower.GetPriority();
         if (m_CurrentCheckpointPriority <= priority)
         {
-            tower.GetComponent<Checkpoint>().Activate();
+            tower.GetComponent<Checkpoint>().SetCheckpoint();
             m_CurrentCheckpointPriority = priority;
         }
     }
