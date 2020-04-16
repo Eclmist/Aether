@@ -77,7 +77,7 @@ public class UIManager : Singleton<UIManager>
         switch (gameMode)
         {
             case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
-                message = "Zoom: Circuit Breaker";
+                message = "Tower Rush";
                 break;
             default:
                 break;
@@ -133,11 +133,6 @@ public class UIManager : Singleton<UIManager>
             m_NotificationAnimator.SetTrigger("Open");
     }
 
-    public void UINotifyPanel(string message)
-    {
-        // push new notifications to side panel
-    }
-
     public void ActivatePowerupIcon(UIPowerUpSignals signal)
     {
         if (m_UIPowerUpHandler != null)
@@ -180,7 +175,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    public void NotifySecondary(string message)
+    public void UINotifySecondary(string message)
     {
         SecondaryNotification sn = Instantiate(m_SecondaryNotificationItemPrefab, m_SecondaryNotificationPanel).GetComponent<SecondaryNotification>();
         sn.SetUIText(message);
@@ -189,6 +184,6 @@ public class UIManager : Singleton<UIManager>
     public void ShowWinningMessage(Player winner)
     {
         HideAllHUD();
-        // Show winning message
+        UINotifyHeader("Level Complete!");
     }
 }

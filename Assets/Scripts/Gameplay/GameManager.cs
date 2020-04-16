@@ -101,7 +101,7 @@ public class GameManager : Singleton<GameManager>
         // then return to lobby
         string winnerName = winner.GetPlayerDetails().GetName();
         Debug.Log(winnerName + " wins");
-        UIManager.Instance.NotifySecondary(winnerName + " has reached the finish line.");
+        //UIManager.Instance.UINotifySecondary(winnerName + " has reached the finish line.");
         UIManager.Instance.ShowWinningMessage(winner);
         yield return new WaitForSeconds(m_GameOverMessageDuration);
         AetherNetworkManager.Instance.LoadScene(SceneIndex.LOBBY_SCENE_INDEX);
@@ -161,7 +161,8 @@ public class GameManager : Singleton<GameManager>
 
     public void TowerCheckpointCaptured(TowerBase tower)
     {
-        UIManager.Instance.NotifySecondary("You have successfully captured the checkpoint.");
+        UIManager.Instance.UINotifyHeader("Checkpoint Captured!");
+        UIManager.Instance.UINotifySecondary("The next checkpoint has been revealed.");
         Debug.Log("Checkpoint tower captured");
         tower.TowerCaptured -= TowerCheckpointCaptured;
         // Prevent notification from calling again

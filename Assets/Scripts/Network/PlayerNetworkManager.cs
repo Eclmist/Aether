@@ -71,7 +71,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
     {
         MainThreadManager.Run(() =>
         {
-            UIManager.Instance.NotifySecondary("You have disconnected from the server.");
+            UIManager.Instance.UINotifySecondary("You have disconnected from the server.");
         });
     }
 
@@ -109,7 +109,7 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
                 return;
 
             string name = player.GetPlayerDetails().GetName();
-            UIManager.Instance.NotifySecondary(name + " has disconnected from the server.");
+            UIManager.Instance.UINotifySecondary(name + " has disconnected.");
 
             PlayerManager.Instance.DestroyPlayer(player);
         });
@@ -124,12 +124,12 @@ public class PlayerNetworkManager : PlayerNetworkManagerBehavior
             // Notify player entered
             if (args.Info.SendingPlayer == NetworkManager.Instance.Networker.Me)
             {
-                UIManager.Instance.NotifySecondary("You have joined the game.");
+                UIManager.Instance.UINotifySecondary("The first checkpoint has been revealed.");
             }
             else
             {
                 string name = args.GetNext<string>();
-                UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
+                UIManager.Instance.UINotifySecondary(name + " have joined the game.");
             }
 
             if (networkObject.IsServer)
