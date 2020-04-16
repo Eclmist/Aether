@@ -37,17 +37,6 @@ public class PlayerManager : Singleton<PlayerManager>
             return;
         }
 
-        // Notify player entered
-        if (player == m_LocalPlayer)
-        {
-            UIManager.Instance.NotifySecondary("You have joined the game.");
-        }
-        else
-        {
-            string name = details.GetName();
-            UIManager.Instance.NotifySecondary(name + " has finished loading the game.");
-        }
-
         NetworkManager.Instance?.InstantiateSkills(index: 8, position: transform.position, rotation: transform.rotation);
 
         // Check if all players are loaded into the lists
