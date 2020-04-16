@@ -69,11 +69,17 @@ public class AiMushroomAnimation : AiAnimation
             m_Animator.SetFloat("locomotion", 0);
     }
 
-    public override float RandomizeAttack()
+    public override float RandomizeAttack(out string attackName)
     {
         AnimMovesParam [] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2, AnimMovesParam.attack3};
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
+        attackName = attack.ToString();
         m_Animator.SetTrigger(attack.ToString());
         return GetTime(attack);
+    }
+
+    public override void SetAttackTrigger(string name)
+    {
+        m_Animator.SetTrigger(name);
     }
 }

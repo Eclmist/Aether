@@ -70,14 +70,20 @@ public class AiRockAnimation : AiAnimation
             m_Animator.SetFloat("locomotion", 0);
     }
 
-    public override float RandomizeAttack()
+    public override float RandomizeAttack(out string attackName)
     {
         AnimMovesParam[] temp = {AnimMovesParam.attack1A, AnimMovesParam.attack1B, AnimMovesParam.attack2};
         int range = Random.Range(0, temp.Length);
         
         AnimMovesParam attack = temp[range];
-        
+
+        attackName = attack.ToString();
         m_Animator.SetTrigger(attack.ToString());
         return GetTime(attack);
+    }
+
+    public override void SetAttackTrigger(string name)
+    {
+        m_Animator.SetTrigger(name);
     }
 }

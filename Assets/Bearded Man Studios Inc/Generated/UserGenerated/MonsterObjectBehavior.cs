@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace BeardedManStudios.Forge.Networking.Generated
 {
-	[GeneratedRPC("{\"types\":[]")]
-	[GeneratedRPCVariableNames("{\"types\":[]")]
+	[GeneratedRPC("{\"types\":[[\"string\"]]")]
+	[GeneratedRPCVariableNames("{\"types\":[[\"attackName\"]]")]
 	public abstract partial class MonsterObjectBehavior : NetworkBehavior
 	{
+		public const byte RPC_TRIGGER_ATTACK_ANIM = 0 + 5;
 
 		public MonsterObjectNetworkObject networkObject = null;
 
@@ -21,6 +22,7 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.AttachedBehavior = this;
 
 			base.SetupHelperRpcs(networkObject);
+			networkObject.RegisterRpc("TriggerAttackAnim", TriggerAttackAnim, typeof(string));
 
 			networkObject.onDestroy += DestroyGameObject;
 
@@ -94,6 +96,11 @@ namespace BeardedManStudios.Forge.Networking.Generated
 			networkObject.SnapInterpolations();
 		}
 
+		/// <summary>
+		/// Arguments:
+		/// string attackName
+		/// </summary>
+		public abstract void TriggerAttackAnim(RpcArgs args);
 
 		// DO NOT TOUCH, THIS GETS GENERATED PLEASE EXTEND THIS CLASS IF YOU WISH TO HAVE CUSTOM CODE ADDITIONS
 	}

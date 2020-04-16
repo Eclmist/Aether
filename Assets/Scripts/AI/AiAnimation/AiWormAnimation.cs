@@ -69,10 +69,11 @@ public class AiWormAnimation : AiAnimation
             m_Animator.SetTrigger(AnimMovesParam.appear.ToString());
     }
 
-    public override float RandomizeAttack()
+    public override float RandomizeAttack(out string attackName)
     {
         AnimMovesParam[] temp = {AnimMovesParam.attack1, AnimMovesParam.attack2};
         AnimMovesParam attack = temp[Random.Range(0, temp.Length)];
+        attackName = attack.ToString();
         StartCoroutine(Attack(ReactToPlayer(), attack));
        
         return GetTime(attack);
@@ -83,5 +84,10 @@ public class AiWormAnimation : AiAnimation
         yield return new WaitForSeconds(delay);
        
         m_Animator.SetTrigger(attack.ToString());
+    }
+
+    public override void SetAttackTrigger(string name)
+    {
+        StartCoroutine(Attack(ReactToPlayer(), (AnimMovesParam)System.Enum.Parse(typeof(AnimMovesParam), name)));
     }
 }

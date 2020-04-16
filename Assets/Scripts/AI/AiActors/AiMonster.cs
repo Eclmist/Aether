@@ -27,6 +27,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private HealthHandler m_HealthHandler;
 
     private bool m_CanAttack = true;
+    private string m_AttackThisFrame = "";
     private bool m_IsStun = false;
     private SkinnedMeshRenderer[] m_MonsterSkin;
     private ParticleSystem[] m_DeathParticles;
@@ -55,6 +56,11 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
     }
 
+    private void LateUpdate()
+    {
+        m_AttackThisFrame = "";
+    }
+
     private void InteractWith(IInteractable interactable, InteractionType interactionType)
     {
         if (interactable != null) // null check done here instead. 
@@ -71,8 +77,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     {
         if (m_CanAttack)
         {
-            float attack = m_MonsterAnimation.RandomizeAttack()/2;
-            
+            float attack = m_MonsterAnimation.RandomizeAttack(out m_AttackThisFrame)/2;
             //logic for damaging the player here
 
             StartCoroutine(DealDamage(attack));
@@ -85,8 +90,22 @@ public class AiMonster : AiActor, Attacker, ICanInteract
             yield return new WaitForSeconds(delay);
             DamageEntities();
         }
+    }
 
-        
+    public string GetAttack()
+    {
+        return m_AttackThisFrame;
+    }
+
+    public AiAnimation GetMonsterAnimation()
+    {
+        return m_MonsterAnimation;
+    }
+
+    public void DisableAttack()
+    {
+        StopCoroutine("SetCanAttack");
+        m_CanAttack = false;
     }
     
     private void DamageEntities()
