@@ -7,6 +7,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
     private Animator m_NotificationAnimator;
+
     [SerializeField]
     private Text m_NotificationText;
 
@@ -77,7 +78,7 @@ public class UIManager : Singleton<UIManager>
         switch (gameMode)
         {
             case GameMode.GAMEMODE_ZOOM_RACING_CIRCUIT_BREAKER:
-                message = "Tower Rush";
+                message = "Co-op: Tower Rush";
                 break;
             default:
                 break;
@@ -165,16 +166,6 @@ public class UIManager : Singleton<UIManager>
             GameManager.Instance.GameStarted -= OnGameStarted;
     }
 
-    public void HideAllHUD()
-    {
-        // TODO: ROBY PLEASE FIX. DON'T USE FIND.
-        GameObject gameHUD = GameObject.Find("HUD_Updated");
-        if (gameHUD != null)
-        {
-            gameHUD.SetActive(false);
-        }
-    }
-
     public void UINotifySecondary(string message)
     {
         SecondaryNotification sn = Instantiate(m_SecondaryNotificationItemPrefab, m_SecondaryNotificationPanel).GetComponent<SecondaryNotification>();
@@ -183,7 +174,6 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowWinningMessage(Player winner)
     {
-        HideAllHUD();
         UINotifyHeader("Level Complete!");
     }
 }

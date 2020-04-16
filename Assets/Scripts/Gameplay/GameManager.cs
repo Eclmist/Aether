@@ -90,6 +90,7 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver(Player winner)
     {
+        UIManager.Instance.ShowWinningMessage(winner);
         StartCoroutine(SetGameOver(winner));
     }
 
@@ -101,8 +102,9 @@ public class GameManager : Singleton<GameManager>
         // then return to lobby
         string winnerName = winner.GetPlayerDetails().GetName();
         Debug.Log(winnerName + " wins");
-        //UIManager.Instance.UINotifySecondary(winnerName + " has reached the finish line.");
-        UIManager.Instance.ShowWinningMessage(winner);
+        yield return new WaitForSeconds(2.0f);
+        UIManager.Instance.UINotifySecondary("Returning to lobby.");
+
         yield return new WaitForSeconds(m_GameOverMessageDuration);
         AetherNetworkManager.Instance.LoadScene(SceneIndex.LOBBY_SCENE_INDEX);
     }
