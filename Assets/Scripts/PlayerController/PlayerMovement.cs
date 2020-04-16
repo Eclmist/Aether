@@ -165,7 +165,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector2 inputXZ = GetInputAxis();
-        Vector3 xzVelocity = Camera.main.transform.right * inputXZ[0] + Camera.main.transform.forward * inputXZ[1];
+
+        // This is to fix not being able to walk forward when the camera is looking down
+        Vector3 cameraForward = Camera.main.transform.forward;
+        cameraForward.y = 0;
+        cameraForward.Normalize();
+
+        Vector3 xzVelocity = Camera.main.transform.right * inputXZ[0] + cameraForward * inputXZ[1];
         xzVelocity *= m_MovementParams.m_MoveSpeed;
         xzVelocity.y = 0;
 
