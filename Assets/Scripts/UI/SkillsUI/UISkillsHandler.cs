@@ -56,15 +56,21 @@ public class UISkillsHandler : MonoBehaviour
             return;
 
         if (m_IconCount == 3)
-            ChangeAlphaValue(m_TertiaryIcon, 0.0f);    
+        {
+            SwitchSpriteIcons();
+            ChangeAlphaValue(m_TertiaryIcon, 0.0f);
+        }
 
         if (m_IconCount == 2)
-            ChangeAlphaValue(m_SecondaryIcon, 0.0f);    
+        {
+            SwitchSpriteIcons();
+            ChangeAlphaValue(m_SecondaryIcon, 0.0f);
+        }
 
         if (m_IconCount == 1)
             ChangeAlphaValue(m_PrimaryIcon, 0.0f);    
 
-        m_IconCount --;
+        m_IconCount--;
     }
 
     public void SwitchSpriteIcons()
