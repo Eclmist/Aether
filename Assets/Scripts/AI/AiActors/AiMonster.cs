@@ -55,6 +55,21 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     private void OnTriggerStay(Collider c)
     {
+        if (c.GetComponent<Player>() != null)
+        {
+
+                if(m_NearestPlayer!=null)
+                {
+                    if (Vector3.Distance(m_NearestPlayer.position, gameObject.transform.position) > Vector3.Distance(c.transform.position, gameObject.transform.position))
+                        m_NearestPlayer = c.transform;
+                } 
+                else 
+                {
+                    m_NearestPlayer = c.transform;
+                }
+
+                SetNearPlayer();
+        }
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_STAY);
     }
 
