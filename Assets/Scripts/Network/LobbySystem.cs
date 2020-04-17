@@ -56,7 +56,10 @@ public class LobbySystem : LobbySystemBehavior
         base.NetworkStart();
 
         // This client is accepted and has joined the lobby. (Includes host itself)
-        string name = PlayerPrefs.GetString("nickname", "Guest");
+        string name = PlayerPrefs.GetString("nickname");
+        if (name.Length == 0)
+            name = "Guest";
+
         ulong customization = m_CharacterCustomizerLocal.GetDataPacked();
         networkObject.SendRpc(RPC_SET_PLAYER_ENTERED, Receivers.Server, name, customization);
 
