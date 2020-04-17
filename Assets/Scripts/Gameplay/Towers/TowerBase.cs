@@ -37,7 +37,11 @@ public class TowerBase : TowerBehavior
 
     private void Start()
     {
-        m_LocalNetworkTogglables.UpdateOwner(NetworkManager.Instance.IsServer);
+        bool isServer = true;
+        if (NetworkManager.Instance != null)
+            isServer = NetworkManager.Instance.IsServer;
+
+        m_LocalNetworkTogglables.UpdateOwner(isServer);
     }
 
     public void RevealNext()
