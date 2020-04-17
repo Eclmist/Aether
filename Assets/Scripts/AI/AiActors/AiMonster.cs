@@ -31,11 +31,16 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     private bool m_IsStun = false;
     private SkinnedMeshRenderer[] m_MonsterSkin;
     private ParticleSystem[] m_DeathParticles;
+    
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<Player>() != null)
         {
-            m_NearestPlayer = c.transform;
+            
+            if(m_NearestPlayer!=null){
+                if (Vector3.Distance(m_NearestPlayer.position, gameObject.transform.position) > Vector3.Distance(c.transform.position, gameObject.transform.position))
+                    m_NearestPlayer = c.transform;
+            }
             SetNearPlayer();
         }
 
@@ -119,11 +124,14 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         }
     }
     
-
+    bool once = true;
     private void SetNearPlayer()
     {
         //alerts the animator if the player has entered the vicinity.
-        float animTime = m_MonsterAnimation.ReactToPlayer();
+        if(once){
+            float animTime = m_MonsterAnimation.ReactToPlayer();
+            once = false; //This fix is flawed but hopefully will minimize bugs.
+        }
         StartCoroutine(SetAfterAnim(animTime));
         IEnumerator SetAfterAnim(float delay)
         {
