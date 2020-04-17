@@ -209,7 +209,7 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     private void GetKnockBack()
     {
-        StartCoroutine(m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 10, () => { }));
+        StartCoroutine(m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 5, () => { }));
     }
 
 }

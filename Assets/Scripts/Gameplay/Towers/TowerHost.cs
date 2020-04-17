@@ -33,7 +33,7 @@ public class TowerHost : MonoBehaviour, IInteractable
             return;
 
         // Current rate of gauge shift
-        int captureMultiplier = m_PlayersInCaptureZone.Count;
+        float captureMultiplier = m_PlayersInCaptureZone.Count * 0.75f;
 
         float captureGauge = m_Tower.GetCaptureGauge();
         captureGauge += captureMultiplier * m_CapturePerPaxPerSecond * Time.deltaTime;
