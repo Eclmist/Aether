@@ -67,11 +67,6 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_EXIT);
     }
 
-    private void LateUpdate()
-    {
-        m_AttackThisFrame = "";
-    }
-
     private void InteractWith(IInteractable interactable, InteractionType interactionType)
     {
         if (interactable != null) // null check done here instead. 
@@ -89,8 +84,8 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         if (m_CanAttack)
         {
             float attack = m_MonsterAnimation.RandomizeAttack(out m_AttackThisFrame)/2;
+            Debug.Log("Aimonster " + m_AttackThisFrame);
             //logic for damaging the player here
-
             StartCoroutine(DealDamage(attack));
             StartCoroutine(SetCanAttack(attack + attackInterval));
             m_CanAttack = false;
@@ -106,6 +101,11 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     public string GetAttack()
     {
         return m_AttackThisFrame;
+    }
+
+    public void ResetAttackThisFrame()
+    {
+        m_AttackThisFrame = "";
     }
 
     public AiAnimation GetMonsterAnimation()

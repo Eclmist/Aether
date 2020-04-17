@@ -50,7 +50,11 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
 
                 string attackName = m_aiMonster.GetAttack();
                 if (attackName.Length > 0)
+                {
                     networkObject.SendRpc(RPC_TRIGGER_ATTACK_ANIM, Receivers.Others, attackName);
+                    Debug.Log("Monster attacked");
+                    m_aiMonster.ResetAttackThisFrame();
+                }
             }
             else
             {
@@ -63,6 +67,7 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
 
     public override void TriggerAttackAnim(RpcArgs args)
     {
+        Debug.Log("Monster is attacking");
         m_aiMonster.GetMonsterAnimation()?.SetAttackTrigger(args.GetNext<string>());
     }
 }

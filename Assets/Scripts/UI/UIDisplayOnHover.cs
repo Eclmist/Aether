@@ -14,7 +14,6 @@ public class UIDisplayOnHover : MonoBehaviour
     public void OnHover()
     {
         m_HoveredTime = Time.time;
-        Debug.Log("Hovered!");
     }
 
     public void Update()
