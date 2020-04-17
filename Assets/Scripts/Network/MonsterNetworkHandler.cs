@@ -35,13 +35,17 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
     {
         if (networkObject != null)
         {
+            if (m_aiMonster.IsDead)
+                networkObject.isDead = true;
+            else if (networkObject.isDead)
+                m_aiMonster.OnDeath();
+
             if (NetworkManager.Instance.IsServer)
             {
                 // If we are the owner of the object we should send the new position
                 // and rotation across the network for receivers to move to in the above code
                 networkObject.position = transform.position;
                 networkObject.rotation = transform.rotation;
-                networkObject.isDead = m_aiMonster.IsDead;
                 networkObject.health = m_healthHandler.GetHealth();
 
                 string attackName = m_aiMonster.GetAttack();
@@ -52,10 +56,6 @@ public class MonsterNetworkHandler : MonsterObjectBehavior
             {
                 transform.position = networkObject.position;
                 transform.rotation = networkObject.rotation;
-                if (networkObject.isDead)
-                {
-                    m_aiMonster.OnDeath();
-                }
                 m_healthHandler.SetHealth(networkObject.health);
             }
         }
