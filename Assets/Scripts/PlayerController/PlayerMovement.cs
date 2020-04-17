@@ -357,7 +357,7 @@ public class PlayerMovement : MonoBehaviour
         while (Time.time - startTime < duration)
         {
             // Send the player flying
-            m_CharacterController.Move(direction * speed * Time.deltaTime);
+            m_CharacterController?.Move(direction * speed * Time.deltaTime);
             yield return null;
         }
 
