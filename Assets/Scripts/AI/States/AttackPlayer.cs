@@ -30,6 +30,7 @@ public class AttackPlayer : AiStateBehaviour
     
     public override void CoroutineUpdate()
     {
+        m_NearestPlayer = m_AiActor.m_NearestPlayer;
         if (m_Attacker == null)
         {
             Debug.LogWarning("Trying to attack without implementing attacker");

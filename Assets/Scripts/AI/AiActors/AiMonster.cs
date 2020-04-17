@@ -10,16 +10,7 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     
     [SerializeField] 
     private Transform[] m_AttackSource;
-
-    [SerializeField] 
-    private float m_DamageAmount = 10f;
-
-    [SerializeField] 
-    private float m_DamageRadius = 5f;
-
-    [SerializeField] 
-    private float m_DamageDuration = 0.2f;
-
+    
     private bool m_isDead = false;
     public bool DEBUG_DEATH = false;
     public bool DEBUG_GOTHIT = false;
@@ -58,17 +49,16 @@ public class AiMonster : AiActor, Attacker, ICanInteract
         if (c.GetComponent<Player>() != null)
         {
 
-                if(m_NearestPlayer!=null)
-                {
-                    if (Vector3.Distance(m_NearestPlayer.position, gameObject.transform.position) > Vector3.Distance(c.transform.position, gameObject.transform.position))
-                        m_NearestPlayer = c.transform;
-                } 
-                else 
-                {
+            if(m_NearestPlayer!=null)
+            {
+                if (Vector3.Distance(m_NearestPlayer.position, gameObject.transform.position) > Vector3.Distance(c.transform.position, gameObject.transform.position))
                     m_NearestPlayer = c.transform;
-                }
+            } 
+            else
+            {
+                m_NearestPlayer = c.transform;
+            }
 
-                SetNearPlayer();
         }
         InteractWith(c.GetComponent<IInteractable>(), InteractionType.INTERACTION_TRIGGER_STAY);
     }
