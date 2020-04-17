@@ -35,8 +35,9 @@ public class AttackPlayer : AiStateBehaviour
             Debug.LogWarning("Trying to attack without implementing attacker");
             return;
         }
+        float dist = Vector3.Distance(m_NearestPlayer.position, m_AiActor.gameObject.transform.position)
         
-        if (m_AttackRange > Vector3.Distance(m_NearestPlayer.position, m_AiActor.gameObject.transform.position))
+        if (m_AttackRange > dist)
         {
             m_Attacker.Attack(m_AttackInterval);
         }
@@ -48,7 +49,7 @@ public class AttackPlayer : AiStateBehaviour
         if (m_timeCounter > m_stateDuration)
         {
             //should I use fuzzy logic here?
-            if (m_AiActor.DistanceFromSpawnPoint() > m_MaxDistanceFromSpawn)
+            if (m_AiActor.DistanceFromSpawnPoint() > m_MaxDistanceFromSpawn || dist > 10f)
             {
                 m_StateAnimator.SetTrigger("retreat");
                 m_StateAnimator.SetBool("nearPlayer", false);
