@@ -35,7 +35,7 @@ public class AttackPlayer : AiStateBehaviour
             Debug.LogWarning("Trying to attack without implementing attacker");
             return;
         }
-        float dist = Vector3.Distance(m_NearestPlayer.position, m_AiActor.gameObject.transform.position)
+        float dist = Vector3.Distance(m_NearestPlayer.position, m_AiActor.gameObject.transform.position);
         
         if (m_AttackRange > dist)
         {
