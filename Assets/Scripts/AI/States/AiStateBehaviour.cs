@@ -44,7 +44,8 @@ public abstract class AiStateBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        m_AiActor.StopCoroutine(m_Update);
+        if(m_Update != null)
+            m_AiActor.StopCoroutine(m_Update);
         OnExit();
     }
 
