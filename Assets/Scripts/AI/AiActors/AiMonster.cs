@@ -127,9 +127,10 @@ public class AiMonster : AiActor, Attacker, ICanInteract
     bool once = true;
     private void SetNearPlayer()
     {
+        float animTime = 0;
         //alerts the animator if the player has entered the vicinity.
         if(once){
-            float animTime = m_MonsterAnimation.ReactToPlayer();
+            animTime = m_MonsterAnimation.ReactToPlayer();
             once = false; //This fix is flawed but hopefully will minimize bugs.
         }
         StartCoroutine(SetAfterAnim(animTime));
