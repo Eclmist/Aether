@@ -209,7 +209,10 @@ public class PlayerNetworkHandler : MonoBehaviour
 
     private void GetKnockBack()
     {
-        StartCoroutine(m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.5f, 5, () => { }));
+        if (m_PlayerCombatHandler.IsBlocking())
+            StartCoroutine(m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.1f, 3, () => { }));
+        else
+            StartCoroutine(m_PlayerMovement.Dash(-1 * transform.forward, 0, 0.4f, 8, () => { }));
     }
 
 }

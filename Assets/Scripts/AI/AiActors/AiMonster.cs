@@ -180,6 +180,12 @@ public class AiMonster : AiActor, Attacker, ICanInteract
 
     public void OnDeath()
     {
+        // Disable all colliders
+        foreach (Collider c in GetComponentsInChildren<Collider>())
+        {
+            c.enabled = false;
+        }
+
         m_isDead = true;
         float deathAnimTime = m_MonsterAnimation.Death();
         m_StateMachineAnim.SetBool("dead", true);

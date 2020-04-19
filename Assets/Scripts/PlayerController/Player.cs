@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BeardedManStudios.Forge.Networking;
 using BeardedManStudios.Forge.Networking.Generated;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(LocalNetworkTogglables))]
 [RequireComponent(typeof(RevealActor))]
@@ -13,6 +14,9 @@ public class Player : PlayerBehavior, ICanInteract
 
     [SerializeField]
     private GameObject m_Weapon;
+
+    [SerializeField]
+    private Text m_NameTag;
 
     [SerializeField]
     private bool m_IsEditorPlayer = false;
@@ -49,6 +53,14 @@ public class Player : PlayerBehavior, ICanInteract
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private void Update()
+    {
+        // Set this in update because we're not sure when player details is set
+        // TODO: Fix if continue in 4350
+        if (m_PlayerDetails != null && m_NameTag != null)
+            m_NameTag.text = m_PlayerDetails.GetName();
     }
 
     protected override void NetworkStart()
